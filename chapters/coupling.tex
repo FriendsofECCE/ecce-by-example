@@ -62,7 +62,7 @@ Two rules make a funnel work. First, pass on several structures at each step, no
 \section{Procedure}
 \index{CREST!conformer search}\index{Conformer search}
 
-We build the chain in one workflow, so each step can start from the one before.
+The chain has three levels, each starting from the structures of the one before. CREST, with the GFN-FF force field, searches for the conformers. GFN2-xTB re-optimises the distinct ones, one xTB calculation per conformer. ORCA, with r2SCAN-3c, then computes the energy of each xTB structure, one ORCA calculation per xTB calculation. We build the chain in one workflow, so that each calculation is linked to the one it started from.
 \begin{enumerate}
 	\item Make an xTB calculation (\menu{File > New}). In the Builder, choose \menu{Tools > Add from SMILES...} and enter \texttt{CC(C)Cc1ccc(cc1)C(C)C(=O)O}. Run type Geometry, theory GFN2-xTB. Launch.
 	\index{Tools menu!Add from SMILES...}\index{SMILES}
@@ -70,11 +70,11 @@ We build the chain in one workflow, so each step can start from the one before.
 	\item In the workflow view, click the xTB box, then \menu{CREST}. In \menu{New step}, tick \menu{Final geometry} and \menu{Charge and multiplicity} and choose \menu{Create}; CREST needs an optimised start. Double-click the new box and set run type \menu{Conformer Search}, theory \menu{GFN-FF}, \menu{Energy window} 6~kcal/mol. Launch.
 	\index{CREST!Theory}\index{CREST!Energy window}\index{GFN-FF}
 	\item Open the finished CREST calculation and choose \menu{Properties > Geometry > Conformers}. Click \ctrl{Select Distinct...} and accept \SI{0.5}{\angstrom}; eight conformers are selected.
-	\item With the eight selected, choose \menu{New Calculation from Selected...} and pick xTB. Select the eight new calculations in the Organizer, choose \menu{Run Mgmt > Launch Selected...}, then right-click and \menu{Move Selected into Workflow}.
+	\item With the eight selected, choose \menu{New Calculation from Selected...} and pick xTB. Since the CREST calculation is a step of the workflow, the eight xTB calculations become steps linked from it, each starting from one conformer, with run type Geometry. Select them in the Organizer and choose \menu{Run Mgmt > Launch Selected...}.
 	\index{Run Mgmt menu!Launch Selected...}
-	\item For each xTB box: click it, click \menu{ORCA}, tick \menu{Final geometry} and \menu{Charge and multiplicity}, \menu{Create}. Double-click the new box and set theory \menu{DFT}, functional \menu{r2SCAN-3c} (\menu{Theory Details}; it has its own basis set), run type Energy. Launch. Outside a workflow, one step does all eight: select the xTB calculations in the project table and choose \menu{Tools > New Calculations in Another Code...}, which makes one ORCA calculation from each with the setup you make once; the workflow links, however, are then not made.
+	\item When the xTB calculations have finished, make one ORCA calculation from each. In the workflow view, click an xTB box, then \menu{ORCA}; in \menu{New step}, tick \menu{Final geometry} and \menu{Charge and multiplicity} and choose \menu{Create}. Double-click the new box and set run type Energy, theory \menu{DFT} and, under \menu{Theory Details}, the functional \menu{r2SCAN-3c}, which brings its own basis set. Launch, and repeat for the other seven xTB boxes. Instead of eight times by hand, you can select the eight xTB calculations in the project table and choose \menu{Tools > New Calculations in Another Code...}, which makes one ORCA calculation from each with a setup you make once; these are then calculations beside the workflow, not linked steps of it.
 	\index{r2SCAN-3c}\index{Composite methods}\index{ORCA!Theory Details}
-	\item Repeat step 6 for the conformer you want to refine, with run type Geometry.
+	\item To refine one conformer, repeat step 6 for its xTB box with run type Geometry instead of Energy.
 	\item To compare structures, tick several rows in the \menu{Conformers} panel. ECCE overlays them and lists each one's heavy-atom RMSD.
 	\index{Conformers panel!Superposing members}\index{RMSD}
 \end{enumerate}
@@ -90,7 +90,13 @@ CREST found 21 conformers in four minutes (figure~\ref{fig:coupling-conformers})
 	\label{fig:coupling-conformers}
 \end{figure}
 
-Table~\ref{tab:coupling-rank} ranks the eight with each method. The GFN-FF energies are those of the \menu{Conformers} panel of the CREST search. For the other two columns, select the eight xTB calculations, or the eight ORCA ones, in the project table, right-click and choose \menu{Compare Energies...}, which lists each energy relative to the lowest in kJ/mol and eV; divide by 4.184 for kcal/mol. The xTB optimisations took under a minute each, the ORCA single points one to two minutes on four cores. Read each column on its own.
+Table~\ref{tab:coupling-rank} ranks the eight conformers at each of the three levels, each column from its own calculations:
+\begin{itemize}
+	\item GFN-FF: the CREST search (step 3), read in its \menu{Conformers} panel, which gives the energies in kcal/mol;
+	\item GFN2-xTB: the eight xTB optimisations (step 5);
+	\item r2SCAN-3c: the eight ORCA single points (step 6).
+\end{itemize}
+For the xTB column, select the eight xTB calculations in the project table, right-click and choose \menu{Compare Energies...}; it lists each energy relative to the lowest, in kJ/mol and eV, and dividing the kJ/mol values by 4.184 gives kcal/mol. Do the same with the eight ORCA calculations for the r2SCAN-3c column. The xTB optimisations took under a minute each, the ORCA single points one to two minutes on four cores. Read each column on its own.
 \index{Ranking of conformers}
 
 \begin{table}[htb]
