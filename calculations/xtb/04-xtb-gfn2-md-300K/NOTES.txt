@@ -1,0 +1,1 @@
+NOT RUN YET (input only). Caffeine, 04-xtb-gfn2-md-300K (see ../NOTES.txt for settings). xtb.xtbin written by ECCE's ai.xtb; run with ../run_xtb.py. ECCE example category: Getting Started.

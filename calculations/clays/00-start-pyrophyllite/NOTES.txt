@@ -1,0 +1,1 @@
+Pyrophyllite unit cell (Lee and Guggenheim 1981) as bundled with ECCE's MINFF data (third_party/minff/unit_cells). The clays chapter repeats it 6 x 4 x 1 in the GROMACS Prepare editor.

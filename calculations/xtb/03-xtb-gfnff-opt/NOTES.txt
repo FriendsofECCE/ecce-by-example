@@ -1,0 +1,1 @@
+NOT RUN YET (input only). Caffeine, 03-xtb-gfnff-opt (see ../NOTES.txt for settings). xtb.xtbin written by ECCE's ai.xtb; run with ../run_xtb.py. ECCE example category: Getting Started.

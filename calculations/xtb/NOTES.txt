@@ -1,0 +1,53 @@
+Chapter xtb (Fast calculations with xTB) -- facts for the lead
+==============================================================
+ECCE: main e6ff4018a (9.5.3-dev). Prepared 2026-11-14. STATUS: INPUTS READY, NOT RUN.
+
+Run (radium/NerdEgg, never niobium):
+  ECCE_SRC=<ECCE checkout with build-cmake built> OMP_NUM_THREADS=4 nice python3 \
+    calculations/xtb/run_xtb.py <outdir>
+Isolated tests/launch harness session (own HOME, ECCE_LOCAL_DATA, localhost
+Shell machine, procs=4); each calculation is created with code xTB, theory
+SE:<method>, run type, the structure, the deck from ECCE's ai.xtb, launched
+through the real Launch/job store, and copied to <outdir>/<name>. Copy those
+into calculations/xtb/<name>/ (the decks already there are the same text,
+except 04, which the script regenerates from 01's optimised structure).
+Expected: seconds to a minute each; the 20 ps MD a few minutes (estimate).
+
+System: caffeine (C8H10N4O2, 24 atoms), start structure Open Babel 3.1.1
+--gen3d from SMILES Cn1cnc2c1c(=O)n(C)c(=O)n2C (00-start-caffeine). Rigid, one
+conformer, so the chapter needs no conformer search (that is chapter crest).
+
+Calculations (xtb 6.7.1)
+  01 GFN2-xTB, Geometry + Vibration (xtb --ohess normal), gas phase.
+  02 GFN2-xTB, Geometry + Vibration, ALPB water (--alpb water).
+  03 GFN-FF, Geometry (--gfnff --opt normal).
+  04 GFN2-xTB, Molecular Dynamics from 01's structure: 300 K, 20 ps, 2 fs step,
+     dump 50 fs, SHAKE on X-H bonds (xtb.md block written by ECCE).
+All other settings are the editor's defaults (electronic temperature 300 K,
+accuracy 1, charge 0, singlet). The deck's title line "xtbtest" is the harness
+label (as in chapter crest).
+
+What the chapter can show (once run): frequencies and IR spectrum of 01
+(Vibrations panel), the shift of the C=O stretches between gas and ALPB water
+(01 vs 02: same method, so a legitimate comparison), the GFN-FF vs GFN2-xTB
+structures (compare geometry/RMSD only, NEVER their energies), the MD
+trajectory and energy/temperature plots of 04, the HOMO-LUMO gap and charges.
+
+GUI steps (from help page xtb; not checked live in this job): Register Machines
+> Codes tab > xTB > Program /usr/bin/xtb (Find); Organizer new calculation, code
+xTB; Calculation Editor Theory GFN2-xTB / GFN1-xTB / GFN-FF; Theory Details:
+Implicit Solvent None/ALPB/GBSA + solvent, Electronic temperature, Accuracy;
+Run Type Energy / Geometry / Vibration / Geometry + Vibration / Molecular
+Dynamics; Runtype Details: Level (optimisation), Temperature, Time, Time step,
+Dump interval, SHAKE.
+
+This requires: xtb 6.7.1 (Debian package xtb 6.7.1-2; github.com/grimme-lab/xtb).
+Nothing else. 
+
+Coupling with other codes: xTB is the cheap level of the funnel. The book's
+coupling chapter already has the full chain on ibuprofen (CREST -> xTB ->
+ORCA r2SCAN-3c, calculations/coupling/01..06); this chapter can point there and
+to crest. A new calculation from a finished xTB calculation's structure in
+another code is the hand-off (geometry at xTB, property at DFT). No new run.
+
+ECCE could not do: nothing found so far (not run). No issues filed.

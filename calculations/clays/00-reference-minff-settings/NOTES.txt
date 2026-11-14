@@ -1,0 +1,1 @@
+Reference only, not run for the book: energy minimisation, NPT and NVT .mdp settings of an existing MINFF montmorillonite GROMACS run (dt 1 fs, no constraints, PME, 1.2 nm cut-offs, anisotropic NPT). Used to check the settings ECCE writes.

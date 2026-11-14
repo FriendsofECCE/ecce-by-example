@@ -1,0 +1,2 @@
+Fast calculations with xTB
+caffeine with GFN2-xTB and GFN-FF: optimisation and frequencies in the gas phase and in implicit water, and a short molecular dynamics run.

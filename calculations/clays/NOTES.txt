@@ -1,0 +1,91 @@
+Chapter clays (Layered structures: clay models in GROMACS with MINFF) -- facts for the lead
+==========================================================================================
+ECCE: main e6ff4018a (9.5.3-dev). Prepared 2026-11-14. STATUS: SCRIPT AND SETTINGS READY, NOT RUN.
+Issue #1017 (open) is the ECCE example this chapter matches.
+
+Run (radium/NerdEgg; needs gmx, Xvfb, atomipy and network for the pinned min.ff):
+  ECCE_SRC=<ECCE checkout with build-cmake built> nice python3 \
+    calculations/clays/run_clay.py <outdir>
+It makes the study as a person does (Organizer New > GROMACS MD Study, then
+New Prepare / Optimize / Equilibrate / Dynamics, through the Organizer's
+ECCE_TEST_ORGANIZER hook), sets the Prepare in its editor (gmxprepare, Mineral
+(MINFF) source) and the run editors through ECCE_TEST_MDED, saves, launches
+each task through the real Launch and copies each finished task to
+<outdir>/NN-gromacs-<task>; editor window shots go to <outdir>/png. The log
+prints every editor answer, the stored recipe and each .mdp, plus a line
+comparing dt / constraints / cut-offs / pcoupl with the MINFF reference;
+READ THAT LINE before trusting the run (see "Open points").
+Expected cost: about 2000 atoms (960 mineral + ~370 waters + 18 Na); 1 ns on 4
+cores is perhaps 10-30 min (estimate).
+
+Model
+  Layer: pyrophyllite, Lee & Guggenheim (1981), MINFF unit cell
+  Pyrophyllite_Lee_Guggenheim_1981_GII_0.071.pdb (bundled with ECCE,
+  third_party/minff/unit_cells; copy in 00-start-pyrophyllite): 40 atoms,
+  Al4Si8O20(OH)4, a 5.160, b 8.966, c 9.347 A, alpha 91.18, beta 100.46,
+  gamma 89.64 deg, P1.
+  Repeat 6 x 4 x 1 (one layer per periodic cell, so the water layer added on
+  top is the interlayer of the periodic stack), 960 atoms.
+  Substitutions Al,Mgo,18 (random, seed 1): 0.75 octahedral Mg per
+  Al4Si8O20(OH)4 cell, layer charge -18, a montmorillonite-type layer.
+  Ion parameters HFE; water OPC3 (the editor's MINFF default); counter-ion Na
+  (18 Na+, -neutral); water layer 0.6 nm (aimed at about a two-layer hydrate,
+  d(001) near 15 A -- to be checked against the equilibrated cell; label as
+  not checked against a published MINFF study unless the lead finds one);
+  salt 0; minimum ion distance 0.45 nm (thin interlayer, #363).
+  Parameters: general GMINFF (the editor default). The editor also offers
+  TMINFF with a mineral name (e.g. Montmorillonite) -- worth a sentence.
+Tasks: Optimize 5000 steps; Equilibrate 50000 steps and Dynamics 500000
+steps, both NPT, C-rescale, semiisotropic (barostat 0 / pcoupltype 1 in the
+Run settings page) so that c (the interlayer) relaxes independently of a,b.
+
+Reference settings (00-reference-minff-settings: em/npt/md .mdp of a real
+MINFF montmorillonite GROMACS run, read-only copies): dt 0.001 ps, constraints
+none (flexible OH), PME, rcoulomb = rvdw = 1.2 nm, V-rescale 298 K, NPT
+Berendsen anisotropic tau-p 2 ps, compressibility 4.5e-5, periodic-molecules
+yes; production NVT 1 ns. Open points the run log will settle:
+  - ECCE's default time step and constraints for these tasks: if dt is
+    0.002 with h-bond constraints, the mineral OH is constrained (differs from
+    the reference); if dt 0.002 without constraints it may be unstable. Set
+    dt 0.001 (Run settings) if needed and say so in the chapter.
+  - ECCE's default cut-offs (the editor warned of a 0.9 nm cut-off in its own
+    test) vs 1.2 nm in the reference; with c about 1.5 nm a 1.2 nm cut-off is
+    too long for one cell along c (the editor's cell warning names this) --
+    the lead must decide: repeat along c = 2 (then only one of the two
+    interlayers gets water, NOT wanted), or the editor's cut-off. Read
+    "cellwarning" in the log.
+  - Whether Equilibrate is NPT by default; the script adds pcoupl lines only
+    if the saved .mdp has none.
+
+Analysis the chapter needs (issue #1017 point 4), all after Dynamics:
+d(001) from the equilibrated cell (c * sin of the angle, or the Diffraction
+panel's 001 reflection: Tools > Diffraction / ecce-xrd powder on the final
+structure), the Na and water-O density profiles along c (MD Analysis > Density
+profile along c), and the topology charge sum (= -18 + 18 = 0).
+
+GUI steps (help: gromacs-prepare, layer-builder; not checked live):
+Organizer New > GROMACS MD Study; New Prepare; in the Prepare editor Source:
+Mineral (MINFF), unit cell, Repeat (a b c), Substitutions FROM,TO,COUNT,
+Random seed, Parameters, Ion parameters, Water model, Build topology; Water
+layer above the mineral (nm), Ions, Save; Launch. Then Optimize / Equilibrate
+/ Dynamics editors (Run settings page: steps, barostat, pressure coupling
+type), Save, Launch each.
+Layer Builder route (Builder > Tools > Periodic Builder > layer controls:
+layers, spacing, shift, water and ions per gap, seed -- see help
+layer-builder): an alternative for stacks drawn in the Builder and saved as a
+PDB with its cell; this script does NOT use it. If the lead wants the chapter
+to show the Layer Builder itself, the run needs a Builder script
+(pbclayer layers/spacing/water/ion/seed, pbcpress layers; tests/apps
+pbc_layers_test.py) and a PDB save into the Prepare's source -- not prepared.
+
+This requires: GROMACS 2025.2 (Debian gromacs 2025.2-1), atomipy (Python,
+github.com/mholmboe/atomipy) for the MINFF typing, the min.ff force field
+(fetched pinned by ECCE). MINFF: Holmboe (cite the MINFF paper).
+
+Coupling with other codes: clay -> MD -> Diffraction (the 001 reflection from
+the equilibrated cell, an XRD-comparable number). A periodic DFT check of a
+dry layer (CP2K, chapter cp2k) is possible, but cutting a cluster is not
+(#1033).
+
+ECCE could not do (so far, not run): nothing new found. No issues filed;
+#1017 is the example request.

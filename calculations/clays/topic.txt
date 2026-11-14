@@ -1,0 +1,2 @@
+Layered structures: clay models in GROMACS
+a montmorillonite-type MINFF layer built from pyrophyllite with Mg substitution, Na+ and interlayer water, optimised, equilibrated and run in GROMACS.

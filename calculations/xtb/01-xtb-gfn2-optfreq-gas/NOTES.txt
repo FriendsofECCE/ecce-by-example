@@ -1,0 +1,1 @@
+NOT RUN YET (input only). Caffeine, 01-xtb-gfn2-optfreq-gas (see ../NOTES.txt for settings). xtb.xtbin written by ECCE's ai.xtb; run with ../run_xtb.py. ECCE example category: Getting Started.
