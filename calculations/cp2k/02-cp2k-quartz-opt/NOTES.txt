@@ -1,0 +1,1 @@
+NOT RUN YET (input only). As 01, Geometry run type: GEO_OPT, BFGS, at most 100 steps, cell fixed (no CELL_OPT in ECCE, #412). The chapter uses its Geometry Trace and the powder pattern of its final structure. cp2k.cp2kin written by ECCE's ai.cp2k, passes cp2k.psmp --check. Run with ../run_quartz.py. ECCE example category: Materials Chemistry > Crystals.

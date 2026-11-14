@@ -1,0 +1,114 @@
+Chapter cp2k (Periodic structures in CP2K) -- facts for the lead
+=====================================================================
+ECCE: main e6ff4018a (9.5.3-dev). Prepared 2026-11-14.
+
+STATUS: INPUTS READY, CALCULATIONS NOT RUN.
+The two CP2K decks below were written by ECCE's own generator (ai.cp2k, the
+code the Calculation Editor runs on Save) and pass `cp2k.psmp --check`. Running
+them was not possible in this job: a local run on niobium was refused (no
+compute on niobium), and the offload hosts fetch only refs pushed to the ECCE
+repository on GitHub, which this job was not allowed to push. To run them:
+
+  1. In an ECCE worktree with build-cmake built, on radium or NerdEgg (or with
+     permission locally):
+       ECCE_SRC=<ECCE checkout> OMP_NUM_THREADS=1 nice python3 \
+         calculations/cp2k/run_quartz.py <outdir>
+     It starts an isolated ECCE (tests/launch harness: own HOME, ECCE_LOCAL_DATA,
+     machine "localhost", mpirun -np 4 cp2k.psmp), creates the calculations
+     quartz-energy and quartz-opt with the start structure stored as the
+     Builder stores a crystal (Parameters/chemsys.mvm with lattice vectors),
+     launches them through the real Launch/eccejobstore, and copies each
+     finished calculation (Inputs, Outputs, Props, .ecce-meta) into <outdir>.
+  2. Copy <outdir>/quartz-energy and <outdir>/quartz-opt into 01-/02- here.
+  3. Screenshots (not taken): Builder on quartz-opt with
+     ECCE_OPEN_PANEL='Geometry Trace', script: windowsize 1500 950,
+     background 1 1 1, style Ball And Stick, viewall, shot <file>
+     (tests/apps symmetry_find_test.scripted style); and the Diffraction panel
+     of the start and the optimised structure (`xrd wait`, `xrd export`, see
+     docs/AGENTS.md "xrd" hooks).
+Expected cost: 72 atoms, PBE/DZVP, 400 Ry: an energy is a few minutes on 4
+cores; the optimisation (BFGS, fixed cell) perhaps 10-40 min. Estimate only.
+
+System
+------
+alpha-quartz, SiO2, P3_121, Levien, Prewitt & Weidner (1980) Am. Mineral. 65,
+920: a = 4.9134 A, c = 5.4052 A (00-start-quartz/quartz.cif, the CIF fixture
+of the ECCE repository). 9 atoms per cell. The calculations use the 2x2x2
+supercell: 72 atoms (Si24 O48), a = b = 9.8268 A, c = 10.8104 A,
+gamma = 120 deg, V = 904.1 A^3. Si-O in the start structure 1.604 and 1.614 A
+(checked: 96 Si-O bonds below 2 A, four per Si).
+Why the supercell: ECCE's CP2K setup has no k-points (Gamma point only; the
+missing k-points are listed in issue #412). A 4.9 A cell sampled at Gamma alone
+is far too coarse; about 10 A in each direction is the usual minimum for an
+insulator with a wide gap such as quartz. This is worth a sentence in the
+chapter: with Gamma-only codes the reader makes the cell bigger instead of
+adding k-points.
+
+Settings ECCE writes by default (nothing changed from the editor's defaults)
+------------------------------------------------------------------------
+Theory QS:GPW (Quickstep, Gaussian and plane waves). PBE. Basis level
+DZVP-MOLOPT-SR-GTH, picked per element from BASIS_MOLOPT: O DZVP-MOLOPT-SR-GTH-q6,
+Si DZVP-MOLOPT-SR-GTH-q4; potentials GTH-PBE-q6 / GTH-PBE-q4 from GTH_POTENTIALS
+(library directory /usr/share/cp2k, CP2K's own). MGRID CUTOFF 400 Ry,
+REL_CUTOFF 60 Ry, NGRIDS 4. SCF: OT on, minimizer DIIS, preconditioner
+FULL_SINGLE_INVERSE, outer SCF on (MAX_SCF 30 inner x 10 outer, the
+editor's defaults for a new calculation), EPS_SCF 1e-6, atomic guess. PERIODIC XYZ.
+01 Energy run type: RUN_TYPE ENERGY_FORCE (the "Forces on atoms" box is ticked
+by default in Runtype Details).
+02 Geometry run type: RUN_TYPE GEO_OPT, &MOTION/&GEO_OPT OPTIMIZER BFGS,
+MAX_ITER 100. The cell is fixed: CELL_OPT is not offered (issue #412).
+Help pages the chapter should cite: cp2k-scf, cp2k-basis-potential (both in
+chapters.py for this chapter).
+
+GUI steps (from the help pages; NOT checked in a running ECCE in this job)
+--------------------------------------------------------------------------
+1. Builder: File > Import... (or Open) quartz.cif. ECCE builds the whole unit
+   cell (9 atoms) from the symmetry operations (help: importing-a-structure).
+2. Tools > Periodic Builder: Show Lattice is ticked by default; the
+   Replicate button (PBCGUI "Replicate") makes the 2x2x2 supercell. A message
+   about moving the atoms "to the SuperCell" may appear (Builder.C) -- the
+   exact replicate fields and wording must be read off a running ECCE.
+3. Organizer: new calculation with code CP2K; Calculation Editor: Theory
+   QS / GPW, Theory Details (Functional PBE, Basis level, cutoffs, SCF box),
+   Run Type Energy or Geometry, Runtype Details (Forces on atoms; Optimizer
+   Method BFGS, maximum iterations). Save, then Launch.
+4. Results: Organizer properties (total energy, SCF steps, forces, Mulliken
+   and Hirshfeld charges); Builder Geometry Trace for the optimisation.
+
+Numbers obtained
+----------------
+None from CP2K yet (not run). Reference pattern of the start structure,
+computed with ECCE's powder diffraction (ecce-xrd powder, Cu K-alpha, 15-70 deg;
+00-start-quartz/powder-cu.csv; figure cp2k/quartz-powder-start):
+  (100) d = 4.255 A, 2theta = 20.86 deg, I = 20
+  (101) d = 3.343 A, 2theta = 26.64 deg, I = 100 (strongest)
+  (110) d = 2.457 A, 2theta = 36.55 deg, I = 7
+  (102) d = 2.281 A, 2theta = 39.47 deg, I = 7.5
+These agree with the familiar quartz pattern (strongest line near 26.6 deg).
+
+Coupling with other codes (route for the chapter)
+-------------------------------------------------
+Chosen: CP2K-relaxed cell -> ECCE's Diffraction panel (powder pattern), compared
+with the pattern of the measured structure. This compares structures (peak
+positions shift with Si-O and Si-O-Si changes; the cell itself is fixed, so
+the shifts come from atom positions only -- intensities change, line positions
+do not, which the chapter must say honestly; a cell optimisation would move
+the lines but is not available, #412). No energies across methods.
+- MACE pre-relaxation -> CP2K: not done; MACE is not installed on this
+  machine and ECCE's Set up... (ecce-mlp-setup) would install it, which an
+  agent may not do. If the lead wants it: MLP code, Geometry, on the 72-atom
+  cell, then a new CP2K calculation from its final structure.
+- Periodic -> cluster for a molecular code (e.g. an Si(OH)4-capped fragment
+  for ORCA): ECCE cannot cut and cap a cluster; issue #1033 (open).
+
+This requires
+-------------
+CP2K 2025.1 (Debian package cp2k 2025.1-1.1, cp2k.psmp, with cp2k-data for
+BASIS_MOLOPT and GTH_POTENTIALS), Open MPI 5.0.7 (mpirun). Get CP2K from
+cp2k.org or the distribution. ECCE's CP2K support is marked experimental.
+
+ECCE could not do
+-----------------
+- k-points (Gamma only) and cell optimisation: issue #412 (open, lists both).
+- Cutting a cluster from a periodic model: issue #1033 (open).
+No new issues filed.

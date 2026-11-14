@@ -1,0 +1,2 @@
+Periodic structures in CP2K
+alpha-quartz as a 72-atom supercell: a CP2K energy and a fixed-cell geometry optimisation set up in ECCE, and the powder pattern of the structure.
