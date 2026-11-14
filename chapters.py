@@ -31,7 +31,9 @@ PLAN = [
   "Command line|AGENTS.md|ecce-rerun|ecce-reparse|Series of calculations|AI assistants"),
 ]),
 ("Methods", [
- ("workflows", "Coupling computations: screening, refinement and hand-offs between codes", "Workflows",
+ ("coupling", "Coupling computations: screening, refinement and hand-offs between codes", "Getting Started",
+  "", "Coupling computations|New from This|Screening|Refinement|Hand-offs between codes"),
+ ("workflows", "Workflows and recipes: when to automate a chain", "Workflows",
   "workflows recipes writing-a-recipe", "Workflows|Recipes|Auto-run|Launch Ready Steps|Writing a recipe|ecce-workflow"),
  ("qsar", "QSAR: descriptors, PCA and PLS", "QSAR",
   "qsar-table qsar-analysis batch-from-smiles", "QSAR|Descriptors|PCA|PLS|Batch Add from SMILES|ecce-qsar"),
@@ -186,7 +188,8 @@ STUB = r"""\chapter{%(title)s}
 \section{Coupling with other codes}
 %% What feeds this calculation (a cheaper screen, a structure from another code)
 %% and what it feeds (refinement, a property from the code best at it); which
-%% steps a workflow or recipe automates and which are a manual hand-off.
+%% hand-off is made (usually by hand: a new calculation from this one's
+%% structure or orbitals in another code); a workflow only where it pays.
 
 """
 def main():
