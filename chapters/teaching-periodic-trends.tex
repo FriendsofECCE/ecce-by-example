@@ -1,6 +1,6 @@
-\chapter{The periodic table from calculation: configurations, shielding and ionisation}
-\label{ch:periodic-trends}
-\label{ch:configurations}
+\section{The periodic table from calculation: configurations, shielding and ionisation}
+\label{sec:periodic-trends}
+\label{sec:configurations}
 \checkedwith{9.5.3-dev}{ce2531fa0}
 \index{Periodic trends}
 \index{Periodic table|see{Periodic trends}}
@@ -12,10 +12,10 @@ The shape of the periodic table follows from the order in which atomic orbitals 
 \index{Ionisation energy}\index{Ionization energy|see{Ionisation energy}}
 \index{Electron affinity}
 
-\section{Background}
+\subsection{Background}
 \index{Aufbau principle}\index{Building-up principle|see{Aufbau principle}}
 \index{Pauli principle}
-In the orbital picture of a many-electron atom each electron occupies a one-electron orbital, and the ground-state configuration places the electrons, two at most per orbital (the Pauli principle), in the orbitals of lowest energy. This is the Aufbau principle. In hydrogen the energy depends on $n$ alone. In every other atom the electrons screen the nucleus from one another, and how well depends on how close to the nucleus an orbital takes its electron: an s electron has inner maxima close to the nucleus, penetrates the inner shells and feels more of the nuclear charge than a p electron of the same shell (Chapter~\ref{ch:atomic-orbitals}). The subshells of one shell therefore separate, ns below np below nd, and for $n = 3$ and $n = 4$ the separation is large enough that 4s fills before 3d.
+In the orbital picture of a many-electron atom each electron occupies a one-electron orbital, and the ground-state configuration places the electrons, two at most per orbital (the Pauli principle), in the orbitals of lowest energy. This is the Aufbau principle. In hydrogen the energy depends on $n$ alone. In every other atom the electrons screen the nucleus from one another, and how well depends on how close to the nucleus an orbital takes its electron: an s electron has inner maxima close to the nucleus, penetrates the inner shells and feels more of the nuclear charge than a p electron of the same shell (Section~\ref{sec:atomic-orbitals}). The subshells of one shell therefore separate, ns below np below nd, and for $n = 3$ and $n = 4$ the separation is large enough that 4s fills before 3d.
 \index{Penetration}\index{Shielding}\index{Screening|see{Shielding}}\index{Subshells}
 
 \index{Hund's rule}\index{Multiplicity}\index{Spin multiplicity|see{Multiplicity}}
@@ -34,7 +34,7 @@ The two are not the same quantity. An orbital energy contains the repulsion of t
 The first ionisation energy (IE) is the energy needed to remove the most loosely held electron from the atom in the gas phase, $\mathrm{IE} = E(\mathrm{A}^+) - E(\mathrm{A})$, and the electron affinity (EA) the energy released when the atom takes up an electron, $\mathrm{EA} = E(\mathrm{A}) - E(\mathrm{A}^-)$, positive when the anion is the more stable. Both can be computed from two total energies (the $\Delta$SCF route). Koopmans showed that in Hartree-Fock theory minus the energy of an occupied orbital is the energy of removing an electron from that orbital if the other orbitals stay as they are \cite{koopmans1934}, so that $\mathrm{IE} \approx -\varepsilon_\mathrm{HOMO}$. Two errors enter this estimate. The remaining electrons do relax towards the hole, which lowers the cation energy and makes $-\varepsilon_\mathrm{HOMO}$ too large, and Hartree-Fock omits electron correlation, which is larger in the atom, with one electron more, than in the cation, and makes the Hartree-Fock IE too small. The $\Delta$SCF value includes the relaxation but not the correlation. Koopmans' theorem holds for Hartree-Fock orbitals; for a density functional such as B3LYP, $-\varepsilon_\mathrm{HOMO}$ is generally well below the IE.
 \index{Delta SCF@$\Delta$SCF}\index{Relaxation}\index{Electron correlation}\index{HOMO}
 
-\section{What ECCE shows}
+\subsection{What ECCE shows}
 \index{ECCE-QM}\index{Codes!ECCE-QM}\index{Example calculations!General Chemistry}
 Three topics of the General Chemistry example set hold the calculations, all done with ECCE-QM.
 The topic \menu{Atoms} holds the 21 neutral atoms H to Ar, Ca, Cr and Cu, each a single-point energy with B3LYP \cite{becke1993}. The basis set is aug-cc-pVTZ \cite{kendall1992,woon1993} for H to Ar, cc-pVTZ for Ca and def2-TZVPD \cite{rappoport2010} for Cr and Cu. The closed-shell atoms (He, Be, Ne, Mg, Ar, Ca) use restricted orbitals and the open-shell atoms restricted open-shell orbitals (ROKS), with the multiplicities of Table~\ref{tab:pt-config}.
@@ -56,7 +56,7 @@ For the energy differences, \menu{Tools > Energy Calculator...} in the Organizer
 
 \XXX[ screenshot: \menu{Energy Calculator} with \menu{N\_HF\_neutral} as side A and \menu{N\_HF\_cation} as side B, showing \menu{B - A} in eV.]
 
-\section{Procedure}
+\subsection{Procedure}
 \index{Opening example calculations}\index{File menu!Open Example Calculations}\index{Organizer!Open Example Calculations}\index{Viewer}
 \begin{enumerate}
 	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}. The calculations go into the project \menu{Examples}, sorted into topics.
@@ -70,7 +70,7 @@ For the energy differences, \menu{Tools > Energy Calculator...} in the Organizer
 	\item For an electron affinity, select the anion first (for example \menu{F\_anion}) and then the neutral atom (\menu{F\_PBE0\_neutral}); \menu{B - A} is the electron affinity.
 \end{enumerate}
 
-\section{Results}
+\subsection{Results}
 
 \subsection{Configurations and the order of the orbitals}
 \index{Electron configuration!of the atoms H to Ar}\index{Orbital energies!of the atoms}
@@ -141,7 +141,7 @@ Figure~\ref{fig:pt-zeff} gives $Z_\mathrm{eff}$ of the highest occupied orbital 
 \end{figure}
 
 \index{Slater's rules}
-For a single valence electron outside a closed shell the estimate is close to Slater's rules, and lithium gives 1.25 against 1.30 from the rules. For a full shell it is not. Slater's rules give 5.85 for the 2p electrons of neon and Eq.~\eqref{eq:zeff} gives 2.61, the difference being the repulsion of a 2p electron with the other seven electrons of the second shell, which the orbital energy contains in full. The same applies to the core. The 1s energies give $Z_\mathrm{eff}$ = 8.10 for neon and 15.40 for argon, well below $Z - 0.3$, because the outer shells, which hardly screen a 1s electron in Slater's sense, still raise its energy. The value of about 17.7 found for argon 1s from its most probable radius in Chapter~\ref{ch:atomic-orbitals} measures the screening alone. In a lecture the trend across a period is the robust message; the absolute values depend on the definition and should be presented with it.
+For a single valence electron outside a closed shell the estimate is close to Slater's rules, and lithium gives 1.25 against 1.30 from the rules. For a full shell it is not. Slater's rules give 5.85 for the 2p electrons of neon and Eq.~\eqref{eq:zeff} gives 2.61, the difference being the repulsion of a 2p electron with the other seven electrons of the second shell, which the orbital energy contains in full. The same applies to the core. The 1s energies give $Z_\mathrm{eff}$ = 8.10 for neon and 15.40 for argon, well below $Z - 0.3$, because the outer shells, which hardly screen a 1s electron in Slater's sense, still raise its energy. The value of about 17.7 found for argon 1s from its most probable radius in Section~\ref{sec:atomic-orbitals} measures the screening alone. In a lecture the trend across a period is the robust message; the absolute values depend on the definition and should be presented with it.
 
 \subsection{First ionisation energies}
 \index{Ionisation energy!across a period}\index{Periodic trends!ionisation energy}\index{Comparing with experiment}
@@ -227,6 +227,6 @@ Table~\ref{tab:pt-ea} gives the electron affinities from the PBE0/aug-cc-pVDZ en
 \index{Electron affinity!negative}
 A negative computed EA in a finite basis set is only an indication. An unbound anion has no stable state for the extra electron, and the computed energy of such an anion depends on the basis set, so the sign is the message for a class, not the size. The orbital energies of the anions mislead more. The highest occupied orbital of Li$^-$ lies at $+0.018$~hartree and that of C$^-$ at $+0.035$~hartree, positive although both anions come out bound in the total energies. This is a known defect of approximate functionals for anions, in which the extra electron is held in the calculation only by the finite basis set, and it is a reason to read electron affinities from total energies and never from the orbital energies of the anion.
 
-\section{History}
+\subsection{History}
 \index{History!Koopmans}\index{History!Slater}\index{History!Hund}
 Slater published his screening rules in 1930 \cite{slater1930} and Koopmans the theorem on orbital energies and ionisation in 1934 \cite{koopmans1934}. Hund's rules came from his analysis of atomic spectra \XXX[ citation and year].

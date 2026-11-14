@@ -1,5 +1,5 @@
-\chapter{Atomic orbitals: radial distributions and slices}
-\label{ch:atomic-orbitals}
+\section{Atomic orbitals: radial distributions and slices}
+\label{sec:atomic-orbitals}
 \index{Atomic orbitals}
 \index{Orbitals!atomic|see{Atomic orbitals}}
 \index{Argon}
@@ -12,7 +12,7 @@
 The orbitals of an atom are usually drawn as boundary surfaces, a sphere for s and two lobes for p, and such a drawing hides most of what the principal quantum number does. This chapter looks at the occupied orbitals of argon in two other ways, as a curve of probability against the distance from the nucleus and as a contour map on a flat slice through the nucleus. Both views come from the same stored calculation and show the nodes, the inner maxima of 2s, 3s and 3p, and the three shells of argon.
 \index{Shells}\index{Nodes}\index{Inner maxima}
 
-\section{Background}
+\subsection{Background}
 \index{Radial distribution}
 \index{Radial distribution function|see{Radial distribution}}
 \index{Orbitals!radial distribution|see{Radial distribution}}
@@ -37,12 +37,12 @@ with $a_0 = \SI{0.529}{\angstrom}$ the Bohr radius and $Z$ the nuclear charge; f
 
 The inner maxima are the origin of penetration.
 \index{Penetration}\index{Shielding}
-A 2s electron has a small maximum inside the 1s shell, close to the nucleus, where the two 1s electrons screen little of the nuclear charge, and a 2p electron has no such maximum. The 2s electron therefore feels a larger effective nuclear charge on average and lies lower in energy, which is why 2s fills before 2p and, in the next period, 3s before 3p (Chapter~\ref{ch:configurations}). Slater's screening rules put these trends into numbers \cite{slater1930}.
+A 2s electron has a small maximum inside the 1s shell, close to the nucleus, where the two 1s electrons screen little of the nuclear charge, and a 2p electron has no such maximum. The 2s electron therefore feels a larger effective nuclear charge on average and lies lower in energy, which is why 2s fills before 2p and, in the next period, 3s before 3p (Section~\ref{sec:periodic-trends}). Slater's screening rules put these trends into numbers \cite{slater1930}.
 \index{Effective nuclear charge}
 
 In a many-electron atom the orbitals are no longer hydrogen-like, but the counting of nodes and maxima survives. The total electron density of argon, summed over the occupied orbitals and weighted by $r^2$, has one hump for each filled shell: 1s close to the nucleus, then 2s and 2p together, then 3s and 3p.
 
-\section{What ECCE shows}
+\subsection{What ECCE shows}
 \index{Density Profile}\index{Density Map}
 \index{Properties list!Density Profile}\index{Properties list!Density Map}
 The Atoms topic of the General Chemistry example set holds ECCE-QM calculations of 21 atoms, H to Ar, Ca, Cr and Cu.
@@ -61,7 +61,7 @@ The \menu{Density Map} draws one orbital, or the density, as contour lines on a 
 \index{Density Map!One orbital}\index{Density Map!This view (parallel to the screen)}\index{Contour map}\index{Orbitals!sign|see{Phase}}\index{Phase}
 The \menu{MO} box chooses the orbital, and the mouse wheel zooms the map about the pointer.
 
-\section{Procedure}
+\subsection{Procedure}
 \index{Opening example calculations}
 \index{File menu!Open Example Calculations}
 \index{Organizer!Open Example Calculations}
@@ -84,7 +84,7 @@ The \menu{MO} box chooses the orbital, and the mouse wheel zooms the map about t
 	\index{Density Map!Whole plane}\index{Zooming a map}
 \end{enumerate}
 
-\section{Results}
+\subsection{Results}
 \index{Shells!of argon}
 Figure~\ref{fig:ao-rdf1} shows the radial distributions of 1s, 2s and 3s on the $\sqrt{r}$ axis. 1s has a single maximum, at a most probable distance of \SI{0.0299}{\angstrom} according to the note under the plot. Equation~\eqref{eq:rmp} with $Z = 18$ gives $a_0/18 = \SI{0.0294}{\angstrom}$, and the slightly larger value is the screening of one 1s electron by the other, corresponding to an effective nuclear charge of about 17.7. 2s has one node and two maxima, the smaller at about the distance of the 1s maximum, and 3s has two nodes and three maxima, the inner two at about the distances of the 1s and 2s maxima. The number of nodes rises by one with each step in $n$. The most probable distances of 2s and 3s are \XXX[ read from the note under the plot].
 \index{Effective nuclear charge}
@@ -127,6 +127,6 @@ In the \menu{Density Map} (Fig.~\ref{fig:ao-map}) orbital 6 is 3s. The circles o
 The 2p and 3p orbitals each have a nodal plane through the nucleus, and the slice cuts the three members of each set differently: a member lying in the slice shows two lobes of opposite sign on either side of the nodal line, while one pointing out of the slice can look almost empty. \XXX[ screenshot: Ar, \menu{Density Map}, \menu{One orbital}, the member of MO 3--5 (2p) that lies in the plane, zoomed in, showing the nodal plane as a line.]
 \index{Nodal plane}
 
-\section{History}
+\subsection{History}
 Schrödinger solved the wave equation of the hydrogen atom in 1926, which gave the radial functions and their nodes \cite{schrodinger1926}, and Slater set out his rules for the screening of the nuclear charge in 1930 \cite{slater1930}.
 \index{History!Schrödinger}\index{History!Slater}

@@ -31,7 +31,7 @@ PLAN = [
   "Command line|AGENTS.md|ecce-rerun|ecce-reparse|Series of calculations|AI assistants"),
 ]),
 ("Methods", [
- ("workflows", "Workflows and recipes", "Workflows",
+ ("workflows", "Coupling codes: workflows and recipes", "Workflows",
   "workflows recipes writing-a-recipe", "Workflows|Recipes|Auto-run|Launch Ready Steps|Writing a recipe|ecce-workflow"),
  ("qsar", "QSAR: descriptors, PCA and PLS", "QSAR",
   "qsar-table qsar-analysis batch-from-smiles", "QSAR|Descriptors|PCA|PLS|Batch Add from SMILES|ecce-qsar"),
@@ -42,89 +42,44 @@ PLAN = [
  ("results", "Results, reports and citations", "Getting Started",
   "results-file-format si-export citing-ecce", "results.h5|Supporting Information|Citing ECCE|Export"),
 ]),
-("Teaching", [
- # For teachers: calculations that show a classical discovery or a core
- # concept in a lecture. Not tied to any course; no course references.
- ("atomic-orbitals", "Atomic orbitals: radial distributions and slices", "General Chemistry > Atoms",
-  "density-profile density-map", "Radial distribution|Atomic orbitals|Density Profile|Density Map|Nodes|Inner maxima"),
- ("periodic-trends", "The periodic table from calculation: configurations, shielding and ionisation", "General Chemistry > Atoms",
-  "ecce-qm", "Periodic trends|Aufbau principle|Hund's rule|Electron configuration|Chromium|Copper|Effective nuclear charge|Ionisation energy|Electron affinity|Koopmans' theorem"),
- ("bond-formation", "The covalent bond: H2 from Heitler and London to the Morse curve", "General Chemistry > How a chemical bond forms",
-  "", "Covalent bond|H2|Potential energy curve|Morse potential|ecce-morse|Bond energy|Heitler-London"),
- ("oxygen", "Why O2 is paramagnetic: molecular orbitals of the diatomics", "General Chemistry > Molecular orbitals of diatomics",
-  "mo-diagram molecules-for-teaching", "MO diagram|Molecular orbitals|Bond order|Paramagnetism|O2|Antibonding orbitals"),
- ("symmetry-mos", "Symmetry builds the MO diagram: water, ammonia and borane", "Inorganic Chemistry",
-  "", "Point groups|Symmetry-adapted linear combinations|SALC|Character tables|MO diagram|Water|Ammonia|Borane|Mulliken symbols"),
- ("methane", "Methane: four equivalent bonds, two ionisation energies", "Inorganic Chemistry",
-  "", "Methane|Photoelectron spectroscopy|Valence bond theory|MO theory|t2 and a1 orbitals|Hybridisation"),
- ("vibrations-symmetry", "Group theory and vibrations: counting IR and Raman bands", "Spectroscopy",
-  "", "Group theory|Normal modes|IR selection rules|Raman selection rules|Mutual exclusion|CO2|H2O|CH4|CCl4|Mode symmetry"),
- ("cft-lft", "Crystal field and ligand field theory: the octahedral complex", "Inorganic Chemistry",
-  "", "Crystal field theory|Ligand field theory|d-orbital splitting|Octahedral complexes|Spectrochemical series|pi-donor|pi-acceptor|Colour of complexes|Laporte rule|Spin-allowed transitions"),
- ("shapes", "Molecular shapes, polarity and the dipole moment", "General Chemistry > VSEPR",
-  "dipole-moment localised-orbitals", "VSEPR|Electron domains|Molecular shape|Dipole moment|Bond dipoles|Lone pairs|Hybridisation"),
- ("benzene", "Benzene: resonance, delocalisation and aromaticity", "Organic Chemistry > Bonding in hydrocarbons",
-  "", "Benzene|Resonance|Kekule structures|Delocalisation|Aromaticity|pi orbitals|Huckel"),
- ("colour", "Colour from conjugation: polyenes and the particle in a box", "Spectroscopy",
-  "", "Colour|Conjugation|Particle in a box|Polyenes|UV-vis|HOMO-LUMO gap"),
- ("greenhouse", "Why CO2 and H2O absorb infrared: vibrations and the greenhouse effect", "Spectroscopy > Small molecules",
-  "", "Greenhouse effect|IR active modes|CO2|H2O|Dipole derivative|Vibrational modes"),
- ("hydrogen-bond", "The hydrogen bond: the water dimer, ice and the boiling point of water", "General Chemistry > Intermolecular interactions",
-  "electron-density-views", "Hydrogen bond|Water dimer|Ice|Boiling point|Dispersion|Intermolecular interactions"),
- ("kinetic-theory", "Kinetic theory: Maxwell's distribution of speeds", "General Chemistry > Gases, liquids and solids",
-  "md-speeds-and-diffusion", "Maxwell distribution|Speed distribution|Kinetic theory|Temperature|Molecular dynamics"),
- ("phases", "Gases, liquids and solids, and the change between them", "General Chemistry > Gases, liquids and solids",
-  "gromacs-first-calculation", "Phase change|Melting|Evaporation|Ideal gas|Real gas|GROMACS|Ion-dipole interactions"),
- ("packing", "Packing spheres: metals and ionic crystals", "General Chemistry > Packing in solids",
-  "qe-first-calculation", "Unit cell|Close packing|bcc|fcc|hcp|Coordination number|NaCl|CsCl"),
- ("solids", "Molecular, covalent and layered solids", "General Chemistry > Molecular and covalent solids",
-  "", "Molecular crystals|Network solids|Diamond|Graphite|Ice|Dry ice"),
- ("bragg", "Bragg's law and the first crystal structures", "General Chemistry > Diffraction",
-  "fibre-diffraction", "Bragg's law|Powder pattern|X-ray diffraction|NaCl|KCl|Precession photograph|Detector frame|Debye scattering"),
- ("dna-helix", "Photograph 51, the double helix and the alpha-helix", "General Chemistry > Diffraction",
-  "", "DNA|Photograph 51|Double helix|alpha-helix|Fibre diffraction|Helical transform"),
- ("hf-dft", "What a calculation approximates: Hartree-Fock, DFT and Jacob's ladder", "Computational > H2 dissociation with RHF, UHF and CCSD",
-  "", "Hartree-Fock|Density functional theory|Jacob's ladder|Electron correlation|Chemical accuracy|Model chemistry"),
- ("basis-sets", "Basis sets: from minimal to the complete basis set limit", "Getting Started",
-  "", "Basis sets|Zeta|Polarisation functions|Diffuse functions|Complete basis set limit|Effective core potentials"),
- ("rhf-uhf", "Breaking a bond: restricted and unrestricted Hartree-Fock", "Computational > H2 dissociation with RHF, UHF and CCSD",
-  "", "RHF|UHF|ROHF|Spin contamination|Bond dissociation|Static correlation"),
- ("equilibrium", "From Gibbs energy to the equilibrium constant", "Organic Chemistry > Reactions",
-  "", "Equilibrium constant|Gibbs energy|Standard state|log K|Energy Calculator"),
- ("reaction-energy", "Energy in reactions: Hess's law, barriers and the Arrhenius equation", "Organic Chemistry > Reactions",
-  "", "Hess's law|Reaction energy|Activation energy|Arrhenius equation|Transition state|SN2|Walden inversion"),
- ("acids-bases", "Acids and bases: where the proton goes", "Workflows > Aminopyridine protonation",
-  "", "Protonation|Basicity|pKa|Acids and bases"),
-]),
 ("Physical chemistry", [
- ("thermochemistry", "Thermochemistry and reaction energies", "Organic Chemistry > Reactions",
-  "thermochemistry energy-calculator compare-energies", "Thermochemistry|Gibbs energy|Enthalpy|Energy Calculator|Compare Energies|Standard state|ecce-thermo"),
- ("reaction-rates", "Transition states, reaction paths and rates", "Workflows > SN2 Cl- and CH3Br",
-  "", "Transition state|IRC|QST3|Rate constant|Tunnelling|Reaction overview|ecce-rate"),
+ ("thermochemistry", "Thermochemistry: optimisation, frequencies and high-level single points", "Organic Chemistry > Reactions",
+  "thermochemistry energy-calculator compare-energies", "Thermochemistry|Enthalpy|Gibbs energy|Zero-point energy|Energy calculator|Single point"),
+ ("reaction-rates", "Transition states, reaction paths and rate constants", "Workflows > SN2 Cl- and CH3Br",
+  "", "Transition state|IRC|QST2|QST3|Eyring equation|Rate constant|Imaginary frequency"),
  ("scans", "Potential energy scans and conformations", "Organic Chemistry > Conformations",
-  "", "Scan|Torsion|Relaxed scan|Geometry Trace"),
- ("density-views", "Looking at electron densities", "Getting Started",
-  "", "Electrostatic potential|ELF|NCI|Isosurface|Surfaces|Density difference"),
+  "", "Potential energy scan|Relaxed scan|Conformations|Torsion"),
+ ("bond-dissociation", "Bond dissociation: RHF, UHF and CCSD", "Computational > H2 dissociation with RHF, UHF and CCSD",
+  "", "Bond dissociation|RHF|UHF|CCSD|Spin contamination|Static correlation"),
+ ("basis-sets", "Convergence with basis set and method", "Getting Started",
+  "", "Basis sets|Complete basis set limit|Jacob's ladder|Method convergence"),
+ ("density-views", "Electron densities, orbitals and dipole moments", "Getting Started",
+  "density-profile density-map electron-density-views localised-orbitals dipole-moment",
+  "Electron density|Density map|Density profile|Localised orbitals|Dipole moment|Isosurfaces"),
+ ("mo-analysis", "Molecular orbital diagrams from a calculation", "Inorganic Chemistry",
+  "mo-diagram", "MO diagram|Molecular orbitals|Orbital symmetry|Bond order"),
 ]),
 ("Spectroscopy", [
- ("vibrations", "IR and Raman spectra", "Spectroscopy",
-  "mode-composition match-bands displacement", "IR spectrum|Raman spectrum|Vibrations|Mode composition|Match bands|Displacement"),
+ ("vibrations", "IR and Raman spectra and mode symmetry", "Spectroscopy",
+  "mode-composition match-bands displacement", "IR spectrum|Raman spectrum|Normal modes|Mode symmetry|Scaling factors"),
  ("ir-experiment", "Comparing spectra with experiment", "Spectroscopy > Sulfate coordination",
-  "ir-spectrum-difference-experiment", "Experimental spectrum|Difference spectrum|Scaling factors"),
- ("excited-states", "Electronic excitations", "Spectroscopy",
-  "", "TD-DFT|UV-vis|Excited states"),
+  "ir-spectrum-difference-experiment", "Experimental spectra|Difference spectrum|Band assignment"),
+ ("excited-states", "Electronic excitations and UV-vis spectra", "Spectroscopy",
+  "", "TD-DFT|Excited states|UV-vis spectrum|Oscillator strength"),
 ]),
 ("Organic chemistry", [
- ("crest", "Conformers with CREST", "Workflows > Aminopyridine protonation",
-  "crest", "CREST|Conformers|Ensembles|ecce-ensemble|Topology check"),
+ ("crest", "Conformer ensembles: CREST, xTB and DFT refinement", "Workflows > Aminopyridine protonation",
+  "crest", "CREST|Conformer search|Boltzmann weights|Coupled codes"),
  ("xtb", "Fast calculations with xTB", "Getting Started",
   "xtb", "xTB|GFN2-xTB|GFN-FF|Semiempirical methods"),
- ("protonation", "Protonation sites and pKa", "Workflows > Aminopyridine protonation",
-  "", "Protonation|pKa|Solvation|CPCM"),
+ ("protonation", "Protonation sites and pKa: CREST, xTB and ORCA in one workflow", "Workflows > Aminopyridine protonation",
+  "", "Protonation|pKa|Solvation|CPCM|Workflows"),
 ]),
 ("Inorganic chemistry", [
- ("organometallics", "Organometallic and coordination compounds", "Inorganic Chemistry",
-  "organometallics", "Organometallics|Ligand field|Coordination compounds|Spin states"),
+ ("organometallics", "Organometallic and coordination compounds: geometries and spin states", "Inorganic Chemistry",
+  "organometallics", "Organometallics|Coordination compounds|Spin states|Broken symmetry"),
+ ("ligand-field", "Ligand field splitting from a calculation", "Inorganic Chemistry",
+  "", "Ligand field|Crystal field|d-orbital splitting|Octahedral complexes"),
  ("fragment-orbitals", "Fragment orbitals, DOS and OPDOS", "Inorganic Chemistry",
   "density-of-states-opdos", "Fragment orbitals|Density of states|OPDOS|ecce-fragorb|Interaction diagram"),
 ]),
@@ -139,13 +94,19 @@ PLAN = [
   "", "B-DNA|A-DNA|alpha-helix|Coiled coil|beta-sheet|Collagen|Amyloid"),
 ]),
 ("Materials chemistry", [
+ ("crystals", "Crystal structures: building, CIF import and periodic models", "General Chemistry > Packing in solids",
+  "qe-first-calculation", "Crystal structures|CIF|Unit cell|Supercell|Periodic models"),
+ ("liquids", "Liquids by MD: density, diffusion and structure", "General Chemistry > Gases, liquids and solids",
+  "gromacs-first-calculation md-speeds-and-diffusion", "GROMACS|Liquids|Diffusion coefficient|RDF|Density"),
+ ("diffraction", "Powder, single-crystal and fibre diffraction from a model", "General Chemistry > Diffraction",
+  "fibre-diffraction", "Powder pattern|Single crystal|Precession photograph|Detector frame|Fibre diffraction|Debye scattering"),
  ("qe-settings", "Periodic DFT with Quantum ESPRESSO", "General Chemistry > Packing in solids",
   "qe-choosing-settings", "Quantum ESPRESSO|k-points|Cutoff|Pseudopotentials|vc-relax"),
- ("cp2k", "CP2K", "Getting Started",
+ ("cp2k", "Periodic structures in CP2K", "Getting Started",
   "cp2k-scf cp2k-basis-potential", "CP2K|GTH pseudopotentials|SCF convergence"),
  ("mlp", "Machine-learned potentials (MACE)", "Materials Chemistry",
   "mlp", "MACE|Machine-learned potentials|ML potential|Site screening"),
- ("clays", "Clay minerals: layers, interlayer water and MINFF", "Materials Chemistry > Clays",
+ ("clays", "Layered structures: building clay models and running them in GROMACS", "Materials Chemistry > Clays",
   "layer-builder gromacs-prepare", "Layer builder|Clay minerals|MINFF|atomipy|Interlayer|Basal spacing|Isomorphic substitution|Montmorillonite"),
  ("stress", "Stress and cell relaxation", "Materials Chemistry",
   "", "Stress tensor|Pressure|Cell relaxation"),
@@ -153,6 +114,10 @@ PLAN = [
 # Reference appendices: every menu item and setting, kept current with ECCE.
 # The 6th field lists ECCE source paths whose menus/settings the appendix
 # describes; chapters.py check reports ECCE commits to them since \checkedwith.
+("Teaching", [
+ ("teaching", "Teaching with ECCE", "General Chemistry",
+  "molecules-for-teaching", "Teaching|Example sets|Central server|ECCE-QM"),
+]),
 ("Appendices", [
  ("menus-organizer", "Organizer menus and settings", "",
   "organizer-menus", "Organizer!menus|Organizer!Preferences",
@@ -194,6 +159,13 @@ def chemify(text, index=False):
             return t
         return "%s@\\chem{%s}" % (t, t) if index else "\\chem{%s}" % t
     return TOKEN.sub(rep, text)
+PART_STUB = r"""%% Part overview, set before the part's first chapter.
+\XXX[ part overview to be written: the kinds of calculations and projects
+%(part)s research does (one paragraph each, e.g. what is computed and why),
+and for each the ECCE route and the chapter that shows it (chapters %(chapters)s),
+including where ECCE couples codes.]
+
+"""
 STUB = r"""\chapter{%(title)s}
 \label{ch:%(file)s}
 %(index)s
@@ -217,6 +189,14 @@ def main():
         if part == "Appendices":
             lines.append("\\appendix")
         lines.append("\\part{%s}" % part)
+        if part not in ("Getting started", "Methods", "Teaching", "Appendices"):
+            # Part overview: the calculations and projects of the field and where the book covers them
+            slug = "part-" + part.lower().replace(" ", "-")
+            ppath = os.path.join(HERE, "chapters", slug + ".tex")
+            if not os.path.exists(ppath):
+                with open(ppath, "w") as out:
+                    out.write(PART_STUB % dict(part=part, chapters=", ".join("\\ref{ch:%s}" % c[0] for c in chapters)))
+            lines.append("\\input{chapters/%s}" % slug)
         for f, title, ex, helps, terms, *src in chapters:
             path = os.path.join(HERE, "chapters", f + ".tex")
             if not os.path.exists(path):

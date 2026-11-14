@@ -1,67 +1,52 @@
 # Writing queue
+Audience (Andy 11-14): the book is for scientists doing research calculations in their field: each chapter shows how to do that field's computations in ECCE AND uses what ECCE adds (coupling codes, e.g. CREST -> xTB -> ORCA; workflows; building models; analysis). Only ONE chapter is about teaching. Example: a clay scientist looks up how to build layered structures and run them in GROMACS, or how to run periodic structures in CP2K. Each field part opens with an overview (chapters/part-*.tex): the kinds of calculations and projects done in that field, each with its ECCE route and chapter, so a biochemist or inorganic chemist sees at once what the field does in ECCE.
 Chemistry typesetting: formulas always \chem{H2O} (mhchem; plain in bookmarks), ions \ce{Cl-}, S\textsubscript{N}2, p\textit{K}\textsubscript{a}, Greek letters as symbols, units with a thin space. ECCE's own menu text (\menu, \eccexample) stays as ECCE shows it. `make check` reports bare formulas.
 Versions: every chapter and appendix carries \checkedwith; when ECCE is updated, run `make check` and recheck what it lists (help pages or, for the appendices, \eccesource paths changed since the check) before the book shows the new version.
 One chapter per agent job, interleaved with ECCE tickets (every second agent job is a chapter). Each job: run the chapter's calculation headless (isolated HOME, test machinery, NOT on niobium), take the screenshots, write the chapter to the voice guide, index it, `make` and `make check`, tick it here.
 
-- [x] 1. atomic-orbitals
-- [x] 2. periodic-trends
-- [ ] 3. bond-formation
-- [ ] 3a. frontispiece / title page: top two thirds one large ECCE figure (a real Density Map in the spirit of the ECCE logo, print-friendly colours); below the title block six small captioned panels of real ECCE views (orbital, IR/Raman spectrum, B-DNA fibre pattern, docked ligand, PMF, powder pattern); made headless, .ecce-<version>, in MANIFEST; mock-up to Andy first
-- [ ] 3b. appendix menus-organizer: every Organizer menu item and setting (Preferences), one line each on what it does, \eccesource tracks src/apps/organizer
-- [ ] 3c. appendix menus-builder: Builder/viewer menus, toolbar, Properties list panels and their settings
-- [ ] 3d. appendix settings: preference files, per-user state, environment variables (from docs/AGENTS.md)
-- [ ] 4. hpc
-- [ ] 5. code-registration
-- [ ] 6. machines
-- [ ] 7. oxygen
-- [ ] 8. symmetry-mos
-- [ ] 9. methane
-- [ ] 10. vibrations-symmetry
-- [ ] 11. cft-lft
-- [ ] 12. shapes
-- [ ] 13. benzene
-- [ ] 14. colour
-- [ ] 15. greenhouse
-- [ ] 16. hydrogen-bond
-- [ ] 17. kinetic-theory
-- [ ] 18. phases
-- [ ] 19. packing
-- [ ] 20. solids
-- [ ] 21. bragg
-- [ ] 22. dna-helix
-- [ ] 23. hf-dft
-- [ ] 24. basis-sets
-- [ ] 25. rhf-uhf
-- [ ] 26. equilibrium
-- [ ] 27. reaction-energy
-- [ ] 28. acids-bases
-- [ ] 29. first-calculation
-- [ ] 30. organizer
-- [ ] 31. structures
-- [ ] 32. scripting
-- [ ] 33. workflows
-- [ ] 34. qsar
-- [ ] 35. ecce-qm
-- [ ] 36. methods-choice
-- [ ] 37. results
-- [ ] 38. thermochemistry
-- [ ] 39. reaction-rates
-- [ ] 40. scans
-- [ ] 41. density-views
-- [ ] 42. vibrations
-- [ ] 43. ir-experiment
-- [ ] 44. excited-states
-- [ ] 45. crest
-- [ ] 46. xtb
-- [ ] 47. protonation
-- [ ] 48. organometallics
-- [ ] 49. fragment-orbitals
-- [ ] 50. docking
-- [ ] 51. umbrella
-- [ ] 52. protein-md
-- [ ] 53. biofibres
-- [ ] 54. qe-settings
-- [ ] 55. cp2k
-- [ ] 56. mlp
-- [ ] 57. clays
-- [ ] 58. stress
+- [ ] 1. teaching: the one chapter for teachers (example sets, teaching MO diagram, ECCE-QM in class, central server). Sections atomic-orbitals and periodic-trends are written.
+- [ ] 1a. frontispiece / title page: top two thirds one large ECCE figure (a real Density Map in the spirit of the ECCE logo, print-friendly colours); below the title block six small captioned panels of real ECCE views (orbital, IR/Raman spectrum, B-DNA fibre pattern, docked ligand, PMF, powder pattern); made headless, .ecce-<version>, in MANIFEST; mock-up to Andy first
+- [ ] 1b. appendix menus-organizer (agent running 11-14)
+- [ ] 1c. appendix menus-builder
+- [ ] 1d. appendix settings: preference files, per-user state, environment variables (from docs/AGENTS.md)
+- [ ] 1e. part overviews (chapters/part-*.tex), one job for all six fields
+- [ ] 2. hpc
+- [ ] 3. code-registration
+- [ ] 4. clays
+- [ ] 5. cp2k
+- [ ] 6. crest
+- [ ] 7. protonation
+- [ ] 8. workflows
+- [ ] 9. first-calculation
+- [ ] 10. organizer
+- [ ] 11. machines
+- [ ] 12. structures
+- [ ] 13. scripting
+- [ ] 14. qsar
+- [ ] 15. ecce-qm
+- [ ] 16. methods-choice
+- [ ] 17. results
+- [ ] 18. thermochemistry
+- [ ] 19. reaction-rates
+- [ ] 20. scans
+- [ ] 21. bond-dissociation
+- [ ] 22. basis-sets
+- [ ] 23. density-views
+- [ ] 24. mo-analysis
+- [ ] 25. vibrations
+- [ ] 26. ir-experiment
+- [ ] 27. excited-states
+- [ ] 28. xtb
+- [ ] 29. organometallics
+- [ ] 30. ligand-field
+- [ ] 31. fragment-orbitals
+- [ ] 32. docking
+- [ ] 33. umbrella
+- [ ] 34. protein-md
+- [ ] 35. biofibres
+- [ ] 36. crystals
+- [ ] 37. liquids
+- [ ] 38. diffraction
+- [ ] 39. qe-settings
+- [ ] 40. mlp
+- [ ] 41. stress
