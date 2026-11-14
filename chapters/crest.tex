@@ -45,7 +45,11 @@ CREST has four run types. We use \menu{Conformer Search}. \menu{Protonation Site
 \section{Reading the result}
 \index{Conformers panel}\index{Properties list!Conformers}
 
-The \menu{Conformers} panel (figure~\ref{fig:crest-panel}) lists the conformers lowest first, with the energy relative to the lowest in kcal/mol and the Boltzmann population at 298.15~K. The plot below shows the energy against the rank. Click a row to see that conformer in the 3-D view.
+The \menu{Conformers} panel (figure~\ref{fig:crest-panel}) lists the conformers lowest first, with the energy relative to the lowest in kcal/mol and the Boltzmann population at 298.15~K. The population of conformer $i$ is
+\begin{equation*}
+	p_i = \frac{\exp(-\Delta E_i/RT)}{\sum_j \exp(-\Delta E_j/RT)}, \qquad RT = 0.5925~\text{kcal/mol at 298.15~K},
+\end{equation*}
+summed over all the conformers of the search, without degeneracy weights; a conformer 1~kcal/mol above the lowest therefore has about a fifth of its population. The plot below shows the energy against the rank. Click a row to see that conformer in the 3-D view.
 
 The energies and populations only compare conformers of the same search. You cannot compare them with a search in another solvent or with another method.
 
@@ -58,7 +62,7 @@ The energies and populations only compare conformers of the same search. You can
 
 \section{Results}
 
-The xTB optimisation took 40~s and the gas-phase search three minutes on four cores. CREST kept 16 conformers. Table~\ref{tab:crest-gas} lists the first eight with two numbers we measured on the stored structures: the O--C--C--O dihedral $\tau$ and the distance $d$ from the hydroxyl hydrogen to the ether oxygen.
+The xTB optimisation took 40~s and the gas-phase search three minutes on four cores. CREST kept 16 conformers. Table~\ref{tab:crest-gas} lists the first eight with two numbers measured on each conformer: the O--C--C--O dihedral $\tau$, between atoms 2, 3, 4 and 5, and the distance $d$ from the hydroxyl hydrogen, atom 13, to the ether oxygen, atom 2. To measure them, click a row in the \menu{Conformers} panel, select atoms 2, 3, 4 and 5 in that order and choose \menu{Measure > Torsion}, then select atoms 13 and 2 and choose \menu{Measure > Distance}. \menu{Options > Atom Labels > Element with Number} shows the numbers in the 3-D view.
 
 \begin{table}[htb]
 	\centering
@@ -80,12 +84,10 @@ The xTB optimisation took 40~s and the gas-phase search three minutes on four co
 	\end{tabular}
 \end{table}
 
-Ranks 1 and 2 are \emph{gauche} and hydrogen-bonded, with opposite signs of $\tau$. Together with rank 7 they carry 77\,\% of the population, and the \emph{anti} conformers, with $\tau$ near \SI{180}{\degree}, 15\,\%. Rank 4 is \emph{gauche} too, but its hydroxyl points away: \emph{gauche} alone does not give the hydrogen bond. Ranks 1 and 2 differ by 0.37~kcal/mol, which is within the error of GFN2-xTB, so we treat them as one group.
+We call a conformer hydrogen-bonded when $d < \SI{2.7}{\angstrom}$ and \emph{anti} when $|\tau| > \SI{150}{\degree}$. Ranks 1 and 2 are \emph{gauche} and hydrogen-bonded, with opposite signs of $\tau$. Together with rank 7 they carry 77\,\% of the population, the sum of their populations in the table, and the \emph{anti} conformers among all 16 carry 15\,\%, of which 13.7\,\% is in ranks 3, 5 and 6. Rank 4 is \emph{gauche} too, but its hydroxyl points away: \emph{gauche} alone does not give the hydrogen bond. Ranks 1 and 2 differ by 0.37~kcal/mol, which is within the error of GFN2-xTB, so we treat them as one group.
 
-In water (ALPB) the search also kept 16 conformers. The lowest is still \emph{gauche} and hydrogen-bonded, but the hydrogen-bonded conformers now carry 50\,\% and the \emph{anti} ones 29\,\%: the polar solvent competes with the internal hydrogen bond. ALPB treats water as a continuum, so it cannot show hydrogen bonds to individual water molecules; for that, use \menu{Solvation Shell} (Chapter~\ref{ch:pom-solvation}).
+In water (ALPB) the search also kept 16 conformers, which we measured in the same way. The lowest is still \emph{gauche} and hydrogen-bonded, but the hydrogen-bonded conformers now carry 50\,\% and the \emph{anti} ones 29\,\%: the polar solvent competes with the internal hydrogen bond. ALPB treats water as a continuum, so it cannot show hydrogen bonds to individual water molecules; for that, use \menu{Solvation Shell} (Chapter~\ref{ch:pom-solvation}).
 \index{Hydrogen bond!intramolecular}\index{Solvent effects!on conformers}
-
-Re-optimising rank 1 with xTB at the tight level did not move it, so the structures CREST returns are already minima of its method.
 
 \section{Next steps}
 

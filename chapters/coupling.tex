@@ -53,7 +53,7 @@ Two rules make a funnel work. First, pass on several structures at each step, no
 \paragraph{Conformers panel.} Open a finished CREST calculation in the Builder and choose \menu{Properties > Geometry > Conformers} (figure~\ref{fig:coupling-conformers}). Each row is a conformer, with its rank, relative energy in kcal/mol and Boltzmann population at 298.15~K. Click a row to see the structure. Tick several rows and choose \menu{New Calculation from Selected...}: ECCE asks for a code and makes one geometry optimisation per conformer.
 \index{Conformers panel!New Calculation from Selected}\index{Conformers panel!Export .csv}
 
-\paragraph{Select Distinct.} CREST returns many conformers that differ only in a methyl rotation. \ctrl{Select Distinct...} in the \menu{Conformers} panel treats two conformers as the same when their heavy atoms lie within a given RMSD of each other after a fit (\SI{0.5}{\angstrom} unless you change it), and selects the lowest of each such group, so that what is selected is the set of distinct conformers. \XXX[ the button is ECCE issue 1039; check the wording against the build that has it]
+\paragraph{Select Distinct.} CREST returns many conformers that differ only in a methyl rotation. \ctrl{Select Distinct...} in the \menu{Conformers} panel treats two conformers as the same when, after one is fitted onto the other, the root-mean-square deviation (RMSD) of their heavy-atom positions is below a threshold (\SI{0.5}{\angstrom} unless you change it), and selects the lowest of each such group, so that what is selected is the set of distinct conformers. \XXX[ the button is ECCE issue 1039; check the wording against the build that has it]
 \index{Conformers panel!Select Distinct}\index{Distinct conformers}
 
 \paragraph{Workflow view.} A workflow shows calculations as linked boxes. Click a box, then a code button, and the \menu{New step} window makes a calculation in that code; tick \menu{Final geometry} and \menu{Charge and multiplicity} to start it from the box's result. Calculations made outside a workflow join one with \menu{Make Workflow from Selected...} or \menu{Move Selected into Workflow} (right-click in the Organizer). Chapter~\ref{ch:workflows} describes the view.
@@ -90,7 +90,7 @@ CREST found 21 conformers in four minutes (figure~\ref{fig:coupling-conformers})
 	\label{fig:coupling-conformers}
 \end{figure}
 
-Table~\ref{tab:coupling-rank} ranks the eight with each method. The xTB optimisations took under a minute each, the ORCA single points one to two minutes on four cores. Read each column on its own.
+Table~\ref{tab:coupling-rank} ranks the eight with each method. The GFN-FF energies are those of the \menu{Conformers} panel of the CREST search. For the other two columns, select the eight xTB calculations, or the eight ORCA ones, in the project table, right-click and choose \menu{Compare Energies...}, which lists each energy relative to the lowest in kJ/mol and eV; divide by 4.184 for kcal/mol. The xTB optimisations took under a minute each, the ORCA single points one to two minutes on four cores. Read each column on its own.
 \index{Ranking of conformers}
 
 \begin{table}[htb]
@@ -117,7 +117,7 @@ Table~\ref{tab:coupling-rank} ranks the eight with each method. The xTB optimisa
 All three methods give the same three groups: conformers 1--4, 5--6 and 7--8. Within a group the order changes, because the four lowest lie within 0.12~kcal/mol of each other, far below the error of any of the methods. r2SCAN-3c puts conformer 4 lowest, which both cheaper methods ranked fourth. Had we passed on only the lowest conformer, we would have missed it.
 \index{Funnel!choice of the number of structures}
 
-We optimised conformer 3, the lowest with xTB, with r2SCAN-3c (figure~\ref{fig:coupling-orca}); a real study would optimise all four of the lowest group. The optimisation took 10 steps and six minutes. The heavy atoms moved by \SI{0.096}{\angstrom} (RMSD). C=O lengthened from \SI{1.201}{} to \SI{1.209}{\angstrom}, C--O from \SI{1.340}{} to \SI{1.357}{\angstrom}; O--H stayed at \SI{0.971}{\angstrom}. DFT changes the bond lengths slightly but keeps the conformer, so xTB is good enough for the conformational search.
+We optimised conformer 3, the lowest with xTB, with r2SCAN-3c (figure~\ref{fig:coupling-orca}); a real study would optimise all four of the lowest group. The optimisation took 10 steps and six minutes. To see how far the atoms moved, open the ORCA optimisation, choose \menu{Properties > Geometry > Geometry Trace}, and in its \menu{Displacement} section \ctrl{Compare with...} the xTB calculation; the panel gives the RMSD of the atoms after the two structures are fitted onto each other, \XXX[ value from the panel; 0.096 Å was over the heavy atoms only]. The bond lengths of the carboxyl group are measured on each structure by selecting the two atoms and choosing \menu{Measure > Distance}: C=O lengthened from \SI{1.201}{} to \SI{1.209}{\angstrom} and C--O from \SI{1.340}{} to \SI{1.357}{\angstrom}, while O--H stayed at \SI{0.971}{\angstrom}. DFT changes the bond lengths slightly but keeps the conformer, so xTB is good enough for the conformational search.
 \index{Geometry optimisation!ORCA}\index{Bond lengths!carboxyl group}
 
 \begin{figure}[htb]
