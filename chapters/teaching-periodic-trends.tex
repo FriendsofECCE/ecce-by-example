@@ -36,7 +36,9 @@ A second estimate comes from the calculation itself. It treats an orbital of ene
 The two are not the same thing. An orbital energy contains the repulsion with every other electron, including those of the same shell, and equation~\eqref{eq:zeff} puts all of it into $Z_\mathrm{eff}$.
 
 \index{Koopmans' theorem}\index{Ionisation energy!from orbital energies}\index{Delta SCF@$\Delta$SCF}\index{Relaxation}\index{Electron correlation}\index{HOMO}
-The first ionisation energy is $\mathrm{IE} = E(\mathrm{A}^+) - E(\mathrm{A})$, the electron affinity $\mathrm{EA} = E(\mathrm{A}) - E(\mathrm{A}^-)$, positive when the anion is more stable. Both come from two total energies (the $\Delta$SCF route). Koopmans' theorem gives a shortcut for Hartree-Fock: $\mathrm{IE} \approx -\varepsilon_\mathrm{HOMO}$, if the other orbitals do not change \cite{koopmans1934}. Two errors enter. The remaining electrons relax towards the hole, which makes $-\varepsilon_\mathrm{HOMO}$ too large. Hartree-Fock also leaves out correlation, which is larger in the atom than in the cation and makes the Hartree-Fock IE too small. $\Delta$SCF includes the relaxation but not the correlation. For a density functional such as B3LYP, $-\varepsilon_\mathrm{HOMO}$ is well below the IE.
+The first ionisation energy is $\mathrm{IE} = E(\mathrm{A}^+) - E(\mathrm{A})$, the electron affinity $\mathrm{EA} = E(\mathrm{A}) - E(\mathrm{A}^-)$, positive when the anion is more stable. Both come from two total energies (the $\Delta$SCF route). Koopmans' theorem gives a shortcut for Hartree-Fock: $\mathrm{IE} \approx -\varepsilon_\mathrm{HOMO}$, where HOMO is the highest occupied orbital, if the other orbitals do not change \cite{koopmans1934}. Two errors enter. The remaining electrons relax towards the hole, which makes $-\varepsilon_\mathrm{HOMO}$ too large. Hartree-Fock also leaves out electron correlation, the part of the repulsion between electrons that its average field misses because the electrons in fact avoid each other; the correlation energy is larger in the atom than in the cation and makes the Hartree-Fock IE too small. $\Delta$SCF includes the relaxation but not the correlation. For a density functional such as B3LYP, $-\varepsilon_\mathrm{HOMO}$ is well below the IE.
+
+ECCE gives orbital energies in hartree and the Energy Calculator gives energy differences in kJ/mol, kcal/mol and eV. The conversions used in this section are 1~hartree = 27.2114~eV = 2625.50~kJ/mol.
 
 \subsection{The calculations}
 \index{ECCE-QM}\index{Codes!ECCE-QM}\index{Example calculations!General Chemistry}
@@ -44,8 +46,8 @@ The first ionisation energy is $\mathrm{IE} = E(\mathrm{A}^+) - E(\mathrm{A})$, 
 \index{Hartree-Fock}\index{UHF}\index{PBE0}\index{Basis sets!aug-cc-pVDZ}
 Three topics of the General Chemistry example set hold the ECCE-QM calculations:
 \begin{enumerate}
-	\item \menu{Atoms}: the 21 atoms, B3LYP \cite{becke1993}, aug-cc-pVTZ \cite{kendall1992,woon1993} for H to Ar, cc-pVTZ for Ca, def2-TZVPD \cite{rappoport2010} for Cr and Cu. Closed shells restricted, open shells restricted open-shell (ROKS).
-	\item \menu{Koopmans' theorem}: H to Ar, Hartree-Fock/aug-cc-pVTZ, unrestricted for open shells, so alpha and beta orbitals have their own energies.
+	\item \menu{Atoms}: the 21 atoms, B3LYP \cite{becke1993}, aug-cc-pVTZ \cite{kendall1992,woon1993} for H to Ar, cc-pVTZ for Ca, def2-TZVPD \cite{rappoport2010} for Cr and Cu. Closed shells are restricted, open shells restricted open-shell (ROKS): the alpha and beta electrons share one set of spatial orbitals. The aug-cc-pVTZ basis is of triple-zeta quality with diffuse functions, which describe the loosely bound outer electrons; cc-pVTZ lacks the diffuse functions, and def2-TZVPD is a triple-zeta basis with diffuse functions from another family.
+	\item \menu{Koopmans' theorem}: H to Ar, Hartree-Fock/aug-cc-pVTZ, unrestricted (UHF) for open shells, so that the alpha and beta electrons have orbitals, and orbital energies, of their own.
 	\item \menu{Ionisation energies and electron affinities}: Li, Be, C, N, O, F, Ne and their cations (Hartree-Fock/aug-cc-pVTZ); Li, Be, C, N, O, F and their anions (PBE0/aug-cc-pVDZ \cite{adamo1999}).
 \end{enumerate}
 Each calculation has a note saying what it shows.
@@ -63,7 +65,7 @@ In the Viewer, the \menu{MOs} panel lists the orbitals with their energy and occ
 	\item In \menu{Atoms}, select \menu{Ne}, click \menu{Viewer} and open \menu{MOs}. Read the energies of 1s, 2s and 2p.
 	\item Select \menu{Na}, \menu{C}, \menu{N} and \menu{O} in turn. Count the singly occupied orbitals (\menu{Occ \#} 1) and compare with the multiplicity.
 	\item Select \menu{Ca}, \menu{Cr} and \menu{Cu}. Find 4s and 3d near the top of the occupied list; \ctrl{Compute} tells which is which.
-	\item In \menu{Koopmans' theorem}, open \menu{N\_HF} and \menu{O\_HF} and read the energy of the highest occupied orbital.
+	\item In \menu{Koopmans' theorem}, open \menu{N\_HF} and \menu{O\_HF} and read the energy of the highest occupied orbital. The \menu{MOs} panel lists the alpha orbitals first and the beta orbitals below them; in an open shell the highest occupied orbital can be a beta one, as in oxygen, so compare the last occupied orbital of each set. Multiply by $-27.2114$ to get the Koopmans IE in eV.
 	\index{Koopmans' theorem!in the MOs panel}
 	\item In \menu{Koopmans' theorem}, open \menu{Li\_HF}, read \menu{E (Hartree)} of the highest occupied orbital (\menu{Occ \#} 1, the 2s) and calculate $Z_\mathrm{eff} = n\sqrt{-2\varepsilon}$ with $n = 2$ (equation~\eqref{eq:zeff}). Repeat for \menu{Ne\_HF} and \menu{Na\_HF} ($n = 3$), and compare with Slater's rules.
 	\index{Effective nuclear charge!calculating}
@@ -106,7 +108,7 @@ Every atom fills its orbitals in the Aufbau order (table~\ref{tab:pt-config}). N
 \end{table}
 
 \index{Hund's rule!carbon, nitrogen and oxygen}\index{Carbon}\index{Nitrogen}\index{Oxygen}\index{S2@$S^2$ expectation value}
-Carbon has two singly occupied 2p orbitals and the third empty, nitrogen three singly occupied, oxygen one doubly and two singly occupied. These are Hund's arrangements, but be clear with students where they come from: the multiplicity was set in the input. The topic has no singlet carbon or doublet nitrogen, so it does not show that high spin is lower; for that you need a second calculation of the same atom. $\langle S^2 \rangle$ confirms the spin state asked for: 2.000 for the triplets, 3.750 for the quartets, 12.000 for chromium.
+Carbon has two singly occupied 2p orbitals and the third empty, nitrogen three singly occupied, oxygen one doubly and two singly occupied. These are Hund's arrangements, but be clear with students where they come from: the multiplicity was set in the input. The topic has no singlet carbon or doublet nitrogen, so it does not show that high spin is lower; for that you need a second calculation of the same atom. The expectation value $\langle S^2 \rangle$, under \menu{Properties > Summary > S**2}, confirms the spin state asked for, since $\langle S^2 \rangle = S(S+1)$: 2.000 for the triplets, 3.750 for the quartets, 12.000 for chromium.
 
 \index{Restricted open shell!orbital energies}
 Watch out with O, F, S and Cl. In the restricted open-shell calculation the singly occupied 2p orbitals of oxygen lie at $-0.460$~hartree, \emph{below} the doubly occupied one at $-0.362$. This comes from how restricted open-shell orbital energies are defined; it does not mean the unpaired electrons are bound more strongly. The unrestricted Hartree-Fock orbitals show the physics more directly (section~\ref{sec:pt-dips}).
@@ -114,7 +116,7 @@ Watch out with O, F, S and Cl. In the restricted open-shell calculation the sing
 \subsection{4s and 3d: calcium, chromium and copper}
 \index{4s and 3d}\index{3d and 4s|see{4s and 3d}}\index{Calcium}\index{Chromium}\index{Copper}
 \index{Chromium!3d5 4s1@3d$^5$4s$^1$}\index{Copper!3d10 4s1@3d$^{10}$4s$^1$}
-Figure~\ref{fig:pt-tm} shows the 4s, 3d and 4p levels. In calcium the two outer electrons are in 4s ($-4.11$~eV). Chromium (septet, 3d$^5$4s$^1$) has its 3d at $-4.93$~eV and 4s at $-4.65$~eV; copper (doublet, 3d$^{10}$4s$^1$) has 3d at $-6.90$~eV and 4s at $-5.24$~eV. Across the series 3d falls below 4s, so 4s is the highest occupied orbital and is lost first, which is why Cr$^+$ and Cu$^+$ keep their 3d$^5$ and 3d$^{10}$ cores.
+Figure~\ref{fig:pt-tm} shows the 4s, 3d and 4p levels, each the average of the orbital energies of its subshell in the \menu{MOs} panel, converted to eV. In calcium the two outer electrons are in 4s ($-4.11$~eV). Chromium (septet, 3d$^5$4s$^1$) has its 3d at $-4.93$~eV and 4s at $-4.65$~eV; copper (doublet, 3d$^{10}$4s$^1$) has 3d at $-6.90$~eV and 4s at $-5.24$~eV. Across the series 3d falls below 4s, so 4s is the highest occupied orbital and is lost first, which is why Cr$^+$ and Cu$^+$ keep their 3d$^5$ and 3d$^{10}$ cores.
 
 \begin{figure}[htb]
 	\centering
@@ -137,7 +139,7 @@ and for neon the 2p orbitals of \menu{Ne\_HF} lie at $-0.8512$~hartree, which gi
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=0.85\linewidth]{periodic-trends/zeff.ecce-9.5.2-dev.png}
-	\caption{Effective nuclear charge of the highest occupied orbital from equation~\eqref{eq:zeff} and Hartree-Fock/aug-cc-pVTZ orbital energies.}
+	\caption{Effective nuclear charge of the highest occupied orbital from equation~\eqref{eq:zeff} and Hartree-Fock/aug-cc-pVTZ orbital energies, plotted from the values in the \menu{MOs} panel. \XXX[ ECCE has no plot of this; decide whether to keep a plot made outside ECCE]}
 	\label{fig:pt-zeff}
 \end{figure}
 
@@ -186,7 +188,7 @@ Table~\ref{tab:pt-ie} and figure~\ref{fig:pt-ie} compare the calculated values w
 \end{figure}
 
 \index{Koopmans' theorem!errors}\index{Relaxation}
-$\Delta$SCF is below experiment for all seven atoms, by 0.05~eV at Li and 1.6 to 1.9~eV at O, F and Ne: the missing correlation. Koopmans' values lie above $\Delta$SCF by the relaxation energy (1.1~eV for C, 3.5~eV for Ne). The two errors partly cancel, which is why Koopmans' theorem looks good in figure~\ref{fig:pt-ie}. Do not present it as the more accurate method. For lithium the relaxation is negligible: the 2s energy and $\Delta$SCF agree to $10^{-4}$~hartree, because removing the outer electron hardly changes the core.
+$\Delta$SCF is below experiment for all seven atoms, by 0.05~eV at Li and 1.6 to 1.9~eV at O, F and Ne: the missing correlation. Koopmans' values lie above $\Delta$SCF by the relaxation energy (1.1~eV for C, 3.5~eV for Ne). The two errors partly cancel, which is why Koopmans' theorem looks good in figure~\ref{fig:pt-ie}. Do not present it as the more accurate method. For lithium the relaxation is negligible: the Koopmans value, $0.1964~\text{hartree} = 5.344$~eV, and $\Delta$SCF, 5.342~eV from the Energy Calculator, agree to 0.002~eV, because removing the outer electron hardly changes the core.
 
 \index{B3LYP!orbital energies}\index{Density functional theory!HOMO energy}
 The B3LYP orbital energies follow the same pattern a few eV lower (8.68~eV for hydrogen). With a density functional, take ionisation energies from total energies, not orbital energies.
@@ -197,7 +199,7 @@ The B3LYP orbital energies follow the same pattern a few eV lower (8.68~eV for h
 The measured IE falls from Be to B, from N to O, and again from Mg to Al and from P to S. At B and Al the electron removed is the first p electron, which penetrates less than an s electron. At O and S it is the first electron to pair in a p orbital.
 
 \index{Pairing energy}\index{Electron pairing}
-The unrestricted Hartree-Fock calculations show the pairing directly. In nitrogen the three alpha 2p orbitals lie at $-0.571$~hartree and there is no beta 2p electron. In oxygen the fourth 2p electron is beta, paired in an orbital with an alpha electron, and lies at $-0.522$~hartree, above all the alpha 2p orbitals. Koopmans gives 14.20~eV for oxygen against 15.53~eV for nitrogen. $\Delta$SCF drops by 1.87~eV, twice the measured 0.92~eV, since Hartree-Fock misses more correlation in oxygen, which has one more electron pair. The cations confirm the counts: O$^+$ is a quartet, N$^+$ a triplet.
+The unrestricted Hartree-Fock calculations show the pairing directly. In nitrogen the three alpha 2p orbitals lie at $-0.571$~hartree and there is no beta 2p electron. In oxygen the fourth 2p electron is beta, paired in an orbital with an alpha electron, and lies at $-0.522$~hartree, above all the alpha 2p orbitals. Koopmans gives 14.20~eV for oxygen against 15.53~eV for nitrogen. $\Delta$SCF drops by 1.87~eV, twice the measured 0.92~eV (from the unrounded values 14.534 and 13.618~eV), since Hartree-Fock misses more correlation in oxygen, which has one more electron pair. The cations confirm the counts: O$^+$ is a quartet, N$^+$ a triplet.
 
 \index{Koopmans' theorem!failure for beryllium}\index{Beryllium}
 At boron Koopmans' theorem fails: its values \emph{rise} from Be to B (8.42 to 8.67~eV) where experiment falls. Beryllium is 0.90~eV too low, because its 2s$^2$ pair mixes strongly with the nearby empty 2p, a correlation Hartree-Fock omits. Between Mg and Al the gap is wide enough that Koopmans' values fall (6.89 to 5.93~eV). Show the s-to-p dip in the third period.
