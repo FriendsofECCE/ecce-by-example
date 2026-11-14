@@ -4,7 +4,7 @@ One chapter per agent job, interleaved with ECCE tickets (every second agent job
 - [x] 1. atomic-orbitals
 - [x] 2. periodic-trends
 - [ ] 3. bond-formation
-- [ ] 3a. frontispiece: one striking ECCE-made figure for the title page (e.g. a composite of real ECCE views: an MO isosurface, the B-DNA fibre pattern, a docked ligand, a PMF); made headless with the shot tools, named .ecce-<version>, listed in MANIFEST; mock-up options to Andy first
+- [ ] 3a. frontispiece / title page: top two thirds one large ECCE figure (a real Density Map in the spirit of the ECCE logo, print-friendly colours); below the title block six small captioned panels of real ECCE views (orbital, IR/Raman spectrum, B-DNA fibre pattern, docked ligand, PMF, powder pattern); made headless, .ecce-<version>, in MANIFEST; mock-up to Andy first
 - [ ] 4. hpc
 - [ ] 5. code-registration
 - [ ] 6. machines
