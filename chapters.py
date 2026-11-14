@@ -165,6 +165,11 @@ def chemify(text, index=False):
             return t
         return "%s@\\chem{%s}" % (t, t) if index else "\\chem{%s}" % t
     return TOKEN.sub(rep, text)
+# Running-header titles for long chapter titles (a long header runs into the page number).
+SHORT = {"diffraction": "Diffraction from a model", "ai-project": "A project done with an AI assistant",
+         "reaction-rates": "Transition states and rate constants", "organometallics": "Organometallic compounds"}
+def short_title(f, title):
+    return SHORT.get(f, title.split(":")[0])
 PART_STUB = r"""%% Part overview, set before the part's first chapter.
 \XXX[ part overview (chapter to be written): the kinds of calculations and projects
 %(part)s research does (one paragraph each, e.g. what is computed and why),
@@ -172,7 +177,7 @@ and for each the ECCE route and the chapter that shows it (chapters %(chapters)s
 including where ECCE couples codes.]
 
 """
-STUB = r"""\chapter{%(title)s}
+STUB = r"""\chapter{%(title)s}%(mark)s
 \label{ch:%(file)s}
 %(index)s
 %(exline)s
@@ -217,7 +222,7 @@ def main():
                 if src:
                     hp += "\n\\eccesource{%s}" % src[0]
                 with open(path, "w") as out:
-                    out.write(STUB % dict(title=chemify(title), file=f, exline=('\\eccexample{Examples > %s}' % ex) if ex else '', index=idx, help=hp))
+                    out.write(STUB % dict(mark=("\n\\chaptermark{%s}" % chemify(short_title(f, title))) if len(title) > 50 else '', title=chemify(title), file=f, exline=('\\eccexample{Examples > %s}' % ex) if ex else '', index=idx, help=hp))
             lines.append("\\input{chapters/%s}" % f)
         lines.append("")
     with open(os.path.join(HERE, "chapters", "plan.tex"), "w") as out:
