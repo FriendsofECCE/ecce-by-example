@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<tsvector name="EWVEC" rowLabel="Wave Step" rows="1" units="Hartree">
+
+  <step number="1">-841.2335791659</step>
+  <step number="2">-853.1372370906</step>
+  <step number="3">-860.1625648890</step>
+  <step number="4">-865.0355627471</step>
+  <step number="5">-866.5489390585</step>
+  <step number="6">-867.3951418920</step>
+  <step number="7">-867.5390372832</step>
+  <step number="8">-867.6449164686</step>
+  <step number="9">-867.6931094022</step>
+  <step number="10">-867.7153851247</step>
+  <step number="11">-867.7280709109</step>
+  <step number="12">-867.7344260802</step>
+  <step number="13">-867.7378622867</step>
+  <step number="14">-867.7392888937</step>
+  <step number="15">-867.7401487780</step>
+  <step number="16">-867.7405381760</step>
+  <step number="17">-867.7407250950</step>
+  <step number="18">-867.7408691081</step>
+  <step number="19">-867.7409755032</step>
+  <step number="20">-867.7410623355</step>
+  <step number="21">-867.7411538540</step>
+  <step number="22">-867.7412198892</step>
+  <step number="23">-867.7412692465</step>
+  <step number="24">-867.7413071005</step>
+  <step number="25">-867.7413349415</step>
+  <step number="26">-867.7413556449</step>
+  <step number="27">-867.7413679458</step>
+  <step number="28">-867.7413752540</step>
+  <step number="29">-867.7413804569</step>
+  <step number="30">-867.7413839355</step>
+  <step number="31">-867.7413867831</step>
+  <step number="32">-867.7413962502</step>
+  <step number="33">-867.7414061565</step>
+  <step number="34">-867.7414065997</step>
+  <step number="35">-867.7414066634</step>
+
+</tsvector>

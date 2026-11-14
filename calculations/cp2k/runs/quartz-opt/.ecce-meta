@@ -1,0 +1,56 @@
+.	http://purl.oclc.org/NET/cmcs/schema/:hasConfigurations		<rdf:Bag xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" > <rdf:li><rdf:href xlink:href="Parameters/chemsys.mvm" xlink:type="simple"></rdf:href></rdf:li></rdf:Bag>
+.	http://www.emsl.pnl.gov/ecce:application		CP2K
+.	http://www.emsl.pnl.gov/ecce:basisSetDocument		BasisSet.ecce_basisset
+.	http://www.emsl.pnl.gov/ecce:completiondate		Sat, 14 Nov 2026 22:23:19 GMT
+.	http://www.emsl.pnl.gov/ecce:configurationCollection		Parameters
+.	http://www.emsl.pnl.gov/ecce:contenttype		ecceCalculation
+.	http://www.emsl.pnl.gov/ecce:createdWith		9.5.3-dev
+.	http://www.emsl.pnl.gov/ecce:creationdate		Sat, 14 Nov 2026 22:09:01 GMT
+.	http://www.emsl.pnl.gov/ecce:currentVersion		9.5.3-dev
+.	http://www.emsl.pnl.gov/ecce:espConstraintsDocument		espConstraints.ecst
+.	http://www.emsl.pnl.gov/ecce:geometryConstraintsDocument		GeomConstraintModel.gcst
+.	http://www.emsl.pnl.gov/ecce:hasProperties		<rdf:Bag xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" > <rdf:li><rdf:href xlink:href="Props" xlink:type="simple"></rdf:href></rdf:li></rdf:Bag>
+.	http://www.emsl.pnl.gov/ecce:hasinputs		<rdf:Bag xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink" > <rdf:li><rdf:href xlink:href="Inputs/cp2k.cp2kin" xlink:type="simple"></rdf:href></rdf:li></rdf:Bag>
+.	http://www.emsl.pnl.gov/ecce:inputCollection		Inputs
+.	http://www.emsl.pnl.gov/ecce:job_clienthost		computehost
+.	http://www.emsl.pnl.gov/ecce:job_clientid		
+.	http://www.emsl.pnl.gov/ecce:job_jobid		2581920
+.	http://www.emsl.pnl.gov/ecce:job_path		/home/user/.cache/ecce-bookcp2k-zzsr5jff/run/quartz-opt-project/quartz-opt
+.	http://www.emsl.pnl.gov/ecce:killreason		
+.	http://www.emsl.pnl.gov/ecce:killrequested		
+.	http://www.emsl.pnl.gov/ecce:launch_account		
+.	http://www.emsl.pnl.gov/ecce:launch_machine		localhost
+.	http://www.emsl.pnl.gov/ecce:launch_maxmemory		0
+.	http://www.emsl.pnl.gov/ecce:launch_maxwall		0 0:0
+.	http://www.emsl.pnl.gov/ecce:launch_minscratch		0
+.	http://www.emsl.pnl.gov/ecce:launch_nodes		1
+.	http://www.emsl.pnl.gov/ecce:launch_priority		
+.	http://www.emsl.pnl.gov/ecce:launch_profile		
+.	http://www.emsl.pnl.gov/ecce:launch_queue		
+.	http://www.emsl.pnl.gov/ecce:launch_remoteShell		ssh
+.	http://www.emsl.pnl.gov/ecce:launch_rundir		/home/user/.cache/ecce-bookcp2k-zzsr5jff/run
+.	http://www.emsl.pnl.gov/ecce:launch_scratchdir		
+.	http://www.emsl.pnl.gov/ecce:launch_threads		0
+.	http://www.emsl.pnl.gov/ecce:launch_totalprocs		4
+.	http://www.emsl.pnl.gov/ecce:launch_user		andy
+.	http://www.emsl.pnl.gov/ecce:metaPotentialsDocument		MetaPotentialModel.mpot
+.	http://www.emsl.pnl.gov/ecce:moleculeDocument		chemsys.mvm
+.	http://www.emsl.pnl.gov/ecce:originalMoleculeDocument		chemsys_orig.pdb
+.	http://www.emsl.pnl.gov/ecce:outputCollection		Outputs
+.	http://www.emsl.pnl.gov/ecce:owner		andy
+.	http://www.emsl.pnl.gov/ecce:progress		# seq=168 sent=1794694999.869 idle=0 at=1794694999\nscf cycle=6 scferr=0.00000079/1.00E-06 energy=-867.7676347829 converged=yes\nscf~ scferr=0.00011120,0.00007003,0.00002190,0.00000540,0.00000268,0.00000079\nopt step=11 energy=-867.7676347975 maxstep=0.0019026291/0.0030000000 rmsstep=0.0004389400/0.0015000000 maxgrad=0.0001411645/0.0004500000 rmsgrad=0.0000521668/0.0003000000 converged=yes\nopt~ maxgrad=0.0056497669,0.0081563032,0.0023777870,0.0019521766,0.0011375973,0.0010198464,0.0005678797,0.0005136227,0.0005526170,0.0002452153,0.0001411645\nopt~ rmsgrad=0.0029752570,0.0029841749,0.0010311747,0.0009068631,0.0005021386,0.0004164548,0.0002005146,0.0001375910,0.0001768116,0.0000684004,0.0000521668\n
+.	http://www.emsl.pnl.gov/ecce:propertyCollection		Props
+.	http://www.emsl.pnl.gov/ecce:qmmmTermsDocument		QMMMModel.qmmm
+.	http://www.emsl.pnl.gov/ecce:rerun		false
+.	http://www.emsl.pnl.gov/ecce:resourcetype		virtual_document
+.	http://www.emsl.pnl.gov/ecce:reviewed		false
+.	http://www.emsl.pnl.gov/ecce:reviewedDate		
+.	http://www.emsl.pnl.gov/ecce:runLogDocument		eccejobstorelog.ecce_run_log
+.	http://www.emsl.pnl.gov/ecce:runStatusReason		
+.	http://www.emsl.pnl.gov/ecce:runtype		Geometry
+.	http://www.emsl.pnl.gov/ecce:setupParametersDocument		SetupParams
+.	http://www.emsl.pnl.gov/ecce:startdate		Sat, 14 Nov 2026 22:09:11 GMT
+.	http://www.emsl.pnl.gov/ecce:state		Complete
+.	http://www.emsl.pnl.gov/ecce:submitdate		1794694151
+.	http://www.emsl.pnl.gov/ecce:theory		QS/GPW
+.	http://www.emsl.pnl.gov/ecce:version		CP2K 2025.1
