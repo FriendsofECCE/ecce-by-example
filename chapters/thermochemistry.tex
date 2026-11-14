@@ -1,6 +1,7 @@
 \chapter{Thermochemistry: optimisation, frequencies and high-level single points}
 \chaptermark{Thermochemistry}
 \label{ch:thermochemistry}
+\checkedwith{9.5.3-dev}{23769bf69}
 \index{Thermochemistry}
 \index{Enthalpy}
 \index{Gibbs energy}
@@ -11,19 +12,81 @@
 \helppage{thermochemistry}
 \helppage{energy-calculator}
 \helppage{compare-energies}
-\XXX[ chapter to be written]
+
+A calculation gives the electronic energy of a molecule at rest at its minimum, but what we measure is an enthalpy or a Gibbs energy at room temperature. In this chapter we go from the one to the other for a simple gas-phase reaction, the hydrogenation of ethene,
+\begin{equation*}
+	\ce{C2H4(g) + H2(g) -> C2H6(g)},
+\end{equation*}
+and compare the reaction enthalpy and Gibbs energy with the values from tabulated heats and Gibbs energies of formation.
+
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE: the three calculations use ECCE-QM and take two minutes together on two cores.
 
 \section{Background}
+\index{Thermal corrections}\index{Rigid rotor, harmonic oscillator}
+Even at 0~K a molecule is not at rest: each vibration keeps its zero-point energy, $\tfrac{1}{2}h\nu$, so that the energy at 0~K is $E + \mathrm{ZPE}$. At a temperature $T$, the molecules also translate, rotate and populate excited vibrational levels, and statistical thermodynamics gives these contributions from the mass, the moments of inertia and the vibrational frequencies of the molecule. In the usual model, each molecule is treated as an ideal gas of rigid rotors whose vibrations are harmonic oscillators. Adding $RT$ to the energy then gives the enthalpy $H$, the same model gives the entropy $S$, and $G = H - TS$. All of this needs the frequencies, which is why every species of the reaction is optimised and its frequencies calculated, as in Chapter~\ref{ch:first-calculation}.
 
-\section{What ECCE shows}
+The reaction quantities are differences between products and reactants:
+\begin{equation*}
+	\Delta_\mathrm{r} H = H(\ce{C2H6}) - H(\ce{C2H4}) - H(\ce{H2}),
+\end{equation*}
+and likewise for $E$, $E + \mathrm{ZPE}$ and $G$. Note that all species must be calculated with the same method and basis set, since only then do the errors largely cancel in the difference.
 
 \section{Procedure}
+\index{Energy Calculator!reaction}
+\begin{enumerate}
+	\item Make one project and in it three ECCE-QM calculations, \texttt{ethene}, \texttt{hydrogen} and \texttt{ethane}. Keep them in the same project: the Energy Calculator lists only the calculations of the project that holds the selection.
+	\item Build each molecule, for example with \menu{Tools > Add from SMILES...} (\texttt{C=C}, \texttt{[H][H]} and \texttt{CC}), and choose \menu{Build > Clean}.
+	\item In the Calculation Editor of each, set \menu{Theory} to \menu{DFT} (B3LYP), the basis to \menu{6-31G*} and \menu{Runtype} to \menu{GeoVib}. Launch all three, for example by selecting them in the project table and choosing \menu{Run Mgmt > Launch Selected...}.
+	\item When they have finished, check in each \menu{Vibrational Frequencies} panel that there is no imaginary frequency, so that each structure is a minimum.
+	\item Open \menu{Properties > Thermochemistry} of any of them to see its $H$, $S$ and $G$, and change the \menu{Temperature} there to see how they depend on it.
+	\index{Thermochemistry panel}
+	\item Select the three calculations in the project table and choose \menu{Tools > Energy Calculator...}. Add \texttt{ethene} and \texttt{hydrogen} to side A and \texttt{ethane} to side B. The table gives each energy summed over each side and the difference \menu{B - A}, in kJ/mol, kcal/mol and eV, for $E$, $E + \mathrm{ZPE}$, $H$ and $G$.
+\end{enumerate}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{thermochemistry/energy-calculator.ecce-9.5.3-dev.png}
+	\caption{The Energy Calculator with ethene and hydrogen on side A and ethane on side B.}
+	\label{fig:thermo-calculator}
+\end{figure}
 
 \section{Results}
+\index{Ethene!hydrogenation}\index{Hydrogenation of ethene}
+None of the three structures has an imaginary frequency. Table~\ref{tab:thermo-ethene} gives what the Energy Calculator shows for the reaction.
+
+\begin{table}[htb]
+	\centering
+	\caption{The hydrogenation of ethene, B3LYP/6-31G*, gas phase, 298.15~K and 1~atm, as \menu{B - A} in the Energy Calculator. Tabulated values from the enthalpies and Gibbs energies of formation \cite{nistjanaf,nistwebbook}.}
+	\label{tab:thermo-ethene}
+	\begin{tabular}{l rr}
+		\toprule
+		 & Calculated (kJ/mol) & From tables (kJ/mol) \\
+		\midrule
+		$\Delta E$ & $-177.2$ & \\
+		$\Delta(E + \mathrm{ZPE})$ & $-140.7$ & \\
+		$\Delta_\mathrm{r} H$ & $-148.3$ & $-136.5$ \\
+		$\Delta_\mathrm{r} G$ & $-112.0$ & $-100.4$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The zero-point energy matters a great deal here. The zero-point energy of ethane is larger than those of ethene and hydrogen together by 36.4~kJ/mol, mostly because the two new C--H bonds vibrate at high frequencies, so the reaction is that much less exothermic at 0~K than the electronic energies say. Going from 0~K to 298~K makes it 7.6~kJ/mol more exothermic again. Part of this is the $\Delta n_\mathrm{gas} RT$ term: one mole of gas disappears in the reaction, and since $\Delta H = \Delta U + \Delta n_\mathrm{gas} RT$, this alone contributes $-RT = -2.5$~kJ/mol; the rest comes from the different heat capacities of the species.
+
+The reaction entropy follows from the entropies of the three species in their \menu{Thermochemistry} panels, $227.5 - 219.0 - 130.3 = -121.7$~J\,K$^{-1}$\,mol$^{-1}$, against about $-121$ from tabulated standard entropies. Two molecules become one, so the entropy falls, and $\Delta_\mathrm{r} G = \Delta_\mathrm{r} H - T\Delta_\mathrm{r} S$ is less negative than $\Delta_\mathrm{r} H$ by $T\Delta_\mathrm{r} S \approx 36$~kJ/mol.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{thermochemistry/thermo-panel-ethane.ecce-9.5.3-dev.png}
+	\caption{The \menu{Thermochemistry} panel of ethane. \XXX[ retake with the Recomputed column filled]}
+	\label{fig:thermo-panel}
+\end{figure}
+
+Both calculated reaction quantities are about 12~kJ/mol too negative, while the entropy agrees. The error therefore lies in the electronic energy, not in the thermal corrections: B3LYP with a small basis set like 6-31G* binds the hydrogen too strongly in this reaction. The way to a better number is the subject of the next section.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
+\index{Single point!high-level}\index{Composite energies}
+The thermal corrections are not sensitive to the method, since they depend on the structure and frequencies, which a moderate method gets right. The electronic energy is. A common route therefore keeps the B3LYP structures and frequencies and recalculates only the electronic energy with a more accurate method, for example a double-hybrid functional or a coupled-cluster method in ORCA, as a single point on each optimised structure. In ECCE this is a new calculation from each finished one (\menu{New from This > In Another Code...}, or a workflow step with \menu{Final geometry} ticked) with run type Energy. The reaction enthalpy is then the high-level $\Delta E$ plus the thermal correction $\Delta H - \Delta E$ from B3LYP. Note that the two methods are combined here, not compared: each energy difference is taken within one method.
 
+The calculations for this chapter are kept in the book's repository under \texttt{calculations/thermochemistry}. They were set up and run through ECCE's windows by the test machinery, except that the calculations themselves were made by a script.

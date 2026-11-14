@@ -36,7 +36,7 @@ Agents never write the final chapter text (Andy 11-14): an agent job runs the ca
 - [ ] 15. ecce-qm
 - [ ] 16. methods-choice
 - [ ] 17. results
-- [ ] 18. thermochemistry
+- [x] 18. thermochemistry
 - [ ] 19. reaction-rates
 - [ ] 20. scans
 - [ ] 21. bond-dissociation
