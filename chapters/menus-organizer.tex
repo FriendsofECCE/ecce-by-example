@@ -1,59 +1,61 @@
 \chapter{Organizer menus and settings}
 \label{ch:menus-organizer}
-\checkedwith{9.5.3-dev}{ce2531fa0}
+\checkedwith{9.5.3-dev}{e6ff4018a}
 \index{Organizer!menus}
 \index{Organizer!Preferences}
 
 \helppage{organizer-menus}
+\helppage{organizer-menubar}
 \eccesource{src/apps/organizer data/client/config/ResourceDescriptor.xml src/wxgui/wxdialogs/GlobalPrefs.C}
 
-This appendix lists, menu by menu, what the Organizer offers: the menu bar, the toolbar, the right-click menus of the tree and the project table, and the pages of the \menu{Preferences} window. Each entry says in one line what the item does. Several menus are rebuilt each time the selection changes, so that what a menu offers, and which entries are grey, depends on what is selected and, for a calculation, on its run state; where that matters the entry says so. Keyboard shortcuts are given where ECCE defines them.
+This appendix goes through the Organizer menu by menu: the menu bar, the toolbar, the right-click menus of the tree and the project table, and the pages of the \menu{Preferences} window. Each entry says in a line or two what the item does, so that you can look up an item you have not used before without opening it. Keep in mind that several menus are rebuilt every time the selection changes, which means that what a menu offers, and which entries are grey, depends on what you have selected and, for a calculation, on its run state. Where that matters, the entry says so. Keyboard shortcuts are given where ECCE defines them.
 
 \section{File}
 \index{File menu}
-The \menu{File} menu is rebuilt on every change of selection.
+The \menu{File} menu is rebuilt with every change of selection.
 \begin{description}
-	\item[\menu{New}] A submenu of what can be created in the nearest project or folder at or above the selection, or in the home folder when nothing is selected: a project, a calculation for each registered code, an MD study, a workflow. The entries are those of \menu{New...} in the right-click menu.
+	\item[\menu{New}] A submenu of what can be created in the nearest project or folder at or above the selection, or in the home folder when nothing is selected: a project, a calculation for each registered code, an MD study or a workflow. The entries are the same as those of \menu{New...} in the right-click menu.
 	\index{File menu!New}
-	\item[\menu{Upload File...}] Copies a file from this computer into the selected calculation. Offered only when a calculation is selected.
+	\item[\menu{Upload File...}] Copies a file from this computer into the selected calculation; offered only when a calculation is selected.
 	\index{File menu!Upload File...}
-	\item[\menu{Download File...}] Saves the selected file to this computer. Offered when a file, not a folder or a calculation, is selected.
+	\item[\menu{Download File...}] Saves the selected file to this computer; offered when a file, rather than a folder or a calculation, is selected.
 	\index{File menu!Download File...}
 	\item[\menu{New Structure...}] (\textsf{Ctrl+N}) Opens an empty Builder.
 	\index{File menu!New Structure...}
-	\item[\menu{Import Calculation from Output File...}] Makes a new calculation from the output file of a calculation run outside ECCE. Always offered, whatever is selected.
+	\item[\menu{Import Calculation from Output File...}] Makes a new calculation from the output file of a calculation that was run outside ECCE. It is offered whatever is selected.
 	\index{File menu!Import Calculation from Output File...}\index{Importing an output file}
-	\item[\menu{Import GROMACS Run...}] Makes a GROMACS study from the run directory of a GROMACS simulation run outside ECCE.
+	\item[\menu{Import GROMACS Run...}] Makes a GROMACS study from the run directory of a simulation run outside ECCE.
 	\index{File menu!Import GROMACS Run...}
-	\item[\menu{Open Example Calculations}] Opens the example calculations that come with ECCE in the Organizer.
+	\item[\menu{Open Example Calculations}] Shows the example calculations that come with ECCE in the Organizer.
 	\index{File menu!Open Example Calculations}
-	\item[\menu{Export > Supporting Information...}] Writes supporting information for the selected calculations. \XXX[ what the export contains and in which format]
-	\index{File menu!Export}\index{Supporting information}
-	\item[\menu{Quit}] (\textsf{Ctrl+Q}) Closes the Organizer and ends the session, asking first when \menu{Ask for confirmation on exit} is set in Preferences.
+	\item[\menu{Export > Supporting Information...}] Writes the selected calculations, or all calculations below a selected folder, as one multi-structure XYZ file with the final geometry of each in \AA{}. The comment line of each structure holds the name, charge, multiplicity, total and Gibbs energies as stored, the code and the method. ECCE then asks whether to write a CSV or \LaTeX{} table of the same values beside the XYZ file, and, when some calculations are marked as excluded, whether to include them. The same files can be written from a terminal with \cmd{ecce-si-export}.
+	\index{File menu!Export}\index{Supporting information}\index{ecce-si-export}
+	\item[\menu{Quit}] (\textsf{Ctrl+Q}) Closes the Organizer and ends the session; it asks first when \menu{Ask for confirmation on exit} is set in Preferences.
 	\index{File menu!Quit}
 \end{description}
 
 \section{Edit}
 \index{Edit menu}
+The first three items make a new calculation from the selected one. They are the same as the three items of \menu{New from This} in the right-click menu, under longer names.
 \begin{description}
-	\item[\menu{Duplicate for Rerun}] A copy of the selected calculation with the same structure and settings, reset and ready to launch (\menu{New from This > Rerun} in the right-click menu).
+	\item[\menu{Duplicate for Rerun}] A copy of the calculation with the same structure and settings, reset and ready to launch (\menu{New from This > Rerun}).
 	\index{Edit menu!Duplicate for Rerun}\index{Rerun}
-	\item[\menu{Duplicate Setup with Last Geometry}] A copy that starts from the geometry the calculation ended on (\menu{Continue from Last Geometry} in the right-click menu).
+	\item[\menu{Duplicate Setup with Last Geometry}] A copy that starts from the geometry the calculation ended on (\menu{Continue from Last Geometry}).
 	\index{Edit menu!Duplicate Setup with Last Geometry}
-	\item[\menu{Duplicate with Final Orbitals}] As the previous item, and the copy also starts from the final orbitals of the calculation (\menu{Continue from Final Orbitals} in the right-click menu).
+	\item[\menu{Duplicate with Final Orbitals}] As the previous item, but the copy also starts from the final orbitals of the calculation (\menu{Continue from Final Orbitals}).
 	\index{Edit menu!Duplicate with Final Orbitals}
-	\item[\menu{Cut}] (\textsf{Ctrl+X}) Puts the selection on the Organizer's clipboard, to be moved by \menu{Paste}.
-	\item[\menu{Copy}] (\textsf{Ctrl+C}) Puts the selection on the clipboard, to be copied by \menu{Paste}.
+	\item[\menu{Cut}] (\textsf{Ctrl+X}) Puts the selection on the Organizer's clipboard, so that \menu{Paste} moves it.
+	\item[\menu{Copy}] (\textsf{Ctrl+C}) Puts the selection on the clipboard, so that \menu{Paste} copies it.
 	\item[\menu{Paste}] (\textsf{Ctrl+V}) Moves or copies what is on the clipboard into the selected project or folder.
 	\index{Edit menu!Cut}\index{Edit menu!Copy}\index{Edit menu!Paste}
-	\item[\menu{Rename}] Renames the selected item; one item only.
-	\item[\menu{Delete}] (\textsf{Del}) Deletes the selection, asking first when \menu{Confirm Deletes} is on. In the tree, Backspace does the same.
+	\item[\menu{Rename}] Renames the selected item; one item at a time.
+	\item[\menu{Delete}] (\textsf{Del}) Deletes the selection, asking first when \menu{Confirm Deletes} is on. Backspace does the same in the tree.
 	\index{Edit menu!Rename}\index{Edit menu!Delete}
-	\item[\menu{Annotation...}] Opens an editor for the annotation, a free-text note, of the selected item.
+	\item[\menu{Annotation...}] Opens an editor for the annotation of the selected item, which is a free-text note kept with it.
 	\index{Edit menu!Annotation...}\index{Annotation}
-	\item[\menu{Find...}] (\textsf{Ctrl+F}) Opens the Find window, which searches the tree. \XXX[ which fields Find searches]
+	\item[\menu{Find...}] (\textsf{Ctrl+F}) Opens the Find window, which lists the items below the folder given in \menu{From} whose name, or path from that folder, contains the text you type. Note that the search distinguishes upper and lower case. \ctrl{Open} selects the chosen result in the tree.
 	\index{Edit menu!Find...}
-	\item[\menu{Change Access Control...}] Opens the window that sets who may read or change the selected item on a data server. Grey with more than one item selected. \XXX[ what it does on a local tree with no data server]
+	\item[\menu{Change Access Control...}] Sets who may read or change a project on a data server. It is grey for a local folder, which has only one user, and when more than one item is selected.
 	\index{Edit menu!Change Access Control...}\index{Access control}
 	\item[\menu{Preferences...}] Opens the \menu{ECCE Preferences} window (Section~\ref{sec:org-prefs}).
 	\index{Edit menu!Preferences...}
@@ -61,30 +63,31 @@ The \menu{File} menu is rebuilt on every change of selection.
 
 \section{Options}
 \index{Options menu}
-The check items are kept between sessions. Those marked (on) are on by default.
+The check items of this menu are kept between sessions; those marked (on) are on by default.
 \begin{description}
 	\item[\menu{Show Toolbar}] (on) Shows or hides the toolbar.
 	\item[\menu{Show Run State Legend}] (on) Shows or hides the legend of the run-state icons.
 	\item[\menu{Show Lines in Tree View}] (on) Draws the lines that join the items of the tree.
 	\item[\menu{Show Run States in Tree}] (on) Shows the run-state icon of each calculation in the tree.
-	\item[\menu{Show ECCE Internal Files}] Shows the files ECCE keeps inside a calculation for its own use.
+	\item[\menu{Show ECCE Internal Files}] Shows the files that ECCE keeps inside a calculation for its own use.
 	\index{Options menu!Show Toolbar}\index{Options menu!Show Run State Legend}\index{Options menu!Show Lines in Tree View}\index{Options menu!Show Run States in Tree}\index{Options menu!Show ECCE Internal Files}
-	\item[\menu{Set Home as Root}] Makes the user's home folder the top of the tree; the tree is rebuilt when this is switched.
-	\item[\menu{Ask for File Name at Creation}] (on) Asks for a name when a project, calculation or other item is created; when off, the item is named after its type. A workflow step is named in its own dialog either way.
+	\item[\menu{Set Home as Root}] Makes your home folder the top of the tree, which is rebuilt when you switch this.
+	\item[\menu{Ask for File Name at Creation}] (on) Asks for a name when you create a project, a calculation or another item; when it is off, the item is named after its type. A workflow step is named in its own dialog either way.
 	\item[\menu{Invoke Default Tool at Creation}] Opens the default tool of a new item as soon as it is created.
 	\item[\menu{Confirm Deletes}] (on) Asks before \menu{Delete} removes anything.
-	\item[\menu{Confirm Resets}] (on) Asks before an editor resets a task to rerun, which removes the output of the previous run.
+	\item[\menu{Confirm Resets}] (on) Asks before an editor resets a task for a rerun, since the reset removes the output of the previous run.
 	\index{Options menu!Set Home as Root}\index{Options menu!Ask for File Name at Creation}\index{Options menu!Invoke Default Tool at Creation}\index{Options menu!Confirm Deletes}\index{Options menu!Confirm Resets}
-	\item[\menu{Sort Tree by}] Orders the tree by \menu{Type}, \menu{Name} or \menu{Date}, each also \menu{(Reverse)}.
+	\item[\menu{Sort Tree by}] Orders the tree by \menu{Type}, \menu{Name} or \menu{Date}, each also in reverse.
 	\index{Options menu!Sort Tree by}
-	\item[\menu{Project View}] Chooses the set of columns of the project table: \menu{Basic Properties}, \menu{Setup Properties}, \menu{Launch Properties} or \menu{All Properties}.
+	\item[\menu{Project View}] Chooses the columns of the project table: \menu{Basic Properties}, \menu{Setup Properties}, \menu{Launch Properties} or \menu{All Properties}.
 	\index{Options menu!Project View}\index{Project table!columns}
 \end{description}
 
 \section{Go}
 \index{Go menu}
+The \menu{Go} menu moves the selection through the tree in the way a file manager or a web browser does.
 \begin{description}
-	\item[\menu{Home}] (\textsf{Alt+Home}) Selects the user's home folder on the current server.
+	\item[\menu{Home}] (\textsf{Alt+Home}) Selects your home folder on the current server.
 	\item[\menu{Up}] (\textsf{Alt+Up}) Selects the folder above the selection; grey at the top of the tree.
 	\item[\menu{Back}] (\textsf{Alt+Left}) Returns to the place selected before.
 	\item[\menu{Forward}] (\textsf{Alt+Right}) Goes forward again after \menu{Back}.
@@ -96,85 +99,86 @@ The check items are kept between sessions. Those marked (on) are on by default.
 \index{Bookmarks menu}
 \begin{description}
 	\item[\menu{Add to Bookmarks}] (\textsf{Ctrl+D}) Bookmarks the selected item.
-	\item[\menu{Manage Bookmarks...}] Opens the Bookmark Editor. \XXX[ what the editor can do: rename, reorder, remove?]
+	\item[\menu{Manage Bookmarks...}] Opens the Bookmark Editor, where you edit the name and the address of a bookmark, and where \ctrl{Add}, \ctrl{Delete}, \ctrl{Move Up} and \ctrl{Move Down} change the list.
 	\item[Bookmark list] Below a separator, one entry per bookmark; choosing one selects that item in the tree.
-	\index{Bookmarks menu!Add to Bookmarks}\index{Bookmarks menu!Manage Bookmarks...}
+	\index{Bookmarks menu!Add to Bookmarks}\index{Bookmarks menu!Manage Bookmarks...}\index{Bookmark Editor}
 \end{description}
 
 \section{Run Mgmt}
 \index{Run Mgmt menu}
-The \menu{Run Mgmt} menu acts on the selected calculation, and its entries depend on the run state; the states given below are those registered for the quantum-chemistry codes. With several calculations selected the menu holds only \menu{Launch Selected...}, \menu{Reconnect Selected...}, \menu{Terminate Selected...} and \menu{Re-Parse Outputs}; with anything else selected it is grey. The entries are listed in the order of the menu.
+The \menu{Run Mgmt} menu acts on the selected calculation, and since what can be done with a job depends on how far it has come, its entries follow the run state. The states given below are those registered for the quantum-chemistry codes. With several calculations selected, the menu holds only \menu{Launch Selected...}, \menu{Reconnect Selected...}, \menu{Terminate Selected...} and \menu{Re-Parse Outputs}, and with anything other than calculations selected it is grey. The entries are listed in the order of the menu.
 \begin{description}
-	\item[\menu{Tail -f on Output File...}] (\textsf{Alt+L}) Opens a terminal that follows the output file as the job writes it. Running or waiting jobs.
-	\item[\menu{Shell in Calculation Run Directory...}] (\textsf{Alt+S}) Opens a terminal in the run directory on the compute machine. From submission on.
-	\item[\menu{Terminate Calculation...}] Stops the job on the compute machine. Submitted, running or waiting jobs.
-	\item[\menu{Check Job Monitoring}] Reports whether the job monitor of this calculation is still running. Submitted, running or waiting jobs.
-	\item[\menu{Check Job on Machine}] Asks the compute machine, over ECCE's own login, whether the process or queue job is still there and when the output was last written. It only reports; the state is still set by the job monitor or by Reconnect.
-	\item[\menu{Reconnect Job Monitoring}] Starts a new job monitor for a job started earlier; grey, with the reason as its help text, when the job cannot be reconnected.
-	\item[\menu{Force State to Failed}] Sets the state of a submitted, running or waiting job to failed, without touching the job itself.
+	\item[\menu{Tail -f on Output File...}] (\textsf{Alt+L}) Opens a terminal that follows the output file as the job writes it; for running or waiting jobs.
+	\item[\menu{Shell in Calculation Run Directory...}] (\textsf{Alt+S}) Opens a terminal in the run directory on the compute machine, from submission on.
+	\item[\menu{Terminate Calculation...}] Stops the job on the compute machine; for submitted, running or waiting jobs.
+	\item[\menu{Check Job Monitoring}] Reports whether the job monitor of the calculation is still running; for submitted, running or waiting jobs.
+	\item[\menu{Check Job on Machine}] Asks the compute machine, over ECCE's own login, whether the process or queue job is still there and when the output was last written. Note that it only reports: the state is still set by the job monitor or by a reconnect.
+	\item[\menu{Reconnect Job Monitoring}] Starts a new job monitor for a job started earlier. When the job cannot be reconnected the item is grey, and its help text gives the reason.
+	\item[\menu{Force State to Failed}] Sets the state of a submitted, running or waiting job to failed without touching the job itself.
 	\index{Run Mgmt menu!Tail -f on Output File...}\index{Run Mgmt menu!Shell in Calculation Run Directory...}\index{Run Mgmt menu!Terminate Calculation...}\index{Run Mgmt menu!Check Job Monitoring}\index{Run Mgmt menu!Check Job on Machine}\index{Run Mgmt menu!Reconnect Job Monitoring}\index{Run Mgmt menu!Force State to Failed}
-	\item[\menu{Reset to Rerun}] (\textsf{Alt+R}) Resets a finished calculation so that it can be launched again; the outputs of the previous run are removed. Imported calculations are skipped with a message, since the reset would delete the only copy of their results.
-	\item[\menu{Reset for Restart}] Sets the state back to ready and clears the reviewed mark; the outputs stay.
-	\item[\menu{Reset State}] A submenu that changes the state alone: \menu{Reset to completed}, \menu{Reset to incomplete}, \menu{Reset to imported} and \menu{Reset to killed}, each offered only from other states.
+	\item[\menu{Reset to Rerun}] (\textsf{Alt+R}) Resets a finished calculation so that it can be launched again, which removes the outputs of the previous run. Imported calculations are skipped with a message, because the reset would delete the only copy of their results.
+	\item[\menu{Reset for Restart}] Sets the state back to ready and clears the reviewed mark, while the outputs stay.
+	\item[\menu{Reset State}] A submenu that changes the state alone: \menu{Reset to completed}, \menu{Reset to incomplete}, \menu{Reset to imported} and \menu{Reset to killed}, each offered only from the other states.
 	\item[\menu{Mark as Reviewed}] Marks the calculation as reviewed and records the date.
 	\item[\menu{Mark as Unreviewed}] Removes the reviewed mark and its date.
 	\index{Run Mgmt menu!Reset to Rerun}\index{Run Mgmt menu!Reset for Restart}\index{Run Mgmt menu!Reset State}\index{Run Mgmt menu!Mark as Reviewed}\index{Run Mgmt menu!Mark as Unreviewed}
-	\item[\menu{Cleanup Run Directory Files}] Removes the files of the calculation from its run directory on the compute machine. Finished, killed or failed calculations.
-	\item[\menu{View Run Log...}] Shows the log ECCE kept of the launch and the monitoring of the job.
+	\item[\menu{Cleanup Run Directory Files}] Removes the files of the calculation from its run directory on the compute machine; for finished, killed or failed calculations.
+	\item[\menu{View Run Log...}] Shows the log that ECCE kept of the launch and the monitoring of the job.
 	\item[\menu{View Input file...}] (\textsf{Alt+I}) Opens the input file in the editor set in Preferences.
-	\item[\menu{View Output File...}] (\textsf{Alt+O}) Opens the output file in the editor. Finished, imported, killed or failed calculations.
+	\item[\menu{View Output File...}] (\textsf{Alt+O}) Opens the output file in that editor; for finished, imported, killed or failed calculations.
 	\index{Run Mgmt menu!Cleanup Run Directory Files}\index{Run Mgmt menu!View Run Log...}\index{Run Mgmt menu!View Input file...}\index{Run Mgmt menu!View Output File...}
 	\item[\menu{Launch Selected...}] Launches the selected calculations; offered for a calculation that is created or ready.
 	\item[\menu{Reconnect Selected...}] Reconnects the job monitoring of the selection; grey when no selected job can be reconnected.
-	\item[\menu{Terminate Selected...}] Stops the jobs of the selected calculations; several selected only.
+	\item[\menu{Terminate Selected...}] Stops the jobs of the selected calculations; only with several selected.
 	\item[\menu{Re-Parse Outputs}] Runs the parsers again over the outputs stored with a finished calculation.
 	\index{Run Mgmt menu!Launch Selected...}\index{Run Mgmt menu!Reconnect Selected...}\index{Run Mgmt menu!Terminate Selected...}\index{Run Mgmt menu!Re-Parse Outputs}
 \end{description}
 
 \section{Tools}
 \index{Tools menu}
-The upper part of the \menu{Tools} menu is the same whatever is selected. The lower part lists the tools of the selected item under a grey heading \menu{For \textit{name}:}. With two calculations selected only the upper part is shown, and with more than two the menu is grey.
+The \menu{Tools} menu has two parts. The upper part is the same whatever is selected, while the lower part lists the tools of the selected item under the grey heading \menu{For \textit{name}:}. With two calculations selected only the upper part is shown, and with more than two the menu is grey.
 \begin{description}
 	\item[\menu{Register Machines...}] Opens the Machine Registration window, where a compute machine is defined.
 	\item[\menu{Machine Browser...}] Opens the Machine Browser, which shows the registered machines.
-	\item[\menu{Allocations...}] Lists each cluster account of the user's machine profiles and how much of it is used, read in the background over logins already open.
+	\item[\menu{Allocations...}] Lists each cluster account of your machine profiles and how much of it is used, read in the background over logins that are already open.
 	\index{Tools menu!Register Machines...}\index{Tools menu!Machine Browser...}\index{Tools menu!Allocations...}
 	\item[\menu{Periodic Table...}] (\textsf{Ctrl+P}) Opens the periodic table.
-	\item[\menu{Energy Calculator...}] Opens the Energy Calculator, for the energy difference between sums of calculations such as a reaction.
-	\index{Tools menu!Periodic Table...}\index{Tools menu!Energy Calculator...}
-	\item[\menu{Batch Add from SMILES...}] Makes one calculation per row of a table of names, SMILES strings and measured values, from a template calculation of the folder.
-	\item[\menu{QSAR Table...}] Builds the descriptor table of the selected folder or calculations from the descriptor groups ticked in a list: counts, topological indices, property models, Gasteiger charges, surface areas, and HOMO, LUMO, gap, dipole and charges from the calculations.
-	\item[\menu{QSAR Analysis...}] Principal component analysis, and PLS against a measured column, of the descriptor table of the selected folder, with the report and the plots.
+	\item[\menu{Energy Calculator...}] Opens the Energy Calculator, which gives the energy difference between sums of calculations, such as the two sides of a reaction.
+	\item[\menu{New Calculations in Another Code...}] Makes one new calculation in another code from each selected calculation, with a setup that you make once for all of them.
+	\index{Tools menu!Periodic Table...}\index{Tools menu!Energy Calculator...}\index{Tools menu!New Calculations in Another Code...}
+	\item[\menu{Batch Add from SMILES...}] Makes one calculation per row of a table of names, SMILES strings and measured values, from a template calculation in the folder.
+	\item[\menu{QSAR Table...}] Builds the descriptor table of the selected folder or calculations from the descriptor groups ticked in a list: counts, topological indices, property models, Gasteiger charges, surface areas, and the HOMO, LUMO, gap, dipole and charges of the calculations.
+	\item[\menu{QSAR Analysis...}] A principal component analysis of the descriptor table of the selected folder, and a PLS regression against a measured column, with the report and the plots.
 	\index{Tools menu!Batch Add from SMILES...}\index{Tools menu!QSAR Table...}\index{Tools menu!QSAR Analysis...}\index{QSAR}
-	\item[\menu{Builder}] Shown instead of the lower part when the selection has no tools of its own; opens an empty Builder, as \menu{File > New Structure...}.
+	\item[\menu{Builder}] Shown instead of the lower part when the selection has no tools of its own; opens an empty Builder, as \menu{File > New Structure...} does.
 	\item[\menu{Electronic Structure Editor...}] (\textsf{Ctrl+E}) Opens the Calculation Editor of the selected calculation.
 	\item[\menu{Builder...}] (\textsf{Ctrl+B}) Opens the structure of the selected calculation in the Builder.
 	\item[\menu{Basis Set Tool...}] (\textsf{Ctrl+S}) Opens the Basis Set Tool for the selected calculation.
-	\item[\menu{Launcher...}] (\textsf{Ctrl+L}) Opens the Launcher of the selected calculation; from the ready state on.
+	\item[\menu{Launcher...}] (\textsf{Ctrl+L}) Opens the Launcher of the selected calculation, from the ready state on.
 	\item[\menu{Viewer...}] (\textsf{Ctrl+R}) Opens the results of the selected calculation in the viewer.
-	\item[MD editors] For an MD task, the editor of its kind, \menu{\textit{code} MD Prepare Editor...} or the Optimize, Energy or Dynamics editor (\textsf{Ctrl+E}), named after the code of the task, NWChem or GROMACS.
+	\item[MD editors] For an MD task, the editor of its kind: \menu{\textit{code} MD Prepare Editor...}, or the Optimize, Energy or Dynamics editor (\textsf{Ctrl+E}), named after the code of the task, NWChem or GROMACS.
 	\index{Tools menu!Electronic Structure Editor...}\index{Tools menu!Builder...}\index{Tools menu!Basis Set Tool...}\index{Tools menu!Launcher...}\index{Tools menu!Viewer...}\index{Tools menu!MD editors}
 \end{description}
-Which tools a code offers, and in which run states, is registered per code in \cmd{ResourceDescriptor.xml}; for a quantum-chemistry calculation all of the above except the Launcher are offered in every state.
+Which tools a code offers, and in which run states, is registered for each code in \cmd{ResourceDescriptor.xml}. For a quantum-chemistry calculation, all of the tools above except the Launcher are offered in every state.
 
 \section{Help}
 \index{Help menu}
 \begin{description}
 	\item[\menu{ECCE Help}] (\textsf{Ctrl+H}) Opens ECCE's help in the web browser set in Preferences.
 	\item[\menu{Running Codes on This Computer}] Opens the help page on running the computational codes on this computer.
-	\item[\menu{Report a Problem...}] Opens ECCE's problem report. \XXX[ what the report window collects and where it sends it]
+	\item[\menu{Report a Problem...}] Collects what is needed to find out what went wrong into a folder \cmd{ecce-bug-\textit{date}} in your home folder, and packs it as a zip archive beside it. On Linux and macOS the archive holds the ECCE version, a description of the system, the logs of the services and the results of ECCE's diagnostic checks; on Windows it holds the ECCE version, the Windows version, the ECCE logs and the last ECCE crash records of the Windows event log. ECCE sends nothing itself, so you attach the archive to your report.
 	\item[\menu{How to Cite ECCE...}] Opens the help page on citing ECCE.
 	\item[\menu{About ECCE...}] Shows the version of ECCE and, for a development build, its commit.
-	\index{Help menu!ECCE Help}\index{Help menu!Running Codes on This Computer}\index{Help menu!Report a Problem...}\index{Help menu!How to Cite ECCE...}\index{Help menu!About ECCE...}
+	\index{Help menu!ECCE Help}\index{Help menu!Running Codes on This Computer}\index{Help menu!Report a Problem...}\index{Help menu!How to Cite ECCE...}\index{Help menu!About ECCE...}\index{Reporting a problem}
 \end{description}
 
 \section{Developer}
 \index{Developer menu}
-The \menu{Developer} menu is present only when the environment variable \cmd{ECCE\_DEVELOPER} is set.
+The \menu{Developer} menu is there only when the environment variable \cmd{ECCE\_DEVELOPER} is set.
 \begin{description}
-	\item[\menu{Generate Theory/RunType Test Suite}] Creates a set of calculations from the selected calculation, one per combination of theory and run type of its code. \XXX[ confirm what the test suite contains]
+	\item[\menu{Generate Theory/RunType Test Suite}] Makes a project \cmd{\textit{name}\_TestSuite} beside the selected calculation, with one calculation for each combination of theory and run type of its code.
 	\item[\menu{View Properties...}] Shows the stored properties (metadata) of the selected item.
-	\item[\menu{Manage Data Servers...}] \XXX[ what this opens, and how it differs from Preferences > Data]
+	\item[\menu{Manage Data Servers...}] Opens the list of data servers; the tree is rebuilt when the list is closed. For everyday use, \menu{Preferences > Data} and the \menu{Servers} button on the toolbar do the same job.
 	\index{Developer menu!Generate Theory/RunType Test Suite}\index{Developer menu!View Properties...}\index{Developer menu!Manage Data Servers...}
 \end{description}
 
@@ -187,65 +191,65 @@ From left to right, named by the tooltip of each button:
 	\item[\menu{Search File...}] As \menu{Edit > Find...}.
 	\item[\menu{Refresh}] Reads the selected part of the tree again from where it is stored.
 	\item[\menu{Upload File...}, \menu{Download File...}] As in the \menu{File} menu.
-	\item[\menu{View Properties...}] As \menu{Developer > View Properties...}, and on the toolbar also without \cmd{ECCE\_DEVELOPER}.
-	\item[\menu{Servers}] A menu of the remembered SSH folders and ECCE servers, ticked when connected; ticking an entry connects and clearing the tick disconnects. Below them, \menu{Add Server...} remembers another location and \menu{Manage Servers...} opens \menu{Preferences > Data}. The central server configured for the session is not listed.
+	\item[\menu{View Properties...}] As \menu{Developer > View Properties...}, but on the toolbar it is there without \cmd{ECCE\_DEVELOPER} too.
+	\item[\menu{Servers}] A menu of the remembered SSH folders and ECCE servers, each ticked while connected; ticking an entry connects to it and clearing the tick disconnects. Below them, \menu{Add Server...} remembers another location and \menu{Manage Servers...} opens \menu{Preferences > Data}. Note that the central server configured for the session is not listed.
 	\index{Organizer!toolbar!Servers}\index{Servers menu}
 \end{description}
 
 \section{Right-click menus}
 \index{Organizer!right-click menu}\index{Context menu|see{Organizer, right-click menu}}
-Right-clicking an item in the tree, or rows of the project table, opens a menu built from the selection.
+Right-clicking an item in the tree, or rows of the project table, opens a menu that is built from the selection, so that most entries below appear only for the kind of item they apply to.
 \begin{description}
-	\item[\menu{New...}] As \menu{File > New} for the nearest project or folder, and below a separator \menu{Import Calculation from Output File...}. Grey where nothing can be created.
-	\item[\menu{Cut}, \menu{Copy}, \menu{Paste}] As in the \menu{Edit} menu; \menu{Paste} is grey with an empty clipboard.
-	\item[\menu{Move to...}, \menu{Copy to...}] Open a list of the folders of every tree the Organizer shows, servers included, and move or copy the selection into the one chosen.
+	\item[\menu{New...}] As \menu{File > New} for the nearest project or folder, and below a separator \menu{Import Calculation from Output File...}; grey where nothing can be created.
+	\item[\menu{Cut}, \menu{Copy}, \menu{Paste}] As in the \menu{Edit} menu; \menu{Paste} is grey while the clipboard is empty.
+	\item[\menu{Move to...}, \menu{Copy to...}] Open a list of the folders of every tree the Organizer shows, servers included, and move or copy the selection into the one you choose.
 	\item[\menu{Rename}, \menu{Delete}] As in the \menu{Edit} menu. For a system folder these and \menu{Cut} are grey.
 	\index{Organizer!right-click menu!Move to...}\index{Organizer!right-click menu!Copy to...}
-	\item[\menu{Duplicate for Rerun}] On an MD study task: a copy of the task that keeps its place in the study.
-	\item[\menu{New from This}] On a calculation: \menu{Rerun}, \menu{Continue from Last Geometry} and \menu{Continue from Final Orbitals}, the three \menu{Duplicate} items of the \menu{Edit} menu. The last is grey, with the reason as its help text, when the code or the stored results cannot give a starting guess. For a periodic calculation, \menu{Screen Sites with MLP...} makes one MLP calculation for each interstitial site or vacancy pair of the host.
+	\item[\menu{Duplicate for Rerun}] On a task of an MD study: a copy of the task that keeps its place in the study.
+	\item[\menu{New from This}] On a calculation: \menu{Rerun}, \menu{Continue from Last Geometry} and \menu{Continue from Final Orbitals}, the three \menu{Duplicate} items of the \menu{Edit} menu. The last is grey, with the reason as its help text, when the code or the stored results cannot provide a starting guess. In the project table the submenu also holds \menu{In Another Code...}, the same as \menu{Tools > New Calculations in Another Code...}. For a periodic calculation, \menu{Screen Sites with MLP...} makes one MLP calculation for each interstitial site or vacancy pair of the host.
 	\index{Organizer!right-click menu!New from This}\index{Screen Sites with MLP}
 	\item[\menu{Make Workflow...}] On a calculation: moves it into a new workflow as its first step; grey, with the reason, when it cannot be moved.
 	\item[\menu{Move into Workflow}] On a calculation: a submenu of the workflows in the same folder, which moves the calculation into the one chosen.
 	\item[\menu{Run}] On a calculation: \menu{Launch...}, \menu{Reconnect...}, \menu{Terminate}, \menu{Re-Parse Outputs} and \menu{Shell in Run Directory}, each grey when it does not fit the run state. With calculations selected in the project table instead: \menu{Launch Selected...}, \menu{Reconnect Selected...}, \menu{Terminate Selected...} and \menu{Re-Parse Outputs}.
 	\index{Organizer!right-click menu!Make Workflow...}\index{Organizer!right-click menu!Move into Workflow}\index{Organizer!right-click menu!Run}
 	\item[\menu{Make Workflow from Selected...}, \menu{Move Selected into Workflow}] With two or more calculations selected in the project table: move them into a new workflow, with links between them, or into a workflow of the folder.
-	\item[\menu{Compare Energies...}] With two or more calculations selected in the project table, or a folder selected: the energies of those calculations relative to each other.
-	\item[\menu{Site Screening Results}] In the folder of a site screen, which holds a calculation named \cmd{host}: $E - E(\mathrm{host})$ of the finished site calculations, as an ensemble to show in the Builder.
-	\item[\menu{Terminate Calculation...}, \menu{Shell in Calculation Run Directory...}] On an MD study task, in the states where they apply.
+	\item[\menu{Compare Energies...}] With two or more calculations selected in the project table, or with a folder selected: the energies of those calculations relative to each other.
+	\item[\menu{Site Screening Results}] In the folder of a site screen, which holds a calculation named \cmd{host}: $E - E(\mathrm{host})$ of the finished site calculations, as an ensemble that can be shown in the Builder.
+	\item[\menu{Terminate Calculation...}, \menu{Shell in Calculation Run Directory...}] On a task of an MD study, in the states where they apply.
 	\index{Organizer!right-click menu!Compare Energies...}\index{Compare Energies}\index{Organizer!right-click menu!Site Screening Results}
 \end{description}
 \index{Organizer!server tree}
-The root of a remembered server's tree has a right-click menu of its own, \menu{Connect} or \menu{Disconnect}, and \menu{Remove from list}. Disconnect closes the Organizer's logins to the server and folds its tree; Remove forgets the entry without deleting anything on the server.
+The root of a remembered server's tree has a right-click menu of its own, with \menu{Connect} or \menu{Disconnect}, and \menu{Remove from list}. \menu{Disconnect} closes the Organizer's logins to the server and folds its tree, while \menu{Remove from list} forgets the entry without deleting anything on the server.
 
 \section{Preferences}
 \label{sec:org-prefs}
 \index{Preferences}
-\menu{Edit > Preferences...} opens the \menu{ECCE Preferences} window. Each change is saved as it is made; \ctrl{Close} hides the window and \ctrl{Reset All} returns every setting to its default. The settings apply to all ECCE applications, not to the Organizer alone.
+\menu{Edit > Preferences...} opens the \menu{ECCE Preferences} window. Each change is saved as you make it, so there is nothing to confirm: \ctrl{Close} hides the window, and \ctrl{Reset All} returns every setting to its default. The settings apply to all ECCE applications, not only to the Organizer.
 
 \subsection*{General}
 \index{Preferences!General}
 \begin{description}
 	\item[\menu{Font Size}] \menu{Small}, \menu{Medium}, \menu{Large} or \menu{Extra Large}.
-	\item[\menu{Use the system font size}] Uses the desktop's font size instead of ECCE's 10\,pt; applies when the applications are next started.
+	\item[\menu{Use the system font size}] Uses the font size of the desktop instead of ECCE's 10\,pt; takes effect when the applications are next started.
 	\item[\menu{Date Format}, \menu{Time Format}] How dates and times are written in ECCE's windows.
-	\item[\menu{Units}] The family of units in which quantities are shown. \XXX[ list of unit families]
+	\item[\menu{Units}] The units in which energies, lengths and angles are shown: \menu{AU} (hartree, bohr, radian), \menu{CGS} (kcal\,mol\textsuperscript{$-1$}, \AA, degree) or \menu{SI} (kJ\,mol\textsuperscript{$-1$}, nm, radian).
 	\item[\menu{Beep on errors}, \menu{Beep on warnings}] Sound the bell with an error or a warning message.
-	\item[\menu{Focus follows mouse over input fields}] An input field takes the keyboard when the pointer is over it.
+	\item[\menu{Focus follows mouse over input fields}] An input field takes the keyboard while the pointer is over it.
 	\item[\menu{Ask for confirmation on exit}] Asks before the session ends.
 	\item[\menu{Close remote shells on exit}] Closes the terminals opened on compute machines when the session ends.
-	\item[\menu{Save data and compute server passwords between sessions}] Keeps the passwords, so that they are not asked for at the next start.
-	\item[\menu{Check for new releases}] At most once a day asks GitHub which releases exist, sending only ECCE's version; nothing is downloaded or installed. Locked when \cmd{ECCE\_NO\_UPDATE\_CHECK} is set or the administrator of the installation has switched the check off.
+	\item[\menu{Save data and compute server passwords between sessions}] Keeps the passwords, so that you are not asked for them at the next start.
+	\item[\menu{Check for new releases}] At most once a day, asks GitHub which releases exist, sending only ECCE's version; nothing is downloaded or installed. The setting is locked when \cmd{ECCE\_NO\_UPDATE\_CHECK} is set or when the administrator of the installation has switched the check off.
 	\item[\menu{Also tell me about previews (alpha and beta releases)}] Includes preview releases in the check.
-	\item[\menu{Quick transparency}] Draws transparent orbitals and isosurfaces faster, and less accurately where lobes overlap; applies the next time one is shown in the Builder.
-	\item[\menu{Show the MO diagram for ECCE-QM calculations}] Offers the MO diagram for ECCE-QM calculations; for the other codes it is always offered. Applies the next time a calculation is opened in the Builder, and is grey when the administrator has switched the MO diagram off.
-	\index{Preferences!Check for new releases}\index{Preferences!Quick transparency}\index{Preferences!MO diagram}
+	\item[\menu{Quick transparency}] Draws transparent orbitals and isosurfaces faster, but less accurately where lobes overlap; takes effect the next time one is shown in the Builder.
+	\item[\menu{Show the MO diagram for ECCE-QM calculations}] Offers the MO diagram for ECCE-QM calculations; for the other codes it is always offered. It takes effect the next time a calculation is opened in the Builder, and it is grey when the administrator has switched the MO diagram off.
+	\index{Preferences!Units}\index{Preferences!Check for new releases}\index{Preferences!Quick transparency}\index{Preferences!MO diagram}
 \end{description}
 
 \subsection*{Colours}
 \index{Preferences!Colours}
 \begin{description}
-	\item[\menu{Colour scheme}] \menu{Jmol} or \menu{ECCE (classic)}, the element colours of the 3D viewer, the periodic table and thumbnails. An open Builder changes at once, other windows when they are next opened.
-	\item[\menu{Style}] \menu{Flat} or \menu{Shaded} run-state icons in the Organizer tree and legend.
+	\item[\menu{Colour scheme}] \menu{Jmol} or \menu{ECCE (classic)}, the element colours of the 3-D viewer, the periodic table and the thumbnails. An open Builder changes at once, and other windows when they are next opened.
+	\item[\menu{Style}] \menu{Flat} or \menu{Shaded} run-state icons in the Organizer tree and its legend.
 	\index{Preferences!element colours}\index{Preferences!run-state icons}
 \end{description}
 
@@ -253,43 +257,43 @@ The root of a remembered server's tree has a right-click menu of its own, \menu{
 \index{Preferences!External programs}
 Each row offers a list of presets and \menu{Other}, which takes a command with its arguments.
 \begin{description}
-	\item[\menu{Editor}] The editor for input and output files. \menu{Default} uses \cmd{VISUAL} or \cmd{EDITOR} when set, otherwise \cmd{vi} (\cmd{open -t} on macOS). Terminal editors run in the terminal below.
+	\item[\menu{Editor}] The editor for input and output files. \menu{Default} uses \cmd{VISUAL} or \cmd{EDITOR} when either is set, and otherwise \cmd{vi} (\cmd{open -t} on macOS). Terminal editors run in the terminal set in the next row.
 	\item[\menu{Terminal}] The terminal for terminal editors and for the shells that the Organizer, the Launcher and MD Prepare open, locally or on a compute machine. \menu{Default} is \cmd{xterm} on Linux and Terminal on macOS.
 	\item[\menu{Web browser}] The browser for Help. \menu{Automatic} uses \cmd{xdg-open}, \cmd{x-www-browser} or \cmd{sensible-browser}, whichever is found first.
 \end{description}
-\cmd{ECCE\_EDITOR}, \cmd{ECCE\_TERMINAL} and \cmd{ECCE\_BROWSER}, when set, override these settings, and the page says so.
+When \cmd{ECCE\_EDITOR}, \cmd{ECCE\_TERMINAL} or \cmd{ECCE\_BROWSER} is set, it overrides the setting, and the page says so.
 
 \subsection*{Data}
 \index{Preferences!Data}
 \begin{description}
-	\item[\menu{Folder}] Where the calculations on this computer are kept; \ctrl{Change...} picks another folder and \ctrl{Open} opens it. \XXX[ check what Open opens it in]
-	\item[\menu{Servers}] The list of servers, with \menu{Name}, \menu{Type} and \menu{Address}. \ctrl{Add Server...} and \ctrl{Edit...} open the server dialog, whose \menu{Connect at start} chooses whether the Organizer connects when it starts; \ctrl{Remove} takes a server out of the list without deleting anything on it.
-	\item[\menu{Discard the programs' own binary files once results.h5 is written}] For jobs that finish afterwards, and for Gaussian 16 checkpoint files only; \menu{Continue from Final Orbitals} then reads the orbitals from \cmd{results.h5}.
+	\item[\menu{Folder}] Where the calculations on this computer are kept. \ctrl{Change...} picks another folder, and \ctrl{Open} shows the folder in the file manager.
+	\item[\menu{Servers}] The list of remembered servers, with \menu{Name}, \menu{Type} and \menu{Address}. \ctrl{Add Server...} and \ctrl{Edit...} open the server dialog, whose \menu{Connect at start} decides whether the Organizer connects when it starts, and \ctrl{Remove} takes a server out of the list without deleting anything on it.
+	\item[\menu{Discard the programs' own binary files once results.h5 is written}] Applies to jobs that finish after it is set, and at present to Gaussian 16 checkpoint files only; \menu{Continue from Final Orbitals} then reads the orbitals from \cmd{results.h5}.
 	\index{Preferences!Servers}\index{results.h5}
 \end{description}
 
 \subsection*{Advanced}
 \index{Preferences!Advanced}
-Switches for testing and troubleshooting. Each sets an environment variable for the ECCE applications; a variable already set in the environment wins, and the page says so.
+This page holds switches for testing and troubleshooting. Each of them sets an environment variable for the ECCE applications; when the variable is already set in the environment, that value wins, and the page says so.
 \begin{description}
-	\item[\menu{OpenGL drawing}] \menu{Automatic}, \menu{Software-safe} or \menu{Hardware}; Automatic decides from the OpenGL renderer the 3D view runs on (\cmd{ECCE\_GL\_PATH}).
+	\item[\menu{OpenGL drawing}] \menu{Automatic}, \menu{Software-safe} or \menu{Hardware}. \menu{Automatic} decides from the OpenGL renderer that the 3-D view runs on (\cmd{ECCE\_GL\_PATH}).
 	\item[\menu{Native (C++) Details dialogs}] Opens the theory Details dialogs with the C++ engine instead of the Python one.
-	\item[\menu{Per-pixel lighting off}] Draws the 3D view with fixed-function lighting, for when the picture is wrong or blank.
+	\item[\menu{Per-pixel lighting off}] Draws the 3-D view with fixed-function lighting, for when the picture is wrong or blank.
 	\item[\menu{No progress records for older calculations}] The Organizer does not work out a progress record for a calculation that has none.
 	\item[\menu{3-D view diagnostics}] Writes the lighting path and the OpenGL visual to the error output.
 	\item[\menu{Window and panel diagnostics}] Writes how windows are raised and panels placed to the error output.
 	\item[\menu{MO-diagram symmetry log}] Appends the symmetry analysis behind the MO diagram to the file given (by default \cmd{mosym.log}).
 	\item[\menu{Data-server login log}] Appends what happens during data-server logins to the file given (by default \cmd{davauth.log}).
-	\item[\menu{Remembered ssh logins}] The hosts whose SSH passwords are kept by \menu{Remember on this computer}; \ctrl{Forget} removes one. Shown only where a password store is available.
+	\item[\menu{Remembered ssh logins}] The hosts whose SSH passwords are kept by \menu{Remember on this computer}; \ctrl{Forget} removes one. The row is shown only where a password store is available.
 	\index{Preferences!OpenGL drawing}\index{Preferences!Remembered ssh logins}
 \end{description}
 
 \subsection*{Gateway window}
 \index{Preferences!Gateway window}
-Present only when the Gateway window is in use (\cmd{ECCE\_GATEWAY\_WINDOW=1}).
+This page is present only when the Gateway window is in use, that is, when ECCE is started with \cmd{ECCE\_GATEWAY\_WINDOW=1}.
 \begin{description}
-	\item[\menu{Show system busy icon}] \XXX[ where the busy icon is shown]
-	\item[\menu{Always on top}] Keeps the Gateway window above other windows; the window manager may override this.
-	\item[\menu{Left click invokes new tool}] \XXX[ what a left click does with and without this]
-	\item[Orientation] \menu{Horizontal Orientation} or \menu{Vertical Orientation} of the Gateway window. \XXX[ check]
+	\item[\menu{Show system busy icon}] (on) The ECCE icon of the Gateway window moves while work is going on.
+	\item[\menu{Always on top}] Keeps the Gateway window above other windows, although the window manager may override this.
+	\item[\menu{Left click invokes new tool}] Swaps what a click on a tool button does: bring up the copy of the tool that is already open, or start a new one.
+	\item[\menu{Horizontal Orientation}, \menu{Vertical Orientation}] The tool buttons of the Gateway window in a row or in a column.
 \end{description}
