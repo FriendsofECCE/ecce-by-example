@@ -34,7 +34,7 @@ Ibuprofen, \chem{C13H18O2}, has five rotatable single bonds and dozens of confor
 		\node[calcbox, text width=0.52\linewidth, below=of xtb] (sp) {\textbf{ORCA}, r2SCAN-3c, Energy\\ ranking on the xTB structures \hfill 8 energies};
 		\node[calcbox, text width=0.38\linewidth, below=of sp] (opt) {\textbf{ORCA}, r2SCAN-3c, Geometry\\ the refined structure \hfill 1 structure};
 		\draw[handoff] (start) -- node[handofflabel, right=2pt] {\menu{New step}, final geometry} (crest);
-		\draw[handoff] (crest) -- node[handofflabel, right=2pt] {\cmd{ecce-ensemble pick}, then\\ \menu{New Calculation from Selected...}} (xtb);
+		\draw[handoff] (crest) -- node[handofflabel, right=2pt] {\ctrl{Select Distinct...}, then\\ \menu{New Calculation from Selected...}} (xtb);
 		\draw[handoff] (xtb) -- node[handofflabel, right=2pt] {\menu{New step}, final geometry, for each} (sp);
 		\draw[handoff] (sp) -- node[handofflabel, right=2pt] {\menu{New step} from one of them} (opt);
 	\end{tikzpicture}
@@ -53,8 +53,8 @@ Two rules make a funnel work. First, pass on several structures at each step, no
 \paragraph{Conformers panel.} Open a finished CREST calculation in the Builder and choose \menu{Properties > Geometry > Conformers} (figure~\ref{fig:coupling-conformers}). Each row is a conformer, with its rank, relative energy in kcal/mol and Boltzmann population at 298.15~K. Click a row to see the structure. Tick several rows and choose \menu{New Calculation from Selected...}: ECCE asks for a code and makes one geometry optimisation per conformer.
 \index{Conformers panel!New Calculation from Selected}\index{Conformers panel!Export .csv}
 
-\paragraph{\cmd{ecce-ensemble pick}.} CREST returns many conformers that differ only in a methyl rotation. This command merges conformers whose heavy atoms lie within \SI{0.5}{\angstrom} of each other after a fit, and leaves the distinct ones.
-\index{Commands!ecce-ensemble}\index{Distinct conformers}
+\paragraph{Select Distinct.} CREST returns many conformers that differ only in a methyl rotation. \ctrl{Select Distinct...} in the \menu{Conformers} panel treats two conformers as the same when their heavy atoms lie within a given RMSD of each other after a fit (\SI{0.5}{\angstrom} unless you change it), and selects the lowest of each such group, so that what is selected is the set of distinct conformers. \XXX[ the button is #1039; check the wording against the build that has it]
+\index{Conformers panel!Select Distinct}\index{Distinct conformers}
 
 \paragraph{Workflow view.} A workflow shows calculations as linked boxes. Click a box, then a code button, and the \menu{New step} window makes a calculation in that code; tick \menu{Final geometry} and \menu{Charge and multiplicity} to start it from the box's result. Calculations made outside a workflow join one with \menu{Make Workflow from Selected...} or \menu{Move Selected into Workflow} (right-click in the Organizer). Chapter~\ref{ch:workflows} describes the view.
 \index{Workflows!New step}\index{New step}\index{Make Workflow}
@@ -69,10 +69,10 @@ We build the chain in one workflow, so each step can start from the one before.
 	\item Right-click the calculation in the Organizer and choose \menu{Make Workflow...}.
 	\item In the workflow view, click the xTB box, then \menu{CREST}. In \menu{New step}, tick \menu{Final geometry} and \menu{Charge and multiplicity} and choose \menu{Create}; CREST needs an optimised start. Double-click the new box and set run type \menu{Conformer Search}, theory \menu{GFN-FF}, \menu{Energy window} 6~kcal/mol. Launch.
 	\index{CREST!Theory}\index{CREST!Energy window}\index{GFN-FF}
-	\item Open the finished CREST calculation and choose \menu{Properties > Geometry > Conformers}. To find the distinct conformers, run \cmd{ecce-ensemble pick} on it in a terminal; we kept eight.
-	\item In the \menu{Conformers} panel, tick the eight, choose \menu{New Calculation from Selected...} and pick xTB. Select the eight new calculations in the Organizer, choose \menu{Run Mgmt > Launch Selected...}, then right-click and \menu{Move Selected into Workflow}.
+	\item Open the finished CREST calculation and choose \menu{Properties > Geometry > Conformers}. Click \ctrl{Select Distinct...} and accept \SI{0.5}{\angstrom}; eight conformers are selected.
+	\item With the eight selected, choose \menu{New Calculation from Selected...} and pick xTB. Select the eight new calculations in the Organizer, choose \menu{Run Mgmt > Launch Selected...}, then right-click and \menu{Move Selected into Workflow}.
 	\index{Run Mgmt menu!Launch Selected...}
-	\item For each xTB box: click it, click \menu{ORCA}, tick \menu{Final geometry} and \menu{Charge and multiplicity}, \menu{Create}. Double-click the new box and set theory \menu{DFT}, functional \menu{r2SCAN-3c} (\menu{Theory Details}; it has its own basis set), run type Energy. Launch. ECCE has no single action yet for all eight at once.
+	\item For each xTB box: click it, click \menu{ORCA}, tick \menu{Final geometry} and \menu{Charge and multiplicity}, \menu{Create}. Double-click the new box and set theory \menu{DFT}, functional \menu{r2SCAN-3c} (\menu{Theory Details}; it has its own basis set), run type Energy. Launch. Outside a workflow, one step does all eight: select the xTB calculations in the project table and choose \menu{Tools > New Calculations in Another Code...}, which makes one ORCA calculation from each with the setup you make once; the workflow links, however, are then not made.
 	\index{r2SCAN-3c}\index{Composite methods}\index{ORCA!Theory Details}
 	\item Repeat step 6 for the conformer you want to refine, with run type Geometry.
 	\item To compare structures, tick several rows in the \menu{Conformers} panel. ECCE overlays them and lists each one's heavy-atom RMSD.
@@ -81,7 +81,7 @@ We build the chain in one workflow, so each step can start from the one before.
 
 \section{Results}
 
-CREST found 21 conformers in four minutes (figure~\ref{fig:coupling-conformers}); \cmd{ecce-ensemble pick} kept eight.
+CREST found 21 conformers in four minutes (figure~\ref{fig:coupling-conformers}); \ctrl{Select Distinct...} kept eight.
 
 \begin{figure}[htb]
 	\centering
