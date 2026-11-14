@@ -1,4 +1,5 @@
 # Writing queue
+PRINCIPLE (Andy 11-14, more important than any single example): show the reader how to use the fact that ECCE couples computations: MACE, CP2K, QE, xTB, CREST, ORCA, GROMACS, Vina... at their fingertips. Patterns: (1) screening funnel: a cheap method ranks many candidates, an expensive one refines the few (CREST -> xTB -> DFT; MACE -> QE/CP2K; Vina -> xTB/DFT rescoring); (2) multi-level: geometry at a lower level, energy or property at a higher one; (3) hand-offs across scales: QM charges/parameters -> MD, MD snapshots -> QM properties, periodic model -> cluster for a molecular code; (4) one structure, each property from the code best at it. Every chapter has a "Coupling with other codes" section; say which steps a workflow/recipe automates (workflow steps: xTB, CREST, Vina, ORCA, ECCE-QM, G16, CP2K, QE, NWChem, MOPAC) and which are a manual hand-off (MACE, GROMACS today). The workflows chapter (Methods, first) is the book's core chapter. For organic chemists CREST conformer searches are a game changer: the Organic part leads with them. Never show energy differences between methods (rule); coupling compares structures and ranks, not cross-method energies.
 Audience (Andy 11-14): the book is for scientists doing research calculations in their field: each chapter shows how to do that field's computations in ECCE AND uses what ECCE adds (coupling codes, e.g. CREST -> xTB -> ORCA; workflows; building models; analysis). Only ONE chapter is about teaching. Example: a clay scientist looks up how to build layered structures and run them in GROMACS, or how to run periodic structures in CP2K. Each field part opens with an overview (chapters/part-*.tex): the kinds of calculations and projects done in that field, each with its ECCE route and chapter, so a biochemist or inorganic chemist sees at once what the field does in ECCE. Chapters should use what is unique to ECCE where it helps (Andy: e.g. an inorganic chemist adding water molecules and counter ions to a small polyoxometalate: CREST solvation shell -> xTB -> DFT via the Solvation shell recipe). If ECCE cannot yet do a step the field needs (e.g. placing counter ions), file an ECCE issue and say so in the report; never fake it.
 Chemistry typesetting: formulas always \chem{H2O} (mhchem; plain in bookmarks), ions \ce{Cl-}, S\textsubscript{N}2, p\textit{K}\textsubscript{a}, Greek letters as symbols, units with a thin space. ECCE's own menu text (\menu, \eccexample) stays as ECCE shows it. `make check` reports bare formulas.
 Versions: every chapter and appendix carries \checkedwith; when ECCE is updated, run `make check` and recheck what it lists (help pages or, for the appendices, \eccesource paths changed since the check) before the book shows the new version.
@@ -10,14 +11,14 @@ One chapter per agent job, interleaved with ECCE tickets (every second agent job
 - [ ] 1c. appendix menus-builder
 - [ ] 1d. appendix settings: preference files, per-user state, environment variables (from docs/AGENTS.md)
 - [ ] 1e. part overviews (chapters/part-*.tex), one job for all six fields
+- [ ] 1f. workflows (core chapter: coupling computations)
+- [ ] 1g. crest (organic lead chapter)
 - [ ] 2. hpc
 - [ ] 3. code-registration
 - [ ] 4. clays
 - [ ] 5. cp2k
 - [ ] 5a. pom-solvation
-- [ ] 6. crest
 - [ ] 7. protonation
-- [ ] 8. workflows
 - [ ] 9. first-calculation
 - [ ] 10. organizer
 - [ ] 11. machines

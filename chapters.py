@@ -31,7 +31,7 @@ PLAN = [
   "Command line|AGENTS.md|ecce-rerun|ecce-reparse|Series of calculations|AI assistants"),
 ]),
 ("Methods", [
- ("workflows", "Coupling codes: workflows and recipes", "Workflows",
+ ("workflows", "Coupling computations: screening, refinement and hand-offs between codes", "Workflows",
   "workflows recipes writing-a-recipe", "Workflows|Recipes|Auto-run|Launch Ready Steps|Writing a recipe|ecce-workflow"),
  ("qsar", "QSAR: descriptors, PCA and PLS", "QSAR",
   "qsar-table qsar-analysis batch-from-smiles", "QSAR|Descriptors|PCA|PLS|Batch Add from SMILES|ecce-qsar"),
@@ -68,7 +68,7 @@ PLAN = [
   "", "TD-DFT|Excited states|UV-vis spectrum|Oscillator strength"),
 ]),
 ("Organic chemistry", [
- ("crest", "Conformer ensembles: CREST, xTB and DFT refinement", "Workflows > Aminopyridine protonation",
+ ("crest", "Conformer searches with CREST: from one structure to a refined ensemble", "Workflows > Aminopyridine protonation",
   "crest", "CREST|Conformer search|Boltzmann weights|Coupled codes"),
  ("xtb", "Fast calculations with xTB", "Getting Started",
   "xtb", "xTB|GFN2-xTB|GFN-FF|Semiempirical methods"),
@@ -182,6 +182,11 @@ STUB = r"""\chapter{%(title)s}
 \section{Procedure}
 
 \section{Results}
+
+\section{Coupling with other codes}
+%% What feeds this calculation (a cheaper screen, a structure from another code)
+%% and what it feeds (refinement, a property from the code best at it); which
+%% steps a workflow or recipe automates and which are a manual hand-off.
 
 """
 def main():
