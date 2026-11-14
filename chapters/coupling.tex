@@ -1,5 +1,5 @@
-\chapter{Coupling computations: screening, refinement and hand-offs between codes}
-\chaptermark{Coupling computations}
+\chapter{Using several codes on one problem}
+\chaptermark{Several codes on one problem}
 \label{ch:coupling}
 \index{Coupling computations}
 \index{New from This}
@@ -11,19 +11,15 @@
 \helppage{xtb}
 \helppage{new-series}
 
-Most research problems are too large for the method that would be trusted to give the answer and too open for a single guess to be enough. The usual way out is to let a cheap method look at many candidates and an expensive one look at a few, and to let each property come from the code that is best at it. ECCE stores every calculation with its structure, its results and the setup that produced them, so that the structure leaving one code can enter the next without being retyped, and without a file format in between. This chapter shows how such hand-offs are made, with one worked example, the conformers of ibuprofen taken from CREST through xTB to ORCA, and then describes the same pattern for periodic models, for molecular dynamics and for a structure that several codes treat in turn.
+A flexible molecule has many conformers, and optimising all of them with DFT is wasteful. We therefore screen them with a cheap method and refine only the best few with an expensive one. In ECCE, a finished calculation keeps its final structure, charge and multiplicity, so you can start a calculation in another code directly from it, without exporting and importing files.
+
+This chapter works through one example: the conformers of ibuprofen, searched with CREST, re-optimised with xTB and refined with ORCA. It then lists other ways of passing structures between codes. Everything here is done by hand; Chapter~\ref{ch:workflows} shows how to automate a chain once you know what each step does.
 \index{Codes!CREST}\index{Codes!xTB}\index{Codes!ORCA}
 
-Coupling in this sense is done by hand, one calculation made from another, in the Organizer and the Builder. Chapter~\ref{ch:workflows} describes how a chain that is run often can be drawn once and launched as a unit; the steps are the same, and doing them by hand a few times is the best way to see what the chain does.
-
-\section{Background}
+\section{The funnel}
 \index{Screening funnel}\index{Multi-level calculations}
 
-\subsection{The screening funnel}
-A flexible molecule has no single structure. Ibuprofen, \chem{C13H18O2}, has five rotatable single bonds, in the isobutyl group, between the ring and the propionic acid group, and in the carboxyl group, and each combination of their rotations is a conformer. A conformer search with a tight-binding method \cite{pracht2020,bannwarth2019} finds the local minima in minutes, but the energies of tight-binding methods are good enough to separate conformers only roughly, and a density functional calculation on every conformer is the cost that the search was meant to avoid. A funnel solves this by passing a growing amount of effort to a shrinking set of structures: a force field or tight-binding search generates and ranks the conformers, a better tight-binding method re-optimises the lowest ones, and a composite density functional method refines the structure that is left (Fig.~\ref{fig:coupling-funnel}).
-
-Three points decide whether a funnel works. The cheap step has to keep every structure that the expensive step could prefer, which is why the window of the search and the number of structures passed on are generous. The ranking at one level does not have to agree with that of the next in detail, only to put the structures the next level prefers within reach; the example below shows what this looks like. And the energies of different methods are never put on one scale. The funnel compares structures and orders, and each method's energies are read against that method's own lowest value.
-\index{Energies!comparison between methods}
+Ibuprofen, \chem{C13H18O2}, has five rotatable single bonds and dozens of conformers. We use three methods in turn (figure~\ref{fig:coupling-funnel}). The GFN-FF force field in CREST \cite{pracht2020} generates and ranks the conformers. The tight-binding method GFN2-xTB \cite{bannwarth2019} re-optimises the lowest of them. The composite DFT method r2SCAN-3c \cite{grimme2021} in ORCA ranks those and refines one. At each step there are fewer structures and each costs more.
 
 \begin{figure}[htb]
 	\centering
@@ -33,81 +29,69 @@ Three points decide whether a funnel works. The cheap step has to keep every str
 		\node[calcbox, text width=0.66\linewidth, below=11mm of crest] (xtb) {\textbf{xTB}, GFN2-xTB, Geometry\\ the distinct conformers re-optimised \hfill 8 structures};
 		\node[calcbox, text width=0.52\linewidth, below=of xtb] (sp) {\textbf{ORCA}, r2SCAN-3c, Energy\\ ranking on the xTB structures \hfill 8 energies};
 		\node[calcbox, text width=0.38\linewidth, below=of sp] (opt) {\textbf{ORCA}, r2SCAN-3c, Geometry\\ the refined structure \hfill 1 structure};
-		\draw[handoff] (start) -- node[handofflabel, right=2pt] {final geometry as the start} (crest);
+		\draw[handoff] (start) -- node[handofflabel, right=2pt] {\menu{New step}, final geometry} (crest);
 		\draw[handoff] (crest) -- node[handofflabel, right=2pt] {\cmd{ecce-ensemble pick}, then\\ \menu{New Calculation from Selected...}} (xtb);
-		\draw[handoff] (xtb) -- node[handofflabel, right=2pt] {\cmd{ecce-series} with an ORCA template} (sp);
-		\draw[handoff] (sp) -- node[handofflabel, right=2pt] {one conformer, from its xTB structure} (opt);
+		\draw[handoff] (xtb) -- node[handofflabel, right=2pt] {\menu{New step}, final geometry, for each} (sp);
+		\draw[handoff] (sp) -- node[handofflabel, right=2pt] {\menu{New step} from one of them} (opt);
 	\end{tikzpicture}
-	\caption{The screening funnel of this chapter for ibuprofen. Each box is one kind of calculation in ECCE, with its code, theory and run type and the number of structures it handles; each arrow is the hand-off from one to the next and the ECCE route for it. The effort per structure grows downwards and the number of structures shrinks.}
+	\caption{The funnel for ibuprofen. Each box is a calculation, with its code, method, run type and number of structures. Each arrow says how the structures get to the next calculation.}
 	\label{fig:coupling-funnel}
 	\index{Screening funnel!flow chart}
 \end{figure}
 
-\subsection{Other hand-offs}
-The funnel is one of four patterns that the rest of the book uses.
-\begin{itemize}
-	\item \emph{Multi-level calculations}: the geometry at a lower level, an energy or a property at a higher one.
-	\item \emph{Across scales and models}: parameters or charges from a quantum calculation into molecular dynamics, snapshots from a trajectory into quantum calculations, a periodic model into a cluster for a molecular code.
-	\item \emph{One structure, each property from the best code}: the same coordinates in several programs, each asked what it does best.
-\end{itemize}
+Two rules make a funnel work. First, pass on several structures at each step, not just the lowest: a cheap method gets the order of close conformers wrong, and the example below shows it. Second, never subtract an energy from one method from an energy from another. Compare structures and rankings, with each method's energies counted from its own lowest conformer.
+\index{Energies!comparison between methods}
 
-\section{What ECCE shows}
+\section{The tools}
 \index{Conformers panel}\index{Properties list!Conformers}\index{Geometry Trace}
 \index{Properties list!Geometry Trace}
 
-A finished CREST calculation has a \menu{Conformers} panel in the \menu{Properties} list of the Builder, under \menu{Geometry}. It has one row for each conformer in CREST's final list, lowest first, with a picture of the structure, the rank, the energy relative to the lowest one in kcal/mol, and the Boltzmann population in percent at 298.15~K. Clicking a row shows that structure in the 3-D view, ticking several rows and choosing \menu{New Calculation from Selected...} asks once for the code and makes one calculation for each of them, with the structure of the row, the Geometry Optimization run type and the charge and multiplicity of the CREST calculation. Below the table a plot of energy against rank marks the chosen structure.
+\paragraph{Conformers panel.} Open a finished CREST calculation in the Builder and choose \menu{Properties > Geometry > Conformers} (figure~\ref{fig:coupling-conformers}). Each row is a conformer, with its rank, relative energy in kcal/mol and Boltzmann population at 298.15~K. Click a row to see the structure. Tick several rows and choose \menu{New Calculation from Selected...}: ECCE asks for a code and makes one geometry optimisation per conformer.
 \index{Conformers panel!New Calculation from Selected}\index{Conformers panel!Export .csv}
 
-A conformer search from a molecule with many near-degenerate conformers returns many structures that differ by a rotation of a methyl group. The command \cmd{ecce-ensemble pick} reads the same stored ensemble and merges members whose heavy atoms lie within a given distance after a fit (\SI{0.5}{\angstrom} by default), which gives a list of distinct structures. Each pick is also checked against the input structure, for a change of protonation or of bound ions, and the report says if the check fails.
+\paragraph{\cmd{ecce-ensemble pick}.} CREST returns many conformers that differ only in a methyl rotation. This command merges conformers whose heavy atoms lie within \SI{0.5}{\angstrom} of each other after a fit, and leaves the distinct ones.
 \index{Commands!ecce-ensemble}\index{Distinct conformers}
 
-For the step from xTB to ORCA, ECCE makes a calculation from a template, a calculation whose code, theory, run type, basis set and launch settings are wanted, with a list of structures or stored calculations as the sources of the geometry. The command is \cmd{ecce-series}, and a stored calculation brings its own final geometry, charge and multiplicity.
-\index{Commands!ecce-series}\index{New Series}\index{Template calculation}
-In a workflow the same hand-off is the \menu{New step} window, which takes the final geometry of the selected box into a step of another code (Chapter~\ref{ch:workflows}).
+\paragraph{Workflow view.} A workflow shows calculations as linked boxes. Click a box, then a code button, and the \menu{New step} window makes a calculation in that code; tick \menu{Final geometry} and \menu{Charge and multiplicity} to start it from the box's result. Calculations made outside a workflow join one with \menu{Make Workflow from Selected...} or \menu{Move Selected into Workflow} (right-click in the Organizer). Chapter~\ref{ch:workflows} describes the view.
+\index{Workflows!New step}\index{New step}\index{Make Workflow}
 
 \section{Procedure}
 \index{CREST!conformer search}\index{Conformer search}
 
-The calculation uses ibuprofen, built from the SMILES string \texttt{CC(C)Cc1ccc(cc1)C(C)C(=O)O}. Everything is done in one project folder, so that the calculations are next to one another in the Organizer and each can be chosen as the source of the next.
+We build the chain in one workflow, so each step can start from the one before.
 \begin{enumerate}
-	\item In the Organizer, make a project and, with \menu{File > New}, an xTB calculation. In the Builder choose \menu{Tools > Add from SMILES...} and enter the string, and set the run type to Geometry with the theory GFN2-xTB.
+	\item Make an xTB calculation (\menu{File > New}). In the Builder, choose \menu{Tools > Add from SMILES...} and enter \texttt{CC(C)Cc1ccc(cc1)C(C)C(=O)O}. Run type Geometry, theory GFN2-xTB. Launch.
 	\index{Tools menu!Add from SMILES...}\index{SMILES}
-	\item Launch the calculation. CREST starts from an optimised structure and fails from an unoptimised one, which is why this step is first.
-	\item Click the \menu{CREST} code button in the code bar to make a CREST calculation and give it the structure of the xTB result, with the run type \menu{Conformer Search} and the theory \menu{GFN-FF}. Leave the \menu{Energy window} at 6~kcal/mol, and launch.
+	\item Right-click the calculation in the Organizer and choose \menu{Make Workflow...}.
+	\item In the workflow view, click the xTB box, then \menu{CREST}. In \menu{New step}, tick \menu{Final geometry} and \menu{Charge and multiplicity} and choose \menu{Create}; CREST needs an optimised start. Double-click the new box and set run type \menu{Conformer Search}, theory \menu{GFN-FF}, \menu{Energy window} 6~kcal/mol. Launch.
 	\index{CREST!Theory}\index{CREST!Energy window}\index{GFN-FF}
-	\item When the calculation is complete, open it in the Builder and choose \menu{Properties > Geometry > Conformers}. Sort the table by the column heads if wanted. To keep the distinct conformers only, run \cmd{ecce-ensemble pick} on the calculation with the number of picks wanted, here eight.
-	\item In the table ctrl-click the conformers to be refined and choose \menu{New Calculation from Selected...}. Choose xTB; the new calculations are Geometry optimisations, named after the CREST calculation with \texttt{\_conf} and the rank. Select them and choose \menu{Run Mgmt > Launch Selected...}.
+	\item Open the finished CREST calculation and choose \menu{Properties > Geometry > Conformers}. To find the distinct conformers, run \cmd{ecce-ensemble pick} on it in a terminal; we kept eight.
+	\item In the \menu{Conformers} panel, tick the eight, choose \menu{New Calculation from Selected...} and pick xTB. Select the eight new calculations in the Organizer, choose \menu{Run Mgmt > Launch Selected...}, then right-click and \menu{Move Selected into Workflow}.
 	\index{Run Mgmt menu!Launch Selected...}
-	\item Make the ORCA template: a calculation with the code ORCA, the theory \menu{DFT}, the functional \menu{r2SCAN-3c} in \menu{Theory Details}, the run type Geometry (or Energy for a ranking only) and the cores and machine to be used. The composite carries its own basis set, so no basis set is chosen.
+	\item For each xTB box: click it, click \menu{ORCA}, tick \menu{Final geometry} and \menu{Charge and multiplicity}, \menu{Create}. Double-click the new box and set theory \menu{DFT}, functional \menu{r2SCAN-3c} (\menu{Theory Details}; it has its own basis set), run type Energy. Launch. ECCE has no single action yet for all eight at once.
 	\index{r2SCAN-3c}\index{Composite methods}\index{ORCA!Theory Details}
-	\item Run \cmd{ecce-series} with the template, the folder and the xTB calculations as sources, then select the new calculations and launch them as before.
-	\item To compare the structures before and after a step, select several rows of the \menu{Conformers} panel; they are fitted onto the first one and the key under the table lists the heavy-atom RMSD of each.
+	\item Repeat step 6 for the conformer you want to refine, with run type Geometry.
+	\item To compare structures, tick several rows in the \menu{Conformers} panel. ECCE overlays them and lists each one's heavy-atom RMSD.
 	\index{Conformers panel!Superposing members}\index{RMSD}
 \end{enumerate}
 
-The calculations of this chapter were made headless, through ECCE's own Launch with decks written by the same scripts as in the Calculation Editor, in an isolated data folder (ECCE 9.5.3-dev, \cmd{nice} level 19, at most four cores). The harness stores the structure and deck of each calculation and not the Calculation Editor setup, so the xTB and ORCA calculations were made one by one with the structures of the picked conformers, which is what steps 5 to 7 produce; \cmd{ecce-ensemble pick} was run as described. The steps in the Organizer and Builder follow the help pages of ECCE; step 5 to 7 were not driven through the windows for this chapter.
-
 \section{Results}
-\index{Ibuprofen}
 
-\subsection{CREST and GFN-FF}
-The GFN2-xTB optimisation of the SMILES structure took 33~s and the CREST search with GFN-FF, on two cores, 236~s. CREST kept 21 conformers within 6~kcal/mol of the lowest one. The Conformers panel (Fig.~\ref{fig:coupling-conformers}) shows the lowest first, and the first four are within 0.12~kcal/mol of one another, a spread that no method of this class can resolve. \cmd{ecce-ensemble pick} with a merge distance of \SI{0.5}{\angstrom} returned the same first eight as separate structures, so all eight differ in the heavy-atom skeleton by more than that distance, and each differs from the lowest by \SIrange{0.8}{1.7}{\angstrom} in heavy-atom RMSD.
-\index{Heavy-atom RMSD}
+CREST found 21 conformers in four minutes (figure~\ref{fig:coupling-conformers}); \cmd{ecce-ensemble pick} kept eight.
 
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\linewidth]{coupling/crest-conformers.ecce-9.5.3-dev.png}
-	\caption{The \menu{Conformers} panel for the CREST search on ibuprofen. The rows give rank, relative energy and population within GFN-FF; the 3-D view shows the lowest conformer on a white background.}
+	\caption{The \menu{Conformers} panel of the CREST search on ibuprofen. The 3-D view shows the lowest conformer.}
 	\label{fig:coupling-conformers}
 \end{figure}
 
-\subsection{xTB and the ranking}
-Each of the eight picks was optimised with GFN2-xTB (\SIrange{33}{48}{\second} each) and then given a single-point energy with ORCA and r2SCAN-3c \cite{grimme2021} on the xTB structure (\SIrange{33}{102}{\second} on four cores), so that the order of the conformers at the three levels could be set side by side. Table~\ref{tab:coupling-rank} gives the order and, for each method, the energy relative to that method's own lowest conformer. The columns are not to be subtracted from one another.
+Table~\ref{tab:coupling-rank} ranks the eight with each method. The xTB optimisations took under a minute each, the ORCA single points one to two minutes on four cores. Read each column on its own.
 \index{Ranking of conformers}
 
 \begin{table}[htb]
 	\centering
-	\caption{Eight distinct conformers of ibuprofen at three levels. Each energy column is relative to the lowest conformer of that column, in kcal/mol; conformer 3 is the lowest at the xTB level and conformer 4 at the r2SCAN-3c level.}
+	\caption{Eight conformers of ibuprofen ranked by three methods. Energies in kcal/mol, relative to the lowest conformer in the same column.}
 	\label{tab:coupling-rank}
 	\begin{tabular}{rrrrrrr}
 		\toprule
@@ -126,45 +110,40 @@ Each of the eight picks was optimised with GFN2-xTB (\SIrange{33}{48}{\second} e
 	\end{tabular}
 \end{table}
 
-Inside each of three groups, conformers 1 to 4, 5 and 6, and 7 and 8, the order changes from one method to the next, and the differences within a group are a few hundredths of a kcal/mol at the xTB level and about a tenth at the r2SCAN-3c level, so the order inside a group has no meaning at any of the levels. The groups themselves keep their order at all three: the first four are always lowest, the pair 5 and 6 next, the pair 7 and 8 highest. This is the situation for which the funnel is designed. A cut at the lowest conformer of the cheap method would have dropped conformer 4, which the most expensive method puts first, and a cut after four conformers would have kept it. Passing on several conformers, and not one, costs a few minutes here.
+All three methods give the same three groups: conformers 1--4, 5--6 and 7--8. Within a group the order changes, because the four lowest lie within 0.12~kcal/mol of each other, far below the error of any of the methods. r2SCAN-3c puts conformer 4 lowest, which both cheaper methods ranked fourth. Had we passed on only the lowest conformer, we would have missed it.
 \index{Funnel!choice of the number of structures}
 
-The group structure is itself a result for ibuprofen: the four lowest conformers are separated from the rest by a gap that is larger than the differences inside them, and at the GFN-FF level the populations of all eight conformers are above 4 percent, so that a Boltzmann average over this molecule at room temperature would need more than the lowest one. Whether the gap persists at a higher level is a question for a calculation at that level and is not settled by this table.
-
-\subsection{Refinement with ORCA}
-The conformer that xTB put lowest, conformer 3, was optimised with r2SCAN-3c in ORCA from its xTB structure (Fig.~\ref{fig:coupling-orca}). The optimisation converged in 10 steps and \SI{341}{\second} on four cores, and moved the heavy atoms by \SI{0.096}{\angstrom} (RMSD after a fit). In the carboxyl group the C=O bond is \SI{1.201}{\angstrom} in the xTB structure and \SI{1.209}{\angstrom} after the optimisation, the C--O single bond \SI{1.340}{\angstrom} and \SI{1.357}{\angstrom}, and the O--H bond \SI{0.971}{\angstrom} in both. A step from tight-binding to a density functional therefore changes bond lengths by a few hundredths of an ångström and leaves the conformer as it was, which is what makes the hand-off of the structure sensible.
+We optimised conformer 3, the lowest with xTB, with r2SCAN-3c (figure~\ref{fig:coupling-orca}); a real study would optimise all four of the lowest group. The optimisation took 10 steps and six minutes. The heavy atoms moved by \SI{0.096}{\angstrom} (RMSD). C=O lengthened from \SI{1.201}{} to \SI{1.209}{\angstrom}, C--O from \SI{1.340}{} to \SI{1.357}{\angstrom}; O--H stayed at \SI{0.971}{\angstrom}. DFT changes the bond lengths slightly but keeps the conformer, so xTB is good enough for the conformational search.
 \index{Geometry optimisation!ORCA}\index{Bond lengths!carboxyl group}
 
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\linewidth]{coupling/orca-opt-trace.ecce-9.5.3-dev.png}
-	\caption{The ORCA r2SCAN-3c optimisation of ibuprofen conformer 3 in the Builder, with the \menu{Geometry Trace} panel plotting the energy of each optimisation step relative to the first.}
+	\caption{The r2SCAN-3c optimisation of conformer 3. The \menu{Geometry Trace} panel plots the energy of each step relative to the first.}
 	\label{fig:coupling-orca}
 \end{figure}
 
-The calculations are in the repository of this book under \texttt{calculations/coupling}, in the order of the funnel: \texttt{01-xtb} the starting structure, \texttt{02-crest} the search, \texttt{03-xtb} the eight re-optimisations, \texttt{05-orca} the eight single points and \texttt{06-orca} the optimisation. A real project would stop earlier or later, depending on what the structure is wanted for. Frequencies and free energies, for instance, would be one more calculation on the last structure, in the same code, from \menu{New from This > Continue from Last Geometry}.
+For frequencies of the final structure, use \menu{New from This > Continue from Last Geometry}.
 \index{New from This!Continue from Last Geometry}
 
-\section{Across scales and from periodic models}
+The calculations are in the book's repository under \texttt{calculations/coupling}. We ran them through ECCE's job launcher without the windows, so steps 2, 3 and 5 to 7 were not done in the windows; the calculations have the same setup.
+
+\section{Other hand-offs}
 \index{Periodic models!to clusters}\index{Cluster models}
 
-The hand-offs below were not run for this chapter. They are what the help pages of ECCE describe, and each is given with the page that describes it so that it can be checked against the version in use.
+These follow the same idea. We have not run them for this chapter.
 
-\emph{A periodic model into a cluster for a molecular code.} ECCE has no command that cuts a cluster out of a periodic structure and caps the cut bonds in one step. The pieces exist in the Builder: \menu{Edit > Select Within Distance...} selects the atoms, or whole molecules, within a distance of the current selection (with an option to keep the original selection), \menu{Edit > Reverse Selection} and \menu{Edit > Delete Selection} remove the rest, and the \menu{Delete Lattice} button of the Periodic Builder removes the cell. \menu{Build > Add Hydrogen} fills open valences from the atom shapes. That works for an organic fragment, but on a cut oxide every added atom needs checking. A new calculation then hands the cluster to a molecular code, for example through \cmd{ecce-series} with a template of that code. The user decides which atoms to keep and how to saturate the surface, and compares the cluster with the periodic model for the property of interest, not for the total energy.
+\paragraph{Periodic model to cluster.} ECCE has no single command for this. In the Builder, \menu{Edit > Select Within Distance...} selects the atoms to keep; \menu{Edit > Reverse Selection} and \menu{Edit > Delete Selection} remove the rest; \menu{Delete Lattice} in the Periodic Builder removes the cell; \menu{Build > Add Hydrogen} caps the open valences. Check the added hydrogens on a cut oxide. You decide which atoms to keep and how to cap them. Compare the cluster with the periodic model for the property you want, not for the total energy.
 \index{Select Within Distance}\index{Edit menu!Select Within Distance...}\index{Periodic Builder!Delete Lattice}\index{Edit menu!Delete Selection}\index{Edit menu!Reverse Selection}
 
-\emph{A machine-learned potential into a quantum code.} A MACE calculation of a periodic cell or a molecule is cheap enough to optimise a structure first; the help page of the MLP code advises a Geometry run followed by a new calculation from its last structure for the property that needs a minimum. The same step, a new calculation in Quantum ESPRESSO or CP2K from the final geometry, is the hand-off from the machine-learned potential to the quantum code. Chapter~\ref{ch:mlp} describes the potential.
+\paragraph{MACE to a quantum code.} Optimise with MACE, then make a Quantum ESPRESSO or CP2K calculation from the final structure (Chapter~\ref{ch:mlp}).
 \index{MACE}\index{Codes!MACE}
 
-\emph{Molecular dynamics and quantum chemistry.} A trajectory (a \texttt{.trj} or multi-frame \texttt{.xyz} file) opens in the Builder with \menu{File > Open...}, and a frame that is saved as a structure can be the source of a new calculation by the same route as above. \menu{Edit > Take Coordinates From...} puts the coordinates of chosen atoms of one calculation of the same folder into another that has the same atoms in the same order, with an optional alignment first, which is how a QM-optimised ligand is put back into a larger system.
+\paragraph{Molecular dynamics and quantum chemistry.} Open a trajectory with \menu{File > Open...}, save a frame as a structure, and start a calculation from it. To go back, \menu{Edit > Take Coordinates From...} copies coordinates of chosen atoms from one calculation into another with the same atoms, for example a DFT-optimised ligand into a larger system.
 \index{Take Coordinates From}\index{Trajectories!to quantum chemistry}
 
-\section{One structure, each property from the best code}
-\index{Properties!from different codes}
-
-The last pattern needs no new mechanism. One structure, for instance the r2SCAN-3c structure of conformer 3 above, is the source of several calculations that differ in the code: the orbitals and a population analysis in ORCA, a vibrational spectrum from xTB or from ECCE-QM, a dipole moment or a surface from another code, each made from the same stored geometry by \cmd{ecce-series} or by the \menu{New step} window, so that the coordinates are exactly the same in each. Within one code, \menu{New from This > Continue from Final Orbitals} starts the new calculation from the orbitals of the finished one for ORCA, Gaussian 16, NWChem, ECCE-QM, MOPAC, CP2K and Quantum ESPRESSO, which saves iterations for a larger basis set.
-\index{Continue from Final Orbitals}\index{Series of calculations}
-What each code does best is a question for the chapters of the field in which the property matters. The only rule that the coupling itself adds is the one used in Table~\ref{tab:coupling-rank}: the properties of different codes are read side by side, as structures, orders and quantities of the same kind, and the total energies of different methods are not subtracted.
+\paragraph{One structure, several codes.} Take each property from the code best suited to it, e.g.\ orbitals from ORCA and an IR spectrum from xTB. Make each one with \menu{New step} from the same box, so the coordinates are identical. \menu{New from This > Continue from Final Orbitals} starts a calculation from a finished one's orbitals, which saves SCF iterations with a larger basis set (ORCA, Gaussian 16, NWChem, ECCE-QM, MOPAC, CP2K, Quantum ESPRESSO).
+\index{Continue from Final Orbitals}\index{Series of calculations}\index{Properties!from different codes}
 
 \section{Where next}
-The chapters of the Organic part use the funnel from the CREST search onwards (Chapter~\ref{ch:crest}), and the Inorganic part adds the solvation shell and the counter ions (Chapter~\ref{ch:pom-solvation}). The Materials part takes the periodic route (Chapters~\ref{ch:cp2k}, \ref{ch:mlp} and~\ref{ch:crystals}) and the Biochemistry part the docking funnel (Chapter~\ref{ch:docking}). Chapter~\ref{ch:workflows} shows how to draw a chain once and launch it as a unit.
+Organic chemistry: CREST searches (Chapter~\ref{ch:crest}). Inorganic: solvation shells and counter ions (Chapter~\ref{ch:pom-solvation}). Materials: periodic codes (Chapters~\ref{ch:cp2k}, \ref{ch:mlp}, \ref{ch:crystals}). Biochemistry: docking as the first step of a funnel (Chapter~\ref{ch:docking}). Automating a chain: Chapter~\ref{ch:workflows}.
