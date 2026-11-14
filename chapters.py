@@ -80,6 +80,8 @@ PLAN = [
   "organometallics", "Organometallics|Coordination compounds|Spin states|Broken symmetry"),
  ("ligand-field", "Ligand field splitting from a calculation", "Inorganic Chemistry",
   "", "Ligand field|Crystal field|d-orbital splitting|Octahedral complexes"),
+ ("pom-solvation", "A polyoxometalate in water: explicit water molecules and counter ions", "Inorganic Chemistry",
+  "recipes", "Polyoxometalates|Explicit solvation|Counter ions|Solvation shell|CREST!QCG|Microsolvation"),
  ("fragment-orbitals", "Fragment orbitals, DOS and OPDOS", "Inorganic Chemistry",
   "density-of-states-opdos", "Fragment orbitals|Density of states|OPDOS|ecce-fragorb|Interaction diagram"),
 ]),
@@ -160,7 +162,7 @@ def chemify(text, index=False):
         return "%s@\\chem{%s}" % (t, t) if index else "\\chem{%s}" % t
     return TOKEN.sub(rep, text)
 PART_STUB = r"""%% Part overview, set before the part's first chapter.
-\XXX[ part overview to be written: the kinds of calculations and projects
+\XXX[ part overview (chapter to be written): the kinds of calculations and projects
 %(part)s research does (one paragraph each, e.g. what is computed and why),
 and for each the ECCE route and the chapter that shows it (chapters %(chapters)s),
 including where ECCE couples codes.]

@@ -1,5 +1,5 @@
 # Writing queue
-Audience (Andy 11-14): the book is for scientists doing research calculations in their field: each chapter shows how to do that field's computations in ECCE AND uses what ECCE adds (coupling codes, e.g. CREST -> xTB -> ORCA; workflows; building models; analysis). Only ONE chapter is about teaching. Example: a clay scientist looks up how to build layered structures and run them in GROMACS, or how to run periodic structures in CP2K. Each field part opens with an overview (chapters/part-*.tex): the kinds of calculations and projects done in that field, each with its ECCE route and chapter, so a biochemist or inorganic chemist sees at once what the field does in ECCE.
+the book is for scientists doing research calculations in their field: each chapter shows how to do that field's computations in ECCE AND uses what ECCE adds (coupling codes, e.g. CREST -> xTB -> ORCA; workflows; building models; analysis). Only ONE chapter is about teaching. Example: a clay scientist looks up how to build layered structures and run them in GROMACS, or how to run periodic structures in CP2K. Each field part opens with an overview (chapters/part-*.tex): the kinds of calculations and projects done in that field, each with its ECCE route and chapter, so a biochemist or inorganic chemist sees at once what the field does in ECCE. Chapters should use what is unique to ECCE where it helps (Andy: e.g. an inorganic chemist adding water molecules and counter ions to a small polyoxometalate: CREST solvation shell -> xTB -> DFT via the Solvation shell recipe). If ECCE cannot yet do a step the field needs (e.g. placing counter ions), file an ECCE issue and say so in the report; never fake it.
 Chemistry typesetting: formulas always \chem{H2O} (mhchem; plain in bookmarks), ions \ce{Cl-}, S\textsubscript{N}2, p\textit{K}\textsubscript{a}, Greek letters as symbols, units with a thin space. ECCE's own menu text (\menu, \eccexample) stays as ECCE shows it. `make check` reports bare formulas.
 Versions: every chapter and appendix carries \checkedwith; when ECCE is updated, run `make check` and recheck what it lists (help pages or, for the appendices, \eccesource paths changed since the check) before the book shows the new version.
 One chapter per agent job, interleaved with ECCE tickets (every second agent job is a chapter). Each job: run the chapter's calculation headless (isolated HOME, test machinery, NOT on niobium), take the screenshots, write the chapter to the voice guide, index it, `make` and `make check`, tick it here.
@@ -14,6 +14,7 @@ One chapter per agent job, interleaved with ECCE tickets (every second agent job
 - [ ] 3. code-registration
 - [ ] 4. clays
 - [ ] 5. cp2k
+- [ ] 5a. pom-solvation
 - [ ] 6. crest
 - [ ] 7. protonation
 - [ ] 8. workflows
