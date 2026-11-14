@@ -1,0 +1,2 @@
+Vibrations: IR and Raman spectra
+formaldehyde with ECCE-QM, B3LYP/6-31G*: optimisation, frequencies, IR intensities and Raman activities, read in the Vibrational Frequencies panel.

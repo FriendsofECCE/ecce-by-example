@@ -1,0 +1,30 @@
+modes 12 fwhm 15 scale 1
+axis ir IR intensity (km/mol)
+stick ir 7 1197.84560000 1.3822 - 657 645
+stick ir 8 1277.57830000 12.7768 - 635 608
+stick ir 9 1561.17970000 6.3567 - 557 629
+stick ir 10 1851.17450000 99.4405 - 478 329
+stick ir 11 2911.97920000 56.5074 - 187 467
+stick ir 12 2962.93050000 166.1479 - 173 114
+axis raman Raman activity (Å⁴/amu)
+stick raman 7 1197.84560000 2.181366 - -1 -1
+stick raman 8 1277.57830000 7.506534 - -1 -1
+stick raman 9 1561.17970000 15.221747 - -1 -1
+stick raman 10 1851.17450000 2.930484 - -1 -1
+stick raman 11 2911.97920000 152.130068 - -1 -1
+stick raman 12 2962.93050000 76.072539 - -1 -1
+strip selected 7
+setting width 1
+setting factor 1
+setting low 1
+setting high 1
+setting direction 1
+setting sticks 1
+setting difference 1
+setting reset 1
+setting experimental 1
+setting compare 1
+setting remove 1
+setting export-csv 1
+strip 0 Mode 7    1197.8 cm⁻¹    IR 1.4 km/mol    Raman 2.2 Å⁴/amu    ω(CH2)
+strip 1 CH2 wag  100 %

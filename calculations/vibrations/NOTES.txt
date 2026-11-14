@@ -1,0 +1,83 @@
+Chapter vibrations -- facts for the lead (no chapter text)
+==========================================================
+ECCE main 23769bf69 (build-cmake 2026-11-14), 9.5.3-dev. Run 2026-11-14.
+How: as first-calculation (tests/launch harness, isolated HOME, local data,
+Xvfb, nice 19; each window driven by its test hook; screens by `import`).
+Not through windows: making the calculation (`launchjob create`, project
+formaldehyde-project, calculation formaldehyde; a user does Organizer
+File > New > ECCE-QM Calculation...) and typing the start structure.
+
+GUI steps
+1. Builder: build H2CO (e.g. Tools > Add from SMILES... "C=O", or C, O,
+   Build > Add Hydrogen), Build > Clean, File > Save.
+2. Editor (Calculation Editor), box "ECCE-QM Settings": Theory DFT (DFT
+   Functional B3LYP is the default), Quick Basis Menu > 6-31G*,
+   Runtype GeoVib; Runtype Details...: tick "Raman activities (about 7 times
+   the cost)" (box "Frequencies"; the same dialog has "Localised orbitals
+   (bonds and lone pairs, same set for each spin)", ticked by default);
+   Close; Save.
+   NOTE: the screenshot of Runtype Details was NOT kept: the test hook sets
+   the value (the deck has `raman true`, SetupParams UseRaman 1) but does not
+   tick the box on screen, so the picture showed it unticked. Retake by hand.
+3. Launch... > Launcher: localhost, Processors 2, Launch.
+4. Builder > Properties tab > Vibrations > Vibrational Frequencies:
+   - tabs Spectrum / Table; an IR | Raman switch at the top right of the
+     plot (the panel shows one at a time);
+   - click a stick: the box under the plot reads e.g. "Mode 10 . 1851.2 cm-1
+     . IR 99.4 km/mol . Raman 2.9 A^4/amu / C=O stretch 67 % H-C-H bend 33 %
+     (others < 5 %)" (figure vib-panel-ir);
+   - Mode in the viewer: Show, Animation / Vectors, Arrow length, colour,
+     Reverse; buttons Open in window..., Composition..., Displace....
+5. Open in window...: IR (top) and Raman (bottom) stacked, sticks plus
+   broadened envelope (right-hand axes "IR envelope (km/mol per cm-1)",
+   "A^4/amu per cm-1"); controls Width 15 cm-1 (the broadening, FWHM),
+   Scale factor 1, Sticks, High on left, Range 0 to 3400, Reset zoom;
+   Other spectra: Compare... (overlay or mode matching), Difference,
+   Experimental..., Remove, Export .csv...; Composition..., Close (figure
+   spectrum-window).
+6. Geometry Trace: the optimisation (5 steps); y-axis title bug #1041.
+No screenshot of the Table tab or of the Composition... dialog: the test
+hooks have no command for them (a GUI route exists; only the automation
+does not). The Table numbers are below from the output.
+
+Numbers (ecceqm.qmout and spectrum-dump.txt, VERIFIED; the panel shows the
+same: Table tab / the box under the plot)
+ E final -114.438934396 Eh; C=O 1.2067 A, C-H 1.1111 A, HCH 115.25 deg
+ (experiment, CCCBDB citing Gurvich et al. 1989: 1.205, 1.111, 116.13).
+ Mode  calc cm-1  IR km/mol  Raman A^4/amu  depol.  assignment (panel text for 7, 10) | exp. fundamental
+  7    1197.8      1.4        2.2           0.75    CH2 wag (out of plane, B1)       | 1167 (nu4)
+  8    1277.6     12.8        7.5           0.75    CH2 rock (B2)                    | 1249 (nu6)
+  9    1561.2      6.4       15.2           0.64    CH2 scissors (A1)                | 1500 (nu3)
+ 10    1851.2     99.4        2.9           0.40    C=O stretch 67 %, HCH bend 33 %  | 1746 (nu2)
+ 11    2912.0     56.5      152.1           0.17    CH2 symmetric stretch (A1)       | 2782 (nu1)
+ 12    2962.9    166.1       76.1           0.75    CH2 antisymmetric stretch (B2)   | 2843 (nu5)
+ Experimental fundamentals: NIST CCCBDB (cccbdb.nist.gov, exp2x, H2CO), from
+ T. Nakanaga, S. Kondo, S. Saeki, J. Chem. Phys. 76, 3860 (1982). Fetched
+ 2026-11-14.
+ Assignments of 8, 9, 11, 12 are mine from symmetry and depolarisation (0.75
+ = depolarised, non-totally-symmetric; < 0.75 = polarised A1); read the
+ panel's text for those modes before printing (only 7 and 10 were seen).
+ Calculated/experimental ratios 0.94-0.97 (harmonic B3LYP/6-31G* vs
+ anharmonic fundamentals); the Scale factor field of the spectrum window
+ applies one factor (0.96 is commonly quoted for B3LYP/6-31G* -- NOT
+ VERIFIED here, cite a source such as the NIST CCCBDB scale-factor table).
+ Strongest IR: 12 (2963); strongest Raman: 11 (2912), which is weak in IR.
+ Polarizability (a.u.): xx 6.74, yy 14.06, zz 18.30 (drawn as an ellipsoid
+ in the Viewer, per help ecce-qm; not photographed).
+ Wall time 147 s with Raman, 2 processors.
+
+This requires: nothing beyond ECCE (ECCE-QM built in).
+
+Coupling routes for the chapter
+- Cheaper pre-optimisation: xTB GFN2-xTB Geometry + Vibration (xtb
+  --ohess) for a quick spectrum, then New from This / workflow New step to
+  ECCE-QM or ORCA from its final geometry. Compare spectra/peak positions,
+  never energies across methods.
+- Better method: the same structure in ORCA (e.g. a larger basis or a
+  double hybrid) with frequencies; Compare... in the spectrum window
+  overlays two calculations' spectra (mode matching), Experimental...
+  overlays a measured spectrum file.
+- Not run here.
+
+Help pages: ecce-qm (Raman activities), viewer-panels; check vibrational
+frequencies / match-bands pages for Compare and Experimental.
