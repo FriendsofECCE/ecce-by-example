@@ -35,8 +35,9 @@ Note one rule that applies across the menus. Once a calculation has been submitt
 \index{Builder!Edit menu}
 Most of the \menu{Edit} menu is about the selection, since what the \menu{Render}, \menu{Build} and \menu{Tools} menus do often depends on which atoms are selected.
 \begin{description}
-	\item[\menu{Undo}, \menu{Redo}] (\textsf{Ctrl+Z}, \textsf{Ctrl+Y}) Undo the last change to the structure, and redo it; grey when there is nothing to undo or redo. \XXX[ check the menu text in a running Builder: the source spells it "Undo.." and the label may name the command]
-	\item[\menu{Cut}, \menu{Copy}, \menu{Paste}] (\textsf{Ctrl+X}, \textsf{Ctrl+C}, \textsf{Ctrl+V}) Move or copy the selected atoms through the clipboard. \XXX[ the stock Clear item that follows: its label and what it does]
+	\item[\menu{Undo}, \menu{Redo}] (\textsf{Ctrl+Z}, \textsf{Ctrl+Y}) Undo the last change to the structure, and redo it. The item names the command, for example \menu{Undo Clean}; with nothing to undo it reads \menu{Can't Undo} and is grey.
+	\item[\menu{Cut}, \menu{Copy}, \menu{Paste}] (\textsf{Ctrl+X}, \textsf{Ctrl+C}, \textsf{Ctrl+V}) Move or copy the selected atoms through the clipboard.
+	\item[\menu{Clear}] Replaces the structure with an empty one, to start over; it can be undone.
 	\item[\menu{Delete Selection}] (\textsf{Ctrl+D}) Deletes the selected atoms.
 	\item[\menu{Distort Bonds...}] Changes the lengths of the bonds around one selected atom; also in the right-click menu when exactly one atom is selected.
 	\item[\menu{Take Coordinates From...}] Copies the coordinates of chosen atoms, given by number from 1 (for example \texttt{1-12,40}), from another calculation in the same folder.
@@ -53,6 +54,14 @@ Most of the \menu{Edit} menu is about the selection, since what the \menu{Render
 	\index{Builder!selection}\index{Select Within Distance}\index{Select Solvent}
 \end{description}
 
+\section{View}
+\index{Builder!View menu}\index{Builder!panel layout}
+\begin{description}
+	\item[\menu{Hide Side Panels}] (\textsf{F9}) Hides the docked panels, so that the 3-D view fills the window; choose it again to bring them back.
+	\item[\menu{Panel layout}] How the panels are arranged: \menu{Classic (panels on both sides)}, or in one column as \menu{One column, stacked}, \menu{One column, accordion} or \menu{One column, list and detail}.
+	\item[\menu{Reset layout}] Puts the panels back in the layout chosen.
+\end{description}
+
 \section{Options}
 \index{Builder!Options menu}
 The check items of this menu decide what the 3-D view draws besides the atoms and bonds.
@@ -62,9 +71,10 @@ The check items of this menu decide what the 3-D view draws besides the atoms an
 	\item[\menu{Hydrogen Bond Settings...}] The distance and angle within which a hydrogen bond is drawn; remembered.
 	\index{Hydrogen bonds!drawing}
 	\item[\menu{Atom Labels}] A submenu: \menu{None}, \menu{Element with Number}, \menu{Atom Name}, the charge to two, three or four decimals, or \menu{Type}.
-	\item[\menu{Show Bond Labels}, \menu{Show Residue Labels}, \menu{Show Summary Text Labels}] Label the bonds and the residues, and add a summary text to the view. \XXX[ what a bond label and the summary text show]
+	\item[\menu{Show Bond Labels}, \menu{Show Residue Labels}, \menu{Show Summary Text Labels}] Label each bond with its length in \AA, label the residues, and show the summary text in the corners of the view: the mode at the top left, and the numbers of atoms and residues at the bottom left. The summary text is on by default.
 	\item[\menu{Show Axes}, \menu{Show Aromatic Rings}] Draw the Cartesian axes, and mark the aromatic rings.
-	\item[\menu{Auto Normalize Display}, \menu{Enable Spinning}] \XXX[ what each does, read off a running Builder]
+	\item[\menu{Auto Normalize Display}] Centres the view on the structure.
+	\item[\menu{Enable Spinning}] Lets a rotation flicked with the mouse keep spinning; also a button on the view toolbar.
 	\item[\menu{Auto Open Residue Table}] Opens the \menu{Residue Table} panel when a structure with residues is loaded.
 	\item[\menu{Clean Parameters...}] The settings of \menu{Build > Clean}.
 	\item[\menu{Advanced > Show Bond Orders Used by Clean}] Shows the bond orders that \menu{Clean} assumes, which helps when it gives a strange geometry.
@@ -99,7 +109,7 @@ The items of this menu change the structure, and they are all grey for a read-on
 	\item[\menu{Remove Hydrogen}] (\textsf{Ctrl+G}) Removes the hydrogen atoms.
 	\item[\menu{Generate Bonds}] (\textsf{Ctrl+B}) Makes the bonds from the distances between atoms, for a file that has none.
 	\item[\menu{Clear Residue Info}] Removes the residue names and numbers.
-	\item[\menu{Make into Residue-Based System}] \XXX[ how the atoms are grouped into residues]
+	\item[\menu{Make into Residue-Based System}] Makes one residue of each molecule, named \texttt{UNK} and numbered from 1, which is what the residue-based styles and selections need.
 	\item[\menu{Center XYZ}, \menu{Center X}, \menu{Center Y}, \menu{Center Z}] Moves the structure so that its centre lies at the origin along those axes.
 	\item[\menu{Orient}] Turns the structure so that the principal axes of its moment of inertia lie along $x$, $y$ and $z$.
 	\index{Clean}\index{Add Hydrogen}
@@ -111,7 +121,7 @@ The mode decides what a click or a drag in the 3-D view does. \menu{Select} (\te
 
 \section{Measure}
 \index{Builder!Measure menu}\index{Measuring}
-\menu{Distance}, \menu{Angle} and \menu{Torsion} measure between the two, three or four atoms you pick, and \menu{Clear} removes the measurements from the view. \XXX[ check whether the atoms are picked before or after choosing the item]
+\menu{Distance}, \menu{Angle} and \menu{Torsion} measure between the two, three or four atoms that are selected, so you select the atoms first and then choose the item; with too few selected, the status line says how many are needed. \menu{Clear} removes the measurements from the view.
 
 \section{Tools}
 \index{Builder!Tools menu}
@@ -136,7 +146,7 @@ The \menu{Properties} menu has one check item for each kind of result that the c
 
 \section{Context}
 \index{Builder!Context menu}
-The \menu{Context} menu lists the structures and calculations opened in this Builder, so that you can go back to one. \XXX[ check the order and the number of entries shown in a running Builder]
+The \menu{Context} menu lists the structures and calculations opened in this Builder, so that you can go back to one.
 
 \section{Help}
 \index{Builder!Help menu}
