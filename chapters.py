@@ -33,8 +33,8 @@ PLAN = [
 ("Methods", [
  ("coupling", "Coupling computations: screening, refinement and hand-offs between codes", "Getting Started",
   "", "Coupling computations|New from This|Screening|Refinement|Hand-offs between codes"),
- ("ai-project", "A project done with an AI assistant", "",
-  "", "AI assistants|Claude Code|AGENTS.md|ECCE skill|Series of calculations"),
+ ("ai-project", "A project done with an AI assistant, from method choice to Supporting Information", "",
+  "", "AI assistants|Claude Code|AGENTS.md|ECCE skill|Method choice|Series of calculations|Tables of results|Supporting Information"),
  ("workflows", "Workflows and recipes: when to automate a chain", "Workflows",
   "workflows recipes writing-a-recipe", "Workflows|Recipes|Auto-run|Launch Ready Steps|Writing a recipe|ecce-workflow"),
  ("qsar", "QSAR: descriptors, PCA and PLS", "QSAR",
