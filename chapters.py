@@ -14,9 +14,15 @@ PLAN = [
  ("organizer", "Organising calculations", "Getting Started",
   "organizer-menus rename-and-move checks-table reparse-outputs excluded",
   "Organizer|Projects|Annotations|Move to...|Copy to...|Checks table|Re-Parse Outputs|Excluded calculations"),
- ("machines", "Running on this computer and on clusters", "Getting Started",
-  "machines register-machines allocations launch-selected reconnect-selected running-codes-on-linux running-codes-on-macos running-codes-on-windows",
-  "Register Machines|Machines!clusters|Queues|Slurm|Allocations|Launch Selected|Reconnect|ssh"),
+ ("machines", "Running on this computer", "Getting Started",
+  "machines running-codes-on-linux running-codes-on-macos running-codes-on-windows",
+  "Machines!this computer|localhost|Launcher|Run states|Codes!installing"),
+ ("hpc", "Running on clusters and supercomputers", "",
+  "register-machines allocations launch-selected reconnect-selected",
+  "HPC|Clusters|Supercomputers|Register Machines|Queues|Slurm|PBS|HTCondor|Allocations|Projects (accounts)|ssh|ssh keys|Two-factor authentication|Scratch|Job scripts|Modules (environment modules)|Launch Selected|Reconnect|ecce-launch|ecce-reconnect|Moving a job to another machine"),
+ ("code-registration", "Registering codes: programs, environments and new codes", "",
+  "",
+  "Code registration|Registering a code|Codes!environment variables|Codes!job script|EDML|Parsers|Input generators|Adding a new code|Pseudopotential paths"),
  ("structures", "Building and importing structures", "Getting Started",
   "importing-a-structure importing-a-calculation bonds-and-clean constraints-and-dummy-atoms",
   "Builder!import|Structure Library|SMILES|Add from SMILES|Replace Group|Clean|Constraints|Dummy atoms|Importing calculations"),
@@ -149,7 +155,7 @@ PLAN = [
 STUB = r"""\chapter{%(title)s}
 \label{ch:%(file)s}
 %(index)s
-\eccexample{Examples > %(example)s}
+%(exline)s
 %(help)s
 \XXX[ chapter to be written]
 
@@ -173,7 +179,7 @@ def main():
                 idx = "\n".join("\\index{%s}" % t for t in terms.split("|") if t)
                 hp = "\n".join("\\helppage{%s}" % h for h in helps.split())
                 with open(path, "w") as out:
-                    out.write(STUB % dict(title=title, file=f, example=ex, index=idx, help=hp))
+                    out.write(STUB % dict(title=title, file=f, exline=('\\eccexample{Examples > %s}' % ex) if ex else '', index=idx, help=hp))
             lines.append("\\input{chapters/%s}" % f)
         lines.append("")
     with open(os.path.join(HERE, "chapters", "plan.tex"), "w") as out:
