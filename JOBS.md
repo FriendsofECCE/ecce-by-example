@@ -7,7 +7,7 @@ One chapter per agent job, interleaved with ECCE tickets (every second agent job
 
 - [ ] 1. teaching: the one chapter for teachers (example sets, teaching MO diagram, ECCE-QM in class, central server). Sections atomic-orbitals and periodic-trends are written.
 - [ ] 1a. frontispiece / title page: top two thirds one large ECCE figure (a real Density Map in the spirit of the ECCE logo, print-friendly colours); below the title block six small captioned panels of real ECCE views (orbital, IR/Raman spectrum, B-DNA fibre pattern, docked ligand, PMF, powder pattern); made headless, .ecce-<version>, in MANIFEST; mock-up to Andy first
-- [ ] 1b. appendix menus-organizer (agent running 11-14)
+- [x] 1b. appendix menus-organizer (12 \XXX gaps to fill from a running ECCE)
 - [ ] 1c. appendix menus-builder
 - [ ] 1d. appendix settings: preference files, per-user state, environment variables (from docs/AGENTS.md)
 - [ ] 1e. part overviews (chapters/part-*.tex), one job for all six fields

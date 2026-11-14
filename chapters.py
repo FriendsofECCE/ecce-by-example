@@ -123,7 +123,7 @@ PLAN = [
 ("Appendices", [
  ("menus-organizer", "Organizer menus and settings", "",
   "organizer-menus", "Organizer!menus|Organizer!Preferences",
-  "src/apps/organizer"),
+  "src/apps/organizer data/client/config/ResourceDescriptor.xml src/wxgui/wxdialogs/GlobalPrefs.C"),
  ("menus-builder", "Builder and viewer menus and settings", "",
   "viewer-panels", "Builder!menus|Viewer!menus|Builder!Preferences|Properties list",
   "src/apps/builder src/wxviz data/client/config/PropertyPanelDescriptor.xml"),
@@ -273,7 +273,8 @@ def version_check():
             if log:
                 print("ECCE help changed since %s was checked (%s):" % (f, cw.group(2)))
                 for l in log.splitlines()[:8]: print("   ", l)
-        src = re.search(r"\\eccesource\{([^}]+)\}", text)
+        srcpaths = " ".join(re.findall(r"\\eccesource\{([^}]+)\}", text))
+        src = re.match(r"(.+)", srcpaths)
         if src and os.path.isdir(ECCE):
             log = subprocess.run(["git", "-C", ECCE, "log", "--oneline", cw.group(2) + "..origin/main", "--"]
                                  + src.group(1).split(), capture_output=True, text=True).stdout.strip()
