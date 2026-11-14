@@ -33,16 +33,23 @@ JOBS = [
     ("02-xtb-gfn2-optfreq-water", "GFN2-xTB", "GeoVib", WATER, "start"),
     ("03-xtb-gfnff-opt", "GFN-FF", "Geometry", "", "start"),
     ("04-xtb-gfn2-md-300K", "GFN2-xTB", "Molecular Dynamics", MD, "01"),
+    ("05-xtb-gfn2-optfreq-gas-tight", "GFN2-xTB", "GeoVib", "", "start"),
 ]
+LEVEL = {"05-xtb-gfn2-optfreq-gas-tight": "tight"}
+ONLY = sys.argv[2:]          # run only these jobs (a finished 01 is read from HERE)
 
 
 def optimised(calc):
-    """The final structure of a finished optimisation (xtbopt.xyz if stored)."""
-    for root, _, files in os.walk(calc):
-        for f in files:
-            if f.endswith(".xyz") and "opt" in f:
-                return readxyz(os.path.join(root, f))
-    return None
+    """The final structure of a finished optimisation: the xyz block after
+    "final structure:" in the stored xtb output (xtbopt.xyz is not stored)."""
+    out = os.path.join(calc, "Outputs", "xtb.xtbout")
+    if not os.path.exists(out):
+        return None
+    lines = open(out, errors="replace").read().split("final structure:", 1)[-1].splitlines()
+    while lines and not lines[0].strip().isdigit():
+        lines.pop(0)
+    n = int(lines[0])
+    return [(l.split()[0],) + tuple(float(v) for v in l.split()[1:4]) for l in lines[2:2 + n]]
 
 
 s = harness.Session(build, "bookxtb", {"xTB": shutil.which("xtb")}, local=True, keep=True)
@@ -56,12 +63,16 @@ done = {}
 try:
     assert s.services(True)
     for name, theory, rt, extra, start in JOBS:
+        if ONLY and name not in ONLY:
+            if os.path.isdir(os.path.join(HERE, name, "Outputs")):
+                done[name[:2]] = os.path.join(HERE, name)
+            continue
         atoms = START
         if start != "start":
             atoms = optimised(done.get(start, "")) or START
             say("%s starts from %s" % (name, "the optimised structure of " + start
                                         if atoms is not START else "the start structure"))
-        level = "normal"
+        level = LEVEL.get(name, "normal")
         text, rc = xt.deck(atoms, rt, level=level, theory=theory, extra=extra)
         say("deck %s rc=%d" % (name, rc))
         deck = os.path.join(work, name + ".xtbin")
@@ -70,9 +81,12 @@ try:
         open(xyz, "w").write("%d\ncaffeine\n%s" % (len(atoms), "".join(
             "%s %.6f %.6f %.6f\n" % a for a in atoms)))
         url, out = s.create(name, "xtb_es", deck, "xtb.xtbin", rundir,
-                            extra=("procs=4", "code=xTB", "xyz=" + xyz,
-                                   "theory=SE:" + theory, "runtype=" + rt))
+                            extra=("procs=4", "code=xTB", "xyz=" + xyz) + (
+                                () if os.environ.get("XTB_NO_SETUP") else  # launchjob older than #1034
+                                ("theory=SE:" + theory, "runtype=" + rt)))
         say("created %s" % url)
+        if url is None:
+            say(out); continue
         t0 = time.time()
         rc, out = s.launch(url)
         say(out[-400:])
