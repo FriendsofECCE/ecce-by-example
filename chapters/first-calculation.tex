@@ -1,11 +1,11 @@
 \chapter{Your first calculation: water}
 \label{ch:first-calculation}
+\checkedwith{9.5.3-dev}{23769bf69}
 \index{Builder}
 \index{Calculation Editor}
 \index{Launcher}
 \index{Viewer}
 \index{ECCE-QM}
-\index{ORCA}
 \index{Run states}
 \index{Properties list}
 \eccexample{Examples > Getting Started > ecceqm-water}
@@ -13,19 +13,85 @@
 \helppage{example-calculations}
 \helppage{viewer-panels}
 \helppage{run-states}
-\XXX[ chapter to be written]
+
+Every calculation in ECCE goes through the same four windows: the Organizer, where it is kept; the Builder, where its structure is made; the Calculation Editor, where the method is chosen; and the Launcher, which sends it to a computer. The results then come back to the Builder, which doubles as the viewer. In this chapter we go through all four once with the smallest useful example, a geometry optimisation of water followed by its vibrational frequencies, so that the later chapters can take these steps for granted.
+
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE. The calculation uses ECCE-QM, the quantum-chemistry code built into ECCE, and runs on your own computer in a few seconds.
 
 \section{Background}
+\index{Geometry optimisation}\index{Vibrational frequencies}\index{Harmonic approximation}
+A geometry optimisation moves the atoms downhill on the potential energy surface until the forces on them vanish, which gives the structure of the molecule at a minimum of the energy. A frequency calculation then works out how the energy curves around that minimum. In the harmonic approximation each normal mode, a pattern in which all atoms move in step, has one frequency, and the change of the dipole moment along the mode gives its infrared intensity. A non-linear molecule of $N$ atoms has $3N - 6$ normal modes, so water has three: a bend and two O--H stretches. Note that the frequencies are only meaningful at a minimum, which is why the two calculations are run together, in that order, as one run type.
 
-\section{What ECCE shows}
+We use the hybrid density functional B3LYP with the 6-31G* basis set. This combination is cheap and gives reasonable structures for small organic and inorganic molecules, which is all we need here.
 
 \section{Procedure}
+\index{Organizer!New Project}\index{File menu!New}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > New > Project...}, give the project a name and click \ctrl{OK}. Select the new project and choose \menu{File > New} and the ECCE-QM calculation; call it \texttt{water-opt}.
+	\item With the calculation selected, choose \menu{Tools > Builder...} (\textsf{Ctrl+B}). To add water from the structure library, choose \menu{Mode > Add Structure} (\textsf{Ctrl+7}), pick \texttt{Inorganic} in the \menu{Libraries} list of the \menu{Structure Library} panel, double-click \texttt{Small\_inorganic\_molecules}, click \texttt{Water} and click in the empty 3-D view. To draw it instead, choose \menu{Mode > Atom} (\textsf{Ctrl+5}), pick O in the element selector, click in the view and choose \menu{Build > Add Hydrogen} (\textsf{Ctrl+F}).
+	\index{Structure Library}\index{Add Hydrogen}
+	\item Choose \menu{Build > Clean} (\textsf{Ctrl+K}) to tidy the geometry, then \menu{File > Save} (\textsf{Ctrl+S}), and close the Builder.
+	\item Back in the Organizer, choose \menu{Tools > Electronic Structure Editor...} (\textsf{Ctrl+E}). In the \menu{ECCE-QM Settings} box, set \menu{Theory} to \menu{DFT} and \menu{Runtype} to \menu{GeoVib}, the optimisation followed by the frequencies. Pick \menu{6-31G*} in the \menu{Quick Basis Menu}. \ctrl{Theory Details...} shows the functional, B3LYP by default, which we keep. Click \ctrl{Save}.
+	\index{Calculation Editor!Runtype}\index{GeoVib}\index{Quick Basis Menu}
+	\item Choose \menu{Tools > Launcher...} (\textsf{Ctrl+L}), keep \menu{localhost} as the machine, set \menu{Processors} to 2 and click \ctrl{Launch}.
+	\index{Launcher!localhost}
+	\item Watch the calculation in the Organizer. Its icon follows the run state, and the \menu{Progress} box below its details shows the SCF cycles as they happen. When the icon shows that it has completed, choose \menu{Tools > Viewer...} (\textsf{Ctrl+R}).
+	\item In the Viewer, choose \menu{Properties > Geometry > Geometry Trace} to follow the optimisation, and then the \menu{Vibrational Frequencies} panel for the normal modes. Click a mode to see it.
+	\index{Geometry Trace}\index{Vibrational Frequencies panel}
+\end{enumerate}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\linewidth]{first-calculation/calced.ecce-9.5.3-dev.png}
+	\caption{The Calculation Editor after \ctrl{Save}: ECCE-QM, DFT, GeoVib and 6-31G*. Under \menu{Chemical System} it shows what the Builder made: H$_2$O, three atoms, ten electrons, charge 0, singlet.}
+	\label{fig:first-calced}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.7\linewidth]{first-calculation/launcher.ecce-9.5.3-dev.png}
+	\caption{The Launcher with \menu{localhost} and two processors.}
+	\label{fig:first-launcher}
+\end{figure}
+
+Three things in the editor may look wrong but are not. Before a basis set is chosen, the editor shows a red cross and reports two problems that would stop the calculation from running; they go away once the basis is picked and the setup is saved. Changing the run type prints a warning that it resets the run-type details, which for a new calculation does not matter. And \menu{Symmetry} reads C1 although water is C$_{2v}$: ECCE uses the symmetry found by \ctrl{Find} in the Builder's \menu{Symmetry} panel, and until you press it the molecule is treated as having none, which makes the calculation slightly slower but not less correct.
+\index{Symmetry!C1 in the Calculation Editor}
 
 \section{Results}
+\index{Water!structure}\index{Water!vibrational frequencies}
+The calculation took 4.8~s on two processors. The \menu{Progress} box in the Organizer (figure~\ref{fig:first-organizer}) shows the last SCF of the run, which converged in six cycles at $-76.369895$~hartree.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{first-calculation/organizer.ecce-9.5.3-dev.png}
+	\caption{The Organizer after the run. The details of the calculation give the machine, the processors and the dates; the \menu{Progress} box below them shows the last SCF cycle and a plot of the energy change per cycle.}
+	\label{fig:first-organizer}
+\end{figure}
+
+The optimisation needed four steps. The \menu{Geometry Trace} panel (figure~\ref{fig:first-trace}) plots the energy of each step relative to the first, and the energy fell by 2.15~kJ/mol from the start structure to the final $-76.369895$~hartree; its controls play the steps back in the 3-D view. In the optimised structure both O--H bonds are \SI{0.969}{\angstrom} long and the H--O--H angle is \SI{103.8}{\degree}, which you can measure by selecting the atoms and choosing \menu{Measure > Distance} or \menu{Measure > Angle}. The measured structure of water has \SI{0.958}{\angstrom} and \SI{104.5}{\degree}, so B3LYP/6-31G* makes the bonds about 1\,\% too long.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\linewidth]{first-calculation/geometry-trace.ecce-9.5.3-dev.png}
+	\caption{The \menu{Geometry Trace} panel: the energy of each optimisation step relative to step 1. \XXX[ retake once ECCE issue 1041 is fixed: the y-axis title is cut]}
+	\label{fig:first-trace}
+\end{figure}
+
+The \menu{Vibrational Frequencies} panel (figure~\ref{fig:first-vib}) lists the three normal modes and draws the infrared spectrum as sticks. Clicking a mode shows it in the 3-D view as arrows, or as an animation, and names the motion. The bend lies at \SI{1711}{cm^{-1}} and is the strongest band, \SI{79.3}{km/mol}; the symmetric stretch lies at \SI{3718}{cm^{-1}} and is very weak, \SI{1.7}{km/mol}, and the antisymmetric stretch at \SI{3841}{cm^{-1}}, \SI{19.7}{km/mol}. The measured fundamentals of water vapour are 1595, 3657 and \SI{3756}{cm^{-1}}. The calculated values are higher, partly because the harmonic approximation leaves out the anharmonicity of the real potential, which lowers every fundamental, and partly because of the method; this is why calculated frequencies are often scaled before they are compared with a spectrum. There are no imaginary frequencies, which confirms that the optimisation found a minimum.
+\index{Imaginary frequencies}\index{Anharmonicity}\index{Scaling of frequencies}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{first-calculation/vibrations.ecce-9.5.3-dev.png}
+	\caption{The \menu{Vibrational Frequencies} panel with the IR spectrum. The bend, mode 7 at \SI{1711.3}{cm^{-1}}, is selected and drawn as arrows in the 3-D view.}
+	\label{fig:first-vib}
+\end{figure}
+
+The same calculation ships with ECCE as \texttt{ecceqm-water} in the Getting Started examples (\menu{File > Open Example Calculations}), so you can open its results without running anything.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
+A calculation like this one is usually the first step of a longer chain rather than the end of it. Its optimised structure can start a calculation in another code, for example a more accurate single point in ORCA, without exporting anything: select it in the project table, right-click and choose \menu{New from This > In Another Code...}, or make it the first step of a workflow with \menu{Make Workflow...}. Chapter~\ref{ch:coupling} shows how such chains are built.
 
+The calculation for this chapter is kept in the book's repository under \texttt{calculations/first-calculation}. It was set up and run through ECCE's windows by the test machinery, except that the project and the calculation were made by a script and the water was entered as coordinates; the setup is the same as the one described here.
