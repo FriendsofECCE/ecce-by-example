@@ -150,8 +150,50 @@ PLAN = [
  ("stress", "Stress and cell relaxation", "Materials Chemistry",
   "", "Stress tensor|Pressure|Cell relaxation"),
 ]),
+# Reference appendices: every menu item and setting, kept current with ECCE.
+# The 6th field lists ECCE source paths whose menus/settings the appendix
+# describes; chapters.py check reports ECCE commits to them since \checkedwith.
+("Appendices", [
+ ("menus-organizer", "Organizer menus and settings", "",
+  "organizer-menus", "Organizer!menus|Organizer!Preferences",
+  "src/apps/organizer"),
+ ("menus-builder", "Builder and viewer menus and settings", "",
+  "viewer-panels", "Builder!menus|Viewer!menus|Builder!Preferences|Properties list",
+  "src/apps/builder src/wxviz data/client/config/PropertyPanelDescriptor.xml"),
+ ("settings", "Settings files and environment variables", "",
+  "", "Preferences|Environment variables|Settings files",
+  "src/util/Preferences.C src/util/Ecce.C bin docs/AGENTS.md"),
+]),
 
 ]
+
+# Chemical formulas typeset with mhchem: \chem{H2} (ecce-macros.tex).
+ELEMENTS = set("""H He Li Be B C N O F Ne Na Mg Al Si P S Cl Ar K Ca Sc Ti V Cr Mn Fe Co Ni
+Cu Zn Ga Ge As Se Br Kr Rb Sr Y Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I Xe Cs Ba La Ce Pr
+Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Po At Rn U""".split())
+NOT_FORMULAS = {"CP2K", "SN2", "CO", "NO", "I", "In", "As", "At", "Be", "He", "No", "B", "C", "N", "O", "F", "S", "P", "K", "U", "V", "W", "Y"}
+DIGITLESS = {"NaCl", "KCl", "CsCl", "HCl", "HF", "LiF", "CsF"}
+TOKEN = re.compile(r"(?<![\w\\{@-])((?:[A-Z][a-z]?\d*)+)(?![\w}-])")
+def is_formula(tok):
+    if tok in NOT_FORMULAS:
+        return False
+    parts = re.findall(r"([A-Z][a-z]?)(\d*)", tok)
+    if "".join(a + b for a, b in parts) != tok or not all(a in ELEMENTS for a, _ in parts):
+        return False
+    return tok in DIGITLESS or any(b for _, b in parts)
+# Chemistry notation that is not a formula (sort key @ typeset form for the index).
+NOTATION = [("SN2", r"S\textsubscript{N}2"), ("pKa", r"p\textit{K}\textsubscript{a}"),
+            ("alpha-helix", r"$\alpha$-helix"), ("beta-sheet", r"$\beta$-sheet")]
+def chemify(text, index=False):
+    for plain, typeset in NOTATION:
+        text = re.sub(r"(?<![\w@])%s(?![\w}])" % re.escape(plain),
+                      lambda m: ("%s@%s" % (plain, typeset)) if index else typeset, text)
+    def rep(m):
+        t = m.group(1)
+        if not is_formula(t):
+            return t
+        return "%s@\\chem{%s}" % (t, t) if index else "\\chem{%s}" % t
+    return TOKEN.sub(rep, text)
 STUB = r"""\chapter{%(title)s}
 \label{ch:%(file)s}
 %(index)s
@@ -172,14 +214,18 @@ def main():
     os.makedirs(os.path.join(HERE, "chapters"), exist_ok=True)
     lines = []
     for part, chapters in PLAN:
+        if part == "Appendices":
+            lines.append("\\appendix")
         lines.append("\\part{%s}" % part)
-        for f, title, ex, helps, terms in chapters:
+        for f, title, ex, helps, terms, *src in chapters:
             path = os.path.join(HERE, "chapters", f + ".tex")
             if not os.path.exists(path):
-                idx = "\n".join("\\index{%s}" % t for t in terms.split("|") if t)
+                idx = "\n".join("\\index{%s}" % chemify(t, True) for t in terms.split("|") if t)
                 hp = "\n".join("\\helppage{%s}" % h for h in helps.split())
+                if src:
+                    hp += "\n\\eccesource{%s}" % src[0]
                 with open(path, "w") as out:
-                    out.write(STUB % dict(title=title, file=f, exline=('\\eccexample{Examples > %s}' % ex) if ex else '', index=idx, help=hp))
+                    out.write(STUB % dict(title=chemify(title), file=f, exline=('\\eccexample{Examples > %s}' % ex) if ex else '', index=idx, help=hp))
             lines.append("\\input{chapters/%s}" % f)
         lines.append("")
     with open(os.path.join(HERE, "chapters", "plan.tex"), "w") as out:
@@ -221,6 +267,11 @@ def version_check():
                 print("figure missing from figures/MANIFEST.tsv:", fig); bad += 1
         if not written:
             continue
+        plain = re.sub(r"\\(ce|chem|menu|ctrl|cmd|texttt|eccexample|helppage|label|ref|index|includegraphics|eccesource|checkedwith|cite\w*)(\[[^]]*\])?\{[^}]*\}(\{[^}]*\})?", "", text)
+        plain = re.sub(r"\$[^$]*\$|%.*", "", plain)
+        bare = sorted({t for t in TOKEN.findall(plain) if is_formula(t)})
+        if bare:
+            print("formulas not in \\ce/\\chem in %s: %s" % (f, " ".join(bare))); bad += 1
         cw = re.search(r"\\checkedwith\{([^}]+)\}\{([^}]+)\}", text)
         if not cw:
             print("chapter without \\checkedwith:", f); bad += 1
@@ -234,6 +285,14 @@ def version_check():
                                  capture_output=True, text=True).stdout.strip()
             if log:
                 print("ECCE help changed since %s was checked (%s):" % (f, cw.group(2)))
+                for l in log.splitlines()[:8]: print("   ", l)
+        src = re.search(r"\\eccesource\{([^}]+)\}", text)
+        if src and os.path.isdir(ECCE):
+            log = subprocess.run(["git", "-C", ECCE, "log", "--oneline", cw.group(2) + "..origin/main", "--"]
+                                 + src.group(1).split(), capture_output=True, text=True).stdout.strip()
+            if log:
+                n = len(log.splitlines())
+                print("ECCE source changed since %s was checked (%s): %d commits, recheck" % (f, cw.group(2), n))
                 for l in log.splitlines()[:8]: print("   ", l)
     return bad
 

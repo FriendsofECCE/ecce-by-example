@@ -1,10 +1,15 @@
 # Writing queue
+Chemistry typesetting: formulas always \chem{H2O} (mhchem; plain in bookmarks), ions \ce{Cl-}, S\textsubscript{N}2, p\textit{K}\textsubscript{a}, Greek letters as symbols, units with a thin space. ECCE's own menu text (\menu, \eccexample) stays as ECCE shows it. `make check` reports bare formulas.
+Versions: every chapter and appendix carries \checkedwith; when ECCE is updated, run `make check` and recheck what it lists (help pages or, for the appendices, \eccesource paths changed since the check) before the book shows the new version.
 One chapter per agent job, interleaved with ECCE tickets (every second agent job is a chapter). Each job: run the chapter's calculation headless (isolated HOME, test machinery, NOT on niobium), take the screenshots, write the chapter to the voice guide, index it, `make` and `make check`, tick it here.
 
 - [x] 1. atomic-orbitals
 - [x] 2. periodic-trends
 - [ ] 3. bond-formation
 - [ ] 3a. frontispiece / title page: top two thirds one large ECCE figure (a real Density Map in the spirit of the ECCE logo, print-friendly colours); below the title block six small captioned panels of real ECCE views (orbital, IR/Raman spectrum, B-DNA fibre pattern, docked ligand, PMF, powder pattern); made headless, .ecce-<version>, in MANIFEST; mock-up to Andy first
+- [ ] 3b. appendix menus-organizer: every Organizer menu item and setting (Preferences), one line each on what it does, \eccesource tracks src/apps/organizer
+- [ ] 3c. appendix menus-builder: Builder/viewer menus, toolbar, Properties list panels and their settings
+- [ ] 3d. appendix settings: preference files, per-user state, environment variables (from docs/AGENTS.md)
 - [ ] 4. hpc
 - [ ] 5. code-registration
 - [ ] 6. machines

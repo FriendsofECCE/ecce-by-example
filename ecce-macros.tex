@@ -15,3 +15,8 @@
 % checked against: \checkedwith{9.5.2}{89feafcb0}. chapters.py check reports
 % chapters whose help pages changed in ECCE since that commit.
 \newcommand{\checkedwith}[2]{\par\noindent\textit{Checked with ECCE #1} {\tiny(#2)}\par}
+% ECCE source paths a reference appendix describes (menus, settings);
+% chapters.py check lists commits to them since \checkedwith. Prints nothing.
+\newcommand{\eccesource}[1]{}
+% Chemical formulas: \chem{H2O}. mhchem in the text, plain in PDF bookmarks.
+\newcommand{\chem}[1]{\texorpdfstring{\ce{#1}}{#1}}
