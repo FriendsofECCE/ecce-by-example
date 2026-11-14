@@ -1,19 +1,151 @@
 \chapter{Builder and viewer menus and settings}
 \label{ch:menus-builder}
+\checkedwith{9.5.3-dev}{e6ff4018a}
 \index{Builder!menus}
 \index{Viewer!menus}
-\index{Builder!Preferences}
 \index{Properties list}
 
 \helppage{viewer-panels}
+\helppage{importing-a-structure}
+\helppage{bonds-and-clean}
 \eccesource{src/apps/builder src/wxviz data/client/config/PropertyPanelDescriptor.xml}
-\XXX[ chapter to be written]
 
-\section{Background}
+The Builder is both the place where structures are made and the viewer in which the results of a calculation are shown, so its menus serve both jobs. This appendix goes through them in the order of the menu bar, followed by the right-click menu of the 3-D view. As in the Organizer, several menus are filled when the Builder starts or when a calculation is opened: the \menu{Tools} menu lists the panels, the \menu{Properties} menu lists what the calculation has, and \menu{Context} lists what has been opened. Keyboard shortcuts are given where ECCE defines them; on macOS \textsf{Ctrl} is \textsf{Cmd}.
 
-\section{What ECCE shows}
+Note one rule that applies across the menus. Once a calculation has been submitted, its structure is read-only, and every item that would change the atoms is grey: \menu{Add Structure from File...}, the \menu{Build} menu, \menu{Add Dummy Atom...}, \menu{Add from SMILES...}, \menu{Replace Group...} and the \menu{Atom}, \menu{Bond} and \menu{Add Structure} modes. To change the structure of a finished calculation, you make a new calculation from it (\menu{New from This} in the Organizer) and change that one.
+\index{Builder!read-only structure}
 
-\section{Procedure}
+\section{File}
+\index{Builder!File menu}
+\begin{description}
+	\item[\menu{Add Structure from File...}] Adds the atoms of a structure file (PDB, CIF, XYZ, MVM, CAR and others) to the current structure; \menu{Local Filesystem} picks a file on this computer.
+	\item[\menu{Import Calculation from Output File...}] Makes a calculation from the output file of a code, as in the Organizer. It is not there when the Builder runs on its own, without a session.
+	\item[\menu{New}] (\textsf{Ctrl+N}) Starts another, empty structure, which is listed in the \menu{Open structures} panel.
+	\item[\menu{Open...}] (\textsf{Ctrl+O}) Opens a structure file as a structure of its own. It is grey while the Builder shows a calculation, since a file opened there would be confused with the calculation's structure; use \menu{Add Structure from File...} instead.
+	\item[\menu{Close}] (\textsf{Ctrl+W}) Closes the current structure.
+	\item[\menu{Save}] (\textsf{Ctrl+S}) Saves the structure into its calculation. It is grey while there are no unsaved changes, and always for a structure with no calculation behind it.
+	\item[\menu{Save As...}] (\textsf{Ctrl+E}) Writes the structure to a file. For a periodic structure, the type \menu{CIF, P1} writes the cell and every atom in space group $P1$.
+	\item[\menu{Create Thumbnail}] Makes the picture of the structure that the Organizer shows for the calculation; grey when no calculation is shown.
+	\item[\menu{Dump Scene Graph}] Writes the Open Inventor scene graph to a file; only with \cmd{ECCE\_DEVELOPER} set.
+	\item[\menu{Quit}] (\textsf{Ctrl+Q}) Closes the Builder.
+	\index{Builder!File menu!Save As...}\index{CIF!writing}
+\end{description}
 
-\section{Results}
+\section{Edit}
+\index{Builder!Edit menu}
+Most of the \menu{Edit} menu is about the selection, since what the \menu{Render}, \menu{Build} and \menu{Tools} menus do often depends on which atoms are selected.
+\begin{description}
+	\item[\menu{Undo}, \menu{Redo}] (\textsf{Ctrl+Z}, \textsf{Ctrl+Y}) Undo the last change to the structure, and redo it; grey when there is nothing to undo or redo. \XXX[ check the menu text in a running Builder: the source spells it "Undo.." and the label may name the command]
+	\item[\menu{Cut}, \menu{Copy}, \menu{Paste}] (\textsf{Ctrl+X}, \textsf{Ctrl+C}, \textsf{Ctrl+V}) Move or copy the selected atoms through the clipboard. \XXX[ the stock Clear item that follows: its label and what it does]
+	\item[\menu{Delete Selection}] (\textsf{Ctrl+D}) Deletes the selected atoms.
+	\item[\menu{Distort Bonds...}] Changes the lengths of the bonds around one selected atom; also in the right-click menu when exactly one atom is selected.
+	\item[\menu{Take Coordinates From...}] Copies the coordinates of chosen atoms, given by number from 1 (for example \texttt{1-12,40}), from another calculation in the same folder.
+	\index{Take Coordinates From}
+	\item[\menu{Select All}] (\textsf{Ctrl+A}) Selects every atom.
+	\item[\menu{Select Molecule}] Extends the selection to the whole molecules that the selected atoms belong to.
+	\item[\menu{Select Within Distance...}] Extends the selection to every atom within a given distance, centre to centre, of the selected atoms: between 0.1 and 50\,\AA, at first 3.5\,\AA, and remembered after that. It needs a selection to start from.
+	\item[\menu{Select Solvent}] Selects the water: the residues named \texttt{SOL}, \texttt{HOH}, \texttt{WAT}, \texttt{TIP3}, \texttt{TIP4}, \texttt{SPC} or \texttt{H2O}, and the water that Solvate added. Ions are not included.
+	\item[\menu{Select Ions}] Selects the ions.
+	\item[\menu{Select Protein}, \menu{Select Ligand}] Select by residue type.
+	\item[\menu{Select Backbone}, \menu{Select Side Chains}] Select those parts of a protein; grey for a structure without residues.
+	\item[\menu{Reverse Selection}] (\textsf{Ctrl+R}) Selects what was not selected, and the other way round.
+	\item[\menu{Clear Selection}] (\textsf{Ctrl+U}) Selects nothing.
+	\index{Builder!selection}\index{Select Within Distance}\index{Select Solvent}
+\end{description}
 
+\section{Options}
+\index{Builder!Options menu}
+The check items of this menu decide what the 3-D view draws besides the atoms and bonds.
+\begin{description}
+	\item[\menu{Show Hydrogen Atoms}] Draws the hydrogen atoms; switching it off shows the heavy-atom skeleton of a large molecule.
+	\item[\menu{Show Hydrogen Bonds}] Draws the hydrogen bonds.
+	\item[\menu{Hydrogen Bond Settings...}] The distance and angle within which a hydrogen bond is drawn; remembered.
+	\index{Hydrogen bonds!drawing}
+	\item[\menu{Atom Labels}] A submenu: \menu{None}, \menu{Element with Number}, \menu{Atom Name}, the charge to two, three or four decimals, or \menu{Type}.
+	\item[\menu{Show Bond Labels}, \menu{Show Residue Labels}, \menu{Show Summary Text Labels}] Label the bonds and the residues, and add a summary text to the view. \XXX[ what a bond label and the summary text show]
+	\item[\menu{Show Axes}, \menu{Show Aromatic Rings}] Draw the Cartesian axes, and mark the aromatic rings.
+	\item[\menu{Auto Normalize Display}, \menu{Enable Spinning}] \XXX[ what each does, read off a running Builder]
+	\item[\menu{Auto Open Residue Table}] Opens the \menu{Residue Table} panel when a structure with residues is loaded.
+	\item[\menu{Clean Parameters...}] The settings of \menu{Build > Clean}.
+	\item[\menu{Advanced > Show Bond Orders Used by Clean}] Shows the bond orders that \menu{Clean} assumes, which helps when it gives a strange geometry.
+	\item[\menu{Reset Default Tools/Toolbars}] Puts the panels and toolbars back where they were at installation.
+	\index{Atom labels}\index{Clean!parameters}
+\end{description}
+
+\section{Render}
+\index{Builder!Render menu}
+\begin{description}
+	\item[\menu{Style}] The display style: \menu{Ball And Wireframe}, \menu{Ball And Stick}, \menu{Stick}, \menu{Wireframe}, \menu{CPK}, \menu{Residue Wire}, \menu{Residue Cylinders} (\textsf{Alt+1} to \textsf{Alt+7}), \menu{Line Ribbon}, \menu{Flat Ribbon}, \menu{Solid Ribbon} (\textsf{Alt+8}), \menu{Cartoon} (\textsf{Alt+9}) and \menu{Custom Style...} (\textsf{Alt+0}), which also sets the quality of spheres and cylinders. With atoms selected, the style applies to the selection only, which is how a ligand is shown as ball and stick inside a protein drawn as a cartoon.
+	\index{Display style}
+	\item[\menu{Enable Depth Cueing}] Fades the atoms with their distance from you.
+	\item[\menu{Enable Orthographic}] Uses an orthographic camera instead of a perspective one, so that sizes do not change with depth; useful for crystals viewed along an axis.
+	\item[\menu{Hide Selected Atoms/Bonds}, \menu{Hide Unselected Atoms/Bonds}] (\textsf{Ctrl+J}, \textsf{Ctrl+I}) Hide the selected atoms, or all the others, with their bonds.
+	\item[\menu{Show Hidden Atoms/Bonds}] (\textsf{Ctrl+L}) Shows everything again.
+	\item[\menu{View All}] (\textsf{Ctrl+=}) Fits the structure into the view.
+	\item[\menu{Reset View}] (\textsf{Home}) Undoes rotation and zoom; the atoms are not changed.
+	\item[\menu{Zoom To Selection}] (\textsf{Ctrl+*}) Fits the selected atoms into the view.
+	\item[\menu{Zoom In}, \menu{Zoom Out}] (\textsf{Ctrl++}, \textsf{Ctrl+-}).
+	\item[\menu{Background Color...}] The colour behind the structure; for figures in print, white is the usual choice.
+	\item[\menu{Foreground Color...}] The colour of labels, axes, measurements and text.
+	\index{Builder!background colour}
+\end{description}
+
+\section{Build}
+\index{Builder!Build menu}
+The items of this menu change the structure, and they are all grey for a read-only one.
+\begin{description}
+	\item[\menu{Clean}] (\textsf{Ctrl+K}) Tidies up the geometry with a force field, which is the usual step after building by hand.
+	\item[\menu{Add Hydrogen}] (\textsf{Ctrl+F}) Fills the open valences with hydrogen atoms.
+	\item[\menu{Remove Hydrogen}] (\textsf{Ctrl+G}) Removes the hydrogen atoms.
+	\item[\menu{Generate Bonds}] (\textsf{Ctrl+B}) Makes the bonds from the distances between atoms, for a file that has none.
+	\item[\menu{Clear Residue Info}] Removes the residue names and numbers.
+	\item[\menu{Make into Residue-Based System}] \XXX[ how the atoms are grouped into residues]
+	\item[\menu{Center XYZ}, \menu{Center X}, \menu{Center Y}, \menu{Center Z}] Moves the structure so that its centre lies at the origin along those axes.
+	\item[\menu{Orient}] Turns the structure so that the principal axes of its moment of inertia lie along $x$, $y$ and $z$.
+	\index{Clean}\index{Add Hydrogen}
+\end{description}
+
+\section{Mode}
+\index{Builder!Mode menu}
+The mode decides what a click or a drag in the 3-D view does. \menu{Select} (\textsf{Ctrl+1}), \menu{Rotate} (\textsf{Ctrl+2}), \menu{Translate} (\textsf{Ctrl+3}) and \menu{Zoom} (\textsf{Ctrl+4}) only look at the structure, while \menu{Atom} (\textsf{Ctrl+5}), \menu{Bond} (\textsf{Ctrl+6}) and \menu{Add Structure} (\textsf{Ctrl+7}) change it and are therefore grey for a read-only structure. \menu{Previous Mode} (\textsf{Ctrl+,}) and \menu{Next Mode} (\textsf{Ctrl+.}) step through the list. The same modes are on the mode toolbar.
+
+\section{Measure}
+\index{Builder!Measure menu}\index{Measuring}
+\menu{Distance}, \menu{Angle} and \menu{Torsion} measure between the two, three or four atoms you pick, and \menu{Clear} removes the measurements from the view. \XXX[ check whether the atoms are picked before or after choosing the item]
+
+\section{Tools}
+\index{Builder!Tools menu}
+The upper part of the \menu{Tools} menu holds fixed items:
+\begin{description}
+	\item[\menu{Toolbars}] Shows or hides the \menu{File}, \menu{Mode}, \menu{View}, \menu{Style}, \menu{Manipulator} and \menu{Measure} toolbars.
+	\item[\menu{Dock Floating Panels}] Returns every floating panel to its dock.
+	\item[\menu{Geometry Constraints...}] Fixes atoms and constrains bonds, angles and torsions for an optimisation.
+	\item[\menu{Add Dummy Atom...}] Places a dummy atom X at a point defined by the selected atoms.
+	\item[\menu{Add from SMILES...}] Builds a molecule from a SMILES string.
+	\item[\menu{Diffraction...}] Opens the calculated diffraction pattern of the structure, or of the selected atoms, in a window of its own.
+	\item[\menu{Replace Group...}] Replaces the selected terminal group by a fragment given as SMILES, in which \texttt{[*]} marks the atom that attaches.
+	\item[\menu{Docking Box Around Selection}] Sets the search box of an AutoDock Vina calculation around the selected atoms; grey for any other kind of calculation.
+	\index{Geometry constraints}\index{Dummy atoms}\index{SMILES}\index{Diffraction}\index{Docking box}
+\end{description}
+Below them comes one check item per panel, which shows or hides that panel: \menu{Open structures}, \menu{Build}, \menu{Coordinates}, \menu{Selection}, \menu{Atom Table}, \menu{Residue Table}, \menu{Symmetry}, \menu{DNA Builder}, \menu{Peptide Builder}, \menu{Periodic Builder}, \menu{Layer Builder}, \menu{Slicer} and \menu{Clipping plane}, and below a separator \menu{Log}. With \cmd{ECCE\_DEVELOPER} set, \menu{Command Line} follows, which takes the Builder's script commands.
+\index{Builder!panels}\index{Periodic Builder}\index{Layer Builder}
+
+\section{Properties}
+\index{Builder!Properties menu}\index{Property panels}
+The \menu{Properties} menu has one check item for each kind of result that the calculation shown has, such as \menu{MOs}, \menu{Geometry Trace}, \menu{Conformers}, \menu{Vibrations} or \menu{Diffraction}, and ticking one shows its panel. Which items appear therefore depends on the code and on what the run produced. When the calculation has an electron density, \menu{Surfaces} follows \menu{MOs}; it draws density, spin density, ESP, ELF, LOL and NCI surfaces.
+
+\section{Context}
+\index{Builder!Context menu}
+The \menu{Context} menu lists the structures and calculations opened in this Builder, so that you can go back to one. \XXX[ check the order and the number of entries shown in a running Builder]
+
+\section{Help}
+\index{Builder!Help menu}
+\menu{on Builder...} (\textsf{Ctrl+H}) opens the help on the Builder, while \menu{Report a Problem...} and \menu{About ECCE...} do the same as in the Organizer (Appendix~\ref{ch:menus-organizer}).
+
+\section{Right-click menu}
+\index{Builder!right-click menu}
+A right click in the 3-D view, rather than a drag, opens a short menu when atoms are selected and the structure can be changed: \menu{Constrain Selected Atoms...}, \menu{Add Dummy Atom...}, and \menu{Distort Bonds...} when exactly one atom is selected.
+
+\section{Settings}
+\index{Builder!settings}
+The Builder keeps its own settings between sessions, such as the layout of its panels and the hydrogen-bond criteria, and \menu{Options > Reset Default Tools/Toolbars} puts the layout back. The settings shared by all ECCE applications, among them the element colours, units and font size, are in the \menu{Preferences} window of the Organizer (Section~\ref{sec:org-prefs}).
