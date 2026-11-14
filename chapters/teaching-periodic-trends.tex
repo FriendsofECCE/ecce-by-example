@@ -25,7 +25,9 @@ In the orbital picture, the ground state puts the electrons, two per orbital at 
 In a partly filled subshell, Hund's first rule puts the electrons in different orbitals with parallel spins. Carbon is then a triplet, nitrogen a quartet, oxygen a triplet again. Note that in a calculation the multiplicity is part of the input: you choose how many electrons are unpaired.
 
 \index{Effective nuclear charge}\index{Zeff@$Z_\mathrm{eff}$|see{Effective nuclear charge}}
-The screening can be put into one number, the effective nuclear charge. Slater's rules estimate it from the configuration \cite{slater1930}. A second estimate treats an orbital of energy $\varepsilon$ as hydrogen-like:
+The screening can be put into one number, the effective nuclear charge $Z_\mathrm{eff} = Z - S$, where $Z$ is the nuclear charge and $S$ the screening constant. Slater's rules estimate $S$ from the configuration \cite{slater1930}. For an electron in an s or p orbital of shell $n$, every other electron in the same shell contributes 0.35 to $S$ (0.30 within 1s), every electron in shell $n-1$ contributes 0.85, and every electron further in contributes 1.00. For the 2s electron of lithium, $1s^2 2s^1$, the two 1s electrons give $S = 2 \times 0.85 = 1.70$, so that $Z_\mathrm{eff} = 3 - 1.70 = 1.30$. For a 2p electron of neon, $1s^2 2s^2 2p^6$, the seven other $n = 2$ electrons and the two 1s electrons give $S = 7 \times 0.35 + 2 \times 0.85 = 4.15$ and $Z_\mathrm{eff} = 10 - 4.15 = 5.85$.
+
+A second estimate comes from the calculation itself. It treats an orbital of energy $\varepsilon$ as if it were a hydrogen-like orbital of the same $n$, for which $\varepsilon = -Z^2/2n^2$ in hartree, and solves for the charge:
 \begin{equation}
 	\varepsilon = -\frac{Z_\mathrm{eff}^2}{2n^2}\ \text{hartree}, \qquad
 	Z_\mathrm{eff} = n\sqrt{-2\varepsilon/\text{hartree}} .
@@ -63,6 +65,8 @@ In the Viewer, the \menu{MOs} panel lists the orbitals with their energy and occ
 	\item Select \menu{Ca}, \menu{Cr} and \menu{Cu}. Find 4s and 3d near the top of the occupied list; \ctrl{Compute} tells which is which.
 	\item In \menu{Koopmans' theorem}, open \menu{N\_HF} and \menu{O\_HF} and read the energy of the highest occupied orbital.
 	\index{Koopmans' theorem!in the MOs panel}
+	\item In \menu{Koopmans' theorem}, open \menu{Li\_HF}, read \menu{E (Hartree)} of the highest occupied orbital (\menu{Occ \#} 1, the 2s) and calculate $Z_\mathrm{eff} = n\sqrt{-2\varepsilon}$ with $n = 2$ (equation~\eqref{eq:zeff}). Repeat for \menu{Ne\_HF} and \menu{Na\_HF} ($n = 3$), and compare with Slater's rules.
+	\index{Effective nuclear charge!calculating}
 	\item In \menu{Ionisation energies and electron affinities}, select \menu{N\_HF\_neutral}, Ctrl-click \menu{N\_HF\_cation} and choose \menu{Tools > Energy Calculator...}. \menu{B - A} is the ionisation energy. Repeat for the other pairs.
 	\item For an electron affinity, select the anion first (\menu{F\_anion}), then the atom (\menu{F\_PBE0\_neutral}). \menu{B - A} is the electron affinity.
 \end{enumerate}
@@ -124,7 +128,11 @@ Do not teach the exceptions from this figure. Orbital energies do not decide the
 
 \subsection{Effective nuclear charge}
 \index{Effective nuclear charge!from orbital energies}
-Figure~\ref{fig:pt-zeff} gives $Z_\mathrm{eff}$ of the highest occupied orbital from equation~\eqref{eq:zeff} and the Hartree-Fock energies. Across a period it rises by about 0.3 per element, from 1.25 (Li) to 2.61 (Ne) and from 1.81 (Na) to 3.26 (Ar), because each added proton is only partly screened by the electron added with it. It falls back at each alkali metal, where a new shell starts. The breaks at B, Al, O and S are the same as in the ionisation energies, since this $Z_\mathrm{eff}$ is the Koopmans IE in other units.
+We take the energy of the highest occupied orbital from the \menu{MOs} panel of the Hartree-Fock calculations in \menu{Koopmans' theorem}, where the column \menu{E (Hartree)} gives it in the unit that equation~\eqref{eq:zeff} needs. For lithium the 2s orbital of \menu{Li\_HF} lies at $-0.1964$~hartree, so that
+\begin{equation*}
+	Z_\mathrm{eff} = 2\sqrt{2 \times 0.1964} = 2\sqrt{0.3928} = 1.25 ,
+\end{equation*}
+and for neon the 2p orbitals of \menu{Ne\_HF} lie at $-0.8512$~hartree, which gives $Z_\mathrm{eff} = 2\sqrt{1.7024} = 2.61$. For the third period $n = 3$: the 3s orbital of sodium at $-0.1822$~hartree gives $3\sqrt{0.3644} = 1.81$. Figure~\ref{fig:pt-zeff} shows the same calculation for every atom from H to Ar. Across a period it rises by about 0.3 per element, from 1.25 (Li) to 2.61 (Ne) and from 1.81 (Na) to 3.26 (Ar), because each added proton is only partly screened by the electron added with it. It falls back at each alkali metal, where a new shell starts. The breaks at B, Al, O and S are the same as in the ionisation energies, since this $Z_\mathrm{eff}$ is the Koopmans IE in other units.
 
 \begin{figure}[htb]
 	\centering
