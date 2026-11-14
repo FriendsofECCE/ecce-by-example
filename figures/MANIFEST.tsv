@@ -6,3 +6,5 @@ atomic-orbitals/map1zoom.ecce-unknown.png	unknown	unknown	screenshot	borrowed (t
 periodic-trends/ie.ecce-9.5.2-dev.png	9.5.2-dev	1e5b4f652	plot	python3 figures/periodic-trends/make_figures.py <ECCE repo root> (stored General Chemistry example outputs: Atoms, Koopmans, Ionisation; experiment from NIST ASD 5.12)	2026-11-14
 periodic-trends/zeff.ecce-9.5.2-dev.png	9.5.2-dev	1e5b4f652	plot	python3 figures/periodic-trends/make_figures.py <ECCE repo root>	2026-11-14
 periodic-trends/tm-levels.ecce-9.5.2-dev.png	9.5.2-dev	1e5b4f652	plot	python3 figures/periodic-trends/make_figures.py <ECCE repo root>	2026-11-14
+coupling/crest-conformers.ecce-9.5.3-dev.png	9.5.3-dev	5b6fbfa5e	screenshot	headless: Builder on 02-crest-ibuprofen, ECCE_OPEN_PANEL=Conformers, script 'background 1 1 1', 'viewall', 'shot' (tests/apps builder_overlay_test runScript; tests/apps/crest_viewer_test.py style)	2026-11-14
+coupling/orca-opt-trace.ecce-9.5.3-dev.png	9.5.3-dev	5b6fbfa5e	screenshot	headless: Builder on 06-orca-r2scan3c-opt-conf3, ECCE_OPEN_PANEL='Geometry Trace', script 'background 1 1 1', 'viewall', 'shot'	2026-11-14

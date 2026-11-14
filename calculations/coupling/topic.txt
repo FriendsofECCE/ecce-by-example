@@ -1,0 +1,2 @@
+Coupling: from conformers to a refined structure
+Ibuprofen taken from a CREST conformer search through GFN2-xTB re-optimisation to ORCA r2SCAN-3c, each step started from the structure of the one before.
