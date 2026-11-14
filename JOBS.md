@@ -43,7 +43,7 @@ Agents never write the final chapter text (Andy 11-14): an agent job runs the ca
 - [ ] 22. basis-sets
 - [ ] 23. density-views
 - [ ] 24. mo-analysis
-- [ ] 25. vibrations
+- [x] 25. vibrations
 - [ ] 26. ir-experiment
 - [ ] 27. excited-states
 - [ ] 28. xtb

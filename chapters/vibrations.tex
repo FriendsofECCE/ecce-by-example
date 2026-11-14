@@ -1,5 +1,6 @@
 \chapter{IR and Raman spectra and mode symmetry}
 \label{ch:vibrations}
+\checkedwith{9.5.3-dev}{23769bf69}
 \index{IR spectrum}
 \index{Raman spectrum}
 \index{Normal modes}
@@ -9,19 +10,81 @@
 \helppage{mode-composition}
 \helppage{match-bands}
 \helppage{displacement}
-\XXX[ chapter to be written]
+\helppage{ecce-qm}
+
+A frequency calculation gives more than a list of wavenumbers. Each normal mode comes with an infrared intensity, a Raman activity and, through the symmetry of the molecule, rules for which of the two techniques sees it. In this chapter we calculate the IR and Raman spectra of formaldehyde, H$_2$CO, which is small enough to follow every mode and has enough symmetry to show the rules at work, and we compare the result with the measured fundamentals.
+
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE: the calculation uses ECCE-QM.
 
 \section{Background}
+\index{Selection rules}\index{Polarizability}\index{Depolarization ratio}
+A mode is active in the infrared when the dipole moment of the molecule changes along it, and active in Raman scattering when the polarizability, the ease with which the electron cloud is distorted by an electric field, changes along it. The two conditions are different, so the two spectra are complementary: a symmetric stretch that hardly changes the dipole moment can still change the polarizability a great deal. For a molecule with a centre of inversion the rule is strict, and no mode is active in both; formaldehyde has none, so all six of its modes are allowed in both, but with very different intensities.
 
-\section{What ECCE shows}
+Formaldehyde belongs to the point group C$_{2v}$. Of its $3N - 6 = 6$ modes, three are totally symmetric (A$_1$): the C=O stretch, the symmetric C--H stretch and the CH$_2$ scissors, in which the molecule keeps its full symmetry. The other three are not: the antisymmetric C--H stretch and the CH$_2$ rock in the molecular plane (B$_2$), and the CH$_2$ wag out of the plane (B$_1$). Raman spectroscopy tells the two kinds apart through the depolarization ratio, the ratio of the scattered light polarized perpendicular and parallel to the incident light. It is exactly 0.75 for a mode that is not totally symmetric and below 0.75 for a totally symmetric one, so that a calculated depolarization ratio reads off the symmetry of a mode.
+
+A calculated frequency is harmonic: it describes the curvature of the energy at the minimum. Measured fundamentals are lower, because the real potential is anharmonic, and the method adds an error of its own. Both effects are roughly proportional to the frequency, which is why calculated frequencies are often multiplied by a single scale factor before they are compared with a spectrum.
 
 \section{Procedure}
+\index{Raman activities}\index{Runtype Details}
+\begin{enumerate}
+	\item Make an ECCE-QM calculation and build formaldehyde in the Builder, for example with \menu{Tools > Add from SMILES...} and \texttt{C=O}. Choose \menu{Build > Clean} and save.
+	\item In the Calculation Editor, set \menu{Theory} to \menu{DFT} (B3LYP is the default functional), pick \menu{6-31G*} in the \menu{Quick Basis Menu} and set \menu{Runtype} to \menu{GeoVib}. Click \ctrl{Runtype Details...} and tick \menu{Raman activities}, which makes the frequency part of the run several times longer. Save, and launch on \menu{localhost}.
+	\item When the run has finished, open it in the Viewer and choose the \menu{Vibrational Frequencies} panel. Its \menu{Spectrum} tab draws one spectrum at a time, with a switch between IR and Raman; its \menu{Table} tab lists the modes with their numbers.
+	\index{Vibrational Frequencies panel}
+	\item Click a stick in the spectrum, or a row in the table, to select a mode. The box below the plot gives its numbers and names the motion, and the 3-D view shows it as arrows or as an animation. \ctrl{Composition...} shows how the mode is made up of bond stretches, angle bends and torsions.
+	\index{Mode composition}
+	\item Click \ctrl{Open in window...} to see the IR and Raman spectra one above the other. There, \menu{Width} sets the broadening of each line, \menu{Scale factor} multiplies all wavenumbers, \ctrl{Experimental...} reads a measured spectrum to draw on top, and \ctrl{Compare...} draws the spectrum of another calculation.
+	\index{Spectrum window}\index{Broadening}\index{Experimental spectrum, overlay}
+\end{enumerate}
 
 \section{Results}
+\index{Formaldehyde!vibrational spectrum}\index{Formaldehyde!structure}
+The run took 147~s on two processors, of which most went into the Raman activities. The optimisation converged in five steps. The optimised structure has C=O \SI{1.207}{\angstrom}, C--H \SI{1.111}{\angstrom} and H--C--H \SI{115.3}{\degree}, against the measured \SI{1.205}{\angstrom}, \SI{1.111}{\angstrom} and \SI{116.1}{\degree} \cite{cccbdb}.
+
+Table~\ref{tab:vib-h2co} lists the six modes, with the symmetry read off the depolarization ratio and the measured fundamentals \cite{nakanaga1982,cccbdb}.
+
+\begin{table}[htb]
+	\centering\small
+	\caption{The normal modes of formaldehyde, B3LYP/6-31G*, harmonic, from the ECCE-QM output. IR intensity in km/mol, Raman activity in \AA$^4$/amu, $\rho$ the depolarization ratio. Experiment: gas-phase fundamentals \cite{nakanaga1982}.}
+	\label{tab:vib-h2co}
+	\begin{tabular}{rr rrr ll r}
+		\toprule
+		Mode & $\tilde\nu$ (cm$^{-1}$) & IR & Raman & $\rho$ & Symmetry & Motion & Exp. (cm$^{-1}$) \\
+		\midrule
+		7  & 1198 &   1.4 &   2.2 & 0.75 & B$_1$ & CH$_2$ wag            & 1167 \\
+		8  & 1278 &  12.8 &   7.5 & 0.75 & B$_2$ & CH$_2$ rock           & 1249 \\
+		9  & 1561 &   6.4 &  15.2 & 0.64 & A$_1$ & CH$_2$ scissors       & 1500 \\
+		10 & 1851 &  99.4 &   2.9 & 0.40 & A$_1$ & C=O stretch           & 1746 \\
+		11 & 2912 &  56.5 & 152.1 & 0.17 & A$_1$ & C--H stretch, sym.    & 2782 \\
+		12 & 2963 & 166.1 &  76.1 & 0.75 & B$_2$ & C--H stretch, antisym. & 2843 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{vibrations/vib-panel-ir.ecce-9.5.3-dev.png}
+	\caption{The \menu{Vibrational Frequencies} panel with the IR spectrum of formaldehyde. Mode 10 is selected; the box below the plot names it as 67\,\% C=O stretch and 33\,\% H--C--H bend, and the 3-D view shows it as arrows.}
+	\label{fig:vib-panel}
+\end{figure}
+
+The depolarization ratios sort the modes as the background said they would: 0.75 for modes 7, 8 and 12, the three that are not totally symmetric, and between 0.17 and 0.64 for the totally symmetric modes 9, 10 and 11. The depolarization ratio thus gives the symmetry of each mode directly from the calculation.
+
+The two spectra look quite different (figure~\ref{fig:vib-window}). The IR spectrum is dominated by the antisymmetric C--H stretch and the C=O stretch, whose large change of dipole moment makes it the most characteristic band of a carbonyl compound. The Raman spectrum is dominated by the symmetric C--H stretch, mode 11, which has the largest Raman activity of all and only a third of the IR intensity of its antisymmetric partner, while the C=O stretch, so strong in the IR, is weak in Raman. Also note that the panel's description of mode 10 does not call it a pure C=O stretch: a third of it is the H--C--H bend, and the CH$_2$ scissors, mode 9, carries the rest of that bend. Normal modes of the same symmetry mix in this way, and \ctrl{Composition...} shows by how much.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{vibrations/spectrum-window.ecce-9.5.3-dev.png}
+	\caption{The IR (top) and Raman (bottom) spectra of formaldehyde in the window opened by \ctrl{Open in window...}, as sticks with a broadened envelope (\menu{Width} \SI{15}{cm^{-1}}).}
+	\label{fig:vib-window}
+\end{figure}
+
+Every calculated wavenumber is higher than the measured one, by 3 to 6\,\%: the ratio of measured to calculated lies between 0.94 and 0.97. A single \menu{Scale factor} of about 0.96 in the spectrum window therefore brings the whole calculated spectrum close to the measured one, and this is what a scale factor is for. Note that it corrects positions only; the intensities are those of the harmonic calculation.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
+\index{xTB!frequencies}
+For a large molecule the frequency calculation is the expensive part, and a cheaper method can do the preliminary work. An xTB optimisation with frequencies gives a quick structure and spectrum within seconds; a new calculation in ECCE-QM or ORCA from its final structure (\menu{New from This > In Another Code...}, or a workflow step with \menu{Final geometry} ticked) then starts close to the minimum and needs few optimisation steps. The spectra of the two calculations can be drawn together with \ctrl{Compare...} in the spectrum window, and a measured spectrum with \ctrl{Experimental...}. Only the band positions and intensities are compared in this way, never energies across methods.
 
+The calculation for this chapter is kept in the book's repository under \texttt{calculations/vibrations}. It was set up and run through ECCE's windows by the test machinery, except that the calculation itself was made by a script.
