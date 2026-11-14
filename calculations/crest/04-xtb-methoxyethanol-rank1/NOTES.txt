@@ -1,0 +1,1 @@
+Lowest conformer of 02 re-optimised with GFN2-xTB at the tight level; the structure did not change (one frame, gradient norm 1.4e-5), which shows that CREST's structures are minima of the same method. 35 s. ECCE example category: Organic Chemistry > Conformations.

@@ -1,0 +1,2 @@
+Conformers of 2-methoxyethanol with CREST
+A conformer search on a small flexible molecule with an intramolecular O-H...O hydrogen bond, in the gas phase and with implicit water.

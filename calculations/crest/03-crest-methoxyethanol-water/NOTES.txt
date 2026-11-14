@@ -1,0 +1,1 @@
+As 02, with the implicit solvent ALPB water (crest ... --alpb water --ewin 6). 16 conformers kept. 201 s, 4 cores, nice 19. Used for the shift in the weights of hydrogen-bonded and extended conformers between the two searches; energies of the two searches are not compared. ECCE example category: Organic Chemistry > Conformations.
