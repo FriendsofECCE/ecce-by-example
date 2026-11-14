@@ -1,0 +1,2 @@
+Your first calculation: water
+water with ECCE-QM, B3LYP/6-31G*: geometry optimisation followed by frequencies, set up and launched in the windows.

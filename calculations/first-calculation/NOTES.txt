@@ -1,0 +1,97 @@
+Chapter first-calculation -- facts for the lead (no chapter text)
+================================================================
+ECCE main 23769bf69 (build-cmake of 2026-11-14), 9.5.3-dev. Run 2026-11-14.
+
+How it was done: the tests/launch harness (isolated HOME, local data,
+private Xvfb, nice 19), each window driven by its own test hook, nothing
+typed: the calculation made with `launchjob create` (project
+water-opt-project, calculation water-opt, code ECCE-QM, the rough water
+structure); Builder (ECCE_BUILDER_SCRIPT: Build > Clean, File > Save);
+Calculation Editor (ECCE_CALCED_SCRIPT: theory, basis, runtype, Theory
+Details..., Save); Launcher (ECCE_LAUNCHER_SCRIPT: machine localhost,
+processors 2, Launch); Organizer opened on the calculation
+(ECCE_ORGANIZER_OPEN); Builder with ECCE_OPEN_PANEL for the results.
+Screens captured with `import` on the Xvfb display; black root border
+trimmed. Not done through windows: making the project and calculation
+(Organizer File > New ... -- help first-calculation steps 1-2) and the
+water typed in (the help uses the Structure Library or O + Add Hydrogen).
+
+GUI steps as ECCE shows them (help first-calculation uses NWChem RHF; this run
+is ECCE-QM, the example set's ecceqm-water):
+1. Organizer: File > New > Project... ("New Project Name"), then select it,
+   File > New > ECCE-QM Calculation... (menu item text from
+   ResourceDescriptor.xml: "New ECCE-QM Calculation..."; NOT seen on screen).
+2. Builder button; build water; Build > Clean (Ctrl+K); File > Save (Ctrl+S).
+3. Editor button. Calculation Editor, box "ECCE-QM Settings":
+   Theory: DFT; Runtype: GeoVib; Quick Basis Menu > 6-31G*; Theory
+   Details... shows Functional B3LYP (default), Open shells (closed shell:
+   RHF/RKS, no choice), Extra atomic charges, Virtual orbitals Canonical,
+   Dispersion D3(BJ) off, Solvent None. Save (the message area then says
+   "New input file generated." and "Calculation saved as water-opt.").
+   Code row: DFT: QM, G16, ORCA, NWChem ...; Semi-empirical; Periodic.
+   Basis box after the pick: Name 6-31G*, Polarization Spherical,
+   Functions 18, Primitives 35. Chemical System: Charge 0, Spin Mult.
+   Singlet, Formula H2O, Atoms 3, Electrons 10, Symmetry C1, Use symmetry
+   ticked.
+4. Launch... -> Launcher: Machine localhost, Processors 2 ("of 4 cores (8
+   threads)", range [1..8]), Priority Normal, Run Directory, Advanced
+   (folded), Launch.
+5. Organizer: the calculation turns to the completed icon; details pane:
+   Machine localhost, Processors 2, Start/Comp. Date, Used 0.0 core-h;
+   Progress box: "SCF cycle 6 . E = -76.369895 Eh . converged", dE and
+   orbital gradient against their limits, and a plot of |dE| per SCF cycle.
+   Run States legend at the bottom.
+6. Builder > Properties tab: Energies, Energy Gradient, Geometry Trace,
+   Diffraction, Mulliken Charges, MOs, Surfaces, MO Diagram, Density Map,
+   Density Profile, Vibrational Frequencies ...
+   Geometry Trace: Plot: Total Energy; title "Total Energy (final
+   -76.36989467 Hartree)"; x "Optimisation step" 1-4; y relative energy in
+   kJ/mol (about -2.1 kJ/mol at the end) -- the y title shows as "1 (kJ/mol)",
+   BUG filed #1041. Delay/play controls animate the steps; Displacement folded.
+   Vibrational Frequencies: tabs Spectrum / Table; IR stick spectrum
+   (IR intensity km/mol vs wavenumber, 4000-0); clicking mode 7 shows
+   "Mode 7 . 1711.3 cm-1 . IR 79.3 km/mol / H-O-H bend 100 % (others < 5 %)";
+   Mode in the viewer: Show, Animation / Vectors, Arrow length, Reverse;
+   Open in window..., Composition..., Displace....
+
+Numbers (ecceqm.qmout, VERIFIED)
+- start E (step 1) -76.3690740 Eh; final -76.369894668 Eh after 4 steps
+  (opt_converged yes); the relative energy plotted: -2.15 kJ/mol.
+- final O-H 0.9690 A (both), H-O-H 103.77 deg.
+- frequencies (cm-1, IR km/mol): 1711.3 (79.3) bend; 3717.6 (1.7)
+  symmetric stretch; 3840.8 (19.7) antisymmetric stretch; six zeros
+  (translations/rotations, projected).
+- wall time 4.8 s, 2 processors.
+- same as the shipped example ecceqm-water (same method, start, run type).
+
+This requires: nothing beyond ECCE (ECCE-QM is built in).
+
+Things a first-time user may trip over (for the chapter)
+- The Runtype menu shows the internal name "GeoVib" (no "Geometry +
+  Vibration" label); help xtb.md writes **Geometry + Vibration** as if it
+  were the menu text (inconsistent; ecce-qm.md and first-calculation.md say
+  GeoVib). Not filed (documentation wording).
+- Symmetry: C1 in the editor and the Organizer for water (C2v), with Use
+  symmetry ticked, because nobody pressed Find in the Builder's Symmetry
+  panel; a reader may wonder. Not a bug.
+- Before a basis is chosen the editor shows a red cross and "2 problems that
+  will stop this calculation running"; it turns green after the basis and
+  Save.
+- Changing the runtype prints "WARNING: Changing the runtype overrides all
+  runtype detail field changes." in the message area.
+- A localhost registered with a queue manager and no queues gives "ERROR: No
+  queues are defined for localhost" and a greyed Launch (seen in a first try
+  with a test-registered queue machine; a first-start localhost has no
+  queue and launches). Worth one sentence only if the chapter covers
+  machines.
+- Theory Details opens as a separate window over the editor.
+
+Coupling: this is the start of the funnel; Chapter coupling shows a new
+calculation in another code from this one's structure (New from This /
+workflow New step).
+
+Figures (figures/first-calculation/*.ecce-9.5.3-dev.png): organizer (after
+the run, Progress box), builder (rough water, white background, viewed
+along x), calced (after Save), theory-details (dialog over the editor; no
+window manager, so it overlaps), launcher (Run Directory shown as
+/home/user/ecce-runs), geometry-trace, vibrations (mode 7 vectors).
