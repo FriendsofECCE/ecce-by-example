@@ -112,3 +112,25 @@ ECCE could not do
 - k-points (Gamma only) and cell optimisation: issue #412 (open, lists both).
 - Cutting a cluster from a periodic model: issue #1033 (open).
 No new issues filed.
+
+UPDATE 2026-11-14: RUN (on an offload host through ECCE's Launch, by the lead;
+results moved into 01-/02-; cp2k-RESTART.wfn not kept)
+- 01 energy (ENERGY_FORCE): E = -867.741406681 Eh (72-atom cell), SCF
+  converged (OT DIIS; outer loop 2 iterations); largest atomic force
+  7.9e-3 Eh/bohr (start structure, experimental). Wall 257 s (4 MPI ranks).
+- 02 optimisation (GEO_OPT BFGS, fixed cell): GEOMETRY OPTIMIZATION
+  COMPLETED after 11 steps (12 trajectory frames); E final -867.767634783 Eh,
+  i.e. -0.026228 Eh = -68.9 kJ/mol per cell (-2.87 kJ/mol per SiO2) below
+  the start, same method (relaxation energy). Wall 873 s.
+  Si-O: start 1.6035-1.6139 A (mean 1.6087); final 1.6253-1.6339 A (mean
+  1.6288): PBE lengthens Si-O by about 0.02 A, the known PBE trend.
+  These numbers: Organizer/Builder Energies (final energy), Geometry Trace
+  (energy relative to step 1, kJ/mol; y title bug #1041), Measure > Distance
+  for Si-O (computed here over all 96 bonds from the output frames).
+- Screenshots: figures/cp2k/quartz-structure (01, cell drawn), 
+  quartz-opt-trace (02, Geometry Trace). NOT taken: the Diffraction panel of
+  the optimised cell (ecce-xrd not in the test session's ECCE_HOME; the panel
+  said "ecce-xrd failed"): retake in an installed ECCE, or run
+  `ecce-xrd powder` on the final structure. Because the cell is fixed, the
+  powder line positions cannot move; only intensities change.
+Ready for writing once the Diffraction comparison is decided.

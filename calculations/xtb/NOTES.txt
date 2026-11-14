@@ -51,3 +51,31 @@ to crest. A new calculation from a finished xTB calculation's structure in
 another code is the hand-off (geometry at xTB, property at DFT). No new run.
 
 ECCE could not do: nothing found so far (not run). No issues filed.
+
+UPDATE 2026-11-14: RUN (offload host, ECCE's Launch; moved into 01-04)
+ 01 GFN2-xTB GeoVib gas: E -42.153937940 Eh, HOMO-LUMO gap 3.424 eV,
+    G(298 K) -42.010884 Eh, ZPE 0.182088 Eh; job 23 s (xtb wall 1.7 s).
+    ONE IMAGINARY FREQUENCY -65.3 cm-1 (a methyl torsion) after the
+    "normal" optimisation level: the chapter should say to use Level tight
+    (Runtype Details) or check Vibrations for imaginary modes. C=O region:
+    1715.4 and 1734.7 cm-1 (plus 1578.7).
+ 02 GFN2-xTB GeoVib ALPB water: E -42.171287510 Eh, gap 3.393 eV,
+    G -42.027771 Eh; TWO imaginary (-64.2, -58.9 cm-1); C=O region 1630.4,
+    1673.5 cm-1 (1559.1): the carbonyl bands shift down by 61-85 cm-1 in
+    ALPB water -- same method, so a fair comparison; do not subtract the
+    gas and water energies as a solvation energy without saying it is the
+    ALPB model's.
+ 03 GFN-FF Geometry: E -4.677663779 Eh (force-field energy, never compare
+    with GFN2); 21 s.
+ 04 GFN2-xTB MD 300 K, 20 ps, 2 fs, SHAKE X-H: started from the Open Babel
+    start structure, NOT from 01 (the script's hand-off found no optimised
+    xyz) -- say "from the built structure" or rerun from 01. Final frame
+    E -42.147448 Eh, gap 3.362 eV; job 177 s (xtb 2 min 36 s). Geometry
+    Trace plots Total Energy (Hartree) vs Time (ps) with a 2 ps moving
+    average; energy fluctuates around -42.125 Eh after the first frame.
+ Screenshots: figures/xtb/gas-vibrations, water-vibrations, gfnff-trace,
+ md-trace (Builder panels on the stored runs, white background).
+ Not shown yet: comparing the GFN-FF and GFN2 structures (Geometry Trace >
+ Displacement > Compare with...), IR spectra overlay (spectrum window
+ Compare...).
+Ready for writing (with the imaginary-mode caveat).
