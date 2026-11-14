@@ -1,0 +1,2 @@
+Thermochemistry: a reaction enthalpy and free energy
+ethene + H2 -> ethane with ECCE-QM B3LYP/6-31G*: three GeoVib calculations, ZPE, H, S, G per species and the reaction values from the Energy Calculator.

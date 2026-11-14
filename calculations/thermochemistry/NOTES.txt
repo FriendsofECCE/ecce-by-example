@@ -1,0 +1,66 @@
+Chapter thermochemistry -- facts for the lead (no chapter text)
+================================================================
+ECCE main 23769bf69 (build-cmake 2026-11-14), 9.5.3-dev. Run 2026-11-14.
+Reaction: C2H4 + H2 -> C2H6 (gas, 298.15 K, 1 atm). One method for all:
+ECCE-QM B3LYP/6-31G*, Runtype GeoVib.
+How: headless GUI hooks as in first-calculation (calculations made with
+`launchjob create`, then the real Calculation Editor: Theory DFT, Quick
+Basis Menu 6-31G*, Runtype GeoVib, Save; the real Launcher: localhost, 2
+processors, Launch). Wall times: ethene 27 s, H2 1 s, ethane 86 s.
+Put all three in ONE project: the Energy Calculator lists only the
+calculations of the project that holds the selection (help
+energy-calculator); with three projects the dialog fell back to the wrong
+entries (my first try).
+
+Per species (ecceqm.qmout; the Builder's Properties > Energies >
+Thermochemistry panel shows H (Hartree), S (J/mol/K), G (Hartree) in the
+column "ECCE-QM's own"; ZPE is in the output and in the Energy Calculator's
+E + ZPE row, not in that panel -- check whether Energies shows it)
+ species   E (Eh)          ZPE (Eh)    H (Eh)          S (J/mol/K)  G (Eh)          sym.no.
+ ethene   -78.527617225    0.051192   -78.472438866    218.95      -78.497302033    4
+ H2        -1.168716453    0.010136    -1.155275885    130.27       -1.170068627    2
+ ethane   -79.763812517    0.075199   -79.684199493    227.51      -79.710035212    6
+ (S = entropy_ts/T in J/mol/K; the panel showed 227.509 for ethane, matching.)
+ Experimental S (NIST-JANAF, 1 bar): ethene 219.33, H2 130.68; ethane 229.2
+ (CRC Handbook -- NOT VERIFIED here).
+ Frequencies (cm-1): H2 4449; ethene 835-3246 (12); ethane 313 (torsion)
+ -3121 (18), no imaginary.
+
+Reaction, Tools > Energy Calculator... (Organizer; select ethene and
+hydrogen and ethane in the project table... Side A: + 1 ethene, + 1
+hydrogen (Add calculation); Side B: + 1 ethane). Energies table (Hartree
+sums, B - A in kJ/mol, kcal/mol, eV; read exactly as below, from the
+dialog's own text):
+ E          A -79.696334  B -79.763813   -177.2 kJ/mol  -42.3 kcal/mol  -1.84 eV
+ E + ZPE    A -79.635006  B -79.688614   -140.7         -33.6           -1.46
+ H (298 K)  A -79.627715  B -79.684199   -148.3         -35.4           -1.54
+ G (298 K)  A -79.667371  B -79.710035   -112.0         -26.8           -1.16
+ G spread over six soft-mode treatments: 0.1 kJ/mol. G treatment: "The code's
+ own Gibbs energy". 1 M standard state unticked (gas). log K shown for G.
+ Other controls: Copy, Reaction overview..., Close; Notes area.
+Experiment (298.15 K): DrH = DfH(C2H6) - DfH(C2H4) = -84.0 - 52.47 =
+ -136.5 kJ/mol (NIST WebBook: C2H6 -84.0 +- 0.4 (Manion 2002 / Gurvich
+ 1991); NIST-JANAF C2H4 52.467). DrG = DfG(C2H6) - DfG(C2H4) = -32.0 -
+ 68.42 = -100.4 kJ/mol (C2H4 68.421 NIST-JANAF; C2H6 -32.0 CRC Handbook,
+ NOT VERIFIED here). Calculated DH -148.3 vs -136.5; DG -112.0 vs -100.4
+ (both about 12 kJ/mol too negative; B3LYP/6-31G* overbinds H2 addition --
+ say it as a method/basis limitation, no other method run).
+ DS (calc) = (227.51 - 218.95 - 130.27) = -121.7 J/mol/K; experiment
+ 229.2 - 219.33 - 130.68 = -120.8 (NOT VERIFIED for ethane S).
+
+Screenshots (figures/thermochemistry): calced (ethane, after Save),
+thermo-panel-ethane (Thermochemistry panel: Treatment "Grimme qRRHO, w0 =
+100 cm-1", Temperature 298.15, Standard state 1 atm, Symmetry number, Rotor
+As found; table Recomputed (ecce-thermo) | ECCE-QM's own; in this headless
+session the recomputation failed ("ecce-thermo could not be run": the test
+harness's ECCE_HOME lacked it) so the Recomputed column shows "-"; RETAKE
+in an installed ECCE before printing), energy-calculator (the dialog with
+the three calculations and the table above).
+No GUI-less steps for the user; only the automation made the calculations
+with launchjob instead of File > New > ECCE-QM Calculation....
+
+This requires: nothing beyond ECCE.
+Coupling: higher-level single points on these geometries (ORCA) would give
+better DE with the B3LYP thermal corrections -- that mixes methods inside one
+species' G (a standard composite route) but never subtract energies from two
+methods between species; say so if the chapter mentions it.

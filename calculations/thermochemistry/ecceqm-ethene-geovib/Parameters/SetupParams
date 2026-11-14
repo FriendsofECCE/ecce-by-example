@@ -1,0 +1,12 @@
+ES.Runtype.Vibration.UseRaman|0||1|1|toggle_input
+ES.Theory.DFT.XCFunctionals|B3LYP||1|1|menu_input
+ES.Theory.ECCEQM.CHELPG|0||1|1|toggle_input
+ES.Theory.ECCEQM.Dispersion|0||1|1|toggle_input
+ES.Theory.ECCEQM.Epsilon|78.4||0|1|float_input
+ES.Theory.ECCEQM.Localise|1||1|1|toggle_input
+ES.Theory.ECCEQM.Loewdin|0||1|1|toggle_input
+ES.Theory.ECCEQM.MK|0||1|1|toggle_input
+ES.Theory.ECCEQM.Solvent|None||1|1|menu_input
+ES.Theory.ECCEQM.Unrestricted|0||1|1|toggle_input
+ES.Theory.ECCEQM.Virtuals|Canonical||1|1|menu_input
+ES.Theory.UseSymmetry|1||1|1|toggle_input

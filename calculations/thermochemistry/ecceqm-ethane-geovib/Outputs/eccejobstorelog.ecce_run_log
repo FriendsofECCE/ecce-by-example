@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<eccejobstore>
+     <event  type="Message"  name="Job log started for calculation"  date="Sat, 14 Nov 2026 23:31:23 CET" >file:///home/user/localdata/users/local/ethane-project/ethane     </event>
+     <event  type="Message"  name="eccejobstore running on client"  date="Sat, 14 Nov 2026 23:31:23 CET" >client     </event>
+     <event  type="Message"  name="Cache"  date="Sat, 14 Nov 2026 23:31:23 CET" >Successfully started property parsing cache     </event>
+     <event  type="Message"  name="Local cache directory"  date="Sat, 14 Nov 2026 23:31:23 CET" >/home/user/tmp/ecce_user/jobs/ethane__i6EfXu     </event>
+     <event  type="Message"  name="Job Monitor"  date="Sat, 14 Nov 2026 23:31:23 CET" >Started job monitor (stdio comms) with command: perl eccejobmonitor -configFile eccejobmonitor.conf -progress 1 -jobId 2248201 -bookmark 0; echo eccejobmonitor_went_bye_bye     </event>
+     <event  type="Message"  name="System"  date="Sat, 14 Nov 2026 23:31:23 CET" >Started local RCommand connection     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:31:23 CET" >Receiving calculation output from eccejobmonitor     </event>
+     <event  type="Message"  name="eccejobstore"  date="Sat, 14 Nov 2026 23:31:23 CET" >out of contact after 60 s of silence, reconnect after 180 s     </event>
+     <event  type="Message"  name="Calculation State Change"  date="Sat, 14 Nov 2026 23:31:23 CET" >Running     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:31:32 CET" >Sat Nov 14 23:31:32 2026: job monitor running on Shell job pid '2248201'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:31:44 CET" >Sat Nov 14 23:31:44 2026: job monitor running on Shell job pid '2248201'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:31:57 CET" >Sat Nov 14 23:31:57 2026: job monitor running on Shell job pid '2248201'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:32:10 CET" >Sat Nov 14 23:32:10 2026: job monitor running on Shell job pid '2248201'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:32:23 CET" >Sat Nov 14 23:32:23 2026: job monitor running on Shell job pid '2248201'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:32:36 CET" >Sat Nov 14 23:32:36 2026: job monitor running on Shell job pid '2248201'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:32:49 CET" >Sat Nov 14 23:32:49 2026: job monitor running on Shell job pid '2248201'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:32:51 CET" >File marked to copy from compute host: ecceqm.qmout     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:32:51 CET" >File marked to copy from compute host: ecceqm.qmout     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:32:51 CET" >File marked to copy from compute host: ecceqm.qmorb     </event>
+     <event  type="Message"  name="Benchmark"  date="Sat, 14 Nov 2026 23:32:51 CET" >Before file copy of output files     </event>
+     <event  type="Message"  name="Benchmark"  date="Sat, 14 Nov 2026 23:32:51 CET" >After file copy of output files     </event>
+     <event  type="Message"  name="File Copy"  date="Sat, 14 Nov 2026 23:32:52 CET" >Successfully copied files from server
+ecceqm.qmorb: ecceqm.qmorb  
+ecceqm.qmout: ecceqm.qmout  
+no files matched *.cub
+no files matched *.cube
+results.h5: results.h5       </event>
+     <event  type="Message"  name="File Copy"  date="Sat, 14 Nov 2026 23:32:52 CET" >Wildcard output files stored: results.h5     </event>
+     <event  type="Message"  name="results.h5"  date="Sat, 14 Nov 2026 23:32:52 CET" >results.h5 written by ECCE-QM kept; checks passed: alpha tr(PS) 18.000000 of 18.0000, rel err 5.1e-15, max |C'SC-1| 8.9e-15, 40 AOs     </event>
+     <event  type="Message"  name="Calculation State Change"  date="Sat, 14 Nov 2026 23:32:52 CET" >Complete     </event>
+     <event  type="Message"  name="eccejobstore exit"  date="Sat, 14 Nov 2026 23:32:52 CET" >eccejobstore terminating normally, exit status 0     </event>
+</eccejobstore>

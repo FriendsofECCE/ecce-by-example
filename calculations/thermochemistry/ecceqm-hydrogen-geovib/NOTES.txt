@@ -1,0 +1,1 @@
+hydrogen, ECCE-QM B3LYP/6-31G*, GeoVib (optimisation then analytic frequencies, RRHO thermochemistry at 298.15 K, 1 atm), set up in the real Calculation Editor and launched by the real Launcher (localhost, 2 processors). Part of ethene + H2 -> ethane (chapter thermochemistry). ECCE example category: General Chemistry > Thermochemistry (or Getting Started).
