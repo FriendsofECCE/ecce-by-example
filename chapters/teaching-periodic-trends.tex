@@ -116,12 +116,14 @@ Watch out with O, F, S and Cl. In the restricted open-shell calculation the sing
 \subsection{4s and 3d: calcium, chromium and copper}
 \index{4s and 3d}\index{3d and 4s|see{4s and 3d}}\index{Calcium}\index{Chromium}\index{Copper}
 \index{Chromium!3d5 4s1@3d$^5$4s$^1$}\index{Copper!3d10 4s1@3d$^{10}$4s$^1$}
-Figure~\ref{fig:pt-tm} shows the 4s, 3d and 4p levels, each the average of the orbital energies of its subshell in the \menu{MOs} panel, converted to eV. In calcium the two outer electrons are in 4s ($-4.11$~eV). Chromium (septet, 3d$^5$4s$^1$) has its 3d at $-4.93$~eV and 4s at $-4.65$~eV; copper (doublet, 3d$^{10}$4s$^1$) has 3d at $-6.90$~eV and 4s at $-5.24$~eV. Across the series 3d falls below 4s, so 4s is the highest occupied orbital and is lost first, which is why Cr$^+$ and Cu$^+$ keep their 3d$^5$ and 3d$^{10}$ cores.
+Figure~\ref{fig:pt-tm} shows the orbital levels of the three atoms in the \menu{MO Diagram} panel (\menu{Properties > Orbitals > MO Diagram}, with \ctrl{Energies to scale} ticked), which gives each level in eV and draws the electrons as arrows. In calcium the two outer electrons are in 4s ($-4.11$~eV). Chromium (septet, 3d$^5$4s$^1$) has its 3d at $-4.93$~eV and 4s at $-4.65$~eV; copper (doublet, 3d$^{10}$4s$^1$) has 3d at $-6.90$~eV and 4s at $-5.24$~eV. Across the series 3d falls below 4s, so 4s is the highest occupied orbital and is lost first, which is why Cr$^+$ and Cu$^+$ keep their 3d$^5$ and 3d$^{10}$ cores.
 
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=\linewidth]{periodic-trends/tm-levels.ecce-9.5.2-dev.png}
-	\caption{4s, 3d and 4p orbital energies of Ca, Cr and Cu (B3LYP), averaged over each subshell, with the number of electrons in each. Occupied black, empty grey.}
+	\begin{minipage}{0.32\linewidth}\includegraphics[width=\linewidth]{periodic-trends/tm-mo-ca.ecce-9.5.3-dev.png}\end{minipage}\hfill
+	\begin{minipage}{0.32\linewidth}\includegraphics[width=\linewidth]{periodic-trends/tm-mo-cr.ecce-9.5.3-dev.png}\end{minipage}\hfill
+	\begin{minipage}{0.32\linewidth}\includegraphics[width=\linewidth]{periodic-trends/tm-mo-cu.ecce-9.5.3-dev.png}\end{minipage}
+	\caption{The \menu{MO Diagram} panels of Ca, Cr and Cu (B3LYP), energies to scale, with the core below the axis break. In Cr and Cu the 3d levels lie below 4s.}
 	\label{fig:pt-tm}
 \end{figure}
 
