@@ -4,6 +4,7 @@ One chapter per agent job, interleaved with ECCE tickets (every second agent job
 - [x] 1. atomic-orbitals
 - [x] 2. periodic-trends
 - [ ] 3. bond-formation
+- [ ] 3a. frontispiece: one striking ECCE-made figure for the title page (e.g. a composite of real ECCE views: an MO isosurface, the B-DNA fibre pattern, a docked ligand, a PMF); made headless with the shot tools, named .ecce-<version>, listed in MANIFEST; mock-up options to Andy first
 - [ ] 4. hpc
 - [ ] 5. code-registration
 - [ ] 6. machines
