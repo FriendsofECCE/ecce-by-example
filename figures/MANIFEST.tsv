@@ -1,0 +1,8 @@
+# file	ecce_version	ecce_commit	kind	made_by	date
+atomic-orbitals/rdf1.ecce-unknown.png	unknown	unknown	screenshot	borrowed (to be retaken from Getting Started/Atoms example)	2026-11-05
+atomic-orbitals/rdf2.ecce-unknown.png	unknown	unknown	screenshot	borrowed (to be retaken)	2026-11-05
+atomic-orbitals/map1.ecce-unknown.png	unknown	unknown	screenshot	borrowed (to be retaken)	2026-11-05
+atomic-orbitals/map1zoom.ecce-unknown.png	unknown	unknown	screenshot	borrowed (to be retaken)	2026-11-05
+periodic-trends/ie.ecce-9.5.2-dev.png	9.5.2-dev	1e5b4f652	plot	python3 figures/periodic-trends/make_figures.py <ECCE repo root> (stored General Chemistry example outputs: Atoms, Koopmans, Ionisation; experiment from NIST ASD 5.12)	2026-11-14
+periodic-trends/zeff.ecce-9.5.2-dev.png	9.5.2-dev	1e5b4f652	plot	python3 figures/periodic-trends/make_figures.py <ECCE repo root>	2026-11-14
+periodic-trends/tm-levels.ecce-9.5.2-dev.png	9.5.2-dev	1e5b4f652	plot	python3 figures/periodic-trends/make_figures.py <ECCE repo root>	2026-11-14

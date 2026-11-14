@@ -1,0 +1,60 @@
+# Writing queue
+
+One chapter per agent job, interleaved with ECCE tickets (every second agent job is a chapter). Each job: run the chapter's calculation headless (isolated HOME, test machinery, NOT on niobium), take the screenshots, write the chapter to the voice guide, index it, `make` and `make check`, tick it here.
+
+- [x] 1. atomic-orbitals
+- [x] 2. periodic-trends
+- [ ] 3. bond-formation
+- [ ] 4. oxygen
+- [ ] 5. symmetry-mos
+- [ ] 6. methane
+- [ ] 7. vibrations-symmetry
+- [ ] 8. cft-lft
+- [ ] 9. shapes
+- [ ] 10. benzene
+- [ ] 11. colour
+- [ ] 12. greenhouse
+- [ ] 13. hydrogen-bond
+- [ ] 14. kinetic-theory
+- [ ] 15. phases
+- [ ] 16. packing
+- [ ] 17. solids
+- [ ] 18. bragg
+- [ ] 19. dna-helix
+- [ ] 20. hf-dft
+- [ ] 21. basis-sets
+- [ ] 22. rhf-uhf
+- [ ] 23. equilibrium
+- [ ] 24. reaction-energy
+- [ ] 25. acids-bases
+- [ ] 26. first-calculation
+- [ ] 27. organizer
+- [ ] 28. machines
+- [ ] 29. structures
+- [ ] 30. scripting
+- [ ] 31. workflows
+- [ ] 32. qsar
+- [ ] 33. ecce-qm
+- [ ] 34. methods-choice
+- [ ] 35. results
+- [ ] 36. thermochemistry
+- [ ] 37. reaction-rates
+- [ ] 38. scans
+- [ ] 39. density-views
+- [ ] 40. vibrations
+- [ ] 41. ir-experiment
+- [ ] 42. excited-states
+- [ ] 43. crest
+- [ ] 44. xtb
+- [ ] 45. protonation
+- [ ] 46. organometallics
+- [ ] 47. fragment-orbitals
+- [ ] 48. docking
+- [ ] 49. umbrella
+- [ ] 50. protein-md
+- [ ] 51. biofibres
+- [ ] 52. qe-settings
+- [ ] 53. cp2k
+- [ ] 54. mlp
+- [ ] 55. clays
+- [ ] 56. stress

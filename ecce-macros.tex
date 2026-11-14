@@ -1,0 +1,17 @@
+% Conventions used throughout the book.
+\newcommand{\ecceversion}{9.5.2}
+% Menu paths and controls: \menu{Tools > Diffraction...}, \ctrl{Calculate}
+\newcommand{\menu}[1]{\textbf{\sffamily #1}}
+\newcommand{\ctrl}[1]{\textbf{\sffamily #1}}
+% Commands and file names
+\newcommand{\cmd}[1]{\texttt{#1}}
+% The example a chapter's finished calculation comes from
+\newcommand{\eccexample}[1]{\par\noindent\textit{Example set:} \menu{#1}\par}
+% Placeholder for a fact still to be checked (voice guide: never fill a gap)
+\newcommand{\XXX}[1][]{\textcolor{red}{\textbf{XXX}#1}}
+% The ECCE help page a chapter demonstrates (chapters.py check uses these)
+\newcommand{\helppage}[1]{\par\noindent\textit{Help page:} \texttt{#1}\par}
+% The ECCE release and commit a chapter's text (menus, steps, numbers) was
+% checked against: \checkedwith{9.5.2}{89feafcb0}. chapters.py check reports
+% chapters whose help pages changed in ECCE since that commit.
+\newcommand{\checkedwith}[2]{\par\noindent\textit{Checked with ECCE #1} {\tiny(#2)}\par}
