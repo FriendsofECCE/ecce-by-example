@@ -20,3 +20,11 @@
 \newcommand{\eccesource}[1]{}
 % Chemical formulas: \chem{H2O}. mhchem in the text, plain in PDF bookmarks.
 \newcommand{\chem}[1]{\texorpdfstring{\ce{#1}}{#1}}
+% Flow charts of calculation chains (coupling chapter and the field chapters).
+\usetikzlibrary{positioning,arrows.meta}
+\tikzset{
+	calcbox/.style={draw=ocre, line width=0.8pt, rounded corners=2pt, fill=ocre!8,
+		align=center, font=\small, inner sep=5pt},
+	handoff/.style={-{Stealth[length=6pt]}, line width=0.8pt, draw=black!70},
+	handofflabel/.style={font=\footnotesize\itshape, align=left, text=black!75},
+}

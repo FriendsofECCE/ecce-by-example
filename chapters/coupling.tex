@@ -20,10 +20,28 @@ Coupling in this sense is done by hand, one calculation made from another, in th
 \index{Screening funnel}\index{Multi-level calculations}
 
 \subsection{The screening funnel}
-A flexible molecule has no single structure. Ibuprofen, \chem{C13H18O2}, has five rotatable single bonds, in the isobutyl group, between the ring and the propionic acid group, and in the carboxyl group, and each combination of their rotations is a conformer. A conformer search with a tight-binding method \cite{pracht2020,bannwarth2019} finds the local minima in minutes, but the energies of tight-binding methods are good enough to separate conformers only roughly, and a density functional calculation on every conformer is the cost that the search was meant to avoid. A funnel solves this by passing a growing amount of effort to a shrinking set of structures: a force field or tight-binding search generates and ranks the conformers, a better tight-binding method re-optimises the lowest ones, and a composite density functional method refines the structure that is left.
+A flexible molecule has no single structure. Ibuprofen, \chem{C13H18O2}, has five rotatable single bonds, in the isobutyl group, between the ring and the propionic acid group, and in the carboxyl group, and each combination of their rotations is a conformer. A conformer search with a tight-binding method \cite{pracht2020,bannwarth2019} finds the local minima in minutes, but the energies of tight-binding methods are good enough to separate conformers only roughly, and a density functional calculation on every conformer is the cost that the search was meant to avoid. A funnel solves this by passing a growing amount of effort to a shrinking set of structures: a force field or tight-binding search generates and ranks the conformers, a better tight-binding method re-optimises the lowest ones, and a composite density functional method refines the structure that is left (Fig.~\ref{fig:coupling-funnel}).
 
 Three points decide whether a funnel works. The cheap step has to keep every structure that the expensive step could prefer, which is why the window of the search and the number of structures passed on are generous. The ranking at one level does not have to agree with that of the next in detail, only to put the structures the next level prefers within reach; the example below shows what this looks like. And the energies of different methods are never put on one scale. The funnel compares structures and orders, and each method's energies are read against that method's own lowest value.
 \index{Energies!comparison between methods}
+
+\begin{figure}[htb]
+	\centering
+	\begin{tikzpicture}[node distance=7mm]
+		\node[calcbox, text width=0.80\linewidth] (start) {\textbf{xTB}, GFN2-xTB, Geometry\\ the structure built from SMILES \hfill 1 structure};
+		\node[calcbox, text width=0.80\linewidth, below=of start] (crest) {\textbf{CREST}, GFN-FF, Conformer Search, 6~kcal/mol window\\ the conformer ensemble \hfill 21 conformers};
+		\node[calcbox, text width=0.66\linewidth, below=11mm of crest] (xtb) {\textbf{xTB}, GFN2-xTB, Geometry\\ the distinct conformers re-optimised \hfill 8 structures};
+		\node[calcbox, text width=0.52\linewidth, below=of xtb] (sp) {\textbf{ORCA}, r2SCAN-3c, Energy\\ ranking on the xTB structures \hfill 8 energies};
+		\node[calcbox, text width=0.38\linewidth, below=of sp] (opt) {\textbf{ORCA}, r2SCAN-3c, Geometry\\ the refined structure \hfill 1 structure};
+		\draw[handoff] (start) -- node[handofflabel, right=2pt] {final geometry as the start} (crest);
+		\draw[handoff] (crest) -- node[handofflabel, right=2pt] {\cmd{ecce-ensemble pick}, then\\ \menu{New Calculation from Selected...}} (xtb);
+		\draw[handoff] (xtb) -- node[handofflabel, right=2pt] {\cmd{ecce-series} with an ORCA template} (sp);
+		\draw[handoff] (sp) -- node[handofflabel, right=2pt] {one conformer, from its xTB structure} (opt);
+	\end{tikzpicture}
+	\caption{The screening funnel of this chapter for ibuprofen. Each box is one kind of calculation in ECCE, with its code, theory and run type and the number of structures it handles; each arrow is the hand-off from one to the next and the ECCE route for it. The effort per structure grows downwards and the number of structures shrinks.}
+	\label{fig:coupling-funnel}
+	\index{Screening funnel!flow chart}
+\end{figure}
 
 \subsection{Other hand-offs}
 The funnel is one of four patterns that the rest of the book uses.
