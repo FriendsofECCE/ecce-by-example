@@ -1,25 +1,95 @@
-\chapter{Conformer searches with CREST: from one structure to a refined ensemble}
+\chapter{Conformer searches with CREST}
 \chaptermark{Conformer searches with CREST}
 \label{ch:crest}
 \index{CREST}
 \index{Conformer search}
 \index{Boltzmann weights}
-\index{Coupled codes}
-\eccexample{Examples > Workflows > Aminopyridine protonation}
+\checkedwith{9.5.3-dev}{d26701ae0}
 \helppage{crest}
-\XXX[ chapter to be written]
 
-\section{Background}
+Most organic molecules have more than one conformer within a few kcal/mol, and a property you measure is then an average over them. Before we optimise a structure at a high level, we therefore need to know which conformers there are and how much each one counts. CREST \cite{pracht2020} finds them: it runs short molecular dynamics with xTB, collects the minima and ranks them.
 
-\section{What ECCE shows}
+Our example is 2-methoxyethanol, \chem{CH3OCH2CH2OH}. Its hydroxyl hydrogen can reach the ether oxygen and form an internal hydrogen bond, but only when the two oxygens are \emph{gauche} about the central C--C bond. We want to know how much of the molecule is in that form, in the gas phase and in water.
+
+\section*{This requires}
+\index{Requirements!xTB, CREST}
+xTB (we used 6.7.1, the Debian package \texttt{xtb}) and CREST (3.0.2), both registered in \menu{Register Machines} on the machine that runs the jobs. CREST runs xTB itself and uses the xTB registered on the same machine.
+
+\section{Setting up a search}
+\index{CREST!Theory}\index{CREST!Energy window}\index{CREST!run types}
+
+CREST needs an optimised starting structure; from an unoptimised one it fails. We therefore optimise with xTB first and start CREST from that result.
+
+CREST has four run types. We use \menu{Conformer Search}. \menu{Protonation Sites} and \menu{Tautomers} are covered in Chapter~\ref{ch:protonation}, \menu{Solvation Shell} in Chapter~\ref{ch:pom-solvation}. For a conformer search you set three things:
+\begin{enumerate}
+	\item the \menu{Theory}: \menu{GFN2-xTB} (the default), the faster force field \menu{GFN-FF} for a first look at a large molecule, or \menu{GFN2//GFN-FF}, which searches with the force field and re-ranks with GFN2-xTB;
+	\item an implicit solvent, if you want one, in \menu{Theory Details}: ALPB or GBSA, and the solvent;
+	\item the \menu{Energy window} in \menu{Runtype Details}. Conformers more than this above the lowest are dropped. The default, 6~kcal/mol, is generous for a molecule this size.
+\end{enumerate}
+\index{Implicit solvent!ALPB}\index{ALPB}
 
 \section{Procedure}
+\index{Conformer search!procedure}
+
+\begin{enumerate}
+	\item Make an xTB calculation (\menu{File > New}). In the Builder, choose \menu{Tools > Add from SMILES...} and enter \texttt{COCCO}. Run type Geometry, theory GFN2-xTB. Launch.
+	\index{Tools menu!Add from SMILES...}\index{SMILES}
+	\item Right-click the finished calculation in the Organizer and choose \menu{Make Workflow...}.
+	\item In the workflow view, click the xTB box, then \menu{CREST}. In \menu{New step}, tick \menu{Final geometry} and \menu{Charge and multiplicity}, and choose \menu{Create}.
+	\index{Workflows!New step}\index{New step}
+	\item Double-click the new box. Run type \menu{Conformer Search}, theory \menu{GFN2-xTB}, \menu{Energy window} 6~kcal/mol. Launch with four cores.
+	\item For the search in water, repeat steps 3 and 4 from the same xTB box, and in \menu{Theory Details} set \menu{Implicit Solvent} to ALPB and the solvent to water.
+	\item Open a finished search in the Builder and choose \menu{Properties > Geometry > Conformers}.
+\end{enumerate}
+
+\section{Reading the result}
+\index{Conformers panel}\index{Properties list!Conformers}
+
+The \menu{Conformers} panel (figure~\ref{fig:crest-panel}) lists the conformers lowest first, with the energy relative to the lowest in kcal/mol and the Boltzmann population at 298.15~K. The plot below shows the energy against the rank. Click a row to see that conformer in the 3-D view.
+
+The energies and populations only compare conformers of the same search. You cannot compare them with a search in another solvent or with another method.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{crest/conformers-gas.ecce-9.5.3-dev.png}
+	\caption{The \menu{Conformers} panel of the gas-phase search on 2-methoxyethanol, with rank 1 in the 3-D view.}
+	\label{fig:crest-panel}
+\end{figure}
 
 \section{Results}
 
-\section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
+The xTB optimisation took 40~s and the gas-phase search three minutes on four cores. CREST kept 16 conformers. Table~\ref{tab:crest-gas} lists the first eight with two numbers we measured on the stored structures: the O--C--C--O dihedral $\tau$ and the distance $d$ from the hydroxyl hydrogen to the ether oxygen.
 
+\begin{table}[htb]
+	\centering
+	\caption{The eight lowest conformers of 2-methoxyethanol in the gas phase (GFN2-xTB). $\Delta E$ is relative to rank 1; $\tau$ is the O--C--C--O dihedral, $d$ the distance from the hydroxyl hydrogen to the ether oxygen.}
+	\label{tab:crest-gas}
+	\begin{tabular}{rrrrr}
+		\toprule
+		Rank & $\Delta E$ (kcal/mol) & Population (\%) & $\tau$ (\si{\degree}) & $d$ (\si{\angstrom}) \\
+		\midrule
+		1 & 0.000 & 48.9 & 63 & 2.40 \\
+		2 & 0.373 & 26.0 & $-58$ & 2.35 \\
+		3 & 1.118 & 7.4 & 172 & 3.87 \\
+		4 & 1.499 & 3.9 & $-82$ & 3.53 \\
+		5 & 1.586 & 3.4 & 178 & 3.89 \\
+		6 & 1.665 & 2.9 & 169 & 3.95 \\
+		7 & 1.777 & 2.4 & 45 & 2.60 \\
+		8 & 2.205 & 1.2 & $-96$ & 3.11 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Ranks 1 and 2 are \emph{gauche} and hydrogen-bonded, with opposite signs of $\tau$. Together with rank 7 they carry 77\,\% of the population, and the \emph{anti} conformers, with $\tau$ near \SI{180}{\degree}, 15\,\%. Rank 4 is \emph{gauche} too, but its hydroxyl points away: \emph{gauche} alone does not give the hydrogen bond. Ranks 1 and 2 differ by 0.37~kcal/mol, which is within the error of GFN2-xTB, so we treat them as one group.
+
+In water (ALPB) the search also kept 16 conformers. The lowest is still \emph{gauche} and hydrogen-bonded, but the hydrogen-bonded conformers now carry 50\,\% and the \emph{anti} ones 29\,\%: the polar solvent competes with the internal hydrogen bond. ALPB treats water as a continuum, so it cannot show hydrogen bonds to individual water molecules; for that, use \menu{Solvation Shell} (Chapter~\ref{ch:pom-solvation}).
+\index{Hydrogen bond!intramolecular}\index{Solvent effects!on conformers}
+
+Re-optimising rank 1 with xTB at the tight level did not move it, so the structures CREST returns are already minima of its method.
+
+\section{Next steps}
+
+Before spending DFT time, decide how many conformers to pass on. Here the eight in table~\ref{tab:crest-gas} carry 96\,\% of the population. Tick them in the \menu{Conformers} panel and choose \menu{New Calculation from Selected...}: ECCE asks for a code and makes one geometry optimisation per conformer, as steps of the same workflow. Chapter~\ref{ch:coupling} follows this route for ibuprofen and shows why passing on only the lowest conformer is a mistake.
+\index{Conformers panel!New Calculation from Selected}
+
+The calculations are in the book's repository under \texttt{calculations/crest}. We ran them through ECCE's job launcher without the windows, so steps 2 to 5 of the procedure were not done in the windows; the calculations have the same setup.
