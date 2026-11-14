@@ -162,3 +162,67 @@ Only on a click (not a drag) with atoms selected and not read-only:
 Constrain Selected Atoms... (absent when constraints are read-only),
 Add Dummy Atom..., and Distort Bonds... when exactly one atom is selected.
 Help: constraints-and-dummy-atoms (right-click mention).
+
+## Checked in a running Builder (2026-11-14, main e6ff4018a, build-cmake)
+How: a headless Builder from /home/andy/tmp/ecce/ECCE/build-cmake, started
+by the tests/launch harness (isolated HOME and ECCE_LOCAL_DATA, private Xvfb,
+nice 19) on an xTB water calculation, driven by ECCE_BUILDER_SCRIPT with
+ECCE_FEEDBACK_STDERR=1; screen captures with `import` on the Xvfb display at
+each `shot`. Steps: `smiles CC(=O)NC(C)C(=O)NC` (adds a 22-atom dipeptide
+model to the water: 25 atoms), `menu Build|Make into Residue-Based System`,
+`residues`, `menu Options|Show Bond Labels`, `menu Options|Show Summary Text
+Labels`, `menu Measure|Distance` with nothing selected, `measure dist 1 2`,
+`context` to two more calculations, `info`. The Builder script cannot read a
+menu's label text, so items marked "code" below were read from the source,
+not seen.
+
+- MISSED EARLIER: the menu bar has a **View** menu between Edit and Options
+  (seen in the capture: File, Edit, View, Options, Render, Build, Mode,
+  Measure, Tools, Properties, Context, Help). Items (code, BuilderPanels.C):
+  Hide Side Panels (F9, check; "Collapse the side panels to a thin strip for
+  a larger view"); Panel layout > Classic (panels on both sides) / One
+  column, stacked / One column, accordion / One column, list and detail
+  (radio); Reset layout ("Back to the default panel layout and sizes").
+  Help: viewer-panels ("Making room in the docked layout" and the panel
+  layout sections) -- check which page names these.
+- **Undo / Redo label** (code, Builder::updateUndoMenus): the "Undo.." text
+  of the menu file is never shown; after any change the item reads
+  "Undo <name of the last command>" (Ctrl+Z), and with nothing to undo it
+  reads "Can't Undo" and is grey. Redo likewise: "Redo <command>" or
+  "Can't Redo" (grey). The toolbar buttons' tooltips carry the same text.
+  Not seen (no hook reads a label).
+- **The stock Clear item** (code): wxID_CLEAR with no label, so wx shows its
+  stock label "Clear" (UNVERIFIED on screen); it runs Builder::OnClearClick,
+  a "Clear" command that replaces the structure with an empty one (start
+  over). It is an ordinary command, so it can be undone (Undo Clear) -- code.
+- **Summary text labels** (seen): on by default. They are the two text
+  corners of the 3-D view: "Mode: Select" (top left, the current mode) and
+  "25 atoms 2 residues" (bottom left, the counts). Show Summary Text Labels
+  unticked removed both (captures plain vs summary).
+- **Bond labels** (code + run): Show Bond Labels labels each drawn bond with
+  its length in Å, three decimals (bond label format "%d" = length,
+  ChemDisplayText.C; SGContainer.setBondLabels). In the headless capture no
+  bond labels appeared after ticking it, so what is drawn on screen is NOT
+  confirmed; check on a real display before printing.
+- **Auto Normalize Display** (code): toggles automatic centring; when ticked
+  it centres the view on the structure at once (CenterViewCmd), and it is
+  saved as the Builder preference "/AutoCenter". **Enable Spinning** (code):
+  turns on the viewer's animation, so a rotation flicked with the mouse keeps
+  spinning; saved as "/Spin"; also a View-toolbar button. Neither observable
+  in a still headless capture.
+- **Make into Residue-Based System** (seen): on a structure without residues
+  (`residues` printed nothing), it made one residue per molecule, all named
+  UNK, numbered 1, 2 (water = residue 1, the amide = residue 2; the Residue
+  Table showed Name UNK, PDB # 1 and 2, no chain), and the summary text then
+  read "25 atoms 2 residues".
+- **Measure pick order** (seen): atoms are selected FIRST. Measure >
+  Distance with nothing selected prints "Select two atoms to create a
+  distance measure." in the Builder's message area and draws nothing; with
+  atoms 1 and 2 selected the distance is drawn (the script's measure hook
+  selects, then sends the same menu event). Angle and Torsion: same pattern
+  (three / four atoms), by the code, not run.
+- **Context menu** (partly seen): after opening three calculations in one
+  Builder (`context` to two more), `info` reported CONTEXTS: 3 (the Open
+  structures list holds three). The Context menu is a history of up to 100
+  entries (ContextHistory(100, ...), code); its order (newest first, as a wx
+  file history) is UNVERIFIED -- the script cannot read the menu.
