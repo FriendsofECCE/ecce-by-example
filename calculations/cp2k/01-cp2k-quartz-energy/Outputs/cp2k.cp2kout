@@ -20,7 +20,7 @@
 
   **** **** ******  **  PROGRAM STARTED AT               2026-11-14 23:04:48.383
  ***** ** ***  *** **   PROGRAM STARTED ON                                computehost
- **    ****   ******    PROGRAM STARTED BY                                  andy
+ **    ****   ******    PROGRAM STARTED BY                                  user
  ***** **    ** ** **   PROGRAM PROCESS ID                               2577467
   **** **  *******  **  PROGRAM STARTED IN /home/user/.cache/ecce-bookcp2k-zzsr5
                                            jff/run/quartz-energy-project/quartz-
@@ -1342,7 +1342,7 @@
  -------------------------------------------------------------------------------
   **** **** ******  **  PROGRAM ENDED AT                 2026-11-14 23:08:41.875
  ***** ** ***  *** **   PROGRAM RAN ON                                    computehost
- **    ****   ******    PROGRAM RAN BY                                      andy
+ **    ****   ******    PROGRAM RAN BY                                      user
  ***** **    ** ** **   PROGRAM PROCESS ID                               2577467
   **** **  *******  **  PROGRAM STOPPED IN /home/user/.cache/ecce-bookcp2k-zzsr5
                                            jff/run/quartz-energy-project/quartz-

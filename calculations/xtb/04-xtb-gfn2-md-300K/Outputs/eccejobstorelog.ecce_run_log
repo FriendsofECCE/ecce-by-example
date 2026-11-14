@@ -1,38 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <eccejobstore>
-     <event  type="Message"  name="Job log started for calculation"  date="Sat, 14 Nov 2026 23:25:41 CET" >file:///home/user/.cache/ecce-bookxtb-pej0jkf6/localdata/users/local/04-xtb-gfn2-md-300K-project/04-xtb-gfn2-md-300K     </event>
-     <event  type="Message"  name="eccejobstore running on client"  date="Sat, 14 Nov 2026 23:25:41 CET" >computehost     </event>
-     <event  type="Message"  name="Cache"  date="Sat, 14 Nov 2026 23:25:41 CET" >Successfully started property parsing cache     </event>
-     <event  type="Message"  name="Local cache directory"  date="Sat, 14 Nov 2026 23:25:41 CET" >/home/user/.cache/ecce-bookxtb-pej0jkf6/tmp/ecce_andy/jobs/04-xtb-gfn2-md-300K__G8yaAQ     </event>
-     <event  type="Message"  name="Job Monitor"  date="Sat, 14 Nov 2026 23:25:41 CET" >Started job monitor (stdio comms) with command: perl eccejobmonitor -configFile eccejobmonitor.conf -progress 1 -jobId 2589629 -bookmark 0; echo eccejobmonitor_went_bye_bye     </event>
-     <event  type="Message"  name="System"  date="Sat, 14 Nov 2026 23:25:41 CET" >Started local RCommand connection     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:25:41 CET" >Receiving calculation output from eccejobmonitor     </event>
-     <event  type="Message"  name="eccejobstore"  date="Sat, 14 Nov 2026 23:25:41 CET" >out of contact after 60 s of silence, reconnect after 180 s     </event>
-     <event  type="Message"  name="Calculation State Change"  date="Sat, 14 Nov 2026 23:25:41 CET" >Running     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:25:49 CET" >Sat Nov 14 23:25:49 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:26:01 CET" >Sat Nov 14 23:26:01 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:26:13 CET" >Sat Nov 14 23:26:13 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:26:25 CET" >Sat Nov 14 23:26:25 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:26:38 CET" >Sat Nov 14 23:26:38 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:26:50 CET" >Sat Nov 14 23:26:50 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:27:02 CET" >Sat Nov 14 23:27:02 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:27:14 CET" >Sat Nov 14 23:27:14 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:27:26 CET" >Sat Nov 14 23:27:26 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:27:38 CET" >Sat Nov 14 23:27:38 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:27:50 CET" >Sat Nov 14 23:27:50 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:28:02 CET" >Sat Nov 14 23:28:02 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:28:15 CET" >Sat Nov 14 23:28:15 2026: job monitor running on Shell job pid '2589629'     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:28:23 CET" >File marked to copy from compute host: xtb.xtbout     </event>
-     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:28:23 CET" >File marked to copy from compute host: xtb.xtbout     </event>
-     <event  type="Message"  name="Benchmark"  date="Sat, 14 Nov 2026 23:28:23 CET" >Before file copy of output files     </event>
-     <event  type="Message"  name="Benchmark"  date="Sat, 14 Nov 2026 23:28:23 CET" >After file copy of output files     </event>
-     <event  type="Message"  name="File Copy"  date="Sat, 14 Nov 2026 23:28:23 CET" >Successfully copied files from server
+     <event  type="Message"  name="Job log started for calculation"  date="Sat, 14 Nov 2026 23:51:45 CET" >file:///home/user/localdata/users/local/04-xtb-gfn2-md-300K-project/04-xtb-gfn2-md-300K     </event>
+     <event  type="Message"  name="eccejobstore running on client"  date="Sat, 14 Nov 2026 23:51:45 CET" >client     </event>
+     <event  type="Message"  name="Cache"  date="Sat, 14 Nov 2026 23:51:45 CET" >Successfully started property parsing cache     </event>
+     <event  type="Message"  name="Local cache directory"  date="Sat, 14 Nov 2026 23:51:45 CET" >/home/user/tmp/ecce_user/jobs/04-xtb-gfn2-md-300K__sy7Zhs     </event>
+     <event  type="Message"  name="Job Monitor"  date="Sat, 14 Nov 2026 23:51:45 CET" >Started job monitor (stdio comms) with command: perl eccejobmonitor -configFile eccejobmonitor.conf -progress 1 -jobId 2304952 -bookmark 0; echo eccejobmonitor_went_bye_bye     </event>
+     <event  type="Message"  name="System"  date="Sat, 14 Nov 2026 23:51:45 CET" >Started local RCommand connection     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:51:45 CET" >Receiving calculation output from eccejobmonitor     </event>
+     <event  type="Message"  name="eccejobstore"  date="Sat, 14 Nov 2026 23:51:45 CET" >out of contact after 60 s of silence, reconnect after 180 s     </event>
+     <event  type="Message"  name="Calculation State Change"  date="Sat, 14 Nov 2026 23:51:46 CET" >Running     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:51:54 CET" >Sat Nov 14 23:51:54 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:52:07 CET" >Sat Nov 14 23:52:07 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:52:20 CET" >Sat Nov 14 23:52:20 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:52:33 CET" >Sat Nov 14 23:52:33 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:52:46 CET" >Sat Nov 14 23:52:46 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:52:59 CET" >Sat Nov 14 23:52:59 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:53:11 CET" >Sat Nov 14 23:53:11 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:53:24 CET" >Sat Nov 14 23:53:24 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:53:37 CET" >Sat Nov 14 23:53:37 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:53:50 CET" >Sat Nov 14 23:53:50 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:54:03 CET" >Sat Nov 14 23:54:03 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:54:15 CET" >Sat Nov 14 23:54:15 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:54:28 CET" >Sat Nov 14 23:54:28 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:54:41 CET" >Sat Nov 14 23:54:41 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:54:54 CET" >Sat Nov 14 23:54:54 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:55:07 CET" >Sat Nov 14 23:55:07 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:55:20 CET" >Sat Nov 14 23:55:20 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:55:32 CET" >Sat Nov 14 23:55:32 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:55:45 CET" >Sat Nov 14 23:55:45 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:55:58 CET" >Sat Nov 14 23:55:58 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:56:11 CET" >Sat Nov 14 23:56:11 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:56:23 CET" >Sat Nov 14 23:56:23 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:56:36 CET" >Sat Nov 14 23:56:36 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:56:49 CET" >Sat Nov 14 23:56:49 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:57:02 CET" >Sat Nov 14 23:57:02 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:57:14 CET" >Sat Nov 14 23:57:14 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:57:27 CET" >Sat Nov 14 23:57:27 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:57:40 CET" >Sat Nov 14 23:57:40 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:57:53 CET" >Sat Nov 14 23:57:53 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:58:06 CET" >Sat Nov 14 23:58:06 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:58:18 CET" >Sat Nov 14 23:58:18 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:58:31 CET" >Sat Nov 14 23:58:31 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:58:44 CET" >Sat Nov 14 23:58:44 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:58:57 CET" >Sat Nov 14 23:58:57 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:59:09 CET" >Sat Nov 14 23:59:09 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:59:22 CET" >Sat Nov 14 23:59:22 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:59:35 CET" >Sat Nov 14 23:59:35 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sat, 14 Nov 2026 23:59:48 CET" >Sat Nov 14 23:59:48 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:00:01 CET" >Sun Nov 15 00:00:01 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:00:14 CET" >Sun Nov 15 00:00:14 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:00:27 CET" >Sun Nov 15 00:00:27 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:00:40 CET" >Sun Nov 15 00:00:40 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:00:52 CET" >Sun Nov 15 00:00:52 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:01:05 CET" >Sun Nov 15 00:01:05 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:01:18 CET" >Sun Nov 15 00:01:18 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:01:31 CET" >Sun Nov 15 00:01:31 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:01:44 CET" >Sun Nov 15 00:01:44 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:01:57 CET" >Sun Nov 15 00:01:57 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:02:10 CET" >Sun Nov 15 00:02:10 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:02:22 CET" >Sun Nov 15 00:02:22 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:02:35 CET" >Sun Nov 15 00:02:35 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:02:48 CET" >Sun Nov 15 00:02:48 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:03:01 CET" >Sun Nov 15 00:03:01 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:03:14 CET" >Sun Nov 15 00:03:14 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:03:27 CET" >Sun Nov 15 00:03:27 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:03:39 CET" >Sun Nov 15 00:03:39 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:03:52 CET" >Sun Nov 15 00:03:52 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:04:05 CET" >Sun Nov 15 00:04:05 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:04:18 CET" >Sun Nov 15 00:04:18 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:04:30 CET" >Sun Nov 15 00:04:30 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:04:43 CET" >Sun Nov 15 00:04:43 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:04:56 CET" >Sun Nov 15 00:04:56 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:05:09 CET" >Sun Nov 15 00:05:09 2026: job monitor running on Shell job pid '2304952'     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:06:05 CET" >File marked to copy from compute host: xtb.xtbout     </event>
+     <event  type="Message"  name="eccejobmonitor"  date="Sun, 15 Nov 2026 00:06:05 CET" >File marked to copy from compute host: xtb.xtbout     </event>
+     <event  type="Message"  name="Benchmark"  date="Sun, 15 Nov 2026 00:06:05 CET" >Before file copy of output files     </event>
+     <event  type="Message"  name="Benchmark"  date="Sun, 15 Nov 2026 00:06:05 CET" >After file copy of output files     </event>
+     <event  type="Message"  name="File Copy"  date="Sun, 15 Nov 2026 00:06:05 CET" >Successfully copied files from server
 xtb.xtbout: xtb.xtbout  
 no files matched *.cub
 no files matched *.cube
 no files matched results.h5     </event>
-     <event  type="Message"  name="File Copy"  date="Sat, 14 Nov 2026 23:28:23 CET" >No cube, PDOS or other wildcard output files arrived     </event>
-     <event  type="Message"  name="results.h5"  date="Sat, 14 Nov 2026 23:28:23 CET" >results.h5 stored; checks FAILED (file marked, views ignore it): alpha tr(PS) 68.980101 of 74.0000, rel err 6.8e-02, max |C'SC-1| 3.2e-01, 66 AOs     </event>
-     <event  type="Message"  name="Calculation State Change"  date="Sat, 14 Nov 2026 23:28:23 CET" >Complete     </event>
-     <event  type="Message"  name="eccejobstore exit"  date="Sat, 14 Nov 2026 23:28:23 CET" >eccejobstore terminating normally, exit status 0     </event>
+     <event  type="Message"  name="File Copy"  date="Sun, 15 Nov 2026 00:06:05 CET" >No cube, PDOS or other wildcard output files arrived     </event>
+     <event  type="Message"  name="results.h5"  date="Sun, 15 Nov 2026 00:06:05 CET" >results.h5 stored; checks FAILED (file marked, views ignore it): alpha tr(PS) 59.052126 of 74.0000, rel err 2.0e-01, max |C'SC-1| 4.5e-01, 66 AOs     </event>
+     <event  type="Message"  name="Calculation State Change"  date="Sun, 15 Nov 2026 00:06:06 CET" >Complete     </event>
+     <event  type="Message"  name="eccejobstore exit"  date="Sun, 15 Nov 2026 00:06:06 CET" >eccejobstore terminating normally, exit status 0     </event>
 </eccejobstore>

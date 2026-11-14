@@ -32,12 +32,12 @@
 .	http://www.emsl.pnl.gov/ecce:launch_scratchdir		
 .	http://www.emsl.pnl.gov/ecce:launch_threads		0
 .	http://www.emsl.pnl.gov/ecce:launch_totalprocs		4
-.	http://www.emsl.pnl.gov/ecce:launch_user		andy
+.	http://www.emsl.pnl.gov/ecce:launch_user		user
 .	http://www.emsl.pnl.gov/ecce:metaPotentialsDocument		MetaPotentialModel.mpot
 .	http://www.emsl.pnl.gov/ecce:moleculeDocument		chemsys.mvm
 .	http://www.emsl.pnl.gov/ecce:originalMoleculeDocument		chemsys_orig.pdb
 .	http://www.emsl.pnl.gov/ecce:outputCollection		Outputs
-.	http://www.emsl.pnl.gov/ecce:owner		andy
+.	http://www.emsl.pnl.gov/ecce:owner		user
 .	http://www.emsl.pnl.gov/ecce:progress		# seq=168 sent=1794694999.869 idle=0 at=1794694999\nscf cycle=6 scferr=0.00000079/1.00E-06 energy=-867.7676347829 converged=yes\nscf~ scferr=0.00011120,0.00007003,0.00002190,0.00000540,0.00000268,0.00000079\nopt step=11 energy=-867.7676347975 maxstep=0.0019026291/0.0030000000 rmsstep=0.0004389400/0.0015000000 maxgrad=0.0001411645/0.0004500000 rmsgrad=0.0000521668/0.0003000000 converged=yes\nopt~ maxgrad=0.0056497669,0.0081563032,0.0023777870,0.0019521766,0.0011375973,0.0010198464,0.0005678797,0.0005136227,0.0005526170,0.0002452153,0.0001411645\nopt~ rmsgrad=0.0029752570,0.0029841749,0.0010311747,0.0009068631,0.0005021386,0.0004164548,0.0002005146,0.0001375910,0.0001768116,0.0000684004,0.0000521668\n
 .	http://www.emsl.pnl.gov/ecce:propertyCollection		Props
 .	http://www.emsl.pnl.gov/ecce:qmmmTermsDocument		QMMMModel.qmmm

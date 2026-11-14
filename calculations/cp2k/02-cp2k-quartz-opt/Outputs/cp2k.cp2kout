@@ -20,7 +20,7 @@
 
   **** **** ******  **  PROGRAM STARTED AT               2026-11-14 23:09:11.863
  ***** ** ***  *** **   PROGRAM STARTED ON                                computehost
- **    ****   ******    PROGRAM STARTED BY                                  andy
+ **    ****   ******    PROGRAM STARTED BY                                  user
  ***** **    ** ** **   PROGRAM PROCESS ID                               2581938
   **** **  *******  **  PROGRAM STARTED IN /home/user/.cache/ecce-bookcp2k-zzsr5
                                            jff/run/quartz-opt-project/quartz-opt
@@ -6204,7 +6204,7 @@
  -------------------------------------------------------------------------------
   **** **** ******  **  PROGRAM ENDED AT                 2026-11-14 23:23:19.183
  ***** ** ***  *** **   PROGRAM RAN ON                                    computehost
- **    ****   ******    PROGRAM RAN BY                                      andy
+ **    ****   ******    PROGRAM RAN BY                                      user
  ***** **    ** ** **   PROGRAM PROCESS ID                               2581938
   **** **  *******  **  PROGRAM STOPPED IN /home/user/.cache/ecce-bookcp2k-zzsr5
                                            jff/run/quartz-opt-project/quartz-opt

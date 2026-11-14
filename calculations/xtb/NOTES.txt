@@ -79,3 +79,21 @@ UPDATE 2026-11-14: RUN (offload host, ECCE's Launch; moved into 01-04)
  Displacement > Compare with...), IR spectra overlay (spectrum window
  Compare...).
 Ready for writing (with the imaginary-mode caveat).
+
+UPDATE 2026-11-15 (retakes)
+- 04 MD RERUN from 01's optimised structure (run_xtb.py now reads the
+  "final structure:" block of the stored xtb output; checked: the deck's
+  coordinates are 01's final ones). 881 s local, 4 cores. Figure md-trace
+  retaken: after the first frame (the minimum) the energy rises by about
+  0.015-0.02 Eh to the 300 K level and fluctuates around -42.125 Eh.
+  The note above about 04 starting from the built structure is obsolete.
+- 05 (new): GeoVib at Level tight. The imaginary frequency does NOT go
+  away: -65.9 cm-1 (normal level: -65.3). So it is not a loose-convergence
+  artefact: the optimiser stops at a structure that is a saddle for one
+  methyl rotation. The fix in ECCE: in the Vibrational Frequencies panel
+  select the imaginary mode and use Displace... to move along it, then
+  re-optimise (not run here). No figure (nothing changed to show).
+- run_xtb.py: optional job names as arguments run only those; with
+  XTB_NO_SETUP=1 the create step omits theory=/runtype= (needed for a
+  launchjob built before #1034; the calculation then has no stored
+  Calculation Editor setup).

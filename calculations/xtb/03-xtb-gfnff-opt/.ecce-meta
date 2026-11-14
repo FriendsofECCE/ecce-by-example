@@ -32,12 +32,12 @@
 .	http://www.emsl.pnl.gov/ecce:launch_scratchdir		
 .	http://www.emsl.pnl.gov/ecce:launch_threads		0
 .	http://www.emsl.pnl.gov/ecce:launch_totalprocs		4
-.	http://www.emsl.pnl.gov/ecce:launch_user		andy
+.	http://www.emsl.pnl.gov/ecce:launch_user		user
 .	http://www.emsl.pnl.gov/ecce:metaPotentialsDocument		MetaPotentialModel.mpot
 .	http://www.emsl.pnl.gov/ecce:moleculeDocument		chemsys.mvm
 .	http://www.emsl.pnl.gov/ecce:originalMoleculeDocument		chemsys_orig.pdb
 .	http://www.emsl.pnl.gov/ecce:outputCollection		Outputs
-.	http://www.emsl.pnl.gov/ecce:owner		andy
+.	http://www.emsl.pnl.gov/ecce:owner		user
 .	http://www.emsl.pnl.gov/ecce:progress		# seq=2 sent=1794695113.683 idle=0 at=1794695113\nopt step=9 energy=-4.6776638 grad=0.0008255/0.1000000E-02 converged=yes\nopt~ energy=-4.6727559,-4.6758164,-4.6772876,-4.6774876,-4.6776077,-4.6776434,-4.6776584,-4.6776621,-4.6776638\n
 .	http://www.emsl.pnl.gov/ecce:propertyCollection		Props
 .	http://www.emsl.pnl.gov/ecce:qmmmTermsDocument		QMMMModel.qmmm

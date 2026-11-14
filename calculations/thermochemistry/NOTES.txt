@@ -64,3 +64,14 @@ Coupling: higher-level single points on these geometries (ORCA) would give
 better DE with the B3LYP thermal corrections -- that mixes methods inside one
 species' G (a standard composite route) but never subtract energies from two
 methods between species; say so if the chapter mentions it.
+
+UPDATE 2026-11-15: thermo-panel-ethane retaken with ecce-thermo available:
+Recomputed (ecce-thermo) H -79.684199, S 242.397 J/mol/K, G -79.711726 Eh vs
+ECCE-QM's own H -79.684199, S 227.509, G -79.710035. The difference is the
+symmetry number: ecce-thermo used sigma = 1 ("Point group not stored ...
+the symmetry number is not read from ECCE-QM's output"), ECCE-QM sigma = 6
+(R ln 6 = 14.9 J/mol/K). Filed as issue #1043. For the chapter: type 6 in
+the panel's Symmetry number field (ethene 4, H2 2 with Rotor linear) to
+make the recomputed values match, or read the "ECCE-QM's own" column; the
+Energy Calculator's G row uses the code's own G ("The code's own Gibbs
+energy" treatment) and is therefore right.

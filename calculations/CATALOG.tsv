@@ -37,4 +37,5 @@ vibrations	calculations/vibrations/ecceqm-formaldehyde-optfreq-raman	formaldehyd
 xtb	calculations/xtb/01-xtb-gfn2-optfreq-gas	caffeine	xTB	GFN2-xTB	Geometry + Vibration (normal)	Getting Started	offload host (ECCE Launch)	2026-11-14	9.5.3-dev	e6ff4018a		23 s
 xtb	calculations/xtb/02-xtb-gfn2-optfreq-water	caffeine	xTB	GFN2-xTB + ALPB water	Geometry + Vibration (normal)	Getting Started	offload host (ECCE Launch)	2026-11-14	9.5.3-dev	e6ff4018a		21 s
 xtb	calculations/xtb/03-xtb-gfnff-opt	caffeine	xTB	GFN-FF	Geometry optimisation (normal)	Getting Started	offload host (ECCE Launch)	2026-11-14	9.5.3-dev	e6ff4018a		21 s
-xtb	calculations/xtb/04-xtb-gfn2-md-300K	caffeine	xTB	GFN2-xTB	Molecular dynamics 300 K, 20 ps	Getting Started	offload host (ECCE Launch)	2026-11-14	9.5.3-dev	e6ff4018a		177 s
+xtb	calculations/xtb/04-xtb-gfn2-md-300K	caffeine	xTB	GFN2-xTB	Molecular dynamics 300 K, 20 ps	Getting Started	local, headless (niobium, nice 19)	2026-11-15	9.5.3-dev	e6ff4018a		881 s, 4 cores; from 01's optimised structure
+xtb	calculations/xtb/05-xtb-gfn2-optfreq-gas-tight	caffeine	xTB	GFN2-xTB	Geometry + Vibration (tight)	Getting Started	local, headless (niobium, nice 19)	2026-11-15	9.5.3-dev	23769bf69		22 s; still one imaginary (-65.9 cm-1)

@@ -134,3 +134,14 @@ results moved into 01-/02-; cp2k-RESTART.wfn not kept)
   `ecce-xrd powder` on the final structure. Because the cell is fixed, the
   powder line positions cannot move; only intensities change.
 Ready for writing once the Diffraction comparison is decided.
+
+UPDATE 2026-11-15: Diffraction before/after (figures/cp2k/xrd-quartz-start,
+xrd-quartz-opt): Builder > Properties > Geometry > Diffraction, View Powder,
+Source Cu (1.5406 A), default options, on 01 (start = measured structure)
+and 02 (final optimised structure). Same 2theta positions (fixed cell);
+strongest line labelled 202 at about 26.6 deg, next 200 at about 20.9 deg:
+the labels are Miller indices of the 2x2x2 SUPERCELL, i.e. 202 = (101) and
+200 = (100) of the quartz cell -- the chapter must say so or readers will be
+confused. Intensities change slightly (e.g. 200 about 21 -> 19 % relative;
+read off the plots, not exported). The CSV for exact values: Save CSV... in
+the panel (not done).
