@@ -1,24 +1,75 @@
 \chapter{Periodic structures in CP2K}
 \label{ch:cp2k}
+\checkedwith{9.5.3-dev}{8ba601b24}
 \index{CP2K}
 \index{GTH pseudopotentials}
 \index{SCF convergence}
 \eccexample{Examples > Getting Started}
 \helppage{cp2k-scf}
 \helppage{cp2k-basis-potential}
-\XXX[ chapter to be written]
+\helppage{importing-a-structure}
+
+A crystal has no edges: each atom sees copies of the unit cell in every direction. CP2K treats such periodic systems with density functional theory at a cost that grows gently with the number of atoms, which makes it one of the usual codes for crystals, surfaces and liquids of a few hundred atoms. In this chapter we take $\alpha$-quartz, the common form of SiO$_2$, from a measured crystal structure to a CP2K energy and a relaxed structure, and we check the result against what diffraction would see.
+
+\section*{This requires}
+\index{Requirements!CP2K}
+CP2K, version 2025.1 here (the Debian packages \texttt{cp2k} and \texttt{cp2k-data}, the latter for the basis sets and pseudopotentials), with MPI (Open MPI 5.0.7), registered in \menu{Register Machines} on the machine that runs the jobs. ECCE's CP2K support is marked experimental.
 
 \section{Background}
+\index{Plane waves}\index{Gamma point}\index{Supercell}\index{k-points}
+CP2K's Quickstep method describes the electrons with Gaussian basis functions, as molecular codes do, and their density with plane waves, which suit a periodic cell; the core electrons are replaced by GTH pseudopotentials, so that only the valence electrons are treated explicitly. The density grid is set by a plane-wave cutoff, here 400~Ry.
 
-\section{What ECCE shows}
+In a periodic calculation the electronic states also depend on a wave vector $\mathbf{k}$, and an accurate calculation samples several $\mathbf{k}$-points. ECCE's CP2K setup uses only one, the $\Gamma$ point. For a small cell that is far too coarse, but sampling $\Gamma$ in a cell that is $n$ times larger in each direction is equivalent to sampling $n$ points in each direction of the small one. We therefore do what is usual with $\Gamma$-only calculations and make the cell larger instead: the $2 \times 2 \times 2$ supercell of quartz, 72 atoms and about \SI{10}{\angstrom} along each axis, which is enough for an insulator with a wide band gap such as quartz.
 
 \section{Procedure}
+\begin{enumerate}
+	\item In the Builder, read the crystal structure of $\alpha$-quartz from a CIF file with \menu{File > Add Structure from File...}; we used the structure of Levien, Prewitt and Weidner, with $a = \SI{4.9134}{\angstrom}$ and $c = \SI{5.4052}{\angstrom}$ in space group $P3_121$. ECCE builds the nine atoms of the cell from the symmetry operations and draws the cell.
+	\index{CIF!reading}\index{Quartz}
+	\item Open \menu{Tools > Periodic Builder} and replicate the cell twice along each axis, which gives the 72-atom supercell. \XXX[ the Replicate fields and button text, read off a running Builder]
+	\index{Periodic Builder!replicate}
+	\item Save the structure into a new CP2K calculation. In the Calculation Editor keep the theory \menu{QS} / \menu{GPW} and the defaults of \ctrl{Theory Details...}: PBE, the DZVP-MOLOPT-SR-GTH basis set, GTH-PBE pseudopotentials, a cutoff of 400~Ry and orbital-transformation (OT) SCF. Choose the run type \menu{Energy}; \menu{Forces on atoms} in \ctrl{Runtype Details...} is ticked by default. Launch on four processors.
+	\item Make a second calculation from the first (\menu{New from This > Rerun}) with the run type \menu{Geometry}. The atoms move to their minimum while the cell stays as measured, since ECCE does not yet offer a cell optimisation for CP2K.
+	\item Open the optimisation in the Viewer and choose \menu{Properties > Geometry > Geometry Trace}. Then choose \menu{Tools > Diffraction...}, once for the start structure and once for the optimised one, to calculate their powder patterns.
+	\index{Diffraction!powder pattern}
+\end{enumerate}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\linewidth]{cp2k/quartz-structure.ecce-9.5.3-dev.png}
+	\caption{The $2 \times 2 \times 2$ supercell of $\alpha$-quartz, 72 atoms, with the cell drawn.}
+	\label{fig:cp2k-structure}
+\end{figure}
 
 \section{Results}
+The energy calculation of the measured structure took 257~s on four processors, and its SCF converged without help. The largest force on an atom is \SI{7.9e-3}{} hartree/bohr, which is small but not zero, so the measured structure is close to the minimum of PBE but not at it.
+
+The optimisation took 873~s and converged in 11 steps (figure~\ref{fig:cp2k-trace}). The energy fell by 0.0262~hartree, 68.9~kJ/mol for the 72-atom cell or 2.9~kJ/mol per SiO$_2$ unit; this is the relaxation of the atoms within PBE, an energy difference within one method. Measured with \menu{Measure > Distance}, the Si--O bonds lengthen from 1.604--\SI{1.614}{\angstrom} in the measured structure to 1.625--\SI{1.634}{\angstrom}, by \SI{0.02}{\angstrom} on average. PBE is known to make bonds of this kind slightly too long, so the relaxed structure is not better than the measured one; it is the structure that this method prefers.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\linewidth]{cp2k/quartz-opt-trace.ecce-9.5.3-dev.png}
+	\caption{The \menu{Geometry Trace} of the optimisation: the energy of each step relative to the first. \XXX[ retake once ECCE issue 1041 is fixed: the y-axis title is cut]}
+	\label{fig:cp2k-trace}
+\end{figure}
+
+Diffraction gives a check that does not depend on energies (figures~\ref{fig:cp2k-xrd-start} and~\ref{fig:cp2k-xrd-opt}). Note that the peaks are labelled with the Miller indices of the supercell, which are twice those of the quartz cell: the strongest line, at $2\theta = \SI{26.6}{\degree}$ with Cu~K$\alpha$ radiation, is the (101) reflection of quartz but is labelled 202, and the line at \SI{20.9}{\degree}, labelled 200, is quartz (100). The two patterns have their lines at exactly the same angles, because the cell was kept fixed and the line positions depend only on the cell; what changes is the intensities, a little, since they depend on where the atoms sit in the cell. A relaxation of the cell as well would move the lines and show directly whether PBE makes the crystal too large.
+\index{Miller indices!supercell}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{cp2k/xrd-quartz-start.ecce-9.5.3-dev.png}
+	\caption{The calculated powder pattern of the measured quartz structure, Cu~K$\alpha$. The indices refer to the $2 \times 2 \times 2$ supercell.}
+	\label{fig:cp2k-xrd-start}
+\end{figure}
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{cp2k/xrd-quartz-opt.ecce-9.5.3-dev.png}
+	\caption{The same for the structure optimised with CP2K: the lines are where they were, with slightly different intensities.}
+	\label{fig:cp2k-xrd-opt}
+\end{figure}
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
+A periodic DFT calculation of this size takes minutes to hours, so a cheaper method can do the first part of the relaxation: a machine-learned potential such as MACE (Chapter~\ref{ch:mlp}) relaxes the structure within seconds, and CP2K then starts from its final structure, with \menu{New from This > In Another Code...}. In the other direction, a property that a molecular code computes better, such as an NMR shift or an excited state, needs a cluster cut from the periodic model and capped with hydrogen atoms; ECCE cannot cut such a cluster yet (ECCE issue 1033). Two things that a periodic study often needs are also missing so far, $\mathbf{k}$-point sampling and the optimisation of the cell (ECCE issue 412).
 
+The calculations for this chapter are kept in the book's repository under \texttt{calculations/cp2k}. They were run through ECCE's launcher by the test machinery on another computer, with the decks that ECCE's Calculation Editor writes for these settings.

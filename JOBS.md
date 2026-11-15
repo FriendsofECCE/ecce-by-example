@@ -24,7 +24,7 @@ Agents never write the final chapter text (Andy 11-14): an agent job runs the ca
 - [ ] 2. hpc
 - [ ] 3. code-registration
 - [ ] 4. clays
-- [ ] 5. cp2k
+- [x] 5. cp2k
 - [ ] 5a. pom-solvation
 - [ ] 7. protonation
 - [x] 9. first-calculation
