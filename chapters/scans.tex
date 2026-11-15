@@ -30,8 +30,8 @@ Each point of a scan is an optimisation with one coordinate held fixed, so the p
 	\item Select the finished calculation and choose \menu{New from This > Continue from Last Geometry}. Open the Builder on the new calculation and choose \menu{Tools > Geometry Constraints...}. Click the four carbon atoms in order along the chain; the dialog shows \texttt{Torsion C1-C2-C3-C4}. Press \ctrl{Scan...}, enter 35 steps of $-10$°, and close the dialog.
 	\item In the Calculation Editor set the run type to \menu{Geometry}, keep the method and basis set, save and launch. \ctrl{Final Edit...} shows the \texttt{\%geom Scan} block that ECCE wrote for ORCA.
 	\item When the scan has finished, open it in the Viewer and choose \menu{Properties > Relaxed Scan}. Set \menu{Energy unit:} to kJ/mol and use \ctrl{Export .csv...} to save the table for a report.
-	\item Make a frequency calculation (run type \menu{Vibration}) from the structure of the highest point of the curve. \XXX[verify the route: select the point's row in Relaxed Scan (the 3-D view shows that point), Builder File > Save As... into a new calculation; if it does not carry the point's geometry, file an ECCE issue]
-	\item Likewise make a \menu{GeoVib} calculation from the lowest point on the cis side, with the Hirshfeld charges, which ORCA computes without any further program. \XXX[natural (NPA) charges once ECCE computes them itself]
+	\item Click the highest point of the curve, which shows its structure in the 3-D view, and press \ctrl{New calculation from this point}. Give the new calculation the run type \menu{Vibration}, keep the method and basis set, and launch.
+	\item Likewise make a \menu{GeoVib} calculation from the lowest point on the cis side with \ctrl{New calculation from this point}.
 \end{enumerate}
 
 \XXX[figure: calced-scan, the Calculation Editor with the scan constraint]
@@ -40,13 +40,25 @@ Each point of a scan is an optimisation with one coordinate held fixed, so the p
 \index{Butadiene!torsional barrier}
 The s-trans structure optimised in a few minutes on four cores of a desktop computer, and its lowest frequency, \SI{176}{cm^{-1}}, belongs to the torsion about the central bond; there is no imaginary frequency. The scan of 36 points took between 40 and 50~minutes on the same four cores.
 
-\XXX[figure: scan-plot, the Relaxed Scan panel]
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{scans/scan-plot.ecce-9.5.3-dev.png}
+	\caption{The \menu{Relaxed Scan} panel of the butadiene scan: the energy against the C1--C2--C3--C4 torsion, relative to the lowest point, with \ctrl{New calculation from this point} and \ctrl{Export .csv...} above the plot.}
+	\label{fig:scans-plot}
+\end{figure}
 
 The curve is symmetric about 0°, as it must be for a molecule whose two halves are the same, and its shape is the one we argued for above. Relative to s-trans, the maximum lies at 100° and \SI{29.9}{kJ/mol}, which is the barrier the s-trans form must cross to turn into the s-cis form. On the cis side the energy falls to \SI{14.2}{kJ/mol} at ±30° and rises again to \SI{16.1}{kJ/mol} at the planar s-cis form. The cis minimum is therefore gauche, twisted by about 30° to keep the inner hydrogen atoms apart, and the planar s-cis structure is a small barrier of \SI{1.9}{kJ/mol} between the two mirror-image gauche forms. At 40° the energy is \SI{14.5}{kJ/mol}, close to the minimum, which shows how flat the curve is in this region.
 
 The energies come from the first of the two tables ORCA prints at the end of a scan, the \emph{actual energy}, which includes the D3BJ dispersion correction; the second table gives the SCF energy without it.
 
-The frequency calculation at the 100° structure finds exactly one imaginary frequency, \SI{-186}{cm^{-1}}, whose mode is the twist about the central bond: the maximum of the scan is the transition state for the rotation, as we expected. \XXX[figure: imaginary-mode; confirm in the panel that mode 6 is the torsion]
+The frequency calculation at the 100° structure finds exactly one imaginary frequency, \SI{-186}{cm^{-1}}, whose mode is the twist about the central bond; the panel's mode composition calls it a C--C torsion to 97\,\% (figure~\ref{fig:scans-imag}). The maximum of the scan is therefore the transition state for the rotation, as we expected.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{scans/imaginary-mode.ecce-9.5.3-dev.png}
+	\caption{The frequency calculation at the 100° point: mode 7, the only imaginary one at \SI{-186.4}{cm^{-1}}, drawn as arrows; the line below the spectrum gives its composition, 97\,\% C--C torsion.}
+	\label{fig:scans-imag}
+\end{figure}
 
 The optimisation started from the 30° point of the scan, now with the torsion free, ends at 32.8°, \SI{14.2}{kJ/mol} above s-trans, and its lowest frequency, \SI{163}{cm^{-1}}, is real. The gauche form is therefore a true minimum, and the planar s-cis structure is the small barrier between the two mirror-image gauche forms.
 
