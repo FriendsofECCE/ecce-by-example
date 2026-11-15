@@ -44,18 +44,16 @@ We use the hybrid density functional B3LYP with the 6-31G* basis set. This combi
 
 \begin{figure}[htbp]
 	\centering
-	\begin{minipage}[b]{0.52\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{first-calculation/calced.ecce-9.5.3-dev.png}
-		\caption{The Calculation Editor after \ctrl{Save}: ECCE-QM, DFT, GeoVib and 6-31G*. Under \menu{Chemical System} it shows what the Builder made: H$_2$O, three atoms, ten electrons, charge 0, singlet.}
-		\label{fig:first-calced}
-	\end{minipage}\hfill
-	\begin{minipage}[b]{0.44\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{first-calculation/launcher.ecce-9.5.3-dev.png}
-		\caption{The Launcher with \menu{localhost} and two processors.}
-		\label{fig:first-launcher}
-	\end{minipage}
+	\includegraphics[height=0.42\textheight]{first-calculation/calced.ecce-9.5.3-dev.png}
+	\caption{The Calculation Editor after \ctrl{Save}: ECCE-QM, DFT, GeoVib and 6-31G*. Under \menu{Chemical System} it shows what the Builder made: H$_2$O, three atoms, ten electrons, charge 0, singlet.}
+	\label{fig:first-calced}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\linewidth]{first-calculation/launcher.ecce-9.5.3-dev.png}
+	\caption{The Launcher with \menu{localhost} and two processors.}
+	\label{fig:first-launcher}
 \end{figure}
 
 Three things in the editor may look wrong but are not. Before a basis set is chosen, the editor shows a red cross and reports two problems that would stop the calculation from running; they go away once the basis is picked and the setup is saved. Changing the run type prints a warning that it resets the run-type details, which for a new calculation does not matter. And \menu{Symmetry} reads C1 although water is C$_{2v}$: ECCE uses the symmetry found by \ctrl{Find} in the Builder's \menu{Symmetry} panel, and until you press it the molecule is treated as having none, which makes the calculation slightly slower but not less correct.
