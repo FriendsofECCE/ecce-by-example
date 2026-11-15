@@ -30,7 +30,7 @@ Each point of a scan is an optimisation with one coordinate held fixed, so the p
 	\item Select the finished calculation and choose \menu{New from This > Continue from Last Geometry}. Open the Builder on the new calculation and choose \menu{Tools > Geometry Constraints...}. Click the four carbon atoms in order along the chain; the dialog shows \texttt{Torsion C1-C2-C3-C4}. Press \ctrl{Scan...}, enter 35 steps of $-10$°, and close the dialog.
 	\item In the Calculation Editor set the run type to \menu{Geometry}, keep the method and basis set, save and launch. \ctrl{Final Edit...} shows the \texttt{\%geom Scan} block that ECCE wrote for ORCA.
 	\item When the scan has finished, open it in the Viewer and choose \menu{Properties > Relaxed Scan}. Set \menu{Energy unit:} to kJ/mol and use \ctrl{Export .csv...} to save the table for a report.
-	\item Make a frequency calculation (run type \menu{Vibration}) from the structure of the highest point of the curve. \XXX[how a chosen scan point becomes a new calculation in ECCE; Continue from Last Geometry takes the last point. If there is no route, file an ECCE issue]
+	\item Make a frequency calculation (run type \menu{Vibration}) from the structure of the highest point of the curve. \XXX[verify the route: select the point's row in Relaxed Scan (the 3-D view shows that point), Builder File > Save As... into a new calculation; if it does not carry the point's geometry, file an ECCE issue]
 	\item Likewise make a \menu{GeoVib} calculation from the lowest point on the cis side, and tick \ctrl{NBO analysis (natural charges)} under \ctrl{Runtype Details...} to get the natural charges.
 \end{enumerate}
 
