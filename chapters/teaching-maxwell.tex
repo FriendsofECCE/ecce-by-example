@@ -42,7 +42,14 @@ The four runs \emph{ar-gas-40K}, \emph{ar-gas-100K}, \emph{ar-gas-130K} and \emp
 \section{What the panel shows}
 The panel draws, for each kind of atom, the histogram of the speeds over every frame of the run, and as a dashed line of the same colour Maxwell's $f(v)$ for the run's temperature (the \texttt{ref-t} of its parameter file) and the atom's mass. Three vertical lines mark $v_\mathrm{p}$, $\bar v$ and $v_\mathrm{rms}$ of the formula; the text above the plot gives the measured mean and root-mean-square speeds beside them.
 
-\XXX[figure: Speed Distribution of he-gas with ar-gas-300K compared, from the headless plotshot hook]
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{teaching-maxwell/speed-he-ar.ecce-9.5.3-dev.png}
+	\caption{\menu{Speed Distribution} of \emph{he-gas} with \emph{ar-gas-300K} compared over it. Points: the counted speeds; lines: Maxwell's distribution at \SI{300}{K}; vertical lines: $v_\mathrm{p}$, $\bar v$ and $v_\mathrm{rms}$ of each gas.}
+	\label{fig:maxwell-he-ar}
+\end{figure}
+
+Figure~\ref{fig:maxwell-he-ar} shows the two gases.
 
 \section{Helium and argon}
 Table~\ref{tab:maxwell-gas} gives the speeds counted in the two runs against the formula. The histograms follow the dashed curves over their whole range, and the measured mean and root-mean-square speeds agree with the formula to better than 0.05\,\%. The helium speeds are 3.16 times the argon speeds, the square root of the mass ratio.
