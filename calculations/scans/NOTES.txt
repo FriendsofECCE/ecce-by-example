@@ -31,5 +31,28 @@ Can ECCE do the lab's scan? Yes, except a scripting hook:
   Export .csv (script: scancsv <path> [kcal]).
 - gap filed: #1053 (Builder script has no command for the Scan... dialog).
 
-Numbers: TO FILL from l1a-out/run.log and the outputs (energies, dE at
+Scan energy tables (checked 2026-11-15): ORCA prints two tables under
+RELAXED SURFACE SCAN RESULTS. The first, "The Calculated Surface using the
+'Actual Energy'" (also orca.orcain.relaxscanact.dat), is the relaxed-scan
+total energy including the D3BJ term; that is the one to use. The second,
+"using the SCF energy" (relaxscanscf.dat), leaves dispersion out
+(about 0.0108 Eh higher everywhere). run_l1a.py now reads the first only.
+
+Steps 1-2 (NerdEgg, 4 procs): s-trans opt+freq 211 s, lowest frequency
+175.95 cm-1 (no imaginary). Scan 2476 s, 36 points, Actual Energy:
+  180 deg -155.95918789 Eh   0.00 kJ/mol
+  100 deg -155.94779552 Eh  29.91 kJ/mol (maximum)
+   40 deg -155.95366996 Eh  14.49 kJ/mol
+   30 deg -155.95376860 Eh  14.23 kJ/mol (lowest point on the cis side; -30: 14.21)
+    0 deg -155.95306503 Eh  16.08 kJ/mol
+
+KNOWN DEFECT of the harness-made calculations: they hold no chemical system
+(the job store log says "results.h5 not written: no chemical system"), and
+the scan calculation has no SCANCOORD/SCANENERGY/SCANGEOM Props, so the
+Builder shows no Relaxed Scan panel and the Calculation Editor says "Not
+ready: build a molecule". Fix before screenshots: write Parameters/chemsys.mvm
+(as calculations/cp2k/run_quartz.py does) into each calculation and run
+ecce-reparse on it (or create the calculations through the Builder/Editor).
+
+Numbers for steps 3-5: TO FILL from l1a-out/run.log and the outputs (energies, dE at
 0/40/100/180 deg, s-cis dihedral, imaginary frequency, charges, HOMO/LUMO).

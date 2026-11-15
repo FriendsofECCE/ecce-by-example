@@ -21,6 +21,8 @@ BUILD = os.environ.get("ECCE_BUILD", os.path.join(REPO, "build-cmake"))
 PARSERS = os.path.join(REPO, "scripts", "parsers")
 OUT = os.path.abspath(sys.argv[1])
 DECKS_ONLY = "--decks" in sys.argv
+# --resume <dir>: steps 3-5 only, from a stored scan (<dir>/butadiene-dihedral-scan).
+RESUME = sys.argv[sys.argv.index("--resume") + 1] if "--resume" in sys.argv else ""
 PROCS = int(os.environ.get("L1A_PROCS", "4"))
 os.makedirs(OUT, exist_ok=True)
 
@@ -53,7 +55,7 @@ ETHENE = [("C", -0.667, 0.0, 0.0), ("C", 0.667, 0.0, 0.0),
 
 
 def nboexe():
-    for p in [os.environ.get("NBOEXE", "")] + glob.glob(os.path.expanduser("~/nbo7/nbo7/bin/nbo7.i8.exe")):
+    for p in [os.environ.get("NBOEXE", "")] + [os.path.join(os.environ.get("REALHOME", "/nonexistent"), "nbo7/nbo7/bin/nbo7.i8.exe")]:
         if p and os.access(p, os.X_OK):
             return p
     return ""
@@ -143,6 +145,8 @@ sys.path.insert(0, os.path.join(REPO, "tests", "launch"))
 import harness
 orca = os.environ.get("ORCA") or (sorted(glob.glob("/opt/orca/orca_6*/orca")) or [shutil.which("orca")])[-1]
 log("ORCA %s, NBO %s, procs %d" % (orca, nboexe() or "none", PROCS))
+if nboexe():
+    os.environ["NBOEXE"] = nboexe()  # ORCA runs NBO through this
 s = harness.Session(BUILD, "bookl1a", {"ORCA": orca}, local=True, keep=True)
 rundir = os.path.join(s.state, "run"); os.makedirs(rundir, exist_ok=True)
 
@@ -174,14 +178,19 @@ def run(name, path):
 
 try:
     assert s.services(True)
-    _, t1, _ = run("butadiene-strans-optfreq", deck("strans", butadiene(), "GeoVib", charges=True))
-    g1 = lastGeom(t1)
-    _, t2, jd = run("butadiene-dihedral-scan",
-                    deck("scan", g1, "Geometry",
-                         scan=("0 1 2 3", "%.4f" % dihedral(*[a[1:] for a in g1[:4]]), 35, "-10.0")))
+    if RESUME:
+        jd = glob.glob(os.path.join(os.path.abspath(RESUME), "butadiene-dihedral-scan", "rundir", "*"))
+        jd = [j for j in jd if os.path.isdir(j)] or [os.path.join(os.path.abspath(RESUME), "butadiene-dihedral-scan", "rundir")]
+        t2 = open(glob.glob(os.path.join(jd[0], "*.orcaout"))[0], errors="replace").read()
+    else:
+        _, t1, _ = run("butadiene-strans-optfreq", deck("strans", butadiene(), "GeoVib", charges=True))
+        g1 = lastGeom(t1)
+        _, t2, jd = run("butadiene-dihedral-scan",
+                        deck("scan", g1, "Geometry",
+                             scan=("0 1 2 3", "%.4f" % dihedral(*[a[1:] for a in g1[:4]]), 35, "-10.0")))
     # Scan points: ORCA's own table, and the point geometries it wrote.
     i = t2.rfind("RELAXED SURFACE SCAN RESULTS")
-    pts = [(float(a), float(b)) for a, b in re.findall(r"^\s*(-?\d+\.\d+)\s+(-?\d+\.\d+)\s*$", t2[i:i + 4000], re.M)]
+    pts = [(float(a), float(b)) for a, b in re.findall(r"^\s*(-?\d+\.\d+)\s+(-?\d+\.\d+)\s*$", t2[i:t2.find("using the SCF energy", i)], re.M)]
     log("scan points %d: %s" % (len(pts), pts))
     xyzs = sorted(glob.glob(os.path.join(jd[0], "*.[0-9][0-9][0-9].xyz"))) if jd else []
     geoms = [readXyz(p) for p in xyzs]
