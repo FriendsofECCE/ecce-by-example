@@ -1,24 +1,79 @@
 \chapter{Fast calculations with xTB}
 \label{ch:xtb}
+\checkedwith{9.5.3-dev}{8ba601b24}
 \index{xTB}
 \index{GFN2-xTB}
 \index{GFN-FF}
 \index{Semiempirical methods}
 \eccexample{Examples > Getting Started}
 \helppage{xtb}
-\XXX[ chapter to be written]
+
+The xTB program of Grimme and co-workers runs a family of tight-binding methods that are fast enough for molecules of a few hundred atoms on a laptop and still give reasonable structures, vibrational spectra and charges. In ECCE it is a code like any other, and in this book it is the cheap level of almost every chain of calculations (Chapter~\ref{ch:coupling}). In this chapter we use it on its own, on caffeine, for four things it does well: an optimisation with frequencies, the same in a solvent, a force-field optimisation, and a short molecular dynamics run.
+
+\section*{This requires}
+\index{Requirements!xTB}
+xTB, version 6.7.1 here (the Debian package \texttt{xtb}; otherwise from \url{https://github.com/grimme-lab/xtb}), registered in \menu{Register Machines} on the machine that runs the jobs: on its \menu{Codes} tab, choose xTB and set the program, or let \ctrl{Find} locate it.
 
 \section{Background}
+\index{Tight binding}\index{ALPB}\index{Implicit solvent}
+GFN2-xTB is a semiempirical tight-binding method: it treats the valence electrons quantum mechanically with a minimal basis set and parameters fitted for the whole periodic table, which makes it orders of magnitude faster than DFT. GFN-FF is a force field from the same group, with no electrons at all, and faster again; it is meant for large systems and for screening. The two give energies on completely different scales, so their energies must never be compared with each other, only the structures they give.
 
-\section{What ECCE shows}
+Solvents enter through ALPB, an implicit solvent model that surrounds the molecule with a dielectric continuum. It changes the structure and the spectrum the way a polar environment does on average, but it has no solvent molecules, so it cannot describe a specific hydrogen bond to one water molecule.
 
 \section{Procedure}
+\begin{enumerate}
+	\item Make an xTB calculation and build caffeine, for example with \menu{Tools > Add from SMILES...} and \texttt{Cn1cnc2c1c(=O)n(C)c(=O)n2C}, followed by \menu{Build > Clean}.
+	\item In the Calculation Editor, choose the theory \menu{GFN2-xTB} and the run type \menu{GeoVib}, an optimisation followed by the frequencies. Launch it, with four cores for example.
+	\index{GeoVib!xTB}
+	\item For the same in water, make a new calculation from the first (\menu{New from This > Rerun}), and in \ctrl{Theory Details...} set \menu{Implicit Solvent} to ALPB and the solvent to water.
+	\item For the force field, make another calculation with the theory \menu{GFN-FF} and the run type \menu{Geometry}.
+	\item For the molecular dynamics, make a calculation from the finished gas-phase one with \menu{New from This > Continue from Last Geometry}, choose the run type \menu{Molecular Dynamics}, and in \ctrl{Runtype Details...} set the temperature to 300~K, the time to 20~ps, the time step to 2~fs and SHAKE on the bonds to hydrogen.
+	\index{Molecular dynamics!xTB}\index{SHAKE}
+	\item Open each finished calculation in the Viewer: \menu{Vibrational Frequencies} for the first two, \menu{Geometry Trace} for the other two.
+\end{enumerate}
 
 \section{Results}
+\index{Caffeine}
+The gas-phase optimisation with frequencies took 23~s, of which xTB itself used under two seconds; the rest is ECCE starting the job and storing the results. The HOMO--LUMO gap of the optimised structure is 3.42~eV.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{xtb/gas-vibrations.ecce-9.5.3-dev.png}
+	\caption{The \menu{Vibrational Frequencies} panel of caffeine, GFN2-xTB in the gas phase.}
+	\label{fig:xtb-gas}
+\end{figure}
+
+The panel lists one imaginary frequency, at $-65$~cm$^{-1}$, and shows it as a rotation of a methyl group. An imaginary frequency means that the structure is not a minimum but a saddle point along that mode, here a methyl group turned away from its lowest position. Tightening the optimisation does not remove it: at the level \menu{tight} in \ctrl{Runtype Details...} it is still there, at $-66$~cm$^{-1}$, because the optimiser has stopped at a point where the forces really vanish. The way out is to push the structure along the mode and optimise again, which \ctrl{Displace...} in the \menu{Vibrational Frequencies} panel does: select the imaginary mode, displace along it, and start a new optimisation from the displaced structure. A methyl rotation hardly affects the rest of the spectrum, so for the carbonyl bands below it does not matter, but before the frequencies are used for thermochemistry (Chapter~\ref{ch:thermochemistry}) the structure has to be a minimum.
+\index{Imaginary frequencies!methyl rotation}\index{Displace along a mode}
+
+The two C=O stretches of caffeine lie at 1715 and 1735~cm$^{-1}$ in the gas phase. In ALPB water (figure~\ref{fig:xtb-water}) they move down to 1630 and 1674~cm$^{-1}$, by 61 to 85~cm$^{-1}$. The polar solvent stabilises the more polar resonance form of the amide-like carbonyl groups, with the negative charge on oxygen, which weakens the C=O bonds. Since both calculations use the same method, the shift is a fair comparison; the energies of the two, on the other hand, include the solvation energy of the ALPB model and cannot be compared with each other as if they were two structures in the same environment.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\linewidth]{xtb/water-vibrations.ecce-9.5.3-dev.png}
+	\caption{The same in ALPB water. The carbonyl bands lie lower than in figure~\ref{fig:xtb-gas}.}
+	\label{fig:xtb-water}
+\end{figure}
+
+The GFN-FF optimisation (figure~\ref{fig:xtb-gfnff}) took 21~s in all. Its final energy, $-4.68$~hartree, means nothing beside the GFN2-xTB energy of $-42.15$~hartree: the force field counts its energy from another zero. What can be compared is the structure, with \menu{Geometry Trace > Displacement > Compare with...} against the GFN2-xTB calculation.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\linewidth]{xtb/gfnff-trace.ecce-9.5.3-dev.png}
+	\caption{The \menu{Geometry Trace} of the GFN-FF optimisation.}
+	\label{fig:xtb-gfnff}
+\end{figure}
+
+The molecular dynamics run, 20~ps at 300~K from the optimised structure, took 15~minutes on four cores. Its \menu{Geometry Trace} (figure~\ref{fig:xtb-md}) plots the total energy against time with a moving average. In the first picoseconds the energy rises from that of the minimum by 0.015 to 0.02~hartree, as the molecule takes up thermal energy, and then fluctuates around a steady value, which is what an equilibrated run looks like. The play controls of the panel run the trajectory in the 3-D view.
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.8\linewidth]{xtb/md-trace.ecce-9.5.3-dev.png}
+	\caption{The \menu{Geometry Trace} of the 20~ps molecular dynamics run at 300~K.}
+	\label{fig:xtb-md}
+\end{figure}
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
+xTB is rarely the end of a study. Its structures are good starting points for DFT, which then needs few optimisation steps, and its speed makes it the screening level of a funnel: CREST finds the conformers (Chapter~\ref{ch:crest}), xTB re-optimises and ranks them, and DFT refines the few that matter (Chapter~\ref{ch:coupling}). The hand-off is always the same: \menu{New from This > In Another Code...} in the project table, or a workflow step with \menu{Final geometry} ticked, from the finished xTB calculation.
 
+The calculations for this chapter are kept in the book's repository under \texttt{calculations/xtb}. They were run through ECCE's launcher by the test machinery, on another computer for 01 to 03 and locally for 04 and 05; the setup is the one described here.

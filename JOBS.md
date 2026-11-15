@@ -46,7 +46,7 @@ Agents never write the final chapter text (Andy 11-14): an agent job runs the ca
 - [x] 25. vibrations
 - [ ] 26. ir-experiment
 - [ ] 27. excited-states
-- [ ] 28. xtb
+- [x] 28. xtb
 - [ ] 29. organometallics
 - [ ] 30. ligand-field
 - [ ] 31. fragment-orbitals
