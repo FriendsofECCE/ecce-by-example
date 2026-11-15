@@ -38,7 +38,7 @@ Each point of a scan is an optimisation with one coordinate held fixed, so the p
 
 \section{Results}
 \index{Butadiene!torsional barrier}
-The s-trans structure optimised in three minutes on four cores, and its lowest frequency, \SI{176}{cm^{-1}}, belongs to the torsion about the central bond; there is no imaginary frequency. The scan of 36 points took about 40~minutes on the same four cores.
+The s-trans structure optimised in a few minutes on four cores of a desktop computer, and its lowest frequency, \SI{176}{cm^{-1}}, belongs to the torsion about the central bond; there is no imaginary frequency. The scan of 36 points took between 40 and 50~minutes on the same four cores.
 
 \XXX[figure: scan-plot, the Relaxed Scan panel]
 
@@ -46,7 +46,9 @@ The curve is symmetric about 0°, as it must be for a molecule whose two halves 
 
 The energies come from the first of the two tables ORCA prints at the end of a scan, the \emph{actual energy}, which includes the D3BJ dispersion correction; the second table gives the SCF energy without it.
 
-\XXX[from the full run: frequency at the maximum (one imaginary torsion, value), optimised gauche dihedral and its energy above s-trans; figure imaginary-mode; charges go to density-views]
+The frequency calculation at the 100° structure finds exactly one imaginary frequency, \SI{-186}{cm^{-1}}, whose mode is the twist about the central bond: the maximum of the scan is the transition state for the rotation, as we expected. \XXX[figure: imaginary-mode; confirm in the panel that mode 6 is the torsion]
+
+The optimisation started from the 30° point of the scan, now with the torsion free, ends at 32.8°, \SI{14.2}{kJ/mol} above s-trans, and its lowest frequency, \SI{163}{cm^{-1}}, is real. The gauche form is therefore a true minimum, and the planar s-cis structure is the small barrier between the two mirror-image gauche forms.
 
 Since the s-cis side lies about \SI{14}{kJ/mol} above s-trans, only a small fraction of butadiene is s-cis at room temperature, but a barrier of \SI{30}{kJ/mol} is crossed many millions of times per second, so the two forms are in fast equilibrium and the s-cis form is always at hand to react.
 
