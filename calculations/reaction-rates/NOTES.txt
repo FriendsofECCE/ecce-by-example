@@ -1,0 +1,77 @@
+Chapter reaction-rates (lab L1b, 5KE176 Exercise 1 steps 9-11 + thermochemistry,
+Diels-Alder gauche butadiene + ethene -> cyclohexene) -- facts for the lead
+==================================================================================
+ECCE: origin/main 8683a253d. Prepared 2026-11-15.
+
+STATUS: NOT RUN YET. The job is queued on NerdEgg (its one offload slot was
+held by another job's ctesti for the whole session); no outputs, numbers or
+screenshots yet. Started detached from niobium, log:
+/home/andy/tmp/ecce/book-l1b-offload.log ("waiting: all 1 slots busy" until
+the slot frees). Run log on NerdEgg: ~/ecce-offload/book-l1b/out/run.log.
+
+Method (every step): ORCA 6.1.1, RKS B3LYP D3BJ def2-TZVP, no symmetry, 6
+processes -- the level of scans/orca-butadiene-scis-optfreq and
+density-views/orca-ethene-optfreq. Estimated wall time on NerdEgg (6 cores),
+scaled from L1a (one def2-TZVP gradient of 10-atom butadiene ~10 s on 4 procs):
+NEB-TS with 8 images ~1.5-3 h, TS frequencies ~20 min, IRC (analytic Hessian
+first, max 60 steps per direction) ~1 h; total ~3-5 h, under the 6 h limit, so
+no def2-SVP NEB stage.
+
+Atom numbering (one for every structure): butadiene C1-C4 (C1, C4 termini),
+H5-H10 as in scans/run_l1a.py; ethene C11 C12, H13-H16. New bonds C1-C11 and
+C4-C12. start.json holds the stored s-cis (gauche) butadiene and ethene minima.
+
+How ECCE sets this up (checked in the source, scripts/parsers/ai.orca,
+src/apps/calced/CalcEd.C, src/dsm/edsiimpl/QstStructures.C,
+tests/apps/calced_neb_test.py):
+- Transition State: a NEW calculation without a structure; Calculation
+  Editor > TS Search ("Structure from other calculations"), pick the
+  reactant calculation (its final structure becomes this calculation's),
+  run type "Transition State (NEB-TS) + Frequencies", pick the product
+  calculation (and optionally a TS guess). Save writes neb_product.xyz
+  (renumbered onto the reactant's order) as an input file and the deck gets
+  "! ... NEB-TS Freq" with %neb NEB_End_XYZFile "neb_product.xyz",
+  Nimages (Runtype Details, default 8), Preopt_Ends only when the end points
+  were made at another level. Only calculations of the SAME project are
+  offered as reactant/product.
+- IRC: run type IRC; Runtype Details: Max Steps per direction (default 20),
+  Direction Both/Forward/Backward, Initial Hessian Analytic/Numerical (ORCA
+  computes it in the IRC job: %irc InitHess calc_anfreq). Results:
+  IRCCOORD/IRCENERGY/IRCGEOM -> Builder panel "IRC Path" (graph or table,
+  Export .csv).
+
+Driver run_l1b.py, steps (each created in an isolated ECCE, tests/launch
+harness; theory/basis/run type/details picked in the real Calculation Editor
+via ECCE_CALCED_SCRIPT, Save, real Launch):
+  da-butadiene-gauche-optfreq, da-ethene-optfreq  GeoVib (separated reactants
+      again, same level, so they sit in the reaction's project for the
+      Energy Calculator; their energies must reproduce the stored ones:
+      butadiene E -155.953790993 Eh, G -155.89491523 Eh; ethene E
+      -78.569661159 Eh, G -78.53961003 Eh)
+  da-reactant-complex     Geometry; ethene 3.6 A over the C1...C4 midpoint
+  da-cyclohexene-optfreq  GeoVib; started with C1-C11 = C4-C12 = 1.95 A (downhill)
+  da-ts-nebts             NEB-TS + Freq, reactant = complex, product = cyclohexene
+  da-ts-irc               IRC both directions from the TS final geometry, 60 steps
+Harness step a user does not do: the reactant, product and separated reactant
+calculations are moved on disk into the TS calculation's project (the
+harness makes one project per calculation; the editor offers only same-project
+calculations). A user builds them in one project or uses Organizer > move.
+
+Numbers: TO FILL with analyse_l1b.py (energies, H, T*S, G at 298.15 K,
+imaginary frequency, C1-C11/C4-C12 at TS and IRC end points, dE/dH/dS/dG of
+activation and reaction vs separated reactants).
+
+REMAINING (exact commands, from niobium):
+1. wait for the job:   tail -3 /home/andy/tmp/ecce/book-l1b-offload.log
+                       ssh nerdegg 'grep -E "^[0-9:]+ " ~/ecce-offload/book-l1b/out/run.log | cut -c1-160'
+   check in run.log: the TS editor lines "ts-state ... candidates=" list the
+   moved calculations and the stored deck has "NEB-TS Freq" and the %neb block.
+2. copy off:  rsync -a --exclude 'rundir/*.gbw' --exclude '*.tmp*' nerdegg:ecce-offload/book-l1b/out/ ~/research/ecce_manual/ecce-by-example/calculations/reaction-rates/raw/
+3. numbers:   python3 calculations/reaction-rates/analyse_l1b.py calculations/reaction-rates/raw
+4. shots:     ECCE_SRC=/home/andy/tmp/ecce/ECCE ECCE_BUILD=/home/andy/tmp/ecce/ECCE/build-cmake \
+                python3 calculations/reaction-rates/shots_l1b.py calculations/reaction-rates/raw /tmp/l1b-png
+              -> ts-imaginary-mode, ts-thermo-panel, irc-path (+ irc csv),
+                 energy-calculator-activation, energy-calculator-reaction;
+              copy to figures/reaction-rates/<name>.ecce-9.5.3-dev.png, MANIFEST rows, look at each.
+5. keep calculations/reaction-rates/orca-<name>/ (Inputs, Outputs < 5 MB,
+   Parameters) as in scans/, fill numbers here and the CATALOG rows.
