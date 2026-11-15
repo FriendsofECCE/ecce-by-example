@@ -71,6 +71,25 @@ Table~\ref{tab:maxwell-gas} gives the speeds counted in the two runs against the
 
 Argon atoms at room temperature move at about \SI{400}{m.s^{-1}}, faster than sound in air (\SI{343}{m.s^{-1}}), and helium atoms at more than \SI{1}{km.s^{-1}}. That the root-mean-square speed comes out right says only that the thermostat works. The shape of the histogram, and with it the mean speed, is what the thermostat does not set: it comes from the collisions.
 
+\section{Two temperatures}
+Figure~\ref{fig:maxwell-ar-T} puts argon at \SI{100}{K} (the slab run \emph{ar-gas-100K}) over argon at \SI{300}{K}. Tripling the temperature moves every characteristic speed up by $\sqrt{3} = 1.73$: the most probable speed from 204 to \SI{353}{m.s^{-1}}, the mean from 230 to \SI{399}{m.s^{-1}}. The curve at the higher temperature is lower and wider, so more of the atoms are far faster than the average, and the fraction above any fixed speed grows quickly with temperature. That fraction is what controls how fast a reaction with a barrier goes and how fast a liquid evaporates.
+\index{Temperature!speed distribution}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{teaching-maxwell/speed-ar-300-100.ecce-9.5.3-dev.png}
+	\caption{\menu{Speed Distribution} of \emph{ar-gas-300K} with \emph{ar-gas-100K} compared over it.}
+	\label{fig:maxwell-ar-T}
+\end{figure}
+
+\section{Speeds and entropy}
+The width of the distribution is a measure of entropy. Each component of the velocity follows a normal distribution with variance $k_\mathrm{B}T/m$, and of all distributions with a given mean kinetic energy this is the one of largest entropy. That is a second route to Maxwell's result: the collisions share the energy out among the atoms until no other distribution is more probable.
+
+Heating widens the distribution and gives the atoms more velocities to be spread over. Per component the entropy of a normal distribution grows with the logarithm of its width, so from \SI{100}{K} to \SI{300}{K} the entropy of the velocities grows by $\tfrac{3}{2}R\ln(300/100) = \SI{13.7}{J.K^{-1}.mol^{-1}}$. This is the entropy change $\int C_V\,\mathrm{d}T/T$ of a monatomic gas heated at constant volume, with $C_V = \tfrac{3}{2}R$.
+
+The mass enters the other way round from what the speeds suggest. Quantum mechanics counts the translational states of an atom in momentum, $p = mv$, not in speed, and the spread of the momentum is $\sqrt{mk_\mathrm{B}T}$: argon atoms are slower than helium atoms but spread over a wider range of momenta, and so have more states to occupy. At the same temperature and pressure the difference is $\tfrac{3}{2}R\ln(m_\mathrm{Ar}/m_\mathrm{He}) = \SI{28.69}{J.K^{-1}.mol^{-1}}$, exactly the difference between the standard molar entropies of argon and helium, 154.85 and \SI{126.15}{J.K^{-1}.mol^{-1}}. A monatomic gas has no rotations or vibrations, so its entropy is all translational and given by the Sackur--Tetrode equation, of which this mass term is a part.
+\index{Entropy!translational}\index{Entropy!speed distribution}\index{Sackur--Tetrode equation}\index{Heat capacity!monatomic gas}
+
 \section{Solid, liquid and gas}
 The last frames of the slab runs show the phases. At \SI{40}{K} the argon is a solid slab with about 28 atoms per nm$^3$ and no vapour around it. At \SI{100}{K} it is a liquid, about 20 atoms per nm$^3$, with a thin vapour in the empty part of the box; at \SI{130}{K} the liquid is less dense and the vapour richer. At \SI{200}{K}, above the critical temperature of argon (\SI{151}{K}), there is no slab left and the atoms fill the box as a gas. The speeds do not notice: table~\ref{tab:maxwell-slab} shows the same agreement with Maxwell's formula at every temperature, to within 0.15\,\%. In classical mechanics the energy is the kinetic energy, which depends only on the velocities, plus the potential energy, which depends only on the positions. The Boltzmann factor then splits into two independent parts, and the forces between the atoms, which decide whether argon is a solid, a liquid or a gas, have no influence on how fast the atoms move. Maxwell derived his distribution for a dilute gas, but it holds for the atoms of a liquid or a solid too, as long as they can be treated classically.
 \index{Phase!speed distribution}
@@ -93,7 +112,7 @@ The last frames of the slab runs show the phases. At \SI{40}{K} the argon is a s
 \end{table}
 
 \section{In class}
-Show helium and argon over each other and ask which curve belongs to which gas before the legend is read; then ask why the lighter gas has the lower curve. The slab runs answer whether the atoms of a solid move more slowly than those of a gas at the same temperature: they do not.
+Show helium and argon over each other and ask which curve belongs to which gas before the legend is read; then ask why the lighter gas has the lower curve. Then ask which of the two gases has the larger entropy: most students pick helium, the faster one. The slab runs answer whether the atoms of a solid move more slowly than those of a gas at the same temperature: they do not.
 
 \section{History}
 Maxwell derived the distribution in 1860 from two assumptions, that the three components of the velocity are independent of each other and that no direction is preferred \cite{maxwell1860}. Boltzmann extended it in 1868 to molecules in a field of force and showed in 1872 that collisions drive a gas towards it. The distribution was measured directly in atomic beams of potassium and thallium by Miller and Kusch in 1955, with a rotating cylinder cut by helical slots that let through only atoms of one speed \cite{miller1955}.

@@ -3,7 +3,9 @@
 he-gas with ar-gas-300K compared over it (General Chemistry example set).
 
     ECCE_SRC=<checkout> ECCE_TEST_HOME=<install>/ecce ECCE_TEST_WRAPPERS=<install>/bin \\
-        python3 shot.py <png dir>
+        python3 shot.py <png dir> [<own run> <compared run> <shot name>]
+
+Default: he-gas with ar-gas-300K compared, shot speed-he-ar.
 
 Uses the import and Builder helpers of tests/apps/md_compare_examples_test.py
 (isolated HOME, local data, Xvfb); the panel is photographed by the Builder's
@@ -16,6 +18,8 @@ import apps, isolate, xdisplay  # noqa: E402
 import md_compare_examples_test as mc  # noqa: E402
 
 PNG = os.path.abspath(sys.argv[1])
+OWN, OTHER, NAME = (sys.argv[2:5] if len(sys.argv) >= 5
+                     else ("he-gas", "ar-gas-300K", "speed-he-ar"))
 os.makedirs(PNG, exist_ok=True)
 
 
@@ -38,7 +42,7 @@ def main():
             def imported(_d):
                 end = time.time() + 900
                 while time.time() < end:
-                    done = [mc.task(root, st) for st in ("ar-gas-300K", "he-gas")]
+                    done = [mc.task(root, st) for st in (OWN, OTHER)]
                     if all(done) and all(os.path.exists(os.path.join(d, "Props", "GEOMTRACE"))
                                          for d in done):
                         time.sleep(20)
@@ -47,14 +51,14 @@ def main():
             apps.run(display, "organizer", windowTimeout=60, settle=10,
                      env={"ECCE_TEST_ORGANIZER": cmds, "ECCE_NO_EXAMPLE_IMPORT": ""},
                      inspect=imported)
-            he, ar = mc.task(root, "he-gas"), mc.task(root, "ar-gas-300K")
+            he, ar = mc.task(root, OWN), mc.task(root, OTHER)
             assert he and ar, (he, ar)
             scene = os.path.join(work, "scene")
-            open(scene, "w").write("hold 25\nplotshot speed-he-ar 900 620 Speed Distribution\nhold 2\n")
+            open(scene, "w").write("hold 25\nplotshot " + NAME + " 900 620 Speed Distribution\nhold 2\n")
             os.environ["ECCE_VIEWER_SCENE"] = scene
             os.environ["ECCE_VIEWER_SCENE_OUT"] = PNG
             log = mc.builder(display, "file://" + he + "/",
-                             ["wait 6000", "comparewith ar-gas-300K/" + os.path.basename(ar),
+                             ["wait 6000", "comparewith " + OTHER + "/" + os.path.basename(ar),
                               "wait 30000"], settle=60)
             print("\n".join(l for l in log.splitlines()
                             if "PLOTSHOT" in l or "mdcompare" in l or "FAIL" in l)[-3000:])
