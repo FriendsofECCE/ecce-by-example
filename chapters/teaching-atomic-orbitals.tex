@@ -1,4 +1,4 @@
-\section{Atomic orbitals: radial distributions and slices}
+\chapter{Atomic orbitals: radial distributions and slices}
 \label{sec:atomic-orbitals}
 \index{Atomic orbitals}
 \index{Orbitals!atomic|see{Atomic orbitals}}
@@ -12,10 +12,10 @@
 Students usually see orbitals as boundary surfaces: a sphere for s, two lobes for p. Such a drawing hides the nodes and the inner maxima, which is where the principal quantum number shows. Here we look at the occupied orbitals of argon in two other ways: as the probability of finding the electron at a distance from the nucleus, and as a contour map on a slice through the nucleus. Both come from the same stored calculation.
 \index{Shells}\index{Nodes}\index{Inner maxima}
 
-\subsection*{This requires}
+\section*{This requires}
 Nothing beyond ECCE: the calculation is in the General Chemistry example set.
 
-\subsection{Background}
+\section{Background}
 \index{Radial distribution}
 \index{Radial distribution function|see{Radial distribution}}
 \index{Orbitals!radial distribution|see{Radial distribution}}
@@ -35,17 +35,17 @@ An orbital has $n-l-1$ radial nodes and $l$ angular nodes. $P(r)$ has a maximum 
 \end{equation}
 with $a_0 = \SI{0.529}{\angstrom}$; for 1s it is $a_0/Z$.
 
-The inner maxima explain penetration. A 2s electron has a small maximum inside the 1s shell, where little of the nuclear charge is screened; a 2p electron has none. The 2s electron therefore feels a larger effective nuclear charge and lies lower in energy, which is why 2s fills before 2p and 3s before 3p (Section~\ref{sec:periodic-trends}).
+The inner maxima explain penetration. A 2s electron has a small maximum inside the 1s shell, where little of the nuclear charge is screened; a 2p electron has none. The 2s electron therefore feels a larger effective nuclear charge and lies lower in energy, which is why 2s fills before 2p and 3s before 3p (Chapter~\ref{sec:periodic-trends}).
 \index{Penetration}\index{Shielding}\index{Effective nuclear charge}
 
 In a many-electron atom the orbitals are no longer hydrogen-like, but the nodes and maxima are counted the same way.
 
-\subsection{The calculation}
+\section{The calculation}
 \index{ECCE-QM}\index{Codes!ECCE-QM}\index{Example calculations!General Chemistry}
 \index{B3LYP}\index{Basis sets!aug-cc-pVTZ}\index{Orbital energies!argon}
 The Atoms topic of the General Chemistry example set has ECCE-QM calculations of 21 atoms (H to Ar, Ca, Cr and Cu). Argon is B3LYP \cite{becke1993}/aug-cc-pVTZ \cite{woon1993}, closed shell. Its \menu{MOs} panel (open the calculation in the Viewer and choose \menu{Properties > Orbitals > MOs}) lists the nine occupied orbitals with their energies in the column \menu{E (Hartree)}: 1s ($-115.118$~hartree), 2s ($-11.142$), three 2p ($-8.693$), 3s ($-0.968$) and three 3p ($-0.426$).
 
-\subsection{Procedure}
+\section{Procedure}
 \index{Opening example calculations}\index{File menu!Open Example Calculations}\index{Organizer!Open Example Calculations}\index{Viewer}
 \index{Density Profile}\index{Density Map}\index{Properties list!Density Profile}\index{Properties list!Density Map}
 \begin{enumerate}
@@ -68,7 +68,7 @@ The Atoms topic of the General Chemistry example set has ECCE-QM calculations of
 	\index{Zooming a map}
 \end{enumerate}
 
-\subsection{Results}
+\section{Results}
 \index{Shells!of argon}
 Figure~\ref{fig:ao-rdf1} shows 1s, 2s and 3s. 1s has one maximum, at \SI{0.0299}{\angstrom}. Equation~\eqref{eq:rmp} with $Z = 18$ gives \SI{0.0294}{\angstrom}; the small difference is the screening of one 1s electron by the other. 2s has one node and two maxima, the inner one at about the 1s maximum. 3s has two nodes and three maxima, the inner two at about the 1s and 2s maxima.
 \index{Effective nuclear charge}
@@ -109,6 +109,6 @@ In the \menu{Density Map}, orbital 6 is 3s (figure~\ref{fig:ao-map}). Its two ra
 The 2p and 3p orbitals each have a nodal plane through the nucleus. A p orbital lying in the slice shows two lobes of opposite sign; one pointing out of the slice looks almost empty.
 \index{Nodal plane}
 
-\subsection{History}
+\section{History}
 Schrödinger solved the hydrogen atom in 1926 \cite{schrodinger1926}; Slater gave his screening rules in 1930 \cite{slater1930}.
 \index{History!Schrödinger}\index{History!Slater}

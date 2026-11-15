@@ -1,4 +1,4 @@
-\section{The periodic table from calculation: configurations, shielding and ionisation}
+\chapter{The periodic table from calculation: configurations, shielding and ionisation}
 \sectionmark{The periodic table from calculation}
 \label{sec:periodic-trends}
 \label{sec:configurations}
@@ -13,13 +13,13 @@ The filling order 1s, 2s, 2p, 3s, 3p, 4s, 3d is usually taught as a rule to memo
 \index{Ionisation energy}\index{Ionization energy|see{Ionisation energy}}
 \index{Electron affinity}
 
-\subsection*{This requires}
+\section*{This requires}
 Nothing beyond ECCE: the calculations are in the General Chemistry example set.
 
-\subsection{Background}
+\section{Background}
 \index{Aufbau principle}\index{Building-up principle|see{Aufbau principle}}\index{Pauli principle}
 \index{Penetration}\index{Shielding}\index{Screening|see{Shielding}}\index{Subshells}
-In the orbital picture, the ground state puts the electrons, two per orbital at most, into the orbitals of lowest energy. In hydrogen the energy depends on $n$ alone. In other atoms the electrons screen the nucleus from each other, and an s electron, which penetrates the inner shells, feels more of the nuclear charge than a p electron of the same shell (Section~\ref{sec:atomic-orbitals}). The subshells therefore separate, ns below np below nd, and for $n = 3$ and 4 enough that 4s fills before 3d.
+In the orbital picture, the ground state puts the electrons, two per orbital at most, into the orbitals of lowest energy. In hydrogen the energy depends on $n$ alone. In other atoms the electrons screen the nucleus from each other, and an s electron, which penetrates the inner shells, feels more of the nuclear charge than a p electron of the same shell (Chapter~\ref{sec:atomic-orbitals}). The subshells therefore separate, ns below np below nd, and for $n = 3$ and 4 enough that 4s fills before 3d.
 
 \index{Hund's rule}\index{Multiplicity}\index{Spin multiplicity|see{Multiplicity}}
 In a partly filled subshell, Hund's first rule puts the electrons in different orbitals with parallel spins. Carbon is then a triplet, nitrogen a quartet, oxygen a triplet again. Note that in a calculation the multiplicity is part of the input: you choose how many electrons are unpaired.
@@ -38,9 +38,9 @@ The two are not the same thing. An orbital energy contains the repulsion with ev
 \index{Koopmans' theorem}\index{Ionisation energy!from orbital energies}\index{Delta SCF@$\Delta$SCF}\index{Relaxation}\index{Electron correlation}\index{HOMO}
 The first ionisation energy is $\mathrm{IE} = E(\mathrm{A}^+) - E(\mathrm{A})$, the electron affinity $\mathrm{EA} = E(\mathrm{A}) - E(\mathrm{A}^-)$, positive when the anion is more stable. Both come from two total energies (the $\Delta$SCF route). Koopmans' theorem gives a shortcut for Hartree-Fock: $\mathrm{IE} \approx -\varepsilon_\mathrm{HOMO}$, where HOMO is the highest occupied orbital, if the other orbitals do not change \cite{koopmans1934}. Two errors enter. The remaining electrons relax towards the hole, which makes $-\varepsilon_\mathrm{HOMO}$ too large. Hartree-Fock also leaves out electron correlation, the part of the repulsion between electrons that its average field misses because the electrons in fact avoid each other; the correlation energy is larger in the atom than in the cation and makes the Hartree-Fock IE too small. $\Delta$SCF includes the relaxation but not the correlation. For a density functional such as B3LYP, $-\varepsilon_\mathrm{HOMO}$ is well below the IE.
 
-ECCE gives orbital energies in hartree and the Energy Calculator gives energy differences in kJ/mol, kcal/mol and eV. The conversions used in this section are 1~hartree = 27.2114~eV = 2625.50~kJ/mol.
+ECCE gives orbital energies in hartree and the Energy Calculator gives energy differences in kJ/mol, kcal/mol and eV. The conversions used in this chapter are 1~hartree = 27.2114~eV = 2625.50~kJ/mol.
 
-\subsection{The calculations}
+\section{The calculations}
 \index{ECCE-QM}\index{Codes!ECCE-QM}\index{Example calculations!General Chemistry}
 \index{B3LYP}\index{Basis sets!aug-cc-pVTZ}\index{Basis sets!def2-TZVPD}\index{Basis sets!cc-pVTZ}\index{ROKS}\index{Restricted open shell}
 \index{Hartree-Fock}\index{UHF}\index{PBE0}\index{Basis sets!aug-cc-pVDZ}
@@ -58,7 +58,7 @@ In the Viewer, the \menu{MOs} panel lists the orbitals with their energy and occ
 \index{Calculating an ionisation energy}\index{Calculating an electron affinity}
 \helppage{energy-calculator}
 
-\subsection{Procedure}
+\section{Procedure}
 \index{Opening example calculations}\index{File menu!Open Example Calculations}\index{Organizer!Open Example Calculations}\index{Viewer}
 \begin{enumerate}
 	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
@@ -73,7 +73,7 @@ In the Viewer, the \menu{MOs} panel lists the orbitals with their energy and occ
 	\item For an electron affinity, select the anion first (\menu{F\_anion}), then the atom (\menu{F\_PBE0\_neutral}). \menu{B - A} is the electron affinity.
 \end{enumerate}
 
-\subsection{Configurations}
+\section{Configurations}
 \index{Electron configuration!of the atoms H to Ar}\index{Orbital energies!of the atoms}\index{Penetration!2s and 2p}\index{Neon}\index{Sodium}
 Every atom fills its orbitals in the Aufbau order (table~\ref{tab:pt-config}). Neon shows the split of a shell most clearly: 2s at $-1.459$ and 2p at $-0.572$~hartree, 24~eV apart although both have $n = 2$. In sodium the next electron goes into 3s at $-0.125$~hartree, and the 2p has dropped to $-1.156$~hartree, into the core.
 
@@ -113,7 +113,7 @@ Carbon has two singly occupied 2p orbitals and the third empty, nitrogen three s
 \index{Restricted open shell!orbital energies}
 Watch out with O, F, S and Cl. In the restricted open-shell calculation the singly occupied 2p orbitals of oxygen lie at $-0.460$~hartree, \emph{below} the doubly occupied one at $-0.362$. This comes from how restricted open-shell orbital energies are defined; it does not mean the unpaired electrons are bound more strongly. The unrestricted Hartree-Fock orbitals show the physics more directly (section~\ref{sec:pt-dips}).
 
-\subsection{4s and 3d: calcium, chromium and copper}
+\section{4s and 3d: calcium, chromium and copper}
 \index{4s and 3d}\index{3d and 4s|see{4s and 3d}}\index{Calcium}\index{Chromium}\index{Copper}
 \index{Chromium!3d5 4s1@3d$^5$4s$^1$}\index{Copper!3d10 4s1@3d$^{10}$4s$^1$}
 Figure~\ref{fig:pt-tm} shows the orbital levels of the three atoms in the \menu{MO Diagram} panel (\menu{Properties > Orbitals > MO Diagram}, with \ctrl{Energies to scale} ticked), which gives each level in eV and draws the electrons as arrows. In calcium the two outer electrons are in 4s ($-4.11$~eV). Chromium (septet, 3d$^5$4s$^1$) has its 3d at $-4.93$~eV and 4s at $-4.65$~eV; copper (doublet, 3d$^{10}$4s$^1$) has 3d at $-6.90$~eV and 4s at $-5.24$~eV. Across the series 3d falls below 4s, so 4s is the highest occupied orbital and is lost first, which is why Cr$^+$ and Cu$^+$ keep their 3d$^5$ and 3d$^{10}$ cores.
@@ -130,7 +130,7 @@ Figure~\ref{fig:pt-tm} shows the orbital levels of the three atoms in the \menu{
 Do not teach the exceptions from this figure. Orbital energies do not decide the configuration; total energies do, and 3d$^4$4s$^2$ chromium or 3d$^9$4s$^2$ copper would each be a separate calculation. The topic has only the observed configurations, so it cannot show that they are the lower ones. The empty orbitals of calcium depend on the basis set, so their order is not to be taught either. \XXX[ check whether ECCE-QM can hold copper in 3d$^9$4s$^2$.]
 \index{Exceptions to the Aufbau order}\index{Aufbau principle!exceptions}
 
-\subsection{Effective nuclear charge}
+\section{Effective nuclear charge}
 \index{Effective nuclear charge!from orbital energies}
 We take the energy of the highest occupied orbital from the \menu{MOs} panel of the Hartree-Fock calculations in \menu{Koopmans' theorem}, where the column \menu{E (Hartree)} gives it in the unit that equation~\eqref{eq:zeff} needs. For lithium the 2s orbital of \menu{Li\_HF} lies at $-0.1964$~hartree, so that
 \begin{equation*}
@@ -148,7 +148,7 @@ and for neon the 2p orbitals of \menu{Ne\_HF} lie at $-0.8512$~hartree, which gi
 \index{Slater's rules}
 For one electron outside a closed shell the estimate agrees with Slater's rules: 1.25 against 1.30 for lithium. For a full shell it does not: Slater gives 5.85 for the 2p of neon, equation~\eqref{eq:zeff} 2.61. The difference is the repulsion with the other seven $n = 2$ electrons, which the orbital energy contains. Teach the trend across a period; the absolute values depend on the definition.
 
-\subsection{First ionisation energies}
+\section{First ionisation energies}
 \index{Ionisation energy!across a period}\index{Periodic trends!ionisation energy}\index{Comparing with experiment}
 Table~\ref{tab:pt-ie} and figure~\ref{fig:pt-ie} compare the calculated values with experiment \cite{nistasd}. Koopmans' values show the whole textbook curve: the rise across a period, the maxima at the noble gases, the drops to Li and Na, the dips at O, S and Al. Hydrogen gives 13.60~eV, as it must for one electron.
 
@@ -195,7 +195,7 @@ $\Delta$SCF is below experiment for all seven atoms, by 0.05~eV at Li and 1.6 to
 \index{B3LYP!orbital energies}\index{Density functional theory!HOMO energy}
 The B3LYP orbital energies follow the same pattern a few eV lower (8.68~eV for hydrogen). With a density functional, take ionisation energies from total energies, not orbital energies.
 
-\subsection{The dips at boron and oxygen}
+\section{The dips at boron and oxygen}
 \label{sec:pt-dips}
 \index{Ionisation energy!dip at boron}\index{Ionisation energy!dip at oxygen}\index{Boron}\index{Aluminium}\index{Sulfur}
 The measured IE falls from Be to B, from N to O, and again from Mg to Al and from P to S. At B and Al the electron removed is the first p electron, which penetrates less than an s electron. At O and S it is the first electron to pair in a p orbital.
@@ -206,7 +206,7 @@ The unrestricted Hartree-Fock calculations show the pairing directly. In nitroge
 \index{Koopmans' theorem!failure for beryllium}\index{Beryllium}
 At boron Koopmans' theorem fails: its values \emph{rise} from Be to B (8.42 to 8.67~eV) where experiment falls. Beryllium is 0.90~eV too low, because its 2s$^2$ pair mixes strongly with the nearby empty 2p, a correlation Hartree-Fock omits. Between Mg and Al the gap is wide enough that Koopmans' values fall (6.89 to 5.93~eV). Show the s-to-p dip in the third period.
 
-\subsection{Electron affinities}
+\section{Electron affinities}
 \index{Electron affinity!across a period}\index{Anions}
 Table~\ref{tab:pt-ea} gives the electron affinities from PBE0/aug-cc-pVDZ. Fluorine takes up an electron most readily (3.29~eV), filling its 2p. Carbon and oxygen give about 1.4~eV, lithium 0.49~eV. Beryllium and nitrogen come out negative: the anion is higher than the atom. In beryllium the new electron has to go into 2p; in nitrogen it has to pair. These are the same two effects as in the IE dips.
 
@@ -231,6 +231,6 @@ Table~\ref{tab:pt-ea} gives the electron affinities from PBE0/aug-cc-pVDZ. Fluor
 \index{Electron affinity!negative}
 A negative EA in a finite basis set is only an indication: an unbound anion has no stable state, and its computed energy depends on the basis set. Teach the sign, not the size. Never read an EA from the anion's orbital energies: the HOMO of Li$^-$ and C$^-$ lies above zero, although both anions are bound by total energy.
 
-\subsection{History}
+\section{History}
 \index{History!Koopmans}\index{History!Slater}\index{History!Hund}
 Slater published his screening rules in 1930 \cite{slater1930}, Koopmans his theorem in 1934 \cite{koopmans1934}. Hund's rules came from his analysis of atomic spectra \XXX[ citation and year].

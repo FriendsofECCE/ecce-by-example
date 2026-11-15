@@ -13,26 +13,28 @@
 \helppage{localised-orbitals}
 \helppage{dipole-moment}
 \helppage{natural-population-analysis}
-\XXX[ chapter introduction to be written once the other sections (densities, maps, profiles, localised orbitals, dipoles, the hydrogen-bonded complex) are in]
-
-\section{Frontier orbitals and charges of a diene and a dienophile}
 \label{sec:dv-fmo}
 \index{Frontier orbitals}\index{HOMO}\index{LUMO}\index{Diels--Alder reaction}\index{Natural population analysis}\index{Hirshfeld charges}
 \index{Butadiene!frontier orbitals}\index{Ethene!frontier orbitals}
 
-Before we calculate a reaction, it is worth asking what brings the two molecules together. For the Diels--Alder reaction of butadiene with ethene there are two candidates: the attraction between partial charges on the atoms that form the new bonds, and the overlap between the highest occupied orbital (HOMO) of one molecule and the lowest unoccupied orbital (LUMO) of the other. In this section we look at both for the two reactants, using the gauche butadiene and the ethene optimised in Chapter~\ref{ch:scans}. The reaction itself is the subject of Chapter~\ref{ch:reaction-rates}.
+Before we calculate a reaction, it is worth asking what brings the two molecules together. For the Diels--Alder reaction of butadiene with ethene there are two candidates: the attraction between partial charges on the atoms that form the new bonds, and the overlap between the highest occupied orbital (HOMO) of one molecule and the lowest unoccupied orbital (LUMO) of the other. In this chapter we look at both for the two reactants, using the gauche butadiene and the ethene optimised in Chapter~\ref{ch:scans}. The reaction itself is the subject of Chapter~\ref{ch:reaction-rates}.
+\XXX[further worked examples to come: density maps and profiles, localised orbitals, dipole moments, the hydrogen-bonded complex]
 
-\subsection*{This requires}
+\section*{This requires}
 \index{Requirements!ORCA}
 ORCA, as in Chapter~\ref{ch:scans}. The natural charges are computed by ECCE itself from the stored orbitals, so no NBO program is needed.
 
-\subsection{Background}
+\section{Background}
 \index{Partial charges!models}
 A partial charge is not something a molecule has in the way it has a dipole moment; it is the result of a rule for dividing the electron density among the atoms, and different rules give different numbers. Natural population analysis (NPA) assigns the density to natural atomic orbitals, which makes its charges stable when the basis set changes. Hirshfeld charges divide the density at each point in proportion to the densities of the free atoms, which gives much smaller charges. We should therefore compare charges only within one scheme, and look for signs and trends rather than for the values themselves.
 
 In frontier orbital theory, the [4+2] cycloaddition is allowed because the HOMO of one partner and the LUMO of the other have the same symmetry with respect to the mirror plane that both keep along the reaction, so that their lobes at the two reacting ends can overlap in phase at once. The smaller the energy gap between the two orbitals, the stronger the interaction. Note that the energies of Kohn--Sham orbitals from a DFT calculation are not ionisation or attachment energies, so we compare them only with each other, from the same method.
 
-\subsection{Procedure}
+\section{What ECCE shows}
+\index{MOs panel}
+For any calculation that stores orbitals, the \menu{MOs} panel lists every orbital with its energy, occupation, symmetry and composition by atom and shell, and draws the selected one as a surface. Under \menu{Properties > Charges} are the charge schemes the code wrote, and Natural (NPA) charges that ECCE computes itself from the stored orbitals, the same way for every code; \cmd{ecce-npa} gives them on the command line. The \menu{Density Map}, \menu{Density Profile} and \menu{Surfaces} panels show the density and the orbitals in a plane, along a line and in three dimensions.
+
+\section{Procedure}
 \index{MOs panel}\index{Charges!Natural (NPA), computed by ECCE}
 \begin{enumerate}
 	\item Open the finished gauche-butadiene calculation of Chapter~\ref{ch:scans} in the Viewer (\menu{Tools > Viewer...}) and choose \menu{Properties > Orbitals > MOs}. The table lists every orbital with its energy, occupation, symmetry and the atoms it sits on; the HOMO is selected when the panel opens.
@@ -42,7 +44,7 @@ In frontier orbital theory, the [4+2] cycloaddition is allowed because the HOMO 
 \end{enumerate}
 The same natural charges are printed on the command line by \cmd{ecce-npa}, with the populations of each shell and the natural electron configuration of each atom.
 
-\subsection{Results}
+\section{Results}
 \index{Butadiene!charges}\index{Ethene!charges}
 Table~\ref{tab:dv-charges} gives the charges of the carbon atoms. In both schemes the terminal carbons of butadiene, C1 and C4, and the carbons of ethene are negative, and they are the atoms that form the two new bonds. Since like charges repel, the partial charges cannot be what draws the reacting carbons together. The two schemes differ by a factor of five in the size of the charges, which is the point made above: only the sign and the order are worth comparing.
 
