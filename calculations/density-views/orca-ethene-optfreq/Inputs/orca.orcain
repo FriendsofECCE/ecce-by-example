@@ -1,0 +1,19 @@
+%pal nprocs 4 end
+! RKS B3LYP def2-TZVP Opt Freq D3BJ Hirshfeld NBO UseSym
+%output
+  Print[P_MOs] 1
+  Print[P_OrbEn] 2
+end
+%elprop
+  Quadrupole true
+end
+%maxcore 1000
+
+* xyz 0 1
+ C     -0.667000     0.00000     0.00000
+ C     0.667000     0.00000     0.00000
+ H     -1.23500     0.921000     0.00000
+ H     -1.23500     -0.921000     0.00000
+ H     1.23500     0.921000     0.00000
+ H     1.23500     -0.921000     0.00000
+*

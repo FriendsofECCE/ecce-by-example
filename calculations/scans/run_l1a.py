@@ -12,7 +12,17 @@ localhost) and run through the real Launch / job monitor / parsers.  The next
 step's start geometry is the previous calculation's last geometry, as
 New from This > Continue from Last Geometry takes it.
 
+Theory, basis, run type and the details are then chosen in the real
+Calculation Editor (ECCE_CALCED_SCRIPT on Xvfb) and saved, so each
+calculation holds the stored basis and editor settings a user's would; the
+deck the editor's Save writes is the one launched.
+
     ECCE_SRC=<ECCE checkout with build-cmake> python3 run_l1a.py <outdir> [--decks]
+    ... run_l1a.py <outdir> --redo <earlier outdir>    s-cis (from its final
+            geometry) and ethene only
+    ... run_l1a.py <outdir> --scan-setup <png dir> --from <earlier outdir>
+            the scan set up from the s-trans minimum, not run;
+            shoots calced-scan.png
 """
 import glob, math, os, re, shutil, subprocess, sys, tempfile, time
 
@@ -23,6 +33,8 @@ OUT = os.path.abspath(sys.argv[1])
 DECKS_ONLY = "--decks" in sys.argv
 # --resume <dir>: steps 3-5 only, from a stored scan (<dir>/butadiene-dihedral-scan).
 RESUME = sys.argv[sys.argv.index("--resume") + 1] if "--resume" in sys.argv else ""
+REDO = sys.argv[sys.argv.index("--redo") + 1] if "--redo" in sys.argv else ""
+SCANSETUP = sys.argv[sys.argv.index("--scan-setup") + 1] if "--scan-setup" in sys.argv else ""
 PROCS = int(os.environ.get("L1A_PROCS", "4"))
 os.makedirs(OUT, exist_ok=True)
 
@@ -160,20 +172,68 @@ if DECKS_ONLY:
     sys.exit(0)
 
 sys.path.insert(0, os.path.join(REPO, "tests", "launch"))
-import harness
+sys.path.insert(0, os.path.join(REPO, "tests", "apps"))
+import harness, xdisplay
+import builder_overlay_test as bo
 orca = os.environ.get("ORCA") or (sorted(glob.glob("/opt/orca/orca_6*/orca")) or [shutil.which("orca")])[-1]
 log("ORCA %s, NBO %s, procs %d" % (orca, nboexe() or "none", PROCS))
 if nboexe():
     os.environ["NBOEXE"] = nboexe()  # ORCA runs NBO through this
 s = harness.Session(BUILD, "bookl1a", {"ORCA": orca}, local=True, keep=True)
 rundir = os.path.join(s.state, "run"); os.makedirs(rundir, exist_ok=True)
+harness.link(os.path.join(BUILD, "calced"), os.path.join(s.home, "bin", "calced"))
+wrappers = os.path.join(s.state, "wrappers"); shutil.rmtree(wrappers, ignore_errors=True)
+shutil.copytree(os.path.join(BUILD, "wrappers"), wrappers)
+for f in os.listdir(wrappers):
+    os.chmod(os.path.join(wrappers, f), 0o755)
+xdisplay.SCREEN = "1500x950x24"
+display = xdisplay.Display().__enter__()
+xenv = s.env({"DISPLAY": display.name, "GTK_THEME": "Adwaita",
+              "PATH": wrappers + os.pathsep + s.env()["PATH"]})
 
 
-def run(name, path):
+def editor(url, runtype, charges, shot=None):
+    """Theory, basis, run type and details as a user picks them, then Save."""
+    work = os.path.join(s.state, "calced"); shutil.rmtree(work, ignore_errors=True); os.makedirs(work)
+    lines = ["wait 9000", "info", "theory RDFT", "wait 3000", "basis def2-TZVP", "wait 2000",
+             "runtype " + runtype, "wait 3000", "details theory", "wait 8000",
+             "gui ES.Theory.DFT.XCFunctionals B3LYP", "gui ES.Theory.SCF.Dispersion D3BJ",
+             "close-details", "wait 2000"]
+    if charges:
+        lines += ["details runtype", "wait 8000", "gui ES.Runtype.ORCA.UseHirshfeld 1"]
+        lines += ["gui ES.Runtype.ORCA.UseNBO 1"] if nboexe() else []
+        lines += ["close-details", "wait 2000"]
+    lines += ["guivalue ES.Theory.DFT.XCFunctionals", "guivalue ES.Theory.SCF.Dispersion",
+              "button save", "wait 6000", "info", "constraints"]
+    lines += (["wait 3000", "shot " + shot] if shot else []) + ["quit"]
+    script = os.path.join(work, "script"); open(script, "w").write("\n".join(lines) + "\n")
+    e = dict(xenv, ECCE_CALCED_SCRIPT=script)
+    log_ = os.path.join(work, "app.log")
+    proc = subprocess.Popen([os.path.join(wrappers, "ecce-calced"), "-context", url], env=e,
+                            cwd=os.path.join(s.home, "bin"), stdout=open(log_, "w"),
+                            stderr=subprocess.STDOUT, start_new_session=True)
+    deadline = time.time() + 300
+    try:
+        while proc.poll() is None and time.time() < deadline:
+            if shot and os.path.exists(os.path.join(work, shot + ".ready")):
+                time.sleep(1.5)
+                log("shot %s %s" % (shot, bo.snap(display, xenv, os.path.join(SCANSETUP, shot + ".png"))))
+                os.unlink(os.path.join(work, shot + ".ready"))
+                open(os.path.join(work, shot + ".go"), "w").close()
+            time.sleep(0.3)
+    finally:
+        bo.stop(proc)
+    text = open(log_, errors="replace").read()
+    log("editor:\n" + "\n".join(l for l in text.splitlines() if "CALCED" in l or "FAIL" in l))
+
+
+def run(name, path, charges=False, launch=True, shot=None):
+    runtype = open(os.path.join(os.path.dirname(path), "runtype")).read()
     url, out = s.create(name, "orca_es", path, "orca.orcain", rundir,
-                        extra=("procs=%d" % PROCS, "code=ORCA", "theory=DFT:B3LYP",
+                        extra=("procs=%d" % PROCS, "code=ORCA", "theory=DFT:RDFT",
+                               "mvm=" + os.path.join(os.path.dirname(path), "chemsys.mvm"),
                                # the parsers choose what to read by the run type
-                               "runtype=" + open(os.path.join(os.path.dirname(path), "runtype")).read()))
+                               "runtype=" + runtype))
     if not url:
         raise RuntimeError("create %s: %s" % (name, out[-500:]))
     calc = url[len("file://"):].rstrip("/")
@@ -182,8 +242,12 @@ def run(name, path):
                 os.path.join(calc, "Parameters", "chemsys.mvm"))
     con = os.path.join(os.path.dirname(path), "w.con")
     if os.path.exists(con):  # what the Builder's Scan... dialog stores
-        os.makedirs(os.path.join(calc, "Parameters"), exist_ok=True)
         shutil.copy(con, os.path.join(calc, "Parameters", "GeomConstraintModel.gcst"))
+    editor(url, runtype, charges, shot)
+    deckNow = glob.glob(os.path.join(calc, "Inputs", "*.orcain"))
+    log("%s: stored deck after Save:\n%s" % (name, open(deckNow[0]).read() if deckNow else "NONE"))
+    if not launch:
+        return calc, "", []
     t0 = time.time(); rc, lo = s.launch(url)
     st = s.waitState(url, seconds=4 * 3600)
     log("%s: %s in %.0f s (%s)" % (name, st, time.time() - t0, url))
@@ -201,12 +265,25 @@ def run(name, path):
 
 try:
     assert s.services(True)
+    if SCANSETUP:
+        os.makedirs(SCANSETUP, exist_ok=True)
+        g = lastGeom(open(glob.glob(os.path.join(os.path.abspath(sys.argv[sys.argv.index("--from") + 1]), "butadiene-strans-optfreq", "Outputs", "*.orcaout"))[0]).read())
+        run("butadiene-dihedral-scan",
+            deck("scan", g, "Geometry", scan=("0 1 2 3", "%.4f" % dihedral(*[a[1:] for a in g[:4]]), 35, "-10.0")),
+            launch=False, shot="calced-scan")
+        sys.exit(0)
+    if REDO:
+        g = lastGeom(open(glob.glob(os.path.join(os.path.abspath(REDO), "butadiene-scis-optfreq", "Outputs", "*.orcaout"))[0]).read())
+        run("butadiene-scis-optfreq", deck("scis", g, "GeoVib", charges=True), charges=True)
+        run("ethene-optfreq", deck("ethene", ETHENE, "GeoVib", charges=True), charges=True)
+        log("DONE")
+        sys.exit(0)
     if RESUME:
         jd = glob.glob(os.path.join(os.path.abspath(RESUME), "butadiene-dihedral-scan", "rundir", "*"))
         jd = [j for j in jd if os.path.isdir(j)] or [os.path.join(os.path.abspath(RESUME), "butadiene-dihedral-scan", "rundir")]
         t2 = open(glob.glob(os.path.join(jd[0], "*.orcaout"))[0], errors="replace").read()
     else:
-        _, t1, _ = run("butadiene-strans-optfreq", deck("strans", butadiene(), "GeoVib", charges=True))
+        _, t1, _ = run("butadiene-strans-optfreq", deck("strans", butadiene(), "GeoVib", charges=True), charges=True)
         g1 = lastGeom(t1)
         _, t2, jd = run("butadiene-dihedral-scan",
                         deck("scan", g1, "Geometry",
@@ -234,8 +311,9 @@ try:
     kcis = min((k for k in range(min(len(geoms), len(pts))) if abs(dih[k]) <= 60),
                key=lambda k: pts[k][1])
     log("s-cis side minimum: point %d, dihedral %.1f" % (kcis + 1, dih[kcis]))
-    run("butadiene-scis-optfreq", deck("scis", geoms[kcis], "GeoVib", charges=True))
-    run("ethene-optfreq", deck("ethene", ETHENE, "GeoVib", charges=True))
+    run("butadiene-scis-optfreq", deck("scis", geoms[kcis], "GeoVib", charges=True), charges=True)
+    run("ethene-optfreq", deck("ethene", ETHENE, "GeoVib", charges=True), charges=True)
     log("DONE")
 finally:
+    display.__exit__(None, None, None)
     s.stop()

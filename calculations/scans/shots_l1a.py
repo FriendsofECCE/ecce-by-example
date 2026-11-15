@@ -85,23 +85,24 @@ try:
             shutil.copytree(src, calc[name], symlinks=True,
                             ignore=shutil.ignore_patterns("rundir"))
     detail = {"ECCE_PANEL_MODE": "detail"}
-    scan = calc["butadiene-dihedral-scan"]
-    app(s, display, env, wrappers, "ecce-calced", "ECCE_CALCED_SCRIPT", scan,
-        ["wait 9000", "constraints", "shot calced-scan", "quit"], "calced")
-    app(s, display, env, wrappers, "ecce-builder", "ECCE_BUILDER_SCRIPT", scan,
+    # calced-scan.png is shot by run_l1a.py --scan-setup (the scan set up, before Launch)
+    scan = calc.get("butadiene-dihedral-scan")
+    if scan: app(s, display, env, wrappers, "ecce-builder", "ECCE_BUILDER_SCRIPT", scan,
         WHITE + ["scanview", "scancsv %s/scan-kcal.csv kcal" % PNG,
                  "scancsv %s/scan-eh.csv" % PNG, "scanstatus", "shot scan-plot", "quit"],
         "scan", dict(detail, ECCE_OPEN_PANEL="Relaxed Scan"))
-    app(s, display, env, wrappers, "ecce-builder", "ECCE_BUILDER_SCRIPT",
+    if "butadiene-scanmax-freq" in calc: app(s, display, env, wrappers, "ecce-builder", "ECCE_BUILDER_SCRIPT",
         calc["butadiene-scanmax-freq"],
         WHITE + ["specclick 1", "wait 3000", "shot imaginary-mode", "quit"],
         "vib", dict(detail, ECCE_OPEN_PANEL="Vibrational Frequencies"))
     for name, homo, tag in (("butadiene-scis-optfreq", 15, "scis"), ("ethene-optfreq", 8, "ethene")):
+        if name not in calc:
+            continue
         app(s, display, env, wrappers, "ecce-builder", "ECCE_BUILDER_SCRIPT", calc[name],
             WHITE + ["list Natural (NPA) Charges", "wait 2000", "overlay",
                      "shot charges-%s" % tag, "quit"], "charges-" + tag)
         app(s, display, env, wrappers, "ecce-builder", "ECCE_BUILDER_SCRIPT", calc[name],
-            WHITE + ["wait 150000", "quit"], "mo-" + tag, dict(detail, ECCE_OPEN_PANEL="MOs"),
+            WHITE + ["wait 150000", "quit"], "mo-" + tag, {"ECCE_OPEN_PANEL": "MOs"},  # detail mode left a black GL box over the view
             scene=["moselect %d" % homo, "mopanel compute", "shot homo-%s" % tag,
                    "moselect %d" % (homo + 1), "mopanel compute", "shot lumo-%s" % tag])
 finally:

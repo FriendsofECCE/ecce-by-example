@@ -1,0 +1,8 @@
+ORCA 6.1.1, B3LYP-D3BJ/def2-TZVP, Opt+Freq (GeoVib), set up in the Calculation Editor (theory RDFT, functional B3LYP, dispersion D3BJ, basis def2-TZVP, Hirshfeld and NBO 7 NPA) and launched through ECCE; ECCE f0178cc0f.
+Final SCF energy: -155.953790993216 Eh (earlier run, route-card basis only: -155.953790934681 Eh; difference 5.9e-8 Eh)
+Gibbs free energy (298.15 K): -155.89491523 Eh
+Imaginary frequencies: 0
+HOMO (MO 15): -0.242348 Eh = -6.59 eV; LUMO (MO 16): -0.037362 Eh = -1.02 eV
+Character (Mulliken composition shown in the MOs panel): HOMO pi, C1/C4 2p 32% each, C2/C3 2p 16% each (sym A, C2); LUMO pi*, C2/C3 2p 31% each, C1/C4 2p 15% each (sym B)
+NPA charges (NBO 7): C1 -0.36475, C2 -0.22009, C3 -0.22009, C4 -0.36475, H5 0.18923, H6 0.19629, H7 0.19933, H8 0.19933, H9 0.18923, H10 0.19629
+Hirshfeld charges: C1 -0.070710, C2 -0.029687, C3 -0.029687, C4 -0.070710, H5 0.032401, H6 0.033556, H7 0.034410, H8 0.034410, H9 0.032401, H10 0.033556
