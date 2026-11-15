@@ -2,6 +2,16 @@
 \addcontentsline{toc}{chapter}{About this book}
 Each chapter of this book is one calculation carried out in ECCE from start to finish: the question it answers, what ECCE shows, a numbered procedure and the results. The purpose of the book is to show how ECCE is used for real work. Where a chapter's calculation is also in one of ECCE's example sets, the chapter says so, and the finished calculation can be opened and compared at any step.
 
+\section*{What ECCE adds}
+\index{ECCE!what it adds}
+Most computational chemistry is done with several programs that know nothing of each other: one to build the structure, a text editor for each code's input, a terminal to copy files to a cluster and submit the job, and further programs to read the output and plot it. ECCE replaces that chain with one program, and three things follow from it.
+
+\paragraph{One program from set-up to results, on any machine.} A calculation is built, set up, launched, monitored and analysed in the same program, and it stays one object throughout: the structure, the input, the job and the results belong together in the Organizer. ECCE runs the job on this computer or on a cluster or supercomputer, logs in over SSH, writes the job script for the queue system, submits it, follows the output while the job runs and brings the results back when it ends. Moving from a laptop to a supercomputer is a change of machine in the Launcher, not a change of how you work (Chapter~\ref{ch:hpc}).
+
+\paragraph{Many codes, one way of working.} ECCE drives quantum chemistry codes (ECCE-QM, which comes with it, ORCA, Gaussian, NWChem, MOPAC and xTB), periodic and plane-wave codes (CP2K and Quantum ESPRESSO), molecular dynamics (GROMACS), machine-learned potentials (MACE), conformer searches (CREST) and docking (AutoDock Vina). Since a finished calculation keeps its final structure, charge and multiplicity, any of them can start from the result of another: a conformer search ranked with a cheap method and refined with DFT, a crystal relaxed with a machine-learned potential before DFT, a structure from molecular dynamics passed to a quantum chemistry code. The only condition is that the code is installed where the job runs. Chapter~\ref{ch:coupling} shows such a chain step by step, and every chapter ends with the hand-offs that fit its calculation.
+
+\paragraph{A central server for a group or a class.} ECCE can keep its calculations on a central data server instead of on each user's computer. A research group then shares one store of calculations with access rights per project, and a teacher can give every student in a class the same example calculations, see their work and run the jobs on the department's machines, while the students only need ECCE on their own laptops. This is how ECCE was used at the laboratory where it was first written, and it is the setting of the teaching chapter (Chapter~\ref{ch:teaching}).
+
 The procedures use the menus and panels of ECCE \ecceversion; menu paths are written as \menu{Tools > Diffraction...}, buttons and fields as \ctrl{Calculate}, and commands as \cmd{ecce-xrd}. Everything a procedure does in the windows can also be done from the command line, and AGENTS.md in ECCE's documentation lists the commands.
 
 
