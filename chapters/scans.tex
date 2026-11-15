@@ -4,21 +4,53 @@
 \index{Relaxed scan}
 \index{Conformations}
 \index{Torsion}
+\index{Butadiene}
 \eccexample{Examples > Organic Chemistry > Conformations}
+\helppage{constraints-and-dummy-atoms}
 
-\XXX[ chapter to be written]
+A molecule that can turn about a single bond has more than one shape, and the energy that separates these shapes decides which of them we find in a flask and how fast they turn into each other. In this chapter we follow the energy of 1,3-butadiene as the molecule turns about its central C--C bond, from the planar s-trans form through a twisted maximum to the s-cis side, which is the shape the diene needs for a Diels--Alder reaction (Chapter~\ref{ch:reaction-rates}). The same steps work for any torsion, angle or bond length.
+
+\section*{This requires}
+\index{Requirements!ORCA}\index{Requirements!NBO}
+ORCA (version 6.1.1 was used here), registered on the machine that runs the jobs (Chapter~\ref{ch:code-registration}). The natural charges at the end need NBO 7 next to ORCA; without it, ECCE still shows the Hirshfeld and Mulliken charges that ORCA prints itself.
 
 \section{Background}
+\index{Relaxed scan}\index{Rigid scan}\index{s-cis}\index{s-trans}
+In a \emph{relaxed} scan we hold one internal coordinate, here the C1--C2--C3--C4 torsion, at a series of values and optimise everything else at each of them. The curve we get is the lowest energy the molecule can reach at each value of the torsion, which is what a molecule turning slowly about the bond experiences. A \emph{rigid} scan, in which only the torsion changes and all other coordinates are frozen, is cheaper but gives barriers that are too high, since the molecule cannot relieve the strain it builds up.
 
-\section{What ECCE shows}
+Butadiene is the textbook case because two effects compete. Conjugation between the two double bonds is strongest when the molecule is planar, so both the s-trans (180°) and the s-cis (0°) forms are favoured over a twisted one, and the curve has its maximum near 90°, where the $\pi$ systems of the two halves are perpendicular. In the s-cis form, however, the inner hydrogen atoms on C1 and C4 come close to each other, and the molecule twists slightly out of plane to relieve this, so that the lowest point on the cis side lies at a gauche angle rather than at 0°.
+
+Each point of a scan is an optimisation with one coordinate held fixed, so the points are not stationary points of the full potential energy surface. To characterise a point, for example the maximum, we start a frequency calculation from its structure: a true transition state for the rotation has exactly one imaginary frequency, and its mode is the torsion.
 
 \section{Procedure}
+\index{Geometry Constraints!Scan}\index{Relaxed Scan panel}
+\begin{enumerate}
+	\item Make a project with an ORCA calculation \texttt{butadiene-strans}. In the Builder, draw butadiene (for example with \menu{Tools > Add from SMILES...} and \texttt{C=CC=C}), set the C1--C2--C3--C4 torsion to 180° and choose \menu{Build > Clean}.
+	\item In the Calculation Editor choose \menu{DFT} with B3LYP and D3BJ dispersion under \ctrl{Theory Details...}, pick def2-TZVP and the run type \menu{GeoVib}, and launch. Check in the \menu{Vibrational Frequencies} panel that there is no imaginary frequency, so that the structure is a minimum.
+	\item Select the finished calculation and choose \menu{New from This > Continue from Last Geometry}. Open the Builder on the new calculation and choose \menu{Tools > Geometry Constraints...}. Click the four carbon atoms in order along the chain; the dialog shows \texttt{Torsion C1-C2-C3-C4}. Press \ctrl{Scan...}, enter 35 steps of $-10$°, and close the dialog.
+	\item In the Calculation Editor set the run type to \menu{Geometry}, keep the method and basis set, save and launch. \ctrl{Final Edit...} shows the \texttt{\%geom Scan} block that ECCE wrote for ORCA.
+	\item When the scan has finished, open it in the Viewer and choose \menu{Properties > Relaxed Scan}. Set \menu{Energy unit:} to kJ/mol and use \ctrl{Export .csv...} to save the table for a report.
+	\item Make a frequency calculation (run type \menu{Vibration}) from the structure of the highest point of the curve. \XXX[how a chosen scan point becomes a new calculation in ECCE; Continue from Last Geometry takes the last point. If there is no route, file an ECCE issue]
+	\item Likewise make a \menu{GeoVib} calculation from the lowest point on the cis side, and tick \ctrl{NBO analysis (natural charges)} under \ctrl{Runtype Details...} to get the natural charges.
+\end{enumerate}
+
+\XXX[figure: calced-scan, the Calculation Editor with the scan constraint]
 
 \section{Results}
+\index{Butadiene!torsional barrier}
+The s-trans structure optimised in three minutes on four cores, and its lowest frequency, \SI{176}{cm^{-1}}, belongs to the torsion about the central bond; there is no imaginary frequency. The scan of 36 points took about 40~minutes on the same four cores.
+
+\XXX[figure: scan-plot, the Relaxed Scan panel]
+
+The curve is symmetric about 0°, as it must be for a molecule whose two halves are the same, and its shape is the one we argued for above. Relative to s-trans, the maximum lies at 100° and \SI{29.9}{kJ/mol}, which is the barrier the s-trans form must cross to turn into the s-cis form. On the cis side the energy falls to \SI{14.2}{kJ/mol} at ±30° and rises again to \SI{16.1}{kJ/mol} at the planar s-cis form. The cis minimum is therefore gauche, twisted by about 30° to keep the inner hydrogen atoms apart, and the planar s-cis structure is a small barrier of \SI{1.9}{kJ/mol} between the two mirror-image gauche forms. At 40° the energy is \SI{14.5}{kJ/mol}, close to the minimum, which shows how flat the curve is in this region.
+
+The energies come from the first of the two tables ORCA prints at the end of a scan, the \emph{actual energy}, which includes the D3BJ dispersion correction; the second table gives the SCF energy without it.
+
+\XXX[from the full run: frequency at the maximum (one imaginary torsion, value), optimised gauche dihedral and its energy above s-trans; figure imaginary-mode; charges go to density-views]
+
+Since the s-cis side lies about \SI{14}{kJ/mol} above s-trans, only a small fraction of butadiene is s-cis at room temperature, but a barrier of \SI{30}{kJ/mol} is crossed many millions of times per second, so the two forms are in fast equilibrium and the s-cis form is always at hand to react.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
+A torsional scan at the DFT level is cheap for butadiene but grows quickly with the size of the molecule and the number of rotatable bonds. For a larger molecule, a conformer search with CREST (Chapter~\ref{ch:crest}) finds the low-lying conformers first, and a scan in ORCA then describes the barrier between the two that matter. The optimised structures can also start a calculation in another code with \menu{New from This > Continue in Another Code...}, for example to look at the orbitals of the s-trans and gauche forms (Chapter~\ref{ch:density-views}).
 
+The calculations of this chapter are kept in the book's repository under \bookpath{calculations/scans}.
