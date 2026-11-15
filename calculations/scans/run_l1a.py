@@ -212,7 +212,7 @@ try:
     i = t2.rfind("RELAXED SURFACE SCAN RESULTS")
     pts = [(float(a), float(b)) for a, b in re.findall(r"^\s*(-?\d+\.\d+)\s+(-?\d+\.\d+)\s*$", t2[i:t2.find("using the SCF energy", i)], re.M)]
     log("scan points %d: %s" % (len(pts), pts))
-    xyzs = sorted(glob.glob(os.path.join(jd[0], "*.[0-9][0-9][0-9].xyz"))) if jd else []
+    xyzs = sorted(glob.glob(os.path.join(jd[0], "**", "*.[0-9][0-9][0-9].xyz"), recursive=True)) if jd else []
     geoms = [readXyz(p) for p in xyzs]
     dih = [dihedral(*[a[1:] for a in g[:4]]) for g in geoms]
     log("point dihedrals: %s" % ["%.1f" % d for d in dih])
