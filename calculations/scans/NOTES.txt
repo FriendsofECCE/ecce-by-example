@@ -1,0 +1,35 @@
+Chapter scans (lab L1a, 5KE176 Exercise 1 steps 4-8 redone in ORCA) -- facts for the lead
+==========================================================================================
+ECCE: main a10e93548 (origin/main). Prepared 2026-11-15.
+
+STATUS: CALCULATIONS STARTED ON NERDEGG, NOT YET FINISHED OR COPIED; NO SCREENSHOTS YET.
+
+Method (all steps): ORCA 6.1.1, RKS B3LYP D3BJ def2-TZVP, no symmetry.
+Driver: calculations/scans/run_l1a.py. Decks are written by ECCE's own ORCA
+generator (ai.orca, what the Calculation Editor runs on Save) from the
+.param/.frag/.basis and, for the scan, the GeomConstraintModel.gcst the
+Builder's Geometry Constraints > Scan... dialog stores; each calculation is
+created in an isolated ECCE (tests/launch harness, own HOME, local data,
+machine localhost, 4 processors) and run through the real Launch, job monitor
+and parsers. The next start geometry is the previous calculation's last
+geometry (what New from This > Continue from Last Geometry takes) -- taken by
+the script, NOT through the Organizer menu.
+Order: butadiene-strans-optfreq (GeoVib, Hirshfeld) -> butadiene-dihedral-scan
+(Scan D 0 1 2 3 = 180 -> -170, 36 points, 10 deg) -> butadiene-scanmax-freq
+(Vibration at the highest scan point with |dihedral| 60-140 deg; a frequency
+calculation at a constrained point, as the lab does, not a TS optimisation)
+-> butadiene-scis-optfreq (GeoVib from the lowest point with |dihedral| <= 60)
+-> ethene-optfreq. Charges: Hirshfeld + Mulliken/Loewdin (ORCA's own);
+NBO is switched on only where NBOEXE/nbo7 exists (not on NerdEgg; NBO 7 is on
+niobium only) -> NBO charges are NOT part of this run.
+
+Can ECCE do the lab's scan? Yes, except a scripting hook:
+- set up: Builder > Geometry Constraints, select C1-C2-C3-C4, Scan... (steps,
+  step); ai.orca writes the %geom Scan block (checked: deck in run.log).
+- results: ORCA's relaxed-scan output is parsed into SCANCOORD/SCANENERGY/
+  SCANGEOM; Builder panel "Relaxed Scan" plots energy vs coordinate and has
+  Export .csv (script: scancsv <path> [kcal]).
+- gap filed: #1053 (Builder script has no command for the Scan... dialog).
+
+Numbers: TO FILL from l1a-out/run.log and the outputs (energies, dE at
+0/40/100/180 deg, s-cis dihedral, imaginary frequency, charges, HOMO/LUMO).
