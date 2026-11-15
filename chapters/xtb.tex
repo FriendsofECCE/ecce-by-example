@@ -74,6 +74,6 @@ The molecular dynamics run, 20~ps at 300~K from the optimised structure, took 15
 \end{figure}
 
 \section{Coupling with other codes}
-xTB is rarely the end of a study. Its structures are good starting points for DFT, which then needs few optimisation steps, and its speed makes it the screening level of a funnel: CREST finds the conformers (Chapter~\ref{ch:crest}), xTB re-optimises and ranks them, and DFT refines the few that matter (Chapter~\ref{ch:coupling}). The hand-off is always the same: \menu{New from This > In Another Code...} in the project table, or a workflow step with \menu{Final geometry} ticked, from the finished xTB calculation.
+xTB is rarely the end of a study. Its structures are good starting points for DFT, which then needs few optimisation steps, and its speed makes it the screening level of a funnel: CREST finds the conformers (Chapter~\ref{ch:crest}), xTB re-optimises and ranks them, and DFT refines the few that matter (Chapter~\ref{ch:coupling}). The hand-off is always the same: \menu{New from This > Continue in Another Code...} in the project table, or a workflow step with \menu{Final geometry} ticked, from the finished xTB calculation.
 
 The calculations for this chapter are kept in the book's repository under \bookpath{calculations/xtb}. They were run through ECCE's launcher by the test machinery, on another computer for 01 to 03 and locally for 04 and 05; the setup is the one described here.
