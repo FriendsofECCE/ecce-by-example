@@ -1,0 +1,1 @@
+ORCA 6.1.1, B3LYP-D3BJ/def2-SVP, Opt + NumFreq + Raman (Runtype Details: Method Numerical, Raman Activities), set up in the Calculation Editor and launched through ECCE (calculations/density-views/run_l1c.py raman); input edited 'Opt Freq NumFreq' -> 'Opt NumFreq' before launch (#1058). ECCE f0178cc0f. 4743 s on niobium, 4 procs. Numbers: ../NOTES-raman-estimate.txt

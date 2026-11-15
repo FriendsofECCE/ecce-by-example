@@ -1,0 +1,44 @@
+Lab L1c part B (5KE176 Exercise 3, Raman of benzocaine vs cocaine) -- cost estimate, NOT run at def2-TZVP
+========================================================================================================
+ECCE build of main f0178cc0f (9.5.3-dev); measured on niobium 2026-11-15, 4 MPI procs, nice 19.
+
+ECCE option: Calculation Editor > Runtype Details > Frequencies box: "Raman Activities"
+(ES.Runtype.Vibration.UseRaman -> %elprop Polar 1). With B3LYP (B88 exchange) ORCA cannot
+do Raman analytically, so Frequencies Method must be Numerical (ECCE warns on Verify).
+ECCE GAP, filed as #1058: with Method = Numerical the editor writes "Opt Freq NumFreq";
+ORCA 6.1.1 takes "Freq" as analytic and stops at once (exit 55, "Third functional
+derivative of a B88 exchange-containing functional"). Worked around by a Final Edit of
+the input to "Opt NumFreq" (run_l1c.py does this edit after the editor's Save).
+
+Measured
+  benzocaine (C9H11NO2, 23 atoms) B3LYP-D3BJ/def2-SVP (223 bf), Opt + NumFreq + Raman,
+  through ECCE (calculations/vibrations/orca-benzocaine-svp-raman), from an Open Babel
+  3-D start: 4743 s wall in ECCE (ORCA 78.2 min):
+     optimisation 11 cycles: SCF 207 s + gradients 128 s (~6 min)
+     numerical frequencies 138 displacements (6N, central): 4326 s = 31.3 s each
+  Single points EnGrad + Polar at def2-TZVP, 4 procs (calibration, run by ORCA directly):
+     benzocaine 438 bf: 135 s (SCF 68, response 32, gradient 30)
+     cocaine (C17H21NO4, 43 atoms) 808 bf: 544 s (SCF 306, response 135, gradient 95)
+
+Model: one displacement = 0.75-1.0 x the cold single point (the SCF restarts from the
+reference orbitals); 6N displacements; optimisation from a pre-optimised (def2-SVP or xTB)
+start: benzocaine ~12 cycles, cocaine 25-40 cycles (flexible ester groups), each cycle
+~SCF/2 + gradient. Other hosts: NerdEgg 6 physical cores assumed same per-core speed,
+x0.74 (4/6 at 90 % efficiency); Kebnekaise one node 28 cores, x0.2 (4/28 at ~70 %
+efficiency). Per-core speeds on NerdEgg/Kebnekaise were not measured.
+
+def2-TZVP Opt + NumFreq + Raman, wall time estimate
+  molecule     displacements   niobium 4 procs   NerdEgg 6 cores   Kebnekaise 28 cores
+  benzocaine        138          4 - 5.5 h          3 - 4 h           0.8 - 1.1 h
+  cocaine           258         31 - 42 h          23 - 31 h           6 - 8.5 h
+(cocaine is > 12 h on NerdEgg/radium -> Kebnekaise by the book's rules)
+
+def2-SVP for comparison: benzocaine 1.3 h measured on niobium; cocaine at SVP roughly
+5-7 h on niobium (2x the displacements, ~3x the cost each), ~1-1.5 h on Kebnekaise.
+
+Benzocaine def2-SVP results (orca-benzocaine-svp-raman): E -554.121529643 Eh, G(298 K)
+-553.96955418 Eh, no imaginary frequency, 63 modes, dipole 3.70 D.
+Strongest Raman activities (cm-1, A^4/amu): 3585.67 (294.1, NH2 sym. stretch), 1677.95 (237.8),
+3035.97 (153.6), 1802.35 (152.7, C=O), 3064.96 (129.3), 3115.11 (127.7), 3165.07 (109.2).
+Unscaled harmonic def2-SVP frequencies; mode assignments in brackets are from the frequency
+values only, not checked against the mode vectors.

@@ -1,0 +1,11 @@
+phenol-water-optfreq: E -383.86912910 Eh, ZPE 0.12806931, H -383.73082416, G -383.77494765, dipole 4.119419395 D, imaginary 0, lowest 28.52 cm-1
+  NPA: C1 0.29940, C2 -0.29695, C3 -0.18832, C4 -0.25152, C5 -0.18831, C6 -0.26716, O7 -0.67341, H8 0.49863, H9 0.21414, H10 0.20420, H11 0.20593, H12 0.20509, H13 0.21506, O14 -0.93626, H15 0.47974, H16 0.47974
+phenol-optfreq: E -307.42967460 Eh, ZPE 0.10423373, H -307.3189546, G -307.35444364, dipole 1.321084906 D, imaginary 0, lowest 229.45 cm-1
+  NPA: C1 0.29305, C2 -0.29224, C3 -0.18464, C4 -0.24305, C5 -0.18353, C6 -0.26292, O7 -0.64715, H8 0.47179, H9 0.20173, H10 0.20863, H11 0.20966, H12 0.20892, H13 0.21975
+water-optfreq: E -76.42663205 Eh, ZPE 0.02114837, H -76.4017039, G -76.42312854, dipole 2.062928841 D, imaginary 0, lowest 1615.85 cm-1
+  NPA: O1 -0.91905, H2 0.45952, H3 0.45952
+Interaction electronic (De, incl. D3BJ): -0.012822 Eh = -33.67 kJ/mol = -8.05 kcal/mol
+Interaction ZPE-corrected (D0): -0.010135 Eh = -26.61 kJ/mol = -6.36 kcal/mol
+Interaction enthalpy 298 K: -0.010166 Eh = -26.69 kJ/mol = -6.38 kcal/mol
+Interaction Gibbs 298 K: 0.002625 Eh = 6.89 kJ/mol = 1.65 kcal/mol
+H8...O14 1.858 A, O7...O14 2.831 A, O7-H8 0.9741 A (phenol alone 0.9638 A), angle O7-H8...O14 176.2 deg

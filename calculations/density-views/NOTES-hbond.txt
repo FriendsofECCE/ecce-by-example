@@ -1,0 +1,56 @@
+Chapter density-views, lab L1c part A (5KE176 Exercise 2, the hydrogen bond) -- facts for the lead
+==================================================================================================
+ECCE: build of main f0178cc0f (9.5.3-dev), driver at main 467d793fe. Run 2026-11-15 on niobium, 4 procs, nice 19.
+
+System: phenol (donor, O7-H8) + water (acceptor, O14). The lab asks for one partner
+with at least 10 atoms, so the shipped General Chemistry example ecceqm-h2o_dimer
+(Intermolecular interactions) does not meet the lab's rule; it is the simpler
+classroom case and is NOT used for any number here. All numbers below come from
+the three ORCA calculations in this directory.
+
+Method: ORCA 6.1.1, RKS B3LYP D3BJ def2-TZVP, Opt+Freq (GeoVib), Hirshfeld + NBO 7 NPA
+charges. Set up in the Calculation Editor (theory RDFT, basis def2-TZVP, run type
+GeoVib, Theory Details B3LYP + D3BJ, Runtype Details Hirshfeld + NBO, Save) and launched
+through ECCE (run_l1c.py hbond). The monomers start from the optimised complex split
+in two (lab step 3) -- split by the script, not in the Builder.
+Calculations: orca-phenol-water-optfreq (886 s wall), orca-phenol-optfreq (552 s),
+orca-water-optfreq (32 s).
+
+Energies (Eh)            complex           phenol           water
+  E (SCF+D3BJ)        -383.86912910     -307.42967460    -76.42663205
+  ZPE                    0.12806931        0.10423373      0.02114837
+  H (298 K)           -383.73082416     -307.31895460    -76.40170390
+  G (298 K)           -383.77494765     -307.35444364    -76.42312854
+Imaginary frequencies: 0 / 0 / 0. Lowest: complex 28.52 cm-1, phenol 229.45, water 1615.85.
+Point group shown in the Builder: complex Cs (water plane perpendicular to the phenol plane).
+
+H-bond energy E(complex) - E(phenol) - E(water):
+  electronic (De, with D3BJ)  -0.012822 Eh = -33.67 kJ/mol = -8.05 kcal/mol
+  ZPE-corrected (D0)          -0.010135 Eh = -26.61 kJ/mol = -6.36 kcal/mol
+  enthalpy 298 K              -26.69 kJ/mol = -6.38 kcal/mol
+  Gibbs 298 K                 +6.89 kJ/mol = +1.65 kcal/mol (the entropy cost outweighs the bond at 1 atm)
+Counterpoise (BSSE): NOT offered by ECCE's ORCA setup (no ghost atoms or gCP keyword in the
+editor; existing tickets #252 fragments/counterpoise and #178 battery binding energies cover
+it). The values above are therefore not counterpoise corrected; at def2-TZVP the BSSE is
+typically a few tenths of a kcal/mol (general expectation, not computed here).
+
+Geometry (complex): H8...O14 1.858 A, O7...O14 2.831 A, angle O7-H8...O14 176.2 deg;
+O7-H8 0.9741 A in the complex vs 0.9638 A in free phenol (lengthened by 0.010 A).
+Literature comparison (lab report item 7): NOT checked here -- the lead must add the
+reference (gas-phase phenol-water D0 and O...O distance from the spectroscopy literature).
+
+Dipole moments (ORCA total, Debye): phenol 1.321, water 2.063, complex 4.119.
+
+NPA charges (NBO 7): phenol free O7 -0.647, H8 +0.472; in the complex O7 -0.673, H8 +0.499;
+water free O -0.919, H +0.460; in the complex O14 -0.936, H15/H16 +0.480. Full lists:
+analyse_l1c.txt (python3 analyse_l1c.py .).
+
+Figures (figures/density-views/, crop of the Builder's 3-D view, white background):
+  hbond-measure  -- complex, Measure distance H8-O14 (1.858 A) and angle O7-H8-O14 (176.20 deg)
+  esp-complex, esp-phenol, esp-water -- Properties > Surfaces, type "ESP on Density",
+     density isosurface 0.0020 e/bohr^3, colour bar +-0.0789 a.u. (+-49.5 kcal/mol per e),
+     red negative, blue positive. This is ECCE's version of the lab's "Total Density, then
+     New mapped cube": one choice in the Surfaces panel. esp-water is seen from the H side
+     (both H toward the viewer), so it is all blue; the O side is hidden.
+Made by: run_l1c.py hbond, shots_l1c.py (ESP shots with ECCE_VIEWER_SCENE_HOLD=1 so the
+surface is drawn in the Builder's canvas; the build used predates #1056).

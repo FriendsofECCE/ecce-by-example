@@ -1,0 +1,17 @@
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:chargeFittingName		
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:coordsys		Y
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:ecpName		Def2-ECP
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:exchangeFittingName		
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:gbs-type		simple
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:name		def2-tzvp
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:numFunctions		253
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:numPrimitives		370
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:optimize		false
+BasisSet.ecce_basisset	http://www.emsl.pnl.gov/ecce:useExpCoef		N
+chemsys.mvm	http://www.emsl.pnl.gov/ecce:charge		0
+chemsys.mvm	http://www.emsl.pnl.gov/ecce:empiricalFormula		C6H6O
+chemsys.mvm	http://www.emsl.pnl.gov/ecce:fragmentName		phenol-optfreq
+chemsys.mvm	http://www.emsl.pnl.gov/ecce:numAtoms		13
+chemsys.mvm	http://www.emsl.pnl.gov/ecce:numElectrons		50
+chemsys.mvm	http://www.emsl.pnl.gov/ecce:symmetrygroup		Cs
+chemsys.mvm	http://www.emsl.pnl.gov/ecce:useSymmetry		false

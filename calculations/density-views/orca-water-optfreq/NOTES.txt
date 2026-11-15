@@ -1,0 +1,1 @@
+ORCA 6.1.1, B3LYP-D3BJ/def2-TZVP, Opt+Freq (GeoVib), Hirshfeld + NBO 7 NPA, set up in the Calculation Editor and launched through ECCE (run_l1c.py hbond); ECCE f0178cc0f. Numbers: ../NOTES-hbond.txt
