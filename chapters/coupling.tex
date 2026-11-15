@@ -25,7 +25,7 @@ xTB (we used 6.7.1, the Debian package \texttt{xtb}), CREST (3.0.2) and ORCA (6.
 
 Ibuprofen, \chem{C13H18O2}, has five rotatable single bonds and dozens of conformers. We use three methods in turn (figure~\ref{fig:coupling-funnel}). The GFN-FF force field in CREST \cite{pracht2020} generates and ranks the conformers. The tight-binding method GFN2-xTB \cite{bannwarth2019} re-optimises the lowest of them. The composite DFT method r2SCAN-3c \cite{grimme2021} in ORCA ranks those and refines one. At each step there are fewer structures and each costs more.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}[node distance=7mm]
 		\node[calcbox, text width=0.80\linewidth] (start) {\textbf{xTB}, GFN2-xTB, Geometry\\ the structure built from SMILES \hfill 1 structure};
@@ -83,7 +83,7 @@ The chain has three levels, each starting from the structures of the one before.
 
 CREST found 21 conformers in four minutes (figure~\ref{fig:coupling-conformers}); \ctrl{Select Distinct...} kept eight.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{coupling/crest-conformers.ecce-9.5.3-dev.png}
 	\caption{The \menu{Conformers} panel of the CREST search on ibuprofen. The 3-D view shows the lowest conformer.}
@@ -126,7 +126,7 @@ All three methods give the same three groups: conformers 1--4, 5--6 and 7--8. Wi
 We optimised conformer 3, the lowest with xTB, with r2SCAN-3c (figure~\ref{fig:coupling-orca}); a real study would optimise all four of the lowest group. The optimisation took 10 steps and six minutes. To see how far the atoms moved, open the ORCA optimisation, choose \menu{Properties > Geometry > Geometry Trace}, and in its \menu{Displacement} section \ctrl{Compare with...} the xTB calculation; the panel gives the RMSD of the atoms after the two structures are fitted onto each other, \XXX[ value from the panel; 0.096 Å was over the heavy atoms only]. The bond lengths of the carboxyl group are measured on each structure by selecting the two atoms and choosing \menu{Measure > Distance}: C=O lengthened from \SI{1.201}{} to \SI{1.209}{\angstrom} and C--O from \SI{1.340}{} to \SI{1.357}{\angstrom}, while O--H stayed at \SI{0.971}{\angstrom}. DFT changes the bond lengths slightly but keeps the conformer, so xTB is good enough for the conformational search.
 \index{Geometry optimisation!ORCA}\index{Bond lengths!carboxyl group}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{coupling/orca-opt-trace.ecce-9.5.3-dev.png}
 	\caption{The r2SCAN-3c optimisation of conformer 3. The \menu{Geometry Trace} panel plots the energy of each step relative to the first.}

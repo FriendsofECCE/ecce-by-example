@@ -42,18 +42,20 @@ We use the hybrid density functional B3LYP with the 6-31G* basis set. This combi
 	\index{Geometry Trace}\index{Vibrational Frequencies panel}
 \end{enumerate}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\linewidth]{first-calculation/calced.ecce-9.5.3-dev.png}
-	\caption{The Calculation Editor after \ctrl{Save}: ECCE-QM, DFT, GeoVib and 6-31G*. Under \menu{Chemical System} it shows what the Builder made: H$_2$O, three atoms, ten electrons, charge 0, singlet.}
-	\label{fig:first-calced}
-\end{figure}
-
-\begin{figure}[htb]
-	\centering
-	\includegraphics[width=0.7\linewidth]{first-calculation/launcher.ecce-9.5.3-dev.png}
-	\caption{The Launcher with \menu{localhost} and two processors.}
-	\label{fig:first-launcher}
+	\begin{minipage}[b]{0.52\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{first-calculation/calced.ecce-9.5.3-dev.png}
+		\caption{The Calculation Editor after \ctrl{Save}: ECCE-QM, DFT, GeoVib and 6-31G*. Under \menu{Chemical System} it shows what the Builder made: H$_2$O, three atoms, ten electrons, charge 0, singlet.}
+		\label{fig:first-calced}
+	\end{minipage}\hfill
+	\begin{minipage}[b]{0.44\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{first-calculation/launcher.ecce-9.5.3-dev.png}
+		\caption{The Launcher with \menu{localhost} and two processors.}
+		\label{fig:first-launcher}
+	\end{minipage}
 \end{figure}
 
 Three things in the editor may look wrong but are not. Before a basis set is chosen, the editor shows a red cross and reports two problems that would stop the calculation from running; they go away once the basis is picked and the setup is saved. Changing the run type prints a warning that it resets the run-type details, which for a new calculation does not matter. And \menu{Symmetry} reads C1 although water is C$_{2v}$: ECCE uses the symmetry found by \ctrl{Find} in the Builder's \menu{Symmetry} panel, and until you press it the molecule is treated as having none, which makes the calculation slightly slower but not less correct.
@@ -63,7 +65,7 @@ Three things in the editor may look wrong but are not. Before a basis set is cho
 \index{Water!structure}\index{Water!vibrational frequencies}
 The calculation took 4.8~s on two processors. The \menu{Progress} box in the Organizer (figure~\ref{fig:first-organizer}) shows the last SCF of the run, which converged in six cycles at $-76.369895$~hartree.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{first-calculation/organizer.ecce-9.5.3-dev.png}
 	\caption{The Organizer after the run. The details of the calculation give the machine, the processors and the dates; the \menu{Progress} box below them shows the last SCF cycle and a plot of the energy change per cycle.}
@@ -72,7 +74,7 @@ The calculation took 4.8~s on two processors. The \menu{Progress} box in the Org
 
 The optimisation needed four steps. The \menu{Geometry Trace} panel (figure~\ref{fig:first-trace}) plots the energy of each step relative to the first, and the energy fell by 2.15~kJ/mol from the start structure to the final $-76.369895$~hartree; its controls play the steps back in the 3-D view. In the optimised structure both O--H bonds are \SI{0.969}{\angstrom} long and the H--O--H angle is \SI{103.8}{\degree}, which you can measure by selecting the atoms and choosing \menu{Measure > Distance} or \menu{Measure > Angle}. The measured structure of water has \SI{0.958}{\angstrom} and \SI{104.5}{\degree}, so B3LYP/6-31G* makes the bonds about 1\,\% too long.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{first-calculation/geometry-trace.ecce-9.5.3-dev.png}
 	\caption{The \menu{Geometry Trace} panel: the energy of each optimisation step relative to step 1. \XXX[ retake once ECCE issue 1041 is fixed: the y-axis title is cut]}
@@ -82,7 +84,7 @@ The optimisation needed four steps. The \menu{Geometry Trace} panel (figure~\ref
 The \menu{Vibrational Frequencies} panel (figure~\ref{fig:first-vib}) lists the three normal modes and draws the infrared spectrum as sticks. Clicking a mode shows it in the 3-D view as arrows, or as an animation, and names the motion. The bend lies at \SI{1711}{cm^{-1}} and is the strongest band, \SI{79.3}{km/mol}; the symmetric stretch lies at \SI{3718}{cm^{-1}} and is very weak, \SI{1.7}{km/mol}, and the antisymmetric stretch at \SI{3841}{cm^{-1}}, \SI{19.7}{km/mol}. The measured fundamentals of water vapour are 1595, 3657 and \SI{3756}{cm^{-1}}. The calculated values are higher, partly because the harmonic approximation leaves out the anharmonicity of the real potential, which lowers every fundamental, and partly because of the method; this is why calculated frequencies are often scaled before they are compared with a spectrum. There are no imaginary frequencies, which confirms that the optimisation found a minimum.
 \index{Imaginary frequencies}\index{Anharmonicity}\index{Scaling of frequencies}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{first-calculation/vibrations.ecce-9.5.3-dev.png}
 	\caption{The \menu{Vibrational Frequencies} panel with the IR spectrum. The bend, mode 7 at \SI{1711.3}{cm^{-1}}, is selected and drawn as arrows in the 3-D view.}

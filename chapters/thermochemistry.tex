@@ -45,7 +45,7 @@ and likewise for $E$, $E + \mathrm{ZPE}$ and $G$. Note that all species must be 
 	\item Select the three calculations in the project table and choose \menu{Tools > Energy Calculator...}. Add \texttt{ethene} and \texttt{hydrogen} to side A and \texttt{ethane} to side B. The table gives each energy summed over each side and the difference \menu{B - A}, in kJ/mol, kcal/mol and eV, for $E$, $E + \mathrm{ZPE}$, $H$ and $G$.
 \end{enumerate}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{thermochemistry/energy-calculator.ecce-9.5.3-dev.png}
 	\caption{The Energy Calculator with ethene and hydrogen on side A and ethane on side B.}
@@ -76,7 +76,7 @@ The zero-point energy matters a great deal here. The zero-point energy of ethane
 
 The reaction entropy follows from the entropies of the three species in their \menu{Thermochemistry} panels, $227.5 - 219.0 - 130.3 = -121.7$~J\,K$^{-1}$\,mol$^{-1}$, against about $-121$ from tabulated standard entropies. Two molecules become one, so the entropy falls, and $\Delta_\mathrm{r} G = \Delta_\mathrm{r} H - T\Delta_\mathrm{r} S$ is less negative than $\Delta_\mathrm{r} H$ by $T\Delta_\mathrm{r} S \approx 36$~kJ/mol.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{thermochemistry/thermo-panel-ethane.ecce-9.5.3-dev.png}
 	\caption{The \menu{Thermochemistry} panel of ethane. The recomputed entropy is higher than ECCE-QM's own by $R\ln 6$, because the recomputation used the symmetry number 1; typing 6, the symmetry number of ethane, into \menu{Symmetry number} makes the two agree.}

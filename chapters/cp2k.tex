@@ -33,7 +33,7 @@ In a periodic calculation the electronic states also depend on a wave vector $\m
 	\index{Diffraction!powder pattern}
 \end{enumerate}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{cp2k/quartz-structure.ecce-9.5.3-dev.png}
 	\caption{The $2 \times 2 \times 2$ supercell of $\alpha$-quartz, 72 atoms, with the cell drawn.}
@@ -45,7 +45,7 @@ The energy calculation of the measured structure took 257~s on four processors, 
 
 The optimisation took 873~s and converged in 11 steps (figure~\ref{fig:cp2k-trace}). The energy fell by 0.0262~hartree, 68.9~kJ/mol for the 72-atom cell or 2.9~kJ/mol per SiO$_2$ unit; this is the relaxation of the atoms within PBE, an energy difference within one method. Measured with \menu{Measure > Distance}, the Si--O bonds lengthen from 1.604--\SI{1.614}{\angstrom} in the measured structure to 1.625--\SI{1.634}{\angstrom}, by \SI{0.02}{\angstrom} on average. PBE is known to make bonds of this kind slightly too long, so the relaxed structure is not better than the measured one; it is the structure that this method prefers.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{cp2k/quartz-opt-trace.ecce-9.5.3-dev.png}
 	\caption{The \menu{Geometry Trace} of the optimisation: the energy of each step relative to the first. \XXX[ retake once ECCE issue 1041 is fixed: the y-axis title is cut]}
@@ -55,14 +55,14 @@ The optimisation took 873~s and converged in 11 steps (figure~\ref{fig:cp2k-trac
 Diffraction gives a check that does not depend on energies (figures~\ref{fig:cp2k-xrd-start} and~\ref{fig:cp2k-xrd-opt}). Note that the peaks are labelled with the Miller indices of the supercell, which are twice those of the quartz cell: the strongest line, at $2\theta = \SI{26.6}{\degree}$ with Cu~K$\alpha$ radiation, is the (101) reflection of quartz but is labelled 202, and the line at \SI{20.9}{\degree}, labelled 200, is quartz (100). The two patterns have their lines at exactly the same angles, because the cell was kept fixed and the line positions depend only on the cell; what changes is the intensities, a little, since they depend on where the atoms sit in the cell. A relaxation of the cell as well would move the lines and show directly whether PBE makes the crystal too large.
 \index{Miller indices!supercell}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{cp2k/xrd-quartz-start.ecce-9.5.3-dev.png}
 	\caption{The calculated powder pattern of the measured quartz structure, Cu~K$\alpha$. The indices refer to the $2 \times 2 \times 2$ supercell.}
 	\label{fig:cp2k-xrd-start}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{cp2k/xrd-quartz-opt.ecce-9.5.3-dev.png}
 	\caption{The same for the structure optimised with CP2K: the lines are where they were, with slightly different intensities.}

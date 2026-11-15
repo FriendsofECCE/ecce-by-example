@@ -36,7 +36,7 @@ Solvents enter through ALPB, an implicit solvent model that surrounds the molecu
 \index{Caffeine}
 The gas-phase optimisation with frequencies took 23~s, of which xTB itself used under two seconds; the rest is ECCE starting the job and storing the results. The HOMO--LUMO gap of the optimised structure is 3.42~eV.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{xtb/gas-vibrations.ecce-9.5.3-dev.png}
 	\caption{The \menu{Vibrational Frequencies} panel of caffeine, GFN2-xTB in the gas phase.}
@@ -48,7 +48,7 @@ The panel lists one imaginary frequency, at $-65$~cm$^{-1}$, and shows it as a r
 
 The two C=O stretches of caffeine lie at 1715 and 1735~cm$^{-1}$ in the gas phase. In ALPB water (figure~\ref{fig:xtb-water}) they move down to 1630 and 1674~cm$^{-1}$, by 61 to 85~cm$^{-1}$. The polar solvent stabilises the more polar resonance form of the amide-like carbonyl groups, with the negative charge on oxygen, which weakens the C=O bonds. Since both calculations use the same method, the shift is a fair comparison; the energies of the two, on the other hand, include the solvation energy of the ALPB model and cannot be compared with each other as if they were two structures in the same environment.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{xtb/water-vibrations.ecce-9.5.3-dev.png}
 	\caption{The same in ALPB water. The carbonyl bands lie lower than in figure~\ref{fig:xtb-gas}.}
@@ -57,7 +57,7 @@ The two C=O stretches of caffeine lie at 1715 and 1735~cm$^{-1}$ in the gas phas
 
 The GFN-FF optimisation (figure~\ref{fig:xtb-gfnff}) took 21~s in all. Its final energy, $-4.68$~hartree, means nothing beside the GFN2-xTB energy of $-42.15$~hartree: the force field counts its energy from another zero. What can be compared is the structure, with \menu{Geometry Trace > Displacement > Compare with...} against the GFN2-xTB calculation.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{xtb/gfnff-trace.ecce-9.5.3-dev.png}
 	\caption{The \menu{Geometry Trace} of the GFN-FF optimisation.}
@@ -66,7 +66,7 @@ The GFN-FF optimisation (figure~\ref{fig:xtb-gfnff}) took 21~s in all. Its final
 
 The molecular dynamics run, 20~ps at 300~K from the optimised structure, took 15~minutes on four cores. Its \menu{Geometry Trace} (figure~\ref{fig:xtb-md}) plots the total energy against time with a moving average. In the first picoseconds the energy rises from that of the minimum by 0.015 to 0.02~hartree, as the molecule takes up thermal energy, and then fluctuates around a steady value, which is what an equilibrated run looks like. The play controls of the panel run the trajectory in the 3-D view.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{xtb/md-trace.ecce-9.5.3-dev.png}
 	\caption{The \menu{Geometry Trace} of the 20~ps molecular dynamics run at 300~K.}

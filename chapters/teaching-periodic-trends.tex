@@ -118,7 +118,7 @@ Watch out with O, F, S and Cl. In the restricted open-shell calculation the sing
 \index{Chromium!3d5 4s1@3d$^5$4s$^1$}\index{Copper!3d10 4s1@3d$^{10}$4s$^1$}
 Figure~\ref{fig:pt-tm} shows the orbital levels of the three atoms in the \menu{MO Diagram} panel (\menu{Properties > Orbitals > MO Diagram}, with \ctrl{Energies to scale} ticked), which gives each level in eV and draws the electrons as arrows. In calcium the two outer electrons are in 4s ($-4.11$~eV). Chromium (septet, 3d$^5$4s$^1$) has its 3d at $-4.93$~eV and 4s at $-4.65$~eV; copper (doublet, 3d$^{10}$4s$^1$) has 3d at $-6.90$~eV and 4s at $-5.24$~eV. Across the series 3d falls below 4s, so 4s is the highest occupied orbital and is lost first, which is why Cr$^+$ and Cu$^+$ keep their 3d$^5$ and 3d$^{10}$ cores.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\begin{minipage}{0.32\linewidth}\includegraphics[width=\linewidth]{periodic-trends/tm-mo-ca.ecce-9.5.3-dev.png}\end{minipage}\hfill
 	\begin{minipage}{0.32\linewidth}\includegraphics[width=\linewidth]{periodic-trends/tm-mo-cr.ecce-9.5.3-dev.png}\end{minipage}\hfill
@@ -138,7 +138,7 @@ We take the energy of the highest occupied orbital from the \menu{MOs} panel of 
 \end{equation*}
 and for neon the 2p orbitals of \menu{Ne\_HF} lie at $-0.8512$~hartree, which gives $Z_\mathrm{eff} = 2\sqrt{1.7024} = 2.61$. For the third period $n = 3$: the 3s orbital of sodium at $-0.1822$~hartree gives $3\sqrt{0.3644} = 1.81$. Figure~\ref{fig:pt-zeff} shows the same calculation for every atom from H to Ar. Across a period it rises by about 0.3 per element, from 1.25 (Li) to 2.61 (Ne) and from 1.81 (Na) to 3.26 (Ar), because each added proton is only partly screened by the electron added with it. It falls back at each alkali metal, where a new shell starts. The breaks at B, Al, O and S are the same as in the ionisation energies, since this $Z_\mathrm{eff}$ is the Koopmans IE in other units.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.85\linewidth]{periodic-trends/zeff.ecce-9.5.2-dev.png}
 	\caption{Effective nuclear charge of the highest occupied orbital from equation~\eqref{eq:zeff} and Hartree-Fock/aug-cc-pVTZ orbital energies, plotted from the values in the \menu{MOs} panel.}
@@ -182,7 +182,7 @@ Table~\ref{tab:pt-ie} and figure~\ref{fig:pt-ie} compare the calculated values w
 	\end{tabular}
 \end{table}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{periodic-trends/ie.ecce-9.5.2-dev.png}
 	\caption{First ionisation energies of H to Ar. Black: experiment \cite{nistasd}. Blue: Koopmans. Orange: $\Delta$SCF. Green: $-\varepsilon_\mathrm{HOMO}$ from B3LYP.}
