@@ -34,6 +34,8 @@ JOBS = [
     ("03-xtb-gfnff-opt", "GFN-FF", "Geometry", "", "start"),
     ("04-xtb-gfn2-md-300K", "GFN2-xTB", "Molecular Dynamics", MD, "01"),
     ("05-xtb-gfn2-optfreq-gas-tight", "GFN2-xTB", "GeoVib", "", "start"),
+    #  01 along its imaginary mode (ecce-displace on 01's modes), optimised again
+    ("06-xtb-gfn2-optfreq-gas-displaced", "GFN2-xTB", "GeoVib", "", "displaced"),
 ]
 LEVEL = {"05-xtb-gfn2-optfreq-gas-tight": "tight"}
 ONLY = sys.argv[2:]          # run only these jobs (a finished 01 is read from HERE)
@@ -68,7 +70,9 @@ try:
                 done[name[:2]] = os.path.join(HERE, name)
             continue
         atoms = START
-        if start != "start":
+        if start == "displaced":
+            atoms = readxyz(os.path.join(HERE, name, "start-displaced.xyz"))
+        elif start != "start":
             atoms = optimised(done.get(start, "")) or START
             say("%s starts from %s" % (name, "the optimised structure of " + start
                                         if atoms is not START else "the start structure"))

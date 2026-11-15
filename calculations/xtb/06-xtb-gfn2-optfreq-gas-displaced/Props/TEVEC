@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<tsvector name="TEVEC" rowLabel="Geometry Step" rows="1" units="Hartree">
+
+  <step number="1">-42.127427448660</step>
+  <step number="2">-42.151645871737</step>
+  <step number="3">-42.153034176205</step>
+  <step number="4">-42.154201168292</step>
+  <step number="5">-42.154222413301</step>
+  <step number="6">-42.154235279791</step>
+  <step number="7">-42.154264970913</step>
+  <step number="8">-42.154293274607</step>
+  <step number="9">-42.154305583090</step>
+  <step number="10">-42.154332495140</step>
+  <step number="11">-42.154368974477</step>
+  <step number="12">-42.154387738989</step>
+  <step number="13">-42.154396308895</step>
+  <step number="14">-42.154423664848</step>
+  <step number="15">-42.154441773539</step>
+  <step number="16">-42.154288094773</step>
+  <step number="17">-42.154464192630</step>
+  <step number="18">-42.154470172981</step>
+  <step number="19">-42.154478843214</step>
+  <step number="20">-42.154485269972</step>
+  <step number="21">-42.154486295276</step>
+  <step number="22">-42.154501873509</step>
+  <step number="23">-42.154503123255</step>
+
+</tsvector>
