@@ -86,11 +86,28 @@ def frag(title, atoms):
             (len(atoms), title, "".join("%s %.6f %.6f %.6f\n" % a for a in atoms)))
 
 
+def mvm(title, atoms):
+    """The chemical system a calculation made in the Builder holds; without it
+    the job store writes no results.h5 and the Builder shows no panels."""
+    bonds = []
+    for i in range(len(atoms)):
+        for j in range(i + 1, len(atoms)):
+            d = math.dist(atoms[i][1:], atoms[j][1:])
+            if d < (1.25 if "H" in (atoms[i][0], atoms[j][0]) else 1.75):
+                bonds.append((i + 1, j + 1))
+    return ("title: %s\ntype: molecule\nnum_atoms: %d\natom_info: symbol cart\natom_list: \n%s"
+            "attr_list:\n%satom_type_list:\n%snum_bonds: %d\nbond_list: \n%s") % (
+        title, len(atoms), "".join("%s %.6f %.6f %.6f\n" % a for a in atoms),
+        " 0.000000   1   0   0   0\n" * len(atoms), "        0   1\n" * len(atoms),
+        len(bonds), "".join("%d %d 1.00000 1\n" % b for b in bonds))
+
+
 def deck(name, atoms, runtype, scan=None, charges=False):
     work = os.path.join(OUT, "decks", name)
     shutil.rmtree(work, ignore_errors=True); os.makedirs(work)
     shutil.copy(os.path.join(PARSERS, "orca.tpl"), os.path.join(work, "t.tpl"))
     open(os.path.join(work, "w.frag"), "w").write(frag(name, atoms))
+    open(os.path.join(work, "chemsys.mvm"), "w").write(mvm(name, atoms))
     open(os.path.join(work, "w.basis"), "w").write("useRouteCard def2-TZVP\n")
     open(os.path.join(work, "w.param"), "w").write(param(runtype, charges))
     argv = ["perl", os.path.join(PARSERS, "ai.orca"), "-p", "-f", "-b", "-n", "w", "-t", "t.tpl"]
@@ -157,6 +174,9 @@ def run(name, path):
     if not url:
         raise RuntimeError("create %s: %s" % (name, out[-500:]))
     calc = url[len("file://"):].rstrip("/")
+    os.makedirs(os.path.join(calc, "Parameters"), exist_ok=True)
+    shutil.copy(os.path.join(os.path.dirname(path), "chemsys.mvm"),
+                os.path.join(calc, "Parameters", "chemsys.mvm"))
     con = os.path.join(os.path.dirname(path), "w.con")
     if os.path.exists(con):  # what the Builder's Scan... dialog stores
         os.makedirs(os.path.join(calc, "Parameters"), exist_ok=True)
