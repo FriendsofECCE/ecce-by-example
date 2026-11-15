@@ -58,6 +58,18 @@ def app(s, display, env, wrappers, wrapper, hook, calc, lines, prefix, extra=Non
     return text
 
 
+SUF = ".ecce-9.5.3-dev"
+
+
+def sv(name, pre, tag):
+    """Scene lines: print-quality export (saveimage, factor 2) of name, plus a
+    side view of ethene (camera turned 90 degrees about the x axis, the C=C axis)."""
+    out = ["saveimage %s/%s%s.png 2 white" % (PNG, name, SUF)]
+    if tag == "ethene":
+        out += ["rotatex 90", "saveimage %s/%s-side%s.png 2 white" % (PNG, name, SUF), "rotatex -90"]
+    return pre + out + ["shot tmp-" + name]
+
+
 s = harness.Session(BUILD, "bookl1ashots", {}, local=True, keep=True)
 for exe in bo.GUI + ("calced",):
     if os.path.exists(os.path.join(BUILD, exe)):
@@ -103,8 +115,11 @@ try:
                      "shot charges-%s" % tag, "quit"], "charges-" + tag)
         app(s, display, env, wrappers, "ecce-builder", "ECCE_BUILDER_SCRIPT", calc[name],
             WHITE + ["wait 150000", "quit"], "mo-" + tag, {"ECCE_OPEN_PANEL": "MOs"},  # detail mode left a black GL box over the view
-            scene=["moselect %d" % homo, "mopanel compute", "shot homo-%s" % tag,
-                   "moselect %d" % (homo + 1), "mopanel compute", "shot lumo-%s" % tag])
+            scene=sv("homo-%s" % tag, ["moselect %d" % homo, "mopanel compute"], tag) +
+                  sv("lumo-%s" % tag, ["moselect %d" % (homo + 1), "mopanel compute"], tag))
+        for f in os.listdir(PNG):  # the window shots only serve as "scene done" handshakes
+            if f.startswith("tmp-"):
+                os.unlink(os.path.join(PNG, f))
 finally:
     if display:
         display.__exit__(None, None, None)
