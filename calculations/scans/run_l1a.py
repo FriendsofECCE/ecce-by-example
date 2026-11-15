@@ -108,6 +108,7 @@ def deck(name, atoms, runtype, scan=None, charges=False):
     shutil.copy(os.path.join(PARSERS, "orca.tpl"), os.path.join(work, "t.tpl"))
     open(os.path.join(work, "w.frag"), "w").write(frag(name, atoms))
     open(os.path.join(work, "chemsys.mvm"), "w").write(mvm(name, atoms))
+    open(os.path.join(work, "runtype"), "w").write(runtype)
     open(os.path.join(work, "w.basis"), "w").write("useRouteCard def2-TZVP\n")
     open(os.path.join(work, "w.param"), "w").write(param(runtype, charges))
     argv = ["perl", os.path.join(PARSERS, "ai.orca"), "-p", "-f", "-b", "-n", "w", "-t", "t.tpl"]
@@ -170,7 +171,9 @@ rundir = os.path.join(s.state, "run"); os.makedirs(rundir, exist_ok=True)
 
 def run(name, path):
     url, out = s.create(name, "orca_es", path, "orca.orcain", rundir,
-                        extra=("procs=%d" % PROCS, "code=ORCA"))
+                        extra=("procs=%d" % PROCS, "code=ORCA", "theory=DFT:B3LYP",
+                               # the parsers choose what to read by the run type
+                               "runtype=" + open(os.path.join(os.path.dirname(path), "runtype")).read()))
     if not url:
         raise RuntimeError("create %s: %s" % (name, out[-500:]))
     calc = url[len("file://"):].rstrip("/")
