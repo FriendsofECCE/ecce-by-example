@@ -11,8 +11,8 @@
 A molecule that can turn about a single bond has more than one shape, and the energy that separates these shapes decides which of them we find in a flask and how fast they turn into each other. In this chapter we follow the energy of 1,3-butadiene as the molecule turns about its central C--C bond, from the planar s-trans form through a twisted maximum to the s-cis side, which is the shape the diene needs for a Diels--Alder reaction (Chapter~\ref{ch:reaction-rates}). The same steps work for any torsion, angle or bond length.
 
 \section*{This requires}
-\index{Requirements!ORCA}\index{Requirements!NBO}
-ORCA (version 6.1.1 was used here), registered on the machine that runs the jobs (Chapter~\ref{ch:code-registration}). The natural charges at the end need NBO 7 next to ORCA; without it, ECCE still shows the Hirshfeld and Mulliken charges that ORCA prints itself.
+\index{Requirements!ORCA}
+ORCA (version 6.1.1 was used here), registered on the machine that runs the jobs (Chapter~\ref{ch:code-registration}).
 
 \section{Background}
 \index{Relaxed scan}\index{Rigid scan}\index{s-cis}\index{s-trans}
@@ -31,7 +31,7 @@ Each point of a scan is an optimisation with one coordinate held fixed, so the p
 	\item In the Calculation Editor set the run type to \menu{Geometry}, keep the method and basis set, save and launch. \ctrl{Final Edit...} shows the \texttt{\%geom Scan} block that ECCE wrote for ORCA.
 	\item When the scan has finished, open it in the Viewer and choose \menu{Properties > Relaxed Scan}. Set \menu{Energy unit:} to kJ/mol and use \ctrl{Export .csv...} to save the table for a report.
 	\item Make a frequency calculation (run type \menu{Vibration}) from the structure of the highest point of the curve. \XXX[verify the route: select the point's row in Relaxed Scan (the 3-D view shows that point), Builder File > Save As... into a new calculation; if it does not carry the point's geometry, file an ECCE issue]
-	\item Likewise make a \menu{GeoVib} calculation from the lowest point on the cis side, and tick \ctrl{NBO analysis (natural charges)} under \ctrl{Runtype Details...} to get the natural charges.
+	\item Likewise make a \menu{GeoVib} calculation from the lowest point on the cis side, with the Hirshfeld charges, which ORCA computes without any further program. \XXX[natural (NPA) charges once ECCE computes them itself]
 \end{enumerate}
 
 \XXX[figure: calced-scan, the Calculation Editor with the scan constraint]
