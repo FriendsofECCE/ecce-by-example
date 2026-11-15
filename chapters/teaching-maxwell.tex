@@ -1,3 +1,93 @@
 \chapter{Maxwell's distribution of speeds}
 \label{ch:t-maxwell}
-\XXX[to be written: speeds of gas molecules from a molecular dynamics run, against the formula]
+\index{Maxwell-Boltzmann distribution}
+\index{Speed distribution|see{Maxwell-Boltzmann distribution}}
+\index{Kinetic theory of gases}
+\checkedwith{9.5.3-dev}{668d0de76}
+\eccexample{Examples > General Chemistry > Gases, liquids and solids}
+\helppage{md-speeds-and-diffusion}
+
+The molecules of a gas do not all move at the same speed. Maxwell's distribution says how many move at each speed, and it follows from two quantities only: the temperature and the mass of the molecule. A molecular dynamics run follows every atom, so the distribution can be counted directly from the velocities and laid over the formula. Two stored runs, helium and argon at the same temperature, show the shape of the curve, the three characteristic speeds and how they scale with mass; four more runs of argon between \SI{40}{K} and \SI{200}{K} show that the same distribution holds whatever the phase.
+
+\section*{This requires}
+Nothing beyond ECCE: the runs, their trajectories and the analysis are in the General Chemistry example set. GROMACS is needed only to make new runs.
+
+\section{Background}
+For molecules of mass $m$ at temperature $T$ the fraction with speeds between $v$ and $v+\mathrm{d}v$ is $f(v)\,\mathrm{d}v$, with
+\begin{equation}
+	f(v) = 4\pi \left(\frac{m}{2\pi k_\mathrm{B}T}\right)^{3/2} v^2 \exp\!\left(-\frac{mv^2}{2k_\mathrm{B}T}\right).
+\end{equation}
+The factor $v^2$ counts the directions: there are more ways to move fast than to move slowly, and none to stand still. The exponential is the Boltzmann factor of the kinetic energy and cuts the curve off at high speed. Three speeds describe the curve. The most probable speed, at the maximum, is $v_\mathrm{p} = \sqrt{2k_\mathrm{B}T/m}$; the mean speed is $\bar v = \sqrt{8k_\mathrm{B}T/\pi m}$; the root-mean-square speed, the one that gives the mean kinetic energy $\tfrac{3}{2}k_\mathrm{B}T$, is $v_\mathrm{rms} = \sqrt{3k_\mathrm{B}T/m}$. They stand in the fixed ratio $1 : 1.128 : 1.225$ for any gas at any temperature.
+
+All three grow as $\sqrt{T/m}$. Helium atoms are ten times lighter than argon atoms, so at the same temperature they are $\sqrt{39.948/4.0026} = 3.16$ times faster, and since the area under $f(v)$ is always one, their curve is lower and wider.
+\index{Most probable speed}\index{Mean speed}\index{Root-mean-square speed}
+
+\section{The calculations}
+The topic \menu{Gases, liquids and solids} has two GROMACS runs made for this comparison, \emph{ar-gas-300K} and \emph{he-gas}. Each has 1000 atoms in a cubic box \SI{12.75}{nm} on a side with periodic boundaries, interacting through a Lennard-Jones potential with textbook parameters ($\sigma = \SI{0.3405}{nm}$, $\varepsilon = \SI{0.996}{kJ.mol^{-1}}$ for argon; $\sigma = \SI{0.2556}{nm}$, $\varepsilon = \SI{0.0845}{kJ.mol^{-1}}$ for helium). Both ran for \SI{2}{ns} in steps of \SI{2}{fs} at \SI{300}{K}, held by the velocity-rescaling thermostat of Bussi and co-workers \cite{bussi2007}. The thermostat multiplies all velocities by one common factor, so it sets the total kinetic energy but not how the speeds are shared out among the atoms; that is left to the collisions. The velocities were saved every picosecond, so each histogram counts 1000 atoms in 2001 frames, two million speeds.
+
+The four runs \emph{ar-gas-40K}, \emph{ar-gas-100K}, \emph{ar-gas-130K} and \emph{ar-gas-200K} are a slab of 864 argon atoms in vacuum, \SI{5}{ns} each, at the temperature in the name.
+\index{GROMACS}\index{Codes!GROMACS}\index{Thermostat}
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item In \menu{Examples > Gases, liquids and solids}, open the dynamics run of \emph{he-gas} in the Viewer.
+	\item In the \menu{Properties} list, choose \menu{Speed Distribution} (in the Energies group, beside \menu{Pull Force}).
+	\item Click \menu{Compare...}, tick \emph{ar-gas-300K} and click \menu{OK}. The argon histogram and its curve are drawn over those of helium.
+	\item Click \menu{Remove}, then \menu{Compare...} again and tick the four slab runs \emph{ar-gas-40K} to \emph{ar-gas-200K}.
+	\item \menu{Export .csv...} writes the histograms and the curves, for a plot of your own.
+\end{enumerate}
+\index{Speed Distribution panel}\index{Properties!Speed Distribution}\index{Speed Distribution panel!Compare...}\index{Speed Distribution panel!Export .csv...}\index{Comparing calculations}
+
+\section{What the panel shows}
+The panel draws, for each kind of atom, the histogram of the speeds over every frame of the run, and as a dashed line of the same colour Maxwell's $f(v)$ for the run's temperature (the \texttt{ref-t} of its parameter file) and the atom's mass. Three vertical lines mark $v_\mathrm{p}$, $\bar v$ and $v_\mathrm{rms}$ of the formula; the text above the plot gives the measured mean and root-mean-square speeds beside them.
+
+\XXX[figure: Speed Distribution of he-gas with ar-gas-300K compared, from the headless plotshot hook]
+
+\section{Helium and argon}
+Table~\ref{tab:maxwell-gas} gives the speeds counted in the two runs against the formula. The histograms follow the dashed curves over their whole range, and the measured mean and root-mean-square speeds agree with the formula to better than 0.05\,\%. The helium speeds are 3.16 times the argon speeds, the square root of the mass ratio.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Speeds at \SI{300}{K} in m/s, measured in the runs and from Maxwell's distribution.}
+	\label{tab:maxwell-gas}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		 & $v_\mathrm{p}$ & \multicolumn{2}{c}{$\bar v$} & \multicolumn{2}{c}{$v_\mathrm{rms}$} \\
+		 & formula & run & formula & run & formula \\
+		\midrule
+		Ar & 353 & 398.6 & 398.7 & 432.7 & 432.8 \\
+		He & 1116 & 1259.3 & 1259.7 & 1367.2 & 1367.3 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Argon atoms at room temperature move at about \SI{400}{m.s^{-1}}, faster than sound in air (\SI{343}{m.s^{-1}}), and helium atoms at more than \SI{1}{km.s^{-1}}. That the root-mean-square speed comes out right says only that the thermostat works. The shape of the histogram, and with it the mean speed, is what the thermostat does not set: it comes from the collisions.
+
+\section{Solid, liquid and gas}
+In the slab runs the argon is packed tightly at \SI{40}{K} and spreads out as the temperature rises\XXX[phases at 40, 100, 130 and 200 K to confirm from the trajectories]. The speeds do not notice: table~\ref{tab:maxwell-slab} shows the same agreement with Maxwell's formula at every temperature, to within 0.15\,\%. In classical mechanics the energy is the kinetic energy, which depends only on the velocities, plus the potential energy, which depends only on the positions. The Boltzmann factor then splits into two independent parts, and the forces between the atoms, which decide whether argon is a solid, a liquid or a gas, have no influence on how fast the atoms move. Maxwell derived his distribution for a dilute gas, but it holds for the atoms of a liquid or a solid too, as long as they can be treated classically.
+\index{Phase!speed distribution}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Mean and root-mean-square speeds of argon in the slab runs, in m/s.}
+	\label{tab:maxwell-slab}
+	\begin{tabular}{rrrrr}
+		\toprule
+		$T$ (K) & \multicolumn{2}{c}{$\bar v$} & \multicolumn{2}{c}{$v_\mathrm{rms}$} \\
+		 & run & formula & run & formula \\
+		\midrule
+		40 & 145.4 & 145.6 & 157.8 & 158.0 \\
+		100 & 230.0 & 230.2 & 249.7 & 249.9 \\
+		130 & 262.2 & 262.5 & 284.6 & 284.9 \\
+		200 & 325.3 & 325.6 & 353.0 & 353.4 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{In class}
+Show helium and argon over each other and ask which curve belongs to which gas before the legend is read; then ask why the lighter gas has the lower curve. The slab runs answer whether the atoms of a solid move more slowly than those of a gas at the same temperature: they do not.
+
+\section{History}
+Maxwell derived the distribution in 1860 from two assumptions, that the three components of the velocity are independent of each other and that no direction is preferred \cite{maxwell1860}. Boltzmann extended it in 1868 to molecules in a field of force and showed in 1872 that collisions drive a gas towards it. The distribution was measured directly in atomic beams of potassium and thallium by Miller and Kusch in 1955, with a rotating cylinder cut by helical slots that let through only atoms of one speed \cite{miller1955}.
+\index{Maxwell, James Clerk}\index{Boltzmann, Ludwig}\index{Miller, R. C.}\index{Kusch, Polykarp}
