@@ -51,22 +51,27 @@
 \setcounter{totalnumber}{4}
 \usepackage{etoolbox}
 \AtBeginEnvironment{figure}{\setkeys{Gin}{height=0.45\textheight,keepaspectratio}}
+\usetikzlibrary{calc}
 \begin{document}
 
 \frontmatter
 
-\titlepage
-	{}
-	{
-		\centering\sffamily
-		{\Huge\bfseries ECCE by Example\par}
-		\vspace{16pt}
-		{\LARGE Worked calculations with the Extensible Computational Chemistry Environment\par}
-		\vspace{24pt}
-		{\huge\bfseries CA Ohlin\par}
-		\vspace{16pt}
-		{\LARGE For ECCE \ecceversion\par}
-	}
+% Cover: figures/cover.png from calculations/cover/compose.sh (art only, with the
+% accent band at 0.556-0.667 of the page height); the text is set here.
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+	\node[anchor=north west, inner sep=0pt] at (current page.north west)
+		{\includegraphics[width=\paperwidth,height=\paperheight]{figures/cover.png}};
+	\node[anchor=west, inner sep=0pt, text width=0.86\paperwidth, align=left, text=white, font=\sffamily]
+		at ($(current page.north west)!0.611!(current page.south west) + (0.07\paperwidth,0)$)
+		{{\fontsize{34}{38}\selectfont\bfseries ECCE by Example\par}\vspace{8pt}
+		 {\large Worked calculations with the Extensible Computational Chemistry Environment\par}};
+	\node[anchor=south west, inner sep=0pt, font=\sffamily\huge\bfseries]
+		at ($(current page.south west) + (0.07\paperwidth,0.07\paperheight)$) {CA Ohlin};
+	\node[anchor=south east, inner sep=0pt, font=\sffamily\Large, text=ocre]
+		at ($(current page.south east) + (-0.07\paperwidth,0.07\paperheight)$) {For ECCE \ecceversion};
+\end{tikzpicture}
+\null\newpage
 
 \input{frontmatter}
 
