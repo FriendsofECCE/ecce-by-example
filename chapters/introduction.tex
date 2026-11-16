@@ -4,7 +4,7 @@ Each chapter of this book is one calculation carried out in ECCE from start to f
 
 \section*{What ECCE adds}
 \index{ECCE!what it adds}
-Most computational chemistry is done with several programs that know nothing of each other: one to build the structure, a text editor for each code's input, a terminal to copy files to a cluster and submit the job, and further programs to read the output and plot it. ECCE replaces that chain with one program, and three things follow from it.
+Most computational chemistry is done with several programs that know nothing of each other: one to build the structure, a text editor for each code's input, a terminal to copy files to a cluster and submit the job, and further programs to read the output and plot it. ECCE replaces that chain with one program, and four things follow from it.
 
 \paragraph{One program from set-up to results, on any machine.} A calculation is built, set up, launched, monitored and analysed in the same program, and it stays one object throughout: the structure, the input, the job and the results belong together in the Organizer. ECCE runs the job on this computer or on a cluster or supercomputer, logs in over SSH, writes the job script for the queue system, submits it, follows the output while the job runs and brings the results back when it ends. Moving from a laptop to a supercomputer is a change of machine in the Launcher, not a change of how you work (Chapter~\ref{ch:hpc}).
 
@@ -12,7 +12,9 @@ Most computational chemistry is done with several programs that know nothing of 
 
 \paragraph{A central server for a group or a class.} ECCE can keep its calculations on a central data server instead of on each user's computer. A research group then shares one store of calculations with access rights per project, and a teacher can give every student in a class the same example calculations, see their work and run the jobs on the department's machines, while the students only need ECCE on their own laptops. This is how ECCE was used at the laboratory where it was first written, and it is the setting of the teaching chapter (Chapter~\ref{ch:teaching}).
 
-The procedures use the menus and panels of ECCE \ecceversion; menu paths are written as \menu{Tools > Diffraction...}, buttons and fields as \ctrl{Calculate}, and commands as \cmd{ecce-xrd}. Everything a procedure does in the windows can also be done from the command line, and AGENTS.md in ECCE's documentation lists the commands.
+\paragraph{Every step from the command line, so scripts and AI assistants can drive it.} Everything done in ECCE's windows can also be done without them: building or importing a structure, setting up and launching a calculation, following the job, and reading the results and properties back. A series of calculations, a scan over a parameter or a set of molecules, can therefore be set up and run by a script, and an AI assistant can carry out a whole project through the same commands, with every calculation it makes stored in the Organizer like one made by hand and open to be checked in the windows (Chapter~\ref{ch:ai-project}). AGENTS.md in ECCE's documentation lists the commands.
+
+The procedures use the menus and panels of ECCE \ecceversion; menu paths are written as \menu{Tools > Diffraction...}, buttons and fields as \ctrl{Calculate}, and commands as \cmd{ecce-xrd}.
 
 
 The Teaching part is written for teachers. Each of its chapters takes a classical discovery or a core concept of chemistry, from the shells of the atom to Photograph 51, and shows how a calculation in ECCE makes it visible in a lecture or a demonstration: what to show, in which order, what the numbers mean and where the picture can mislead.
