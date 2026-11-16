@@ -63,13 +63,17 @@ PLAN = [
  ("mo-analysis", "Molecular orbital diagrams from a calculation", "Inorganic Chemistry",
   "mo-diagram", "MO diagram|Molecular orbitals|Orbital symmetry|Bond order"),
 ]),
-("Spectroscopy", [
+("Spectroscopy and spectrometry", [
  ("vibrations", "IR and Raman spectra and mode symmetry", "Spectroscopy",
   "mode-composition match-bands displacement", "IR spectrum|Raman spectrum|Normal modes|Mode symmetry|Scaling factors"),
  ("ir-experiment", "Comparing spectra with experiment", "Spectroscopy > Sulfate coordination",
   "ir-spectrum-difference-experiment", "Experimental spectra|Difference spectrum|Band assignment"),
  ("excited-states", "Electronic excitations and UV-vis spectra", "Spectroscopy",
   "", "TD-DFT|Excited states|UV-vis spectrum|Oscillator strength"),
+ ("nmr", "NMR shielding and chemical shifts", "",
+  "", "NMR|Chemical shift|Shielding tensor|GIAO"),
+ ("epr", "EPR parameters: g-tensors and hyperfine couplings", "",
+  "", "EPR|g-tensor|Hyperfine coupling|Spin density"),
 ]),
 ("Organic chemistry", [
  ("crest", "Conformer searches with CREST: from one structure to a refined ensemble", "Workflows > Aminopyridine protonation",
