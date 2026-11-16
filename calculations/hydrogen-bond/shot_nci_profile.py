@@ -45,7 +45,7 @@ def main():
             os.environ["ECCE_VIEWER_SCENE_OUT"] = PNG
             # NCI pictures
             # NCI_STEPS: "cmd;cmd;..." between the shots, e.g. "rotate 50;rotatex 20".
-            lines = ["hold 5", "mofield NCI", "mopanel nci", "hold 25", "viewall",
+            lines = ["background 1 1 1", "hold 5", "mofield NCI", "mopanel nci", "hold 25", "viewall",
                      "zoom %s" % os.environ.get("NCI_ZOOM", "1.7"), "hold 3",
                      "saveimage %s/nci-a.png %s white" % (PNG, os.environ.get("NCI_FACTOR", "2"))]
             for i, step in enumerate(os.environ.get("NCI_STEPS", "rotate 50;rotatex 25").split(";")):
