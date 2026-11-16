@@ -20,7 +20,7 @@ GUI steps
    the value (the deck has `raman true`, SetupParams UseRaman 1) but does not
    tick the box on screen, so the picture showed it unticked. Retake by hand.
 3. Launch... > Launcher: localhost, Processors 2, Launch.
-4. Builder > Properties tab > Vibrations > Vibrational Frequencies:
+4. Builder > Properties tab > Vibrational spectra > Vibrational Frequencies:
    - tabs Spectrum / Table; an IR | Raman switch at the top right of the
      plot (the panel shows one at a time);
    - click a stick: the box under the plot reads e.g. "Mode 10 . 1851.2 cm-1

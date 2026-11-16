@@ -136,7 +136,7 @@ results moved into 01-/02-; cp2k-RESTART.wfn not kept)
 Ready for writing once the Diffraction comparison is decided.
 
 UPDATE 2026-11-15: Diffraction before/after (figures/cp2k/xrd-quartz-start,
-xrd-quartz-opt): Builder > Properties > Geometry > Diffraction, View Powder,
+xrd-quartz-opt): Builder > Properties > Diffraction and scattering > Diffraction, View Powder,
 Source Cu (1.5406 A), default options, on 01 (start = measured structure)
 and 02 (final optimised structure). Same 2theta positions (fixed cell);
 strongest line labelled 202 at about 26.6 deg, next 200 at about 20.9 deg:
