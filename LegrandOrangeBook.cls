@@ -347,7 +347,7 @@
 	{\addvspace{12pt}\large\sffamily\bfseries\hypersetup{linkcolor=ocre}} % Before code
 	{\color{ocre}\contentslabel[\Large\thecontentslabel]{1.25cm}} % Formatting of numbered sections of this type
 	{} % Formatting of numberless sections of this type
-	{\color{ocre!60}\normalsize\;\titlerule*[6pt]{.}\color{ocre}\contentspage} % Filler, then the page number set in the right margin, so a long title wraps before it instead of pushing the number to its own line
+	{\color{ocre!60}\normalsize\nobreak\;\nobreak\titlerule*[6pt]{.}\nobreak\;\color{ocre}\thecontentspage} % Filler and page number, aligned with the sections'; no break allowed before them, so a long title wraps a word instead of leaving the number alone on the next line
 	[] % After code
 
 %------------------------------------------------
