@@ -341,12 +341,13 @@
 
 %------------------------------------------------
 
+\contentsmargin{2.5em}
 \titlecontents{chapter} % Section type being modified
 	[1.25cm] % Left indentation
 	{\addvspace{12pt}\large\sffamily\bfseries\hypersetup{linkcolor=ocre}} % Before code
 	{\color{ocre}\contentslabel[\Large\thecontentslabel]{1.25cm}} % Formatting of numbered sections of this type
 	{} % Formatting of numberless sections of this type
-	{\color{ocre!60}\normalsize\;\titlerule*[6pt]{.}\;\color{ocre}\thecontentspage} % Formatting of the filler to the right of the heading and the page number
+	{\color{ocre!60}\normalsize\;\titlerule*[6pt]{.}\color{ocre}\contentspage} % Filler, then the page number set in the right margin, so a long title wraps before it instead of pushing the number to its own line
 	[] % After code
 
 %------------------------------------------------

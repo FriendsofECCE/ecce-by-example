@@ -96,8 +96,6 @@ PLAN = [
   "umbrella-sampling gromacs-prepare gromacs-md-settings", "Umbrella sampling|PMF|WHAM|Pull force|ecce-umbrella"),
  ("protein-md", "Analysing a protein simulation", "Computational > GROMACS",
   "md-analysis", "MD Analysis|RDF|RMSD|Radius of gyration|Hydrogen bonds|ecce-gmxanalysis"),
- ("biofibres", "Fibre patterns of biomolecules", "General Chemistry > Diffraction",
-  "", "B-DNA|A-DNA|alpha-helix|Coiled coil|beta-sheet|Collagen|Amyloid"),
 ]),
 ("Materials chemistry", [
  ("crystals", "Crystal structures: building, CIF import and periodic models", "General Chemistry > Packing in solids",
