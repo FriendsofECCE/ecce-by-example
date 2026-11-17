@@ -1,0 +1,50 @@
+{
+ "ar_dimer": {
+  "points_used": 36,
+  "points_total": 37,
+  "window_mode": "bound",
+  "De_kJ_per_mol": 1.1440367027096257,
+  "a_per_A": 1.7097719078694225,
+  "re_A": 3.792897001606531,
+  "Einf_hartree": -1054.960777866028,
+  "E_min_hartree": -1054.961218014135,
+  "rms_kJ_per_mol": 0.021691031420143836,
+  "omega_e_cm-1": 30.715797743435
+ },
+ "h2o_dimer": {
+  "points_used": 42,
+  "points_total": 42,
+  "window_mode": "bound",
+  "De_kJ_per_mol": 24.410299772603068,
+  "a_per_A": 1.340192784606683,
+  "re_A": 2.9049561481838677,
+  "Einf_hartree": -152.85339323091145,
+  "E_min_hartree": -152.862863539711,
+  "rms_kJ_per_mol": 0.440674454634166,
+  "omega_e_cm-1": 175.7893222324736
+ },
+ "na_h2o": {
+  "points_used": 45,
+  "points_total": 45,
+  "window_mode": "bound",
+  "De_kJ_per_mol": 101.17791828379886,
+  "a_per_A": 1.057874442426158,
+  "re_A": 2.307893451952121,
+  "Einf_hartree": -238.48408193267676,
+  "E_min_hartree": -238.523262964258,
+  "rms_kJ_per_mol": 3.328812004180315,
+  "omega_e_cm-1": 260.1238411868074
+ },
+ "nacl_ion_pair": {
+  "points_used": 44,
+  "points_total": 44,
+  "window_mode": "bound",
+  "De_kJ_per_mol": 335.8233483636612,
+  "a_per_A": 0.8108126753662134,
+  "re_A": 2.4219527608611573,
+  "Einf_hartree": -622.3683773672037,
+  "E_min_hartree": -622.499056705302,
+  "rms_kJ_per_mol": 5.78989255935253,
+  "omega_e_cm-1": 299.5305579567965
+ }
+}

@@ -38,28 +38,31 @@ The dimer is \SI{26}{kJ.mol^{-1}} below two separate molecules ($-152.862864$ ag
 \index{Zero-point energy}\index{Basis-set superposition error}
 
 \section{Interaction curves}
-The same topic holds three more pairs, the argon dimer \emph{ar\_dimer}, a sodium ion with one water molecule \emph{na\_h2o} and the NaCl ion pair \emph{nacl\_ion\_pair}, made with the same method. A relaxed scan of the distance between the two partners (Chapter~\ref{ch:scans}), inward and outward from each optimised pair, gives the four curves of figure~\ref{fig:hb-curves}, and table~\ref{tab:hb-curves} lists their minima. The wells span more than two orders of magnitude, from \SI{1.1}{kJ.mol^{-1}} for the London dispersion between two argon atoms to \SI{311}{kJ.mol^{-1}} for the ion pair, with the hydrogen bond near the weak end. None of the curves has flattened out at its largest distance, so the depths are lower bounds on the binding energy; for the water dimer the scan gives \SI{23.7}{kJ.mol^{-1}} at \SI{6.1}{\angstrom} against the \SI{26}{kJ.mol^{-1}} from the separate molecules above. The NaCl calculation keeps one closed-shell wavefunction at every distance, so it stays Na$^+$Cl$^-$ and cannot reach the neutral atoms into which the molecule dissociates; at \SI{6.4}{\angstrom} the two ions still attract each other by about \SI{220}{kJ.mol^{-1}} from Coulomb's law alone. The energies are not counterpoise-corrected (ECCE issue 1091).
+The same topic holds three more pairs, the argon dimer \emph{ar\_dimer}, a sodium ion with one water molecule \emph{na\_h2o} and the NaCl ion pair \emph{nacl\_ion\_pair}, made with the same method. A relaxed scan of the distance between the two partners (Chapter~\ref{ch:scans}), inward from each optimised pair and outward to about \SI{10}{\angstrom}, gives the four curves of figure~\ref{fig:hb-curves}. ECCE's Morse fit (\texttt{ecce-morse}) of the inward and outward points together gives the depth $D_\mathrm{e}$ and the minimum $r_\mathrm{e}$, with the zero at the fitted asymptote. Table~\ref{tab:hb-curves} lists them next to $\Delta E_\mathrm{min}$, the lowest scan point minus the energies of the separated partners (Ar; H$_2$O; Na$^+$ and H$_2$O; Na$^+$ and Cl$^-$), each calculated alone with the same method. The wells span more than two orders of magnitude, from \SI{1.2}{kJ.mol^{-1}} for argon to \SI{592}{kJ.mol^{-1}} for the ion pair, with the hydrogen bond near the weak end; the \SI{25.9}{kJ.mol^{-1}} of the water dimer is the \SI{26}{kJ.mol^{-1}} from the separate molecules above.
+
+For Ar$_2$ and the water dimer the curve is flat by \SI{10}{\angstrom}, and the Morse depth and $\Delta E_\mathrm{min}$ agree to within \SI{2}{kJ.mol^{-1}}. For the two ionic pairs the Morse form is a poor one: its attraction decays exponentially, while the ion--dipole attraction falls off as $R^{-2}$ and the attraction between two ions as $R^{-1}$. At \SI{10}{\angstrom} Na$^+\cdots$H$_2$O is still \SI{6}{kJ.mol^{-1}} and the ion pair \SI{241}{kJ.mol^{-1}} below the separated partners, so the fitted asymptote lies too low and the Morse depth is too small. The dispersion tail goes as $R^{-6}$; the Morse curve fits the argon points to \SI{0.02}{kJ.mol^{-1}} rms but falls off too early between 4 and \SI{7}{\angstrom}. The NaCl calculation keeps one closed-shell wavefunction at every distance, so it stays Na$^+$Cl$^-$; its reference is the separated ions, not the neutral atoms into which the molecule really dissociates, which lie lower. The energies are not counterpoise-corrected (ECCE issue 1091).
 \index{Relaxed scan!interaction curves}\index{London dispersion}\index{Ion pair}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.9\linewidth]{hydrogen-bond/interaction-curves.ecce-9.5.3-dev.png}
-	\caption{Relaxed distance scans of four pairs (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, uncorrected for basis-set superposition). Each curve is relative to its own point at the largest distance scanned, and each panel has its own energy scale.}
+	\caption{Relaxed distance scans of four pairs (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, not counterpoise-corrected). Circles: scan points; line: Morse fit, whose asymptote is the zero; dashed: the separated partners (for NaCl the separated ions). Each panel has its own energy scale.}
 	\label{fig:hb-curves}
 \end{figure}
 
 \begin{table}[htbp]
 	\centering
-	\caption{Minima of the curves in figure~\ref{fig:hb-curves}. $R_\mathrm{eq}$ is the lowest point on the scan grid (steps of 0.1~\AA\ inward, 0.2~\AA\ outward); the depth is relative to the largest distance scanned, $R_\mathrm{max}$, and is not counterpoise-corrected.}
+	\caption{Minima of the curves in figure~\ref{fig:hb-curves}. $r_\mathrm{e}$ and $D_\mathrm{e}$ are from the Morse fit; $\Delta E_\mathrm{min}$ is the lowest scan point and $\Delta E(R_\mathrm{max})$ the point at the largest distance scanned, both relative to the separated partners. Energies in kJ/mol, not counterpoise-corrected. $^\dagger$Morse is a poor form for this curve (see text).}
 	\label{tab:hb-curves}
-	\begin{tabular}{llrrr}
+	\small
+	\begin{tabular}{llrrrrr}
 		\toprule
-		Pair (distance) & Interaction & $R_\mathrm{eq}$ (\AA) & Depth (kJ/mol) & $R_\mathrm{max}$ (\AA) \\
+		Pair (distance) & Interaction & $r_\mathrm{e}$ (\AA) & $D_\mathrm{e}$ & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) \\
 		\midrule
-		Ar$_2$ (Ar--Ar) & London dispersion & 3.78 & 1.1 & 6.98 \\
-		(H$_2$O)$_2$ (O--O) & hydrogen bond & 2.90 & 23.7 & 6.10 \\
-		Na$^+\cdots$H$_2$O (Na--O) & ion--dipole & 2.21 & 91.5 & 5.41 \\
-		NaCl (Na--Cl) & ion pair (Coulombic) & 2.36 & 310.7 & 6.36 \\
+		Ar$_2$ (Ar--Ar) & London dispersion & 3.79 & 1.1 & $-1.2$ & 0.0 & 9.98 \\
+		(H$_2$O)$_2$ (O--O) & hydrogen bond & 2.90 & 24.4 & $-25.9$ & $-0.4$ & 10.10 \\
+		Na$^+\cdots$H$_2$O (Na--O) & ion--dipole & 2.31 & 101$^\dagger$ & $-113.2$ & $-6.0$ & 10.01 \\
+		NaCl (Na--Cl) & ion pair (Coulombic) & 2.42 & 336$^\dagger$ & $-591.5$ & $-241.2$ & 9.96 \\
 		\bottomrule
 	\end{tabular}
 \end{table}

@@ -1,53 +1,72 @@
 #!/usr/bin/env python3
-"""Interaction curves of four pairs from ECCE's Relaxed Scan CSV exports.
+"""Interaction curves of four pairs: scan points, ECCE's Morse fit, separated partners.
 
     python3 plot_curves.py <out.png>
 
-Reads curves/<pair>_{inward,outward}.csv (made by oo_scan.py), draws one panel
-per pair with ΔE relative to that pair's largest-R point, and prints the
-table rows (R_eq, depth, largest R). Separate panels because the depths span
-1 to 300 kJ/mol; the Relaxed Scan panel's Compare... draws every curve
-relative to its own lowest point, which is not the reference wanted here.
+Reads curves/<pair>_{inward,outward}.csv (Relaxed Scan panel exports made by
+oo_scan.py), curves/morse.json (ecce-morse's fit of the inward and outward
+points together, made by fit_curves.py) and curves/monomers.csv (energies of
+the separated partners). Each panel is drawn relative to the fitted Morse
+asymptote; the dashed line is the sum of the separated partners. Separate
+panels because the depths span 1 to 300 kJ/mol. Prints the table rows.
 """
-import csv, os, sys
+import csv, json, math, os, sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-HARTREE = 2625.499639  # kJ/mol
-PAIRS = [("ar_dimer", "Ar$_2$", "Ar–Ar"),
-         ("h2o_dimer", "(H$_2$O)$_2$", "O–O"),
-         ("na_h2o", "Na$^+$···H$_2$O", "Na–O"),
-         ("nacl_ion_pair", "NaCl ion pair", "Na–Cl")]
+HARTREE = 2625.4996394799  # kJ/mol, as ecce-morse
+PAIRS = [("ar_dimer", "Ar$_2$", "Ar–Ar", ("ar", "ar")),
+         ("h2o_dimer", "(H$_2$O)$_2$", "O–O", ("h2o", "h2o")),
+         ("na_h2o", "Na$^+$···H$_2$O", "Na–O", ("na", "h2o")),
+         ("nacl_ion_pair", "Na$^+$Cl$^-$", "Na–Cl", ("na", "cl"))]
+
+
+def rows(path):
+    with open(path) as f:
+        return list(csv.DictReader(l for l in f if not l.startswith("#")))
 
 
 def load(pair):
     pts = {}
     for d in ("inward", "outward"):
-        with open(os.path.join(HERE, "curves", "%s_%s.csv" % (pair, d))) as f:
-            for row in csv.reader(l for l in f if not l.startswith("#")):
-                if row[0] == "point":
-                    continue
-                pts[round(float(row[1]), 4)] = float(row[2])
+        for row in rows(os.path.join(HERE, "curves", "%s_%s.csv" % (pair, d))):
+            pts[round(float(row["coordinate_angstrom"]), 4)] = float(row["energy_hartree"])
     r = sorted(pts)
     return r, [pts[x] for x in r]
 
 
+mono = {r["calculation"]: float(r["energy_hartree"]) for r in rows(os.path.join(HERE, "curves", "monomers.csv"))}
+fits = json.load(open(os.path.join(HERE, "curves", "morse.json")))
 fig, axes = plt.subplots(2, 2, figsize=(8, 6), sharex=True)
-for ax, (pair, label, coord) in zip(axes.flat, PAIRS):
+for ax, (pair, label, coord, parts) in zip(axes.flat, PAIRS):
     r, e = load(pair)
-    de = [(x - e[-1]) * HARTREE for x in e]
-    i = min(range(len(de)), key=de.__getitem__)
-    print("%-14s R_eq %.2f  depth %.1f kJ/mol  (largest R %.2f, %d points)"
-          % (pair, r[i], -de[i], r[-1], len(r)))
+    f = fits[pair]
+    einf = f["Einf_hartree"]
+    sep = sum(mono[p] for p in parts)
+    i = min(range(len(e)), key=e.__getitem__)
+    print("%-14s Morse De %.1f re %.2f rms %.2f | dE(min) vs separated %.1f at %.2f | "
+          "dE(Rmax) vs separated %.1f, vs Morse asymptote %.2f | Rmax %.2f, %d points"
+          % (pair, f["De_kJ_per_mol"], f["re_A"], f["rms_kJ_per_mol"], (e[i] - sep) * HARTREE,
+             r[i], (e[-1] - sep) * HARTREE, (e[-1] - einf) * HARTREE, r[-1], len(r)))
+    De, a, re_ = f["De_kJ_per_mol"], f["a_per_A"], f["re_A"]
+    xs = [r[0] + (r[-1] - r[0]) * k / 300 for k in range(301)]
     ax.axhline(0, color="#999999", lw=0.8)
-    ax.plot(r, de, "-o", color="#0072B2", lw=1.5, ms=4)
+    ax.plot(r, [(x - einf) * HARTREE for x in e], "o", color="#0072B2", ms=3.5, mfc="white", mew=1.0,
+            label="scan points")
+    ax.plot(xs, [De * ((1 - math.exp(-a * (x - re_))) ** 2 - 1) for x in xs], "-", color="#0072B2", lw=1.4,
+            label="Morse fit")
+    ax.axhline((sep - einf) * HARTREE, color="#D55E00", lw=1.0, ls="--", label="separated partners")
     ax.set_title("%s (%s distance)" % (label, coord), fontsize=11)
-    ax.set_xlim(1.6, 7.2)
+    lo = min((x - einf) * HARTREE for x in e)
+    hi = max(0.0, (sep - einf) * HARTREE)
+    ax.set_ylim(1.15 * lo, hi - 0.6 * lo)
+    ax.set_xlim(1.6, math.ceil(r[-1]) + 0.2)
     ax.tick_params(labelsize=9)
     ax.grid(color="#e6e6e6", lw=0.6)
     ax.set_axisbelow(True)
+axes[0, 0].legend(fontsize=8, loc="lower right", frameon=False)
 for ax in axes[1]:
     ax.set_xlabel("R (Å)", fontsize=10)
 for ax in axes[:, 0]:

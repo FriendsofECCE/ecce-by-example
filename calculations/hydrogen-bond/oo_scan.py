@@ -4,6 +4,7 @@
     ECCE_SRC=<checkout> ECCE_TEST_HOME=<install>/ecce ECCE_TEST_WRAPPERS=<install>/bin \\
         python3 oo_scan.py <out dir> <example> <atom I> <atom J> <name:steps:step> [...]
         [--data DIR] [--calc NAME] [--post-only] [--timeout S]
+        [--plain] [--series NAME:XYZ:CHARGE ...]
 
 <example> is the folder under data/client/examples, e.g.
 genchem/intermolecular-interactions/ecceqm-h2o_dimer. The stored calculation in its
@@ -17,6 +18,12 @@ panel is exported to <out>/<NAME>.csv and drawn on white to <out>/<NAME>.png.
 While waiting, an Organizer stays open and reconnects (Run Mgmt > Reconnect)
 any scan whose job monitor has gone, so a job outlives the Launcher that
 started it. --post-only does the same for scans left Waiting, then exports.
+
+--plain sets no constraint (each NAME is a plain geometry optimisation) and
+copies each output to <out> instead of exporting a scan. --series makes
+further calculations from the first one with ecce-series (structure from an
+.xyz file, its charge given), run as single points: monomers and atoms with
+the same setup as the scans.
 """
 import argparse, glob, os, re, shutil, subprocess, sys, time
 REPO = os.environ.get("ECCE_SRC", "ECCE")
@@ -34,6 +41,8 @@ ap.add_argument("--data", default=None)
 ap.add_argument("--calc", default=None)
 ap.add_argument("--post-only", action="store_true")
 ap.add_argument("--timeout", type=int, default=6 * 3600)
+ap.add_argument("--plain", action="store_true")
+ap.add_argument("--series", action="append", default=[])
 A = ap.parse_args()
 OUT = os.path.abspath(A.out)
 os.makedirs(OUT, exist_ok=True)
@@ -41,8 +50,9 @@ STUDY = A.example.rstrip("/").split("/")[-1]
 DATA = os.path.abspath(A.data or os.path.join(os.path.expanduser("~"), "tmp", "ecce", "oo-scan-data", STUDY))
 SCANS = []
 for s in A.scans:
-    n, steps, step = s.split(":")
-    SCANS.append((n, int(steps), float(step)))
+    n, steps, step = (s + "::").split(":")[:3]
+    SCANS.append((n, int(steps or 0), float(step or 0)))
+SERIES = [s.split(":") for s in A.series]
 
 
 def meta_set(path, key, value):
@@ -170,24 +180,39 @@ def main():
             m = os.path.join(d, ".ecce-meta")
             meta_set(m, "state", "Ready"); meta_set(m, "runtype", "Geometry")
             meta_set(m, "launch_machine", "localhost")
-            meta_set(m, "annotation", "Relaxed scan of atoms %d-%d, %d steps of %g A" % (i, j, steps, step))
+            meta_set(m, "annotation", "Geometry optimisation" if A.plain else
+                     "Relaxed scan of atoms %d-%d, %d steps of %g A" % (i, j, steps, step))
     os.environ["ECCE_LOCAL_DATA"] = DATA
     xdisplay.SCREEN = "1500x950x24"
     with xdisplay.Display() as display:
         subprocess.run([os.path.join(apps.INSTALL, "bin", "ecce-gateway-start")], env=display.env(), timeout=180)
         try:
             if not A.post_only:
+                for n, xyz, charge in SERIES:
+                    r = subprocess.run([os.path.join(apps.WRAPPERS, "ecce-series"), "--charge", charge,
+                                        os.path.join(root, SCANS[0][0]), root, os.path.abspath(xyz)],
+                                       env=display.env(), capture_output=True, text=True, timeout=300)
+                    print("ecce-series", n, r.returncode, r.stdout, r.stderr[-800:], flush=True)
+                    made = os.path.join(root, os.path.splitext(os.path.basename(xyz))[0])
+                    if made != os.path.join(root, n) and os.path.isdir(made):
+                        os.rename(made, os.path.join(root, n))
+                single = {n for n, _, _ in SERIES}
+                SCANS.extend((n, 0, 0.0) for n in single)
                 for n, steps, step in SCANS:
                     url = "file://" + os.path.join(root, n) + "/"
-                    log = app(display, "builder", "ECCE_BUILDER_SCRIPT",
-                              ["wait 4000", "constraints select %d %d" % (i, j),
-                               "constraints scan %d %g yes" % (steps, step), "constraints list", "save",
-                               "wait 2500", "constraints stored", "wait 500", "quit"], url)
+                    if A.plain or n in single:
+                        log = ""
+                    else:
+                      log = app(display, "builder", "ECCE_BUILDER_SCRIPT",
+                                ["wait 4000", "constraints select %d %d" % (i, j),
+                                 "constraints scan %d %g yes" % (steps, step), "constraints list", "save",
+                                 "wait 2500", "constraints stored", "wait 500", "quit"], url)
                     print(n, "\n".join(l for l in log.splitlines() if "constraint" in l or "FAIL" in l))
                     log = app(display, "calced", "ECCE_CALCED_SCRIPT",
                               # No "ready": a stored calc that already holds theory values starts
                               # no theory dialog, so "ready" would wait forever.
-                              ["wait 8000", "runtype Geometry", "wait 6000", "button save",
+                              ["wait 8000", "runtype " + ("Energy" if n in single else "Geometry"),
+                               "wait 6000", "button save",
                                "wait 6000", "info", "quit"], url)
                     print(n, "\n".join(l for l in log.splitlines() if "CALCED" in l or "FAIL" in l)[-800:])
                     qmin = glob.glob(os.path.join(root, n, "Inputs", "*.qmin"))
@@ -202,7 +227,15 @@ def main():
                               ["wait 3000", "machine localhost", "rundir " + run, "wait 1500", "launch",
                                "wait 8000", "quit"], url, settle=30)
                     print(n, "\n".join(l for l in log.splitlines() if "LAUNCHER" in l or "FAIL" in l)[-600:])
+            else:
+                SCANS.extend((n, 0, 0.0) for n, _, _ in SERIES)
             wait_for_jobs(display, root)
+            if A.plain or SERIES:
+                for n, _, _ in SCANS:
+                    for f in glob.glob(os.path.join(root, n, "Outputs", "*.qmout")):
+                        shutil.copy(f, os.path.join(OUT, n + ".qmout"))
+                print("states:", {n: meta_get(os.path.join(root, n, ".ecce-meta"), "state") for n, _, _ in SCANS})
+                return
             for n, steps, step in SCANS:
                 url = "file://" + os.path.join(root, n) + "/"
                 scene = os.path.join(DATA, "scene-" + n)

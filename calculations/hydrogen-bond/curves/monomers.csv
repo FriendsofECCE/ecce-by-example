@@ -1,0 +1,7 @@
+# ECCE-QM B3LYP-D3(BJ)/def2-TZVP, total energy (Props/TE) of the separated partners;
+# H2O optimised, the atoms and ions single points. Made with oo_scan.py --plain --series.
+calculation,charge,energy_hartree
+h2o,0,-76.426490033277
+ar,0,-527.480384155045
+na,1,-162.053671373840
+cl,-1,-460.220084817465
