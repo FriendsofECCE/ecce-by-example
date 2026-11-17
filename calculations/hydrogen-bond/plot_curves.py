@@ -6,9 +6,10 @@
 Reads curves/<pair>_{inward,outward}.csv (Relaxed Scan panel exports made by
 oo_scan.py), curves/morse.json (ecce-morse's fit of the inward and outward
 points together, made by fit_curves.py) and curves/monomers.csv (energies of
-the separated partners). Each panel is drawn relative to the fitted Morse
-asymptote; the dashed line is the sum of the separated partners. Separate
-panels because the depths span 1 to 300 kJ/mol. Prints the table rows.
+the separated partners). Every panel is drawn relative to the separated
+partners; the Morse line only for the neutral pairs, whose curves level off
+within the scan. Separate panels because the depths span 1 to 600 kJ/mol.
+Prints the table rows.
 """
 import csv, json, math, os, sys
 import matplotlib
@@ -17,6 +18,7 @@ import matplotlib.pyplot as plt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HARTREE = 2625.4996394799  # kJ/mol, as ecce-morse
+MORSE = ("ar_dimer", "h2o_dimer")
 PAIRS = [("ar_dimer", "Ar$_2$", "Ar–Ar", ("ar", "ar")),
          ("h2o_dimer", "(H$_2$O)$_2$", "O–O", ("h2o", "h2o")),
          ("na_h2o", "Na$^+$···H$_2$O", "Na–O", ("na", "h2o")),
@@ -51,17 +53,17 @@ for ax, (pair, label, coord, parts) in zip(axes.flat, PAIRS):
           % (pair, f["De_kJ_per_mol"], f["re_A"], f["rms_kJ_per_mol"], (e[i] - sep) * HARTREE,
              r[i], (e[-1] - sep) * HARTREE, (e[-1] - einf) * HARTREE, r[-1], len(r)))
     De, a, re_ = f["De_kJ_per_mol"], f["a_per_A"], f["re_A"]
-    xs = [r[0] + (r[-1] - r[0]) * k / 300 for k in range(301)]
-    ax.axhline(0, color="#999999", lw=0.8)
-    ax.plot(r, [(x - einf) * HARTREE for x in e], "o", color="#0072B2", ms=3.5, mfc="white", mew=1.0,
+    shift = (einf - sep) * HARTREE
+    ax.axhline(0, color="#D55E00", lw=1.0, ls="--", label="separated partners")
+    ax.plot(r, [(x - sep) * HARTREE for x in e], "o", color="#0072B2", ms=3.5, mfc="white", mew=1.0,
             label="scan points")
-    ax.plot(xs, [De * ((1 - math.exp(-a * (x - re_))) ** 2 - 1) for x in xs], "-", color="#0072B2", lw=1.4,
-            label="Morse fit")
-    ax.axhline((sep - einf) * HARTREE, color="#D55E00", lw=1.0, ls="--", label="separated partners")
+    if pair in MORSE:
+        xs = [r[0] + (r[-1] - r[0]) * k / 300 for k in range(301)]
+        ax.plot(xs, [shift + De * ((1 - math.exp(-a * (x - re_))) ** 2 - 1) for x in xs], "-",
+                color="#0072B2", lw=1.4, label="Morse fit")
     ax.set_title("%s (%s distance)" % (label, coord), fontsize=11)
-    lo = min((x - einf) * HARTREE for x in e)
-    hi = max(0.0, (sep - einf) * HARTREE)
-    ax.set_ylim(1.15 * lo, hi - 0.6 * lo)
+    lo = min((x - sep) * HARTREE for x in e)
+    ax.set_ylim(1.12 * lo, -0.25 * lo)
     ax.set_xlim(1.6, math.ceil(r[-1]) + 0.2)
     ax.tick_params(labelsize=9)
     ax.grid(color="#e6e6e6", lw=0.6)
