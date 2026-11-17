@@ -110,6 +110,7 @@
 
 \setcounter{secnumdepth}{3} % Number sections down to subsubsections, a value of 2 will number to subsections only and 1 to sections only
 
+\usepackage{multicol} % Two-column chapter lists on the part pages
 \usepackage[
 	explicit, % Specify section names explicitly in \titleformat with #1
 	newparttoc, % Required for writing the part toc entry number in a standard way (overriding default LaTeX behavior) so the titletoc package can style it
@@ -123,9 +124,11 @@
 		\node[anchor=center, rectangle, fill=ocre!20, inner sep=0pt, minimum height=\paperheight, minimum width=\paperwidth] at (current page.center) {}; % Background color
 		\node[anchor=north west, inner sep=0pt, xshift=\Gm@lmargin, yshift=-\Gm@tmargin] at (current page.north west) {\fontsize{220pt}{220pt}\selectfont\sffamily\bfseries\textcolor{ocre!40}{#1}}; % Part number
 		\node[anchor=north east, inner sep=0pt, xshift=-\Gm@rmargin, yshift=-\Gm@tmargin] at (current page.north east) {\fontsize{30pt}{30pt}\selectfont\sffamily\bfseries\textcolor{white}{\strut #2}}; % Part title
-		\node[anchor=south east, inner sep=0pt, xshift=-\Gm@rmargin, yshift=\Gm@bmargin] at (current page.south east) { % Mini table of contents
-			\parbox[t][][t]{8.5cm}{ % Width of box holding the mini ToC
-				\printcontents[part]{l}{0}{\setcounter{tocdepth}{1}} % Display the mini table of contents showing chapters and sections, change tocdepth to 2 to also show subsections or 0 to only show chapters
+		\node[anchor=north east, inner sep=0pt, xshift=-\Gm@rmargin, yshift=-\Gm@tmargin-2cm] at (current page.north east) { % Mini table of contents, below the title: anchored at the foot it grew up into the title
+			\parbox[t][][t]{\textwidth}{ % Two columns of chapters only, so the longest part (Teaching, ~30 chapters) fits the page
+				\begin{multicols}{2}\small\raggedright
+				\printcontents[part]{l}{0}{\setcounter{tocdepth}{0}}
+				\end{multicols}
 			}
 		};
 	\end{tikzpicture}
