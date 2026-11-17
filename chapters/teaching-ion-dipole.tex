@@ -17,7 +17,7 @@ The topic \menu{Intermolecular interactions} holds \emph{na\_h2o}, one Na$^+$ wi
 \begin{enumerate}
 	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
 	\item Open \emph{na\_h2o} in the Viewer. With \menu{Measure} (Chapter~\ref{ch:first-calculation}), measure the distance Na--O and the angles Na--O--H.
-	\item Do the same for \emph{nacl\_ion\_pair}, and open \menu{Density Profile} with the line from Na1 to Cl2.
+	\item Measure the distance Na--Cl of \emph{nacl\_ion\_pair} the same way.
 \end{enumerate}
 
 \section{Orientation}
@@ -54,15 +54,6 @@ The NaCl ion pair has its lowest point at Na--Cl \SI{2.36}{\angstrom}, \SI{571.4
 The computed curve ends \SI{241}{kJ.mol^{-1}} below its zero, with a BSSE of only \SI{0.04}{kJ.mol^{-1}} there, and the reason is in how the two are calculated. The zero is two separate calculations, Na$^+$ and Cl$^-$, each with a whole charge by construction. The curve is one calculation of the pair, and at \SI{9.96}{\angstrom} its stored Mulliken charges are $\pm0.56$: it ends in a state that is neither two ions nor two atoms, and so heads for a different limit from the line it is drawn against. The gap is the difference between these two descriptions, not an attraction; the separately computed neutral atoms lie \SI{199}{kJ.mol^{-1}} below the ions, and the curve ends below both lines.
 \index{Ion pair}\index{Mulliken charges}\index{Basis-set superposition error}\index{Counterpoise correction}
 
-Along the line from Na1 to Cl2 (figure~\ref{fig:id-profile}) the total density falls to 0.0351~e/bohr$^3$ between the ions, 0.98~\AA\ from Na1.
-\index{Density Profile!ion pair}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.6\linewidth]{ion-dipole/nacl-density-profile.ecce-9.5.3-dev.png}
-	\caption{Total electron density along the line from Na1 to Cl2 of the NaCl ion pair (\menu{Density Profile}, B3LYP-D3(BJ)/def2-TZVP, logarithmic axis). The dot marks the minimum between the ions, 0.0351~e/bohr$^3$.}
-	\label{fig:id-profile}
-\end{figure}
 
 \section{History}
 Coulomb measured the force between two charged spheres with his torsion balance and reported in 1785 that it falls off as the inverse square of their distance \cite{coulomb1785}; the energy of two ions, $-1389/R$~kJ\,mol$^{-1}$ for whole charges, follows from his law. Debye introduced the permanent dipole moment of a molecule in 1912 to explain how the dielectric constant of a polar substance depends on temperature \cite{debye1912}, and collected the theory in his book \emph{Polar Molecules} of 1929 \cite{debye1929}. Born treated a hydrated ion in 1920 as a charged sphere in a continuous dielectric and obtained the hydration energy of the ion from its radius and the dielectric constant of water \cite{born1920}; the calculation of this chapter looks at the same attraction one water molecule at a time.
