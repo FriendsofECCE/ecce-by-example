@@ -9,7 +9,11 @@ made by oo_scan.py), curves/morse.json (ecce-morse's fit of the inward and
 outward points together, made by fit_curves.py) and curves/monomers.csv
 (energies of the separated partners). The water dimer is the relaxed scan of
 O1...O4 drawn against the H2...O4 distance measured at each point, with its
-own fit (curves/h2o_dimer_hb.json, made by hb_geometry.py). Zero is the separated partners. The
+own fit (curves/h2o_dimer_hb.json, made by hb_geometry.py). Zero is the separated partners. Every
+point is counterpoise-corrected: the BSSE of its geometry (SCANBSSE of the counterpoise
+calculation made by cp_scan.py, curves/<pair>_bsse.csv, from cp_tables.py) is added to its
+energy, and the Morse fit (ecce-morse's analyse, ECCE_MORSE=<install>/bin/ecce-morse) is redone
+on the corrected points. The
 Morse line is drawn for the neutral pairs only, whose curves level off within
 the scan; the NaCl panel also gets the Coulomb energy of two whole charges as
 a reference curve and the separated neutral atoms. Prints the table rows.
@@ -18,6 +22,7 @@ import csv, json, math, os, sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import importlib.machinery, importlib.util
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 HARTREE = 2625.4996394799  # kJ/mol, as ecce-morse
@@ -34,38 +39,58 @@ def rows(path):
         return list(csv.DictReader(l for l in f if not l.startswith("#")))
 
 
+def bsse(pair):
+    return {(b["scan"], int(b["point"])): float(b["bsse_hartree"])
+            for b in rows(os.path.join(HERE, "curves", "%s_bsse.csv" % pair))}
+
+
 def load(pair):
+    """Coordinates, raw energies and BSSE (Hartree) of the scan points."""
+    b = bsse(pair)
     if pair == "h2o_dimer":
         hb = json.load(open(os.path.join(HERE, "curves", "h2o_dimer_hb.json")))
-        pts = {round(p["HO_A"], 4): p["energy_hartree"] for p in hb["points"]
+        pts = {round(p["HO_A"], 4): (p["energy_hartree"], b[(p["scan"], p["step"])]) for p in hb["points"]
                if p["scan"] == "outward" or p["angle_deg"] >= hb["min_angle_deg"]}
-        r = sorted(pts)
-        return r, [pts[x] for x in r]
-    pts = {}
-    for d in ("inward", "outward"):
-        for row in rows(os.path.join(HERE, "curves", "%s_%s.csv" % (pair, d))):
-            pts[round(float(row["coordinate_angstrom"]), 4)] = float(row["energy_hartree"])
+    else:
+        pts = {}
+        for d in ("inward", "outward"):
+            for row in rows(os.path.join(HERE, "curves", "%s_%s.csv" % (pair, d))):
+                pts[round(float(row["coordinate_angstrom"]), 4)] = (float(row["energy_hartree"]),
+                                                                    b[(d, int(row["point"]))])
     r = sorted(pts)
-    return r, [pts[x] for x in r]
+    return r, [pts[x][0] for x in r], [pts[x][1] for x in r]
+
+
+ld = importlib.machinery.SourceFileLoader("ecce_morse", os.environ.get("ECCE_MORSE", "/opt/ecce/bin/ecce-morse"))
+MORSE_MOD = importlib.util.module_from_spec(importlib.util.spec_from_loader("ecce_morse", ld))
+ld.exec_module(MORSE_MOD)
+REDUCED = {"ar_dimer": 39.9624 / 2, "h2o_dimer": 1.00783 * 15.9949 / (1.00783 + 15.9949)}
 
 
 mono = {r["calculation"]: float(r["energy_hartree"]) for r in rows(os.path.join(HERE, "curves", "monomers.csv"))}
-fits = json.load(open(os.path.join(HERE, "curves", "morse.json")))
-fits["h2o_dimer"] = json.load(open(os.path.join(HERE, "curves", "h2o_dimer_hb.json")))["fit"]
+fits = {}
 pairs = sys.argv[2:]
 fig, axes = plt.subplots(1, len(pairs), figsize=(4.3 * len(pairs), 3.4), squeeze=False)
 for ax, pair in zip(axes[0], pairs):
     label, coord, parts = PAIRS[pair]
-    r, e = load(pair)
-    f = fits[pair]
+    r, raw, bs = load(pair)
+    e = [x + y for x, y in zip(raw, bs)]
     sep = sum(mono[p] for p in parts)
     de = [(x - sep) * HARTREE for x in e]
     i = min(range(len(e)), key=e.__getitem__)
-    print("%-14s R_min %.2f dE_min %.1f | dE(R_max) %.2f R_max %.2f | Morse r_e %.2f D_e %.1f rms %.2f | %d points"
-          % (pair, r[i], de[i], de[-1], r[-1], f["re_A"], f["De_kJ_per_mol"], f["rms_kJ_per_mol"], len(r)))
+    j = min(range(len(raw)), key=raw.__getitem__)
+    print("%-14s CP: R_min %.2f dE_min %.1f dE(R_max) %.2f R_max %.2f | raw: R_min %.2f dE_min %.1f | "
+          "BSSE at CP min %.2f, at raw min %.2f, at R_max %.3f kJ/mol | %d points"
+          % (pair, r[i], de[i], de[-1], r[-1], r[j], (raw[j] - sep) * HARTREE,
+             bs[i] * HARTREE, bs[j] * HARTREE, bs[-1] * HARTREE, len(r)))
+    if pair in MORSE:
+        f = fits[pair] = MORSE_MOD.analyse(r, e, REDUCED[pair])
+        print("  Morse (CP) r_e %.3f D_e %.2f rms %.3f, %d of %d points, E_inf - partners %.2f kJ/mol"
+              % (f["re_A"], f["De_kJ_per_mol"], f["rms_kJ_per_mol"], f["points_used"], f["points_total"],
+                 (f["Einf_hartree"] - sep) * HARTREE))
     ax.axhline(0, color="#D55E00", lw=1.0, ls="--",
                label="separated ions" if pair == "nacl_ion_pair" else "separated partners")
-    ax.plot(r, de, "o", color="#0072B2", ms=3.5, mfc="white", mew=1.0, label="scan points")
+    ax.plot(r, de, "o", color="#0072B2", ms=3.5, mfc="white", mew=1.0, label="scan points (CP-corrected)")
     lo = min(de)
     if pair in MORSE:
         De, a, re_ = f["De_kJ_per_mol"], f["a_per_A"], f["re_A"]

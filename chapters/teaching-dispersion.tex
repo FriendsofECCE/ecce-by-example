@@ -11,35 +11,40 @@ Two argon atoms carry no charge and no dipole, and their electron shells are clo
 Nothing beyond ECCE: the calculation is in the General Chemistry example set.
 
 \section{The calculation}
-The topic \menu{Intermolecular interactions} holds the argon dimer \emph{ar\_dimer}, optimised with the same method as the water dimer of Chapter~\ref{sec:hydrogen-bond}, ECCE-QM with B3LYP-D3(BJ)/def2-TZVP. B3LYP itself does not describe dispersion; in this calculation the attraction comes from the D3(BJ) term \cite{grimme2011} that is added to the energy. A relaxed scan of the Ar--Ar distance (Chapter~\ref{ch:scans}), inward from the optimised pair in steps of \SI{0.1}{\angstrom} and outward to \SI{10}{\angstrom} in steps of \SI{0.2}{\angstrom}, gives the curve of figure~\ref{fig:disp-curve}. Its zero is two argon atoms calculated separately with the same method.
+The topic \menu{Intermolecular interactions} holds the argon dimer \emph{ar\_dimer}, optimised with the same method as the water dimer of Chapter~\ref{sec:hydrogen-bond}, ECCE-QM with B3LYP-D3(BJ)/def2-TZVP. B3LYP itself does not describe dispersion; in this calculation the attraction comes from the D3(BJ) term \cite{grimme2011} that is added to the energy. A relaxed scan of the Ar--Ar distance (Chapter~\ref{ch:scans}), inward from the optimised pair in steps of \SI{0.1}{\angstrom} and outward to \SI{10}{\angstrom} in steps of \SI{0.2}{\angstrom}, gives the curve of figure~\ref{fig:disp-curve}. Its zero is two argon atoms calculated separately with the same method. Every point is counterpoise-corrected: for each stored geometry of the scan ECCE ran single points of each atom alone and of each atom with the basis functions of the other present as ghost functions (\menu{Relaxed Scan}, counterpoise single points), and the difference, the basis-set superposition error (BSSE), is added to the energy of the point. Without it, each atom borrows basis functions from its neighbour, and the well comes out too deep.
 
 \section{The curve}
-The lowest point is at \SI{3.78}{\angstrom}, \SI{1.2}{kJ.mol^{-1}} below two separate argon atoms, and ECCE's Morse fit (\texttt{ecce-morse}) gives $D_\mathrm{e} = \SI{1.1}{kJ.mol^{-1}}$ at $r_\mathrm{e} = \SI{3.79}{\angstrom}$ (table~\ref{tab:disp-curve}). By \SI{10}{\angstrom} the curve is flat, within \SI{0.03}{kJ.mol^{-1}} of the separate atoms. The Morse curve fits the points to \SI{0.02}{kJ.mol^{-1}} rms but falls off too early between 4 and \SI{7}{\angstrom}: its attraction decays exponentially, while dispersion goes as $R^{-6}$. The two sides of the well are very different: moving the atoms \SI{0.4}{\angstrom} closer than the minimum raises the energy by \SI{1.3}{kJ.mol^{-1}}, more than the whole depth of the well, while moving them \SI{0.4}{\angstrom} apart costs only \SI{0.3}{kJ.mol^{-1}}. The repulsion between the closed shells sets in abruptly, whereas the attraction dies away slowly with distance.
+The lowest point is at \SI{3.78}{\angstrom}, \SI{0.8}{kJ.mol^{-1}} below two separate argon atoms, and ECCE's Morse fit (\texttt{ecce-morse}) gives $D_\mathrm{e} = \SI{0.8}{kJ.mol^{-1}}$ at $r_\mathrm{e} = \SI{3.86}{\angstrom}$ (table~\ref{tab:disp-curve}). The BSSE at the lowest point is \SI{0.4}{kJ.mol^{-1}}: without the correction the point lies \SI{1.2}{kJ.mol^{-1}} below the separate atoms, so the error is about a third of the uncorrected depth. By \SI{10}{\angstrom} the curve is flat, within \SI{0.02}{kJ.mol^{-1}} of the separate atoms. The Morse curve fits the points to \SI{0.03}{kJ.mol^{-1}} rms but falls off too early between 5 and \SI{7}{\angstrom}: its attraction decays exponentially, while dispersion goes as $R^{-6}$. The two sides of the well are very different: moving the atoms \SI{0.4}{\angstrom} closer than the minimum raises the energy by \SI{1.4}{kJ.mol^{-1}}, more than the whole depth of the well, while moving them \SI{0.4}{\angstrom} apart costs only \SI{0.2}{kJ.mol^{-1}}. The repulsion between the closed shells sets in abruptly, whereas the attraction dies away slowly with distance.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.6\linewidth]{dispersion/dispersion-curve.ecce-9.5.3-dev.png}
-	\caption{Relaxed scan of the Ar--Ar distance of the argon dimer (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, not counterpoise-corrected). Line: Morse fit. Zero (dashed): two separate argon atoms.}
+	\caption{Relaxed scan of the Ar--Ar distance of the argon dimer (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, counterpoise-corrected). Line: Morse fit of the corrected points. Zero (dashed): two separate argon atoms.}
 	\label{fig:disp-curve}
 \end{figure}
 
 \begin{table}[htbp]
 	\centering
-	\caption{The curve of figure~\ref{fig:disp-curve}. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance, both relative to two separate argon atoms; $r_\mathrm{e}$ and $D_\mathrm{e}$ are from the Morse fit. Energies in kJ/mol, not counterpoise-corrected.}
+	\caption{The curve of figure~\ref{fig:disp-curve}. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance, both relative to two separate argon atoms; $r_\mathrm{e}$ and $D_\mathrm{e}$ are from the Morse fit. Energies in kJ/mol, counterpoise-corrected; BSSE is the counterpoise correction at $R_\mathrm{min}$.}
 	\label{tab:disp-curve}
-	\begin{tabular}{rrrrrr}
+	\begin{tabular}{rrrrrrr}
 		\toprule
-		$R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) & $r_\mathrm{e}$ (\AA) & $D_\mathrm{e}$ \\
+		$R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) & $r_\mathrm{e}$ (\AA) & $D_\mathrm{e}$ & BSSE \\
 		\midrule
-		3.78 & $-1.2$ & 0.0 & 9.98 & 3.79 & 1.1 \\
+		3.78 & $-0.8$ & 0.0 & 9.98 & 3.86 & 0.8 & 0.4 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-The hydrogen bond of the water dimer, scanned in the same way (Chapter~\ref{sec:hydrogen-bond}), is \SI{25.9}{kJ.mol^{-1}} deep at an H$\cdots$O distance of \SI{1.93}{\angstrom}, about twenty times deeper than the argon well. At room temperature $RT$ is \SI{2.5}{kJ.mol^{-1}}, twice the depth of the argon well, so collisions break an argon pair apart almost as soon as it forms.
-
-The curve is not corrected for the basis-set superposition error, which makes the well somewhat too deep; the counterpoise correction is to come (ECCE issue 1091).
-\index{Basis-set superposition error}\index{Relaxed scan!interaction curves}
+The hydrogen bond of the water dimer, scanned and corrected in the same way, is \SI{23.3}{kJ.mol^{-1}} deep at an H$\cdots$O distance of \SI{1.93}{\angstrom}, about thirty times deeper than the argon well. At room temperature $RT$ is \SI{2.5}{kJ.mol^{-1}}, three times the depth of the argon well, so collisions break an argon pair apart almost as soon as it forms.
+\index{Basis-set superposition error}\index{Counterpoise correction}\index{Relaxed scan!interaction curves}
 
 \section{In class}
 Start with the question why argon, with no charges, no dipoles and full shells, becomes a liquid at all, and then show figure~\ref{fig:disp-curve} with its numbers next to those of the water dimer. The attraction between two single atoms is weak, but dispersion acts between every pair of atoms in contact, so it adds up for large molecules; this is why the boiling points of the straight-chain alkanes rise with chain length.
+
+\section{History}
+Van der Waals gave real gases an attraction between their molecules in his thesis of 1873, as the constant $a$ of his equation of state, without saying where the attraction came from \cite{vanderwaals1873}. Debye in 1920 and Keesom in 1921 traced it to the electric moments of the molecules: a permanent dipole or quadrupole induces a dipole in its neighbour (Debye), and permanent moments that rotate attract each other on average (Keesom) \cite{debye1920,keesom1921}. Neither mechanism applies to atoms of the noble gases, which have no permanent moments, and yet argon condenses. Jones (later Lennard-Jones) fitted an intermolecular potential with an attractive and a repulsive power of the distance to the equation of state of argon in 1924 \cite{jones1924}, and in 1931 settled on the form with $R^{-6}$ attraction and $R^{-12}$ repulsion that carries his name \cite{lennardjones1931}.
+\index{van der Waals, Johannes Diderik}\index{Debye, Peter}\index{Keesom, Willem Hendrik}\index{Lennard-Jones, John}
+
+The $R^{-6}$ attraction itself was explained by quantum mechanics. Eisenschitz and London calculated it for two hydrogen atoms in 1930, and London gave the general treatment the same year: the momentary dipoles of the two electron distributions are correlated, which lowers the energy of the pair by an amount that falls off as $R^{-6}$ \cite{eisenschitz1930,london1930}. London called the effect dispersion, after its connection with the optical dispersion of the atoms, and his 1937 paper in the Transactions of the Faraday Society gave the theory in English \cite{london1937}. Local and gradient-corrected density functionals, and hybrids such as B3LYP, take the correlation energy from the density and its gradient at each point, so they cannot describe correlated fluctuations of two electron distributions that do not overlap; B3LYP alone does not bind two argon atoms. Grimme added an empirical $C_6R^{-6}$ correction to the functional energy in 2006 (D2) \cite{grimme2006}, made the coefficients depend on the atoms' environment in 2010 (D3) \cite{grimme2010}, and in 2011 combined D3 with the Becke--Johnson damping that the calculations of this chapter use \cite{grimme2011}.
+\index{London, Fritz}\index{Eisenschitz, Robert}\index{Grimme, Stefan}

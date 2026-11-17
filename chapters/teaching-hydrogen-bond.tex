@@ -34,29 +34,29 @@ The topic \menu{Intermolecular interactions} has two ECCE-QM calculations made f
 \index{Energy Calculator}\index{Measure}\index{NCI}
 
 \section{Interaction energy}
-The dimer is \SI{26}{kJ.mol^{-1}} below two separate molecules ($-152.862864$ against $2\times-76.426490$~hartree). With the zero-point energies of the two calculations the difference becomes \SI{17}{kJ.mol^{-1}}: the dimer has six new low-frequency motions of the two molecules against each other, which carry zero-point energy that two free molecules do not have. The energy is not corrected for the basis-set superposition error, which makes the binding a little too strong; ECCE cannot apply the counterpoise correction yet.
-\index{Zero-point energy}\index{Basis-set superposition error}
+The dimer is \SI{26}{kJ.mol^{-1}} below two separate molecules ($-152.862864$ against $2\times-76.426490$~hartree). With the zero-point energies of the two calculations the difference becomes \SI{17}{kJ.mol^{-1}}: the dimer has six new low-frequency motions of the two molecules against each other, which carry zero-point energy that two free molecules do not have. Part of this is the basis-set superposition error (BSSE): in the dimer each molecule also uses the basis functions of the other and comes out lower in energy than it would alone. The counterpoise correction measures it by calculating each molecule once alone and once with the other molecule's basis functions present as ghost functions; at the optimised geometry the BSSE is \SI{2.7}{kJ.mol^{-1}}, so the counterpoise-corrected interaction energy is \SI{23}{kJ.mol^{-1}}, and about \SI{14}{kJ.mol^{-1}} with the zero-point energies.
+\index{Zero-point energy}\index{Basis-set superposition error}\index{Counterpoise correction}
 
 \section{Interaction curve}
-A relaxed scan of the O1$\cdots$O4 distance (Chapter~\ref{ch:scans}), inward from the optimised dimer in steps of \SI{0.1}{\angstrom} and outward to \SI{10.1}{\angstrom} in steps of \SI{0.2}{\angstrom}, gives the curve of figure~\ref{fig:hb-curve}. Each point is drawn against the H2$\cdots$O4 distance measured in its own optimised geometry, the length of the hydrogen bond itself. The zero is two water molecules calculated separately with the same method. The lowest point is at H$\cdots$O \SI{1.93}{\angstrom} (O$\cdots$O \SI{2.90}{\angstrom}), \SI{25.9}{kJ.mol^{-1}} below the separate molecules, the \SI{26}{kJ.mol^{-1}} above. ECCE's Morse fit (\texttt{ecce-morse}) of the points gives $D_\mathrm{e} = \SI{24.3}{kJ.mol^{-1}}$ at $r_\mathrm{e} = \SI{1.92}{\angstrom}$ (table~\ref{tab:hb-curve}). The tail approaches zero slowly: the pair is still \SI{1.0}{kJ.mol^{-1}} below the separate molecules at H$\cdots$O \SI{7}{\angstrom} and \SI{0.4}{kJ.mol^{-1}} at \SI{9.4}{\angstrom}, while the Morse curve levels off \SI{1.1}{kJ.mol^{-1}} below zero. The energies are not counterpoise-corrected (ECCE issue 1091).
+A relaxed scan of the O1$\cdots$O4 distance (Chapter~\ref{ch:scans}), inward from the optimised dimer in steps of \SI{0.1}{\angstrom} and outward to \SI{10.1}{\angstrom} in steps of \SI{0.2}{\angstrom}, gives the curve of figure~\ref{fig:hb-curve}. Each point is drawn against the H2$\cdots$O4 distance measured in its own optimised geometry, the length of the hydrogen bond itself. The zero is two water molecules calculated separately with the same method. Every point is counterpoise-corrected: for each stored geometry of the scan ECCE ran the counterpoise single points (\menu{Relaxed Scan}, counterpoise single points), and the BSSE of that geometry is added to its energy. The lowest point is at H$\cdots$O \SI{1.93}{\angstrom} (O$\cdots$O \SI{2.90}{\angstrom}), \SI{23.3}{kJ.mol^{-1}} below the separate molecules; its BSSE is \SI{2.7}{kJ.mol^{-1}}, and without the correction the point is \SI{25.9}{kJ.mol^{-1}} deep. The BSSE falls to \SI{0.1}{kJ.mol^{-1}} by H$\cdots$O \SI{4.6}{\angstrom}. ECCE's Morse fit (\texttt{ecce-morse}) of the corrected points gives $D_\mathrm{e} = \SI{21.5}{kJ.mol^{-1}}$ at $r_\mathrm{e} = \SI{1.97}{\angstrom}$ (table~\ref{tab:hb-curve}). The tail approaches zero slowly: the pair is still \SI{1.0}{kJ.mol^{-1}} below the separate molecules at H$\cdots$O \SI{7}{\angstrom} and \SI{0.4}{kJ.mol^{-1}} at \SI{9.4}{\angstrom}, while the Morse curve levels off \SI{1.1}{kJ.mol^{-1}} below zero.
 \index{Relaxed scan!interaction curves}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.6\linewidth]{hydrogen-bond/hydrogen-bond-curve.ecce-9.5.3-dev.png}
-	\caption{Relaxed scan of the O1$\cdots$O4 distance of the water dimer (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, not counterpoise-corrected), drawn against the H2$\cdots$O4 distance measured at each point; the two compressed inward points where O1--H2$\cdots$O4 bends below \ang{150} are left out. Line: Morse fit. Zero (dashed): two separate water molecules.}
+	\caption{Relaxed scan of the O1$\cdots$O4 distance of the water dimer (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, counterpoise-corrected), drawn against the H2$\cdots$O4 distance measured at each point; the two compressed inward points where O1--H2$\cdots$O4 bends below \ang{150} are left out. Line: Morse fit of the corrected points. Zero (dashed): two separate water molecules.}
 	\label{fig:hb-curve}
 \end{figure}
 
 \begin{table}[htbp]
 	\centering
-	\caption{The curve of figure~\ref{fig:hb-curve}, along H$\cdots$O. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance, both relative to two separate water molecules; $r_\mathrm{e}$ and $D_\mathrm{e}$ are from the Morse fit. Energies in kJ/mol, not counterpoise-corrected.}
+	\caption{The curve of figure~\ref{fig:hb-curve}, along H$\cdots$O. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance, both relative to two separate water molecules; $r_\mathrm{e}$ and $D_\mathrm{e}$ are from the Morse fit. Energies in kJ/mol, counterpoise-corrected; BSSE is the counterpoise correction at $R_\mathrm{min}$.}
 	\label{tab:hb-curve}
-	\begin{tabular}{rrrrrr}
+	\begin{tabular}{rrrrrrr}
 		\toprule
-		$R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) & $r_\mathrm{e}$ (\AA) & $D_\mathrm{e}$ \\
+		$R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) & $r_\mathrm{e}$ (\AA) & $D_\mathrm{e}$ & BSSE \\
 		\midrule
-		1.93 & $-25.9$ & $-0.4$ & 9.39 & 1.92 & 24.3 \\
+		1.93 & $-23.3$ & $-0.4$ & 9.39 & 1.97 & 21.5 & 2.7 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
