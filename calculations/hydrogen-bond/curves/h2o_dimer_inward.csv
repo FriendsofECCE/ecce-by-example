@@ -1,0 +1,10 @@
+# ECCE relaxed scan
+# calculation: inward
+# coordinate unit: angstrom
+# relative energy is to the lowest scan point
+point,coordinate_angstrom,energy_hartree,relative_energy_kJ/mol
+1,2.89890021,-152.8628635,0
+2,2.798900203,-152.8626244,0.6279791974
+3,2.698900196,-152.8617606,2.895746533
+4,2.598900188,-152.8601117,7.224996435
+5,2.498900181,-152.8578223,13.23578639
