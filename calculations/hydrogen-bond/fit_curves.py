@@ -12,13 +12,15 @@ B = os.environ.get("ECCE_TEST_HOME", "/opt/ecce")
 ld = importlib.machinery.SourceFileLoader("ecce_morse", os.path.join(B, "bin", "ecce-morse"))
 M = importlib.util.module_from_spec(importlib.util.spec_from_loader("ecce_morse", ld)); ld.exec_module(M)
 D = sys.argv[1]
-MU = {"ar_dimer": (39.9624, 39.9624), "h2o_dimer": (15.9949, 15.9949),
+MU = {"ar_dimer": (39.9624, 39.9624), "h2o_dimer": (1.00783, 15.9949),
       "na_h2o": (22.9898, 15.9949), "nacl_ion_pair": (22.9898, 34.9689)}
+# The water dimer is scanned along the hydrogen bond H2...O4, in its own data folder.
+FOLDER = {"h2o_dimer": "h2o_dimer_hb"}
 out = {}
 for pair, (m1, m2) in MU.items():
     r, e = [], []
     for d in ("inward", "outward"):
-        a, b = M.read_scan(os.path.join(D, pair, "users/local/qm", d))
+        a, b = M.read_scan(os.path.join(D, FOLDER.get(pair, pair), "users/local/qm", d))
         r += a; e += b
     res = M.analyse(r, e, m1 * m2 / (m1 + m2))
     res["points"] = sorted(zip(r, e))

@@ -37,32 +37,26 @@ The topic \menu{Intermolecular interactions} has two ECCE-QM calculations made f
 The dimer is \SI{26}{kJ.mol^{-1}} below two separate molecules ($-152.862864$ against $2\times-76.426490$~hartree). With the zero-point energies of the two calculations the difference becomes \SI{17}{kJ.mol^{-1}}: the dimer has six new low-frequency motions of the two molecules against each other, which carry zero-point energy that two free molecules do not have. The energy is not corrected for the basis-set superposition error, which makes the binding a little too strong; ECCE cannot apply the counterpoise correction yet.
 \index{Zero-point energy}\index{Basis-set superposition error}
 
-\section{Interaction curves}
-The same topic holds three more pairs, the argon dimer \emph{ar\_dimer}, a sodium ion with one water molecule \emph{na\_h2o} and the NaCl ion pair \emph{nacl\_ion\_pair}, made with the same method. A relaxed scan of the distance between the two partners (Chapter~\ref{ch:scans}), inward from each optimised pair and outward to about \SI{10}{\angstrom}, gives the four curves of figure~\ref{fig:hb-curves}. Every curve is drawn relative to the separated partners (Ar; H$_2$O; Na$^+$ and H$_2$O; Na$^+$ and Cl$^-$), each calculated alone with the same method; table~\ref{tab:hb-curves} lists $\Delta E_\mathrm{min}$, the lowest point. For the two neutral pairs ECCE's Morse fit (\texttt{ecce-morse}) of the inward and outward points together gives the depth $D_\mathrm{e}$ and the minimum $r_\mathrm{e}$. The wells span more than two orders of magnitude, from \SI{1.2}{kJ.mol^{-1}} for argon to \SI{592}{kJ.mol^{-1}} for the ion pair, with the hydrogen bond near the weak end; the \SI{25.9}{kJ.mol^{-1}} of the water dimer is the \SI{26}{kJ.mol^{-1}} from the separate molecules above.
-
-For Ar$_2$ and the water dimer the curve is flat by \SI{10}{\angstrom}, and the Morse depth and $\Delta E_\mathrm{min}$ agree to within \SI{2}{kJ.mol^{-1}}; the Morse curve fits the argon points to \SI{0.02}{kJ.mol^{-1}} rms but falls off too early between 4 and \SI{7}{\angstrom}, since dispersion goes as $R^{-6}$. The ion--dipole ($R^{-2}$) and ion-pair ($R^{-1}$) tails do not level off within \SI{10}{\angstrom}, where Na$^+\cdots$H$_2$O is still \SI{6}{kJ.mol^{-1}} and the ion pair \SI{241}{kJ.mol^{-1}} below the separated partners, so no Morse curve is fitted to them. The NaCl calculation keeps one closed-shell wavefunction at every distance, so its reference is the separated ions, not the neutral atoms into which the molecule really dissociates, which lie lower. At \SI{9.96}{\angstrom} the stored Mulliken charges are $\pm0.56$ instead of $\pm1$: part of an electron has moved back from Cl to Na, an effect of the delocalization error of B3LYP, which puts the curve below the \SI{139}{kJ.mol^{-1}} that Coulomb's law gives for two whole charges at that distance. The energies are not counterpoise-corrected (ECCE issue 1091).
-\index{Relaxed scan!interaction curves}\index{London dispersion}\index{Ion pair}
+\section{Interaction curve}
+A relaxed scan of the O1$\cdots$O4 distance (Chapter~\ref{ch:scans}), inward from the optimised dimer in steps of \SI{0.1}{\angstrom} and outward to \SI{10.1}{\angstrom} in steps of \SI{0.2}{\angstrom}, gives the curve of figure~\ref{fig:hb-curve}. Each point is drawn against the H2$\cdots$O4 distance measured in its own optimised geometry, the length of the hydrogen bond itself. The zero is two water molecules calculated separately with the same method. The lowest point is at H$\cdots$O \SI{1.93}{\angstrom} (O$\cdots$O \SI{2.90}{\angstrom}), \SI{25.9}{kJ.mol^{-1}} below the separate molecules, the \SI{26}{kJ.mol^{-1}} above. ECCE's Morse fit (\texttt{ecce-morse}) of the points gives $D_\mathrm{e} = \SI{24.3}{kJ.mol^{-1}}$ at $r_\mathrm{e} = \SI{1.92}{\angstrom}$ (table~\ref{tab:hb-curve}). The tail approaches zero slowly: the pair is still \SI{1.0}{kJ.mol^{-1}} below the separate molecules at H$\cdots$O \SI{7}{\angstrom} and \SI{0.4}{kJ.mol^{-1}} at \SI{9.4}{\angstrom}, while the Morse curve levels off \SI{1.1}{kJ.mol^{-1}} below zero. The energies are not counterpoise-corrected (ECCE issue 1091).
+\index{Relaxed scan!interaction curves}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.9\linewidth]{hydrogen-bond/interaction-curves.ecce-9.5.3-dev.png}
-	\caption{Relaxed distance scans of four pairs (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, not counterpoise-corrected). Circles: scan points; line: Morse fit (neutral pairs only). Zero (dashed) is the separated partners, for NaCl the separated ions. Each panel has its own energy scale.}
-	\label{fig:hb-curves}
+	\includegraphics[width=0.6\linewidth]{hydrogen-bond/hydrogen-bond-curve.ecce-9.5.3-dev.png}
+	\caption{Relaxed scan of the O1$\cdots$O4 distance of the water dimer (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, not counterpoise-corrected), drawn against the H2$\cdots$O4 distance measured at each point; the two compressed inward points where O1--H2$\cdots$O4 bends below \ang{150} are left out. Line: Morse fit. Zero (dashed): two separate water molecules.}
+	\label{fig:hb-curve}
 \end{figure}
 
 \begin{table}[htbp]
 	\centering
-	\caption{Minima of the curves in figure~\ref{fig:hb-curves}. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance scanned, both relative to the separated partners; $r_\mathrm{e}$ and $D_\mathrm{e}$ are from the Morse fit, not applicable to the ionic pairs, whose curves do not level off. Energies in kJ/mol, not counterpoise-corrected.}
-	\label{tab:hb-curves}
-	\small
-	\begin{tabular}{llrrrrrr}
+	\caption{The curve of figure~\ref{fig:hb-curve}, along H$\cdots$O. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance, both relative to two separate water molecules; $r_\mathrm{e}$ and $D_\mathrm{e}$ are from the Morse fit. Energies in kJ/mol, not counterpoise-corrected.}
+	\label{tab:hb-curve}
+	\begin{tabular}{rrrrrr}
 		\toprule
-		Pair (distance) & Interaction & $R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) & $r_\mathrm{e}$ (\AA) & $D_\mathrm{e}$ \\
+		$R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) & $r_\mathrm{e}$ (\AA) & $D_\mathrm{e}$ \\
 		\midrule
-		Ar$_2$ (Ar--Ar) & London dispersion & 3.78 & $-1.2$ & 0.0 & 9.98 & 3.79 & 1.1 \\
-		(H$_2$O)$_2$ (O--O) & hydrogen bond & 2.90 & $-25.9$ & $-0.4$ & 10.10 & 2.90 & 24.4 \\
-		Na$^+\cdots$H$_2$O (Na--O) & ion--dipole & 2.21 & $-113.2$ & $-6.0$ & 10.01 & -- & -- \\
-		NaCl (Na--Cl) & ion pair (Coulombic) & 2.36 & $-591.5$ & $-241.2$ & 9.96 & -- & -- \\
+		1.93 & $-25.9$ & $-0.4$ & 9.39 & 1.92 & 24.3 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -77,13 +71,15 @@ The single molecule has its two O--H stretches at 3782 and 3888~cm$^{-1}$. In th
 \section{Electron density}
 In the plane of the bond (figure~\ref{fig:hb-density}) the inner contours of the total density close around each molecule separately, and only the outer, low levels enclose both, with a narrow waist between H2 and O4: the dimer is two molecules held close, not one.
 
-The \menu{Density Profile} along the line from O1 to O4, which passes almost through H2, gives the same picture in numbers (figure~\ref{fig:hb-profile}). Between H2 and O4 the density falls to a minimum of 0.025~e/bohr$^3$, 0.66~\AA\ from H2. In the covalent O1--H2 bond it does not fall below 0.34~e/bohr$^3$, about thirteen times as much. The space between the two molecules holds some electron density, but far less than a covalent bond does.
+The \menu{Density Profile} along the line from O1 to O4, which passes almost through H2, gives the same picture in numbers (figure~\ref{fig:hb-profile}, left). Between H2 and O4 the density falls to a minimum of 0.0255~e/bohr$^3$, 0.66~\AA\ from H2. In the covalent O1--H2 bond it does not fall below 0.34~e/bohr$^3$, about thirteen times as much. The space between the two molecules holds some electron density, but far less than a covalent bond does.
+
+The NaCl ion pair of the same topic, calculated with the same method and basis, gives the right panel, along the line from Na1 to Cl2 at its optimised geometry. Between the ions the density falls to 0.0351~e/bohr$^3$, 0.98~\AA\ from Na1. The two minima are of the same order: in the ion pair, as in the water dimer, the density between the partners is a tenth or less of that in the covalent O--H bond.
 \index{Density Profile!hydrogen bond}
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\linewidth]{hydrogen-bond/density-profile.ecce-9.5.3-dev.png}
-	\caption{Total electron density along the line from O1 to O4 (\menu{Density Profile}, logarithmic axis, density in e/\AA$^3$; 1~e/bohr$^3$ = 6.75~e/\AA$^3$). The peaks are the oxygen nuclei.}
+	\includegraphics[width=\linewidth]{hydrogen-bond/density-profiles.ecce-9.5.3-dev.png}
+	\caption{Total electron density along the line from O1 to O4 of the water dimer (left) and from Na1 to Cl2 of the NaCl ion pair (right), from the \menu{Density Profile} panel; both B3LYP-D3(BJ)/def2-TZVP, logarithmic axis. The dots mark the minimum between the partners: 0.0255~e/bohr$^3$ between H2 and O4, 0.0351~e/bohr$^3$ between Na1 and Cl2.}
 	\label{fig:hb-profile}
 \end{figure}
 

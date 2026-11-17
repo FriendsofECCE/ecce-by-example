@@ -4,7 +4,7 @@
     ECCE_SRC=<checkout> ECCE_TEST_HOME=<install>/ecce ECCE_TEST_WRAPPERS=<install>/bin \\
         python3 oo_scan.py <out dir> <example> <atom I> <atom J> <name:steps:step> [...]
         [--data DIR] [--calc NAME] [--post-only] [--timeout S]
-        [--plain] [--series NAME:XYZ:CHARGE ...]
+        [--plain] [--series NAME:XYZ:CHARGE[:MULT] ...]
 
 <example> is the folder under data/client/examples, e.g.
 genchem/intermolecular-interactions/ecceqm-h2o_dimer. The stored calculation in its
@@ -22,7 +22,7 @@ started it. --post-only does the same for scans left Waiting, then exports.
 --plain sets no constraint (each NAME is a plain geometry optimisation) and
 copies each output to <out> instead of exporting a scan. --series makes
 further calculations from the first one with ecce-series (structure from an
-.xyz file, its charge given), run as single points: monomers and atoms with
+.xyz file, its charge and optionally multiplicity given), run as single points: monomers and atoms with
 the same setup as the scans.
 """
 import argparse, glob, os, re, shutil, subprocess, sys, time
@@ -188,15 +188,16 @@ def main():
         subprocess.run([os.path.join(apps.INSTALL, "bin", "ecce-gateway-start")], env=display.env(), timeout=180)
         try:
             if not A.post_only:
-                for n, xyz, charge in SERIES:
-                    r = subprocess.run([os.path.join(apps.WRAPPERS, "ecce-series"), "--charge", charge,
-                                        os.path.join(root, SCANS[0][0]), root, os.path.abspath(xyz)],
+                for n, xyz, charge, *mult in SERIES:
+                    r = subprocess.run([os.path.join(apps.WRAPPERS, "ecce-series"), "--charge", charge]
+                                       + (["--mult", mult[0]] if mult else [])
+                                       + [os.path.join(root, SCANS[0][0]), root, os.path.abspath(xyz)],
                                        env=display.env(), capture_output=True, text=True, timeout=300)
                     print("ecce-series", n, r.returncode, r.stdout, r.stderr[-800:], flush=True)
                     made = os.path.join(root, os.path.splitext(os.path.basename(xyz))[0])
                     if made != os.path.join(root, n) and os.path.isdir(made):
                         os.rename(made, os.path.join(root, n))
-                single = {n for n, _, _ in SERIES}
+                single = {e[0] for e in SERIES}
                 SCANS.extend((n, 0, 0.0) for n in single)
                 for n, steps, step in SCANS:
                     url = "file://" + os.path.join(root, n) + "/"
@@ -228,7 +229,7 @@ def main():
                                "wait 8000", "quit"], url, settle=30)
                     print(n, "\n".join(l for l in log.splitlines() if "LAUNCHER" in l or "FAIL" in l)[-600:])
             else:
-                SCANS.extend((n, 0, 0.0) for n, _, _ in SERIES)
+                SCANS.extend((e[0], 0, 0.0) for e in SERIES)
             wait_for_jobs(display, root)
             if A.plain or SERIES:
                 for n, _, _ in SCANS:

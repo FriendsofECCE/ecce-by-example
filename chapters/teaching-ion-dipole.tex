@@ -1,3 +1,65 @@
 \chapter{Ion-dipole interactions}
 \label{ch:t-ion-dipole}
-\XXX[to be written: Na+ with water: the energy and the orientation of the molecules]
+\index{Ion--dipole interaction}
+\index{Sodium ion}
+\index{Intermolecular interactions}
+\eccexample{Examples > General Chemistry > Intermolecular interactions}
+
+A sodium ion in water is surrounded by water molecules that turn their oxygen ends toward it. One water molecule and one Na$^+$ is the smallest case of this ion--dipole attraction, and a relaxed scan of the Na--O distance shows how strong it is and how slowly it falls off. The NaCl ion pair of the same topic is the contrast: two ions instead of an ion and a dipole.
+
+\section*{This requires}
+Nothing beyond ECCE: the calculations are in the General Chemistry example set.
+
+\section{The calculation}
+The topic \menu{Intermolecular interactions} holds \emph{na\_h2o}, one Na$^+$ with one water molecule, and \emph{nacl\_ion\_pair}, both optimised with ECCE-QM at B3LYP-D3(BJ)/def2-TZVP. A relaxed scan of the Na--O and Na--Cl distances (Chapter~\ref{ch:scans}), inward from each optimised structure in steps of \SI{0.1}{\angstrom} and outward to \SI{10}{\angstrom} in steps of \SI{0.2}{\angstrom}, gives the curves of figure~\ref{fig:id-curve}. The zero of each curve is the separated partners, Na$^+$ and H$_2$O, or Na$^+$ and Cl$^-$, each calculated alone with the same method.
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item Open \emph{na\_h2o} in the Viewer. With \menu{Measure} (Chapter~\ref{ch:first-calculation}), measure the distance Na--O and the angles Na--O--H.
+	\item Do the same for \emph{nacl\_ion\_pair}, and open \menu{Density Profile} with the line from Na1 to Cl2.
+\end{enumerate}
+
+\section{Orientation}
+The sodium ion sits on the twofold axis of the water molecule, on the oxygen side, \SI{2.21}{\angstrom} from O. Both hydrogens point away from it, with Na--O--H \ang{127.4}. The molecule turns its negative end, the oxygen with its two lone pairs, toward the cation. The Mulliken charge on Na is $+0.95$, so the ion keeps almost all of its charge.
+
+\section{The curve}
+The lowest point of the Na$^+\cdots$H$_2$O curve is at Na--O \SI{2.21}{\angstrom}, \SI{113.2}{kJ.mol^{-1}} below the separated partners (table~\ref{tab:id-curve}), more than four times the depth of the hydrogen bond in the water dimer (Chapter~\ref{sec:hydrogen-bond}). The attraction falls off as $R^{-2}$ and does not level off within \SI{10}{\angstrom}, where the pair is still \SI{6.0}{kJ.mol^{-1}} below the separated partners. A Morse curve, whose attraction decays exponentially, does not describe such a tail, and none is fitted. The energies are not counterpoise-corrected (ECCE issue 1091).
+\index{Relaxed scan!interaction curves}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{ion-dipole/ion-dipole-curve.ecce-9.5.3-dev.png}
+	\caption{Relaxed scans of the Na--O distance of Na$^+\cdots$H$_2$O (left) and the Na--Cl distance of the NaCl ion pair (right), ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, not counterpoise-corrected. Zero (dashed) is the separated partners, for NaCl the separately computed ions. Right panel: dotted, the Coulomb energy of two whole charges (a reference curve, not a calculation); dash-dotted, the separately computed neutral atoms.}
+	\label{fig:id-curve}
+\end{figure}
+
+\begin{table}[htbp]
+	\centering
+	\caption{The curves of figure~\ref{fig:id-curve}. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance, both relative to the separated partners. Energies in kJ/mol, not counterpoise-corrected.}
+	\label{tab:id-curve}
+	\begin{tabular}{lrrrr}
+		\toprule
+		Pair (distance) & $R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) \\
+		\midrule
+		Na$^+\cdots$H$_2$O (Na--O) & 2.21 & $-113.2$ & $-6.0$ & 10.01 \\
+		NaCl (Na--Cl) & 2.36 & $-591.5$ & $-241.2$ & 9.96 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{Two ions}
+The NaCl ion pair has its lowest point at Na--Cl \SI{2.36}{\angstrom}, \SI{591.5}{kJ.mol^{-1}} below the separated ions, five times the ion--dipole well. The attraction between two charges falls off as $R^{-1}$, more slowly than the $R^{-2}$ of the ion--dipole case: the dotted reference curve in figure~\ref{fig:id-curve}, the Coulomb energy $-1389/R$~kJ\,mol$^{-1}$ ($R$ in \AA) of two whole charges, is still \SI{-139}{kJ.mol^{-1}} at \SI{10}{\angstrom}.
+
+The computed curve ends \SI{241}{kJ.mol^{-1}} below its zero, and the reason is in how the two are calculated. The zero is two separate calculations, Na$^+$ and Cl$^-$, each with a whole charge by construction. The curve is one calculation of the pair, and at \SI{9.96}{\angstrom} its stored Mulliken charges are $\pm0.56$: it ends in a state that is neither two ions nor two atoms, and so heads for a different limit from the line it is drawn against. The gap is the difference between these two descriptions, not an attraction; the separately computed neutral atoms lie \SI{199}{kJ.mol^{-1}} below the ions, and the curve ends below both lines.
+\index{Ion pair}\index{Mulliken charges}
+
+Along the line from Na1 to Cl2 (figure~\ref{fig:id-profile}) the total density falls to 0.0351~e/bohr$^3$ between the ions, 0.98~\AA\ from Na1.
+\index{Density Profile!ion pair}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\linewidth]{ion-dipole/nacl-density-profile.ecce-9.5.3-dev.png}
+	\caption{Total electron density along the line from Na1 to Cl2 of the NaCl ion pair (\menu{Density Profile}, B3LYP-D3(BJ)/def2-TZVP, logarithmic axis). The dot marks the minimum between the ions, 0.0351~e/bohr$^3$.}
+	\label{fig:id-profile}
+\end{figure}

@@ -12,16 +12,16 @@
   "omega_e_cm-1": 30.715797743435
  },
  "h2o_dimer": {
-  "points_used": 42,
-  "points_total": 42,
+  "points_used": 47,
+  "points_total": 47,
   "window_mode": "bound",
-  "De_kJ_per_mol": 24.410299772603068,
-  "a_per_A": 1.340192784606683,
-  "re_A": 2.9049561481838677,
-  "Einf_hartree": -152.85339323091145,
-  "E_min_hartree": -152.862863539711,
-  "rms_kJ_per_mol": 0.440674454634166,
-  "omega_e_cm-1": 175.7893222324736
+  "De_kJ_per_mol": 27.340947384379476,
+  "a_per_A": 0.5449583406740377,
+  "re_A": 2.4433369977327297,
+  "Einf_hartree": -152.85243793997935,
+  "E_min_hartree": -152.862863539763,
+  "rms_kJ_per_mol": 2.8200339445755933,
+  "omega_e_cm-1": 219.71486159600443
  },
  "na_h2o": {
   "points_used": 45,
