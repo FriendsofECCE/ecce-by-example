@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Interaction curve of one or more pairs: scan points, Morse fit, separated partners.
 
-    python3 plot_curves.py <out.png> <pair> [<pair> ...]
+    python3 plot_curves.py [--cp] [--morse] <out.png> <pair> [<pair> ...]
 
 <pair> is ar_dimer, h2o_dimer, na_h2o or nacl_ion_pair; one panel each, side
 by side. Reads curves/<pair>_{inward,outward}.csv (Relaxed Scan panel exports
@@ -9,12 +9,13 @@ made by oo_scan.py), curves/morse.json (ecce-morse's fit of the inward and
 outward points together, made by fit_curves.py) and curves/monomers.csv
 (energies of the separated partners). The water dimer is the relaxed scan of
 O1...O4 drawn against the H2...O4 distance measured at each point, with its
-own fit (curves/h2o_dimer_hb.json, made by hb_geometry.py). Zero is the separated partners. Every
+own fit (curves/h2o_dimer_hb.json, made by hb_geometry.py). Zero is the separated partners.
+The points are the plain scan energies; with --cp each
 point is counterpoise-corrected: the BSSE of its geometry (SCANBSSE of the counterpoise
 calculation made by cp_scan.py, curves/<pair>_bsse.csv, from cp_tables.py) is added to its
 energy, and the Morse fit (ecce-morse's analyse, ECCE_MORSE=<install>/bin/ecce-morse) is redone
-on the corrected points. The
-Morse line is drawn for the neutral pairs only, whose curves level off within
+on the corrected points. With --morse the
+Morse line is drawn, for the neutral pairs only, whose curves level off within
 the scan; the NaCl panel also gets the Coulomb energy of two whole charges as
 a reference curve and the separated neutral atoms. Prints the table rows.
 """
@@ -67,32 +68,36 @@ ld.exec_module(MORSE_MOD)
 REDUCED = {"ar_dimer": 39.9624 / 2, "h2o_dimer": 1.00783 * 15.9949 / (1.00783 + 15.9949)}
 
 
+args = [a for a in sys.argv[1:] if not a.startswith("--")]
+CP, DRAW_MORSE = "--cp" in sys.argv, "--morse" in sys.argv
 mono = {r["calculation"]: float(r["energy_hartree"]) for r in rows(os.path.join(HERE, "curves", "monomers.csv"))}
 fits = {}
-pairs = sys.argv[2:]
+pairs = args[1:]
 fig, axes = plt.subplots(1, len(pairs), figsize=(4.3 * len(pairs), 3.4), squeeze=False)
 for ax, pair in zip(axes[0], pairs):
     label, coord, parts = PAIRS[pair]
     r, raw, bs = load(pair)
+    if not CP:
+        bs = [0.0] * len(bs)
     e = [x + y for x, y in zip(raw, bs)]
     sep = sum(mono[p] for p in parts)
     de = [(x - sep) * HARTREE for x in e]
     i = min(range(len(e)), key=e.__getitem__)
     j = min(range(len(raw)), key=raw.__getitem__)
-    print("%-14s CP: R_min %.2f dE_min %.1f dE(R_max) %.2f R_max %.2f | raw: R_min %.2f dE_min %.1f | "
+    print("%-14s plot: R_min %.2f dE_min %.1f dE(R_max) %.2f R_max %.2f | raw: R_min %.2f dE_min %.1f | "
           "BSSE at CP min %.2f, at raw min %.2f, at R_max %.3f kJ/mol | %d points"
           % (pair, r[i], de[i], de[-1], r[-1], r[j], (raw[j] - sep) * HARTREE,
              bs[i] * HARTREE, bs[j] * HARTREE, bs[-1] * HARTREE, len(r)))
-    if pair in MORSE:
+    if DRAW_MORSE and pair in MORSE:
         f = fits[pair] = MORSE_MOD.analyse(r, e, REDUCED[pair])
         print("  Morse (CP) r_e %.3f D_e %.2f rms %.3f, %d of %d points, E_inf - partners %.2f kJ/mol"
               % (f["re_A"], f["De_kJ_per_mol"], f["rms_kJ_per_mol"], f["points_used"], f["points_total"],
                  (f["Einf_hartree"] - sep) * HARTREE))
     ax.axhline(0, color="#D55E00", lw=1.0, ls="--",
                label="separated ions" if pair == "nacl_ion_pair" else "separated partners")
-    ax.plot(r, de, "o", color="#0072B2", ms=3.5, mfc="white", mew=1.0, label="scan points (CP-corrected)")
+    ax.plot(r, de, "o", color="#0072B2", ms=3.5, mfc="white", mew=1.0, label="scan points (CP-corrected)" if CP else "scan points")
     lo = min(de)
-    if pair in MORSE:
+    if DRAW_MORSE and pair in MORSE:
         De, a, re_ = f["De_kJ_per_mol"], f["a_per_A"], f["re_A"]
         shift = (f["Einf_hartree"] - sep) * HARTREE
         xs = [r[0] + (r[-1] - r[0]) * k / 300 for k in range(301)]
@@ -116,4 +121,4 @@ for ax, pair in zip(axes[0], pairs):
     ax.set_axisbelow(True)
 axes[0][0].set_ylabel("ΔE (kJ/mol)", fontsize=10)
 fig.tight_layout()
-fig.savefig(sys.argv[1], dpi=200, facecolor="white")
+fig.savefig(args[0], dpi=200, facecolor="white")

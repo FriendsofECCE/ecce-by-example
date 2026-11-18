@@ -5,13 +5,13 @@
 \index{Intermolecular interactions}
 \eccexample{Examples > General Chemistry > Intermolecular interactions}
 
-A sodium ion in water is surrounded by water molecules that turn their oxygen ends toward it. One water molecule and one Na$^+$ is the smallest case of this ion--dipole attraction, and a relaxed scan of the Na--O distance shows how strong it is and how slowly it falls off. The NaCl ion pair of the same topic is the contrast: two ions instead of an ion and a dipole.
+A sodium ion in water is surrounded by water molecules that turn their oxygen ends toward it. This chapter gives the teacher a picture of that attraction and a measure of its strength, taken from stored calculations of one Na$^+$ with one water molecule, the smallest case of an ion--dipole interaction. The NaCl ion pair of the same topic is the contrast, two ions instead of an ion and a dipole, and the comparison shows a class why ions bind water so strongly and why the attraction between two ions reaches so much further.
 
 \section*{This requires}
 Nothing beyond ECCE: the calculations are in the General Chemistry example set.
 
 \section{The calculation}
-The topic \menu{Intermolecular interactions} holds \emph{na\_h2o}, one Na$^+$ with one water molecule, and \emph{nacl\_ion\_pair}, both optimised with ECCE-QM at B3LYP-D3(BJ)/def2-TZVP. A relaxed scan of the Na--O and Na--Cl distances (Chapter~\ref{ch:scans}), inward from each optimised structure in steps of \SI{0.1}{\angstrom} and outward to \SI{10}{\angstrom} in steps of \SI{0.2}{\angstrom}, gives the curves of figure~\ref{fig:id-curve}. The zero of each curve is the separated partners, Na$^+$ and H$_2$O, or Na$^+$ and Cl$^-$, each calculated alone with the same method. Every point is counterpoise-corrected: for each stored geometry of the scans ECCE ran single points of each partner alone and with the basis functions of the other present as ghost functions (\menu{Relaxed Scan}, counterpoise single points), and the difference, the basis-set superposition error (BSSE), is added to the energy of the point.
+The topic \menu{Intermolecular interactions} holds \emph{na\_h2o}, one Na$^+$ with one water molecule, and \emph{nacl\_ion\_pair}, both optimised in ECCE. For the curves of figure~\ref{fig:id-curve} the Na--O and Na--Cl distances were scanned (a relaxed scan, Chapter~\ref{ch:scans}): ECCE held the distance fixed at a series of values, from a little inside the optimised distance out to \SI{10}{\angstrom}, and optimised everything else at each value. Each point of a curve is the energy of the pair at that distance relative to the two partners far apart, Na$^+$ and H$_2$O, or Na$^+$ and Cl$^-$, each calculated on its own. A negative value means that the pair is held together by that much energy.
 
 \section{Procedure}
 \begin{enumerate}
@@ -21,39 +21,38 @@ The topic \menu{Intermolecular interactions} holds \emph{na\_h2o}, one Na$^+$ wi
 \end{enumerate}
 
 \section{Orientation}
-The sodium ion sits on the twofold axis of the water molecule, on the oxygen side, \SI{2.21}{\angstrom} from O. Both hydrogens point away from it, with Na--O--H \ang{127.4}. The molecule turns its negative end, the oxygen with its two lone pairs, toward the cation. The Mulliken charge on Na is $+0.95$, so the ion keeps almost all of its charge.
+The structure shows which end of the water molecule the ion attracts. The sodium ion sits on the twofold axis of the water molecule, on the oxygen side, \SI{2.21}{\angstrom} from O, and both hydrogens point away from it, with Na--O--H \ang{127.4}. The charge that ECCE assigns to Na (its Mulliken charge) is $+0.95$, so the ion keeps almost all of its charge and shares hardly any electrons with the water. The molecule turns its negative end, the oxygen with its two lone pairs, toward the cation because the positive charge attracts the negative end of the dipole and repels the positive one. Hence the picture of hydrated Na$^+$ in a textbook, with oxygen atoms pointing inward, follows from the attraction of a charge for a dipole alone.
 
 \section{The curve}
-The lowest point of the Na$^+\cdots$H$_2$O curve is at Na--O \SI{2.21}{\angstrom}, \SI{110.7}{kJ.mol^{-1}} below the separated partners (table~\ref{tab:id-curve}), nearly five times the depth of the hydrogen bond in the water dimer, \SI{23.3}{kJ.mol^{-1}} with the same method and correction. The BSSE at this point is \SI{2.5}{kJ.mol^{-1}}, almost all of it from the water molecule using the basis functions of the sodium ion; without the correction the point lies \SI{113.2}{kJ.mol^{-1}} deep. The attraction falls off as $R^{-2}$ and does not level off within \SI{10}{\angstrom}, where the pair is still \SI{6.0}{kJ.mol^{-1}} below the separated partners. A Morse curve, whose attraction decays exponentially, does not describe such a tail, and none is fitted.
+The curve answers how strongly one water molecule is held and how far the attraction reaches. Its lowest point is at Na--O \SI{2.21}{\angstrom}, the optimised structure, \SI{113.2}{kJ.mol^{-1}} below the separated partners (table~\ref{tab:id-curve}; kJ/mol is the energy per mole of pairs). That is more than four times the \SI{25.9}{kJ.mol^{-1}} of the hydrogen bond in the water dimer of Chapter~\ref{sec:hydrogen-bond}, calculated in the same way, because the full charge of the ion pulls on the water dipole, while in a hydrogen bond one dipole pulls on another. The attraction also falls off slowly: at \SI{5}{\angstrom} the pair is still \SI{25.8}{kJ.mol^{-1}} below the separated partners, as much as a whole hydrogen bond, and at \SI{10}{\angstrom} still \SI{6.0}{kJ.mol^{-1}}. Doubling the distance from 5 to \SI{10}{\angstrom} divides the energy by four, the $R^{-2}$ fall-off of a charge attracting a dipole. Hence an ion holds not only the water molecules that touch it but also, more weakly, those further out, which is why ions in water carry a shell of oriented water molecules with them.
 \index{Relaxed scan!interaction curves}
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=\linewidth]{ion-dipole/ion-dipole-curve.ecce-9.5.3-dev.png}
-	\caption{Relaxed scans of the Na--O distance of Na$^+\cdots$H$_2$O (left) and the Na--Cl distance of the NaCl ion pair (right), ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, counterpoise-corrected. Zero (dashed) is the separated partners, for NaCl the separately computed ions. Right panel: dotted, the Coulomb energy of two whole charges (a reference curve, not a calculation); dash-dotted, the separately computed neutral atoms.}
+	\caption{Energy of Na$^+\cdots$H$_2$O against the Na--O distance (left) and of the NaCl ion pair against the Na--Cl distance (right), from relaxed scans in ECCE. Zero (dashed) is the two partners calculated separately, for NaCl the two ions. Right panel: dotted, the Coulomb energy of two whole charges $\pm1$ (a reference curve, not a calculation); dash-dotted, the two neutral atoms Na and Cl calculated separately.}
 	\label{fig:id-curve}
 \end{figure}
 
 \begin{table}[htbp]
 	\centering
-	\caption{The curves of figure~\ref{fig:id-curve}. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance, both relative to the separated partners. Energies in kJ/mol, counterpoise-corrected; BSSE is the counterpoise correction at $R_\mathrm{min}$.}
+	\caption{The curves of figure~\ref{fig:id-curve}. $\Delta E_\mathrm{min}$ is the lowest point of the curve, at the distance $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance $R_\mathrm{max}$, both relative to the separated partners. Energies in kJ/mol.}
 	\label{tab:id-curve}
-	\begin{tabular}{lrrrrr}
+	\begin{tabular}{lrrrr}
 		\toprule
-		Pair (distance) & $R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) & BSSE \\
+		Pair (distance) & $R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) \\
 		\midrule
-		Na$^+\cdots$H$_2$O (Na--O) & 2.21 & $-110.7$ & $-6.0$ & 10.01 & 2.5 \\
-		NaCl (Na--Cl) & 2.36 & $-571.4$ & $-241.1$ & 9.96 & 20.2 \\
+		Na$^+\cdots$H$_2$O (Na--O) & 2.21 & $-113.2$ & $-6.0$ & 10.01 \\
+		NaCl (Na--Cl) & 2.36 & $-591.5$ & $-241.2$ & 9.96 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
 \section{Two ions}
-The NaCl ion pair has its lowest point at Na--Cl \SI{2.36}{\angstrom}, \SI{571.4}{kJ.mol^{-1}} below the separated ions, five times the ion--dipole well. Its BSSE is \SI{20.2}{kJ.mol^{-1}}, eight times that of Na$^+\cdots$H$_2$O, and nearly all of it belongs to the chloride ion: an anion has a diffuse electron distribution that def2-TZVP, which has no diffuse functions, describes poorly, and it gains more than a cation from the basis functions of a close neighbour. Without the correction the lowest point lies \SI{591.5}{kJ.mol^{-1}} deep. The BSSE is still \SI{0.5}{kJ.mol^{-1}} at \SI{8}{\angstrom}. The attraction between two charges falls off as $R^{-1}$, more slowly than the $R^{-2}$ of the ion--dipole case: the dotted reference curve in figure~\ref{fig:id-curve}, the Coulomb energy $-1389/R$~kJ\,mol$^{-1}$ ($R$ in \AA) of two whole charges, is still \SI{-139}{kJ.mol^{-1}} at \SI{10}{\angstrom}.
+The NaCl ion pair shows what changes when the water molecule is replaced by a second ion. Its lowest point is at Na--Cl \SI{2.36}{\angstrom}, \SI{591.5}{kJ.mol^{-1}} below the separated ions, five times the ion--dipole well, because the chloride ion brings a whole negative charge where water brings only the negative end of a dipole. The attraction between two charges falls off as $R^{-1}$, more slowly than the $R^{-2}$ of a charge and a dipole. The dotted reference curve in figure~\ref{fig:id-curve} shows this for two whole charges, $-1389/R$~kJ/mol with $R$ in \AA: it is still \SI{-139}{kJ.mol^{-1}} at \SI{10}{\angstrom}, more than the whole ion--dipole well. Hence two ions attract each other strongly over distances where an ion and a water molecule hardly notice each other, which is why salts have high melting points.
 
-The computed curve ends \SI{241}{kJ.mol^{-1}} below its zero, with a BSSE of only \SI{0.04}{kJ.mol^{-1}} there, and the reason is in how the two are calculated. The zero is two separate calculations, Na$^+$ and Cl$^-$, each with a whole charge by construction. The curve is one calculation of the pair, and at \SI{9.96}{\angstrom} its stored Mulliken charges are $\pm0.56$: it ends in a state that is neither two ions nor two atoms, and so heads for a different limit from the line it is drawn against. The gap is the difference between these two descriptions, not an attraction; the separately computed neutral atoms lie \SI{199}{kJ.mol^{-1}} below the ions, and the curve ends below both lines.
-\index{Ion pair}\index{Mulliken charges}\index{Basis-set superposition error}\index{Counterpoise correction}
-
+The calculated curve does not rise towards the zero line at large distance, and the teacher should not read its tail as an attraction. The zero is two whole ions, each calculated on its own. The pair, however, is one calculation, and as the ions move apart some electron density flows back from Cl$^-$ to Na$^+$: at \SI{9.96}{\angstrom} the charges are only $\pm0.56$, so the far end of the curve is neither two ions nor two atoms. Two neutral atoms lie \SI{199}{kJ.mol^{-1}} below two ions (the dash-dotted line), because taking the electron from Na costs more energy than Cl gains by taking it, so far apart in the gas phase the pair would rather be two atoms. The curve is therefore a picture of the ion pair near its minimum, and its far end says nothing about how strongly two ions attract each other; for that the dotted Coulomb curve is the one to show.
+\index{Ion pair}\index{Mulliken charges}
 
 \section{History}
 Coulomb measured the force between two charged spheres with his torsion balance and reported in 1785 that it falls off as the inverse square of their distance \cite{coulomb1785}; the energy of two ions, $-1389/R$~kJ\,mol$^{-1}$ for whole charges, follows from his law. Debye introduced the permanent dipole moment of a molecule in 1912 to explain how the dielectric constant of a polar substance depends on temperature \cite{debye1912}, and collected the theory in his book \emph{Polar Molecules} of 1929 \cite{debye1929}. Born treated a hydrated ion in 1920 as a charged sphere in a continuous dielectric and obtained the hydration energy of the ion from its radius and the dielectric constant of water \cite{born1920}; the calculation of this chapter looks at the same attraction one water molecule at a time.
