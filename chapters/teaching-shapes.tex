@@ -1,3 +1,68 @@
 \chapter{Molecular shapes from electron domains}
 \label{ch:t-shapes}
-\XXX[to be written: four, five and six domains: CH4, NH3, H2O, PF5, SF4, ClF3, SF6; isomers that relax to the same shape]
+\index{VSEPR}
+\index{Molecular shape}
+\index{Electron domains}
+\index{Lone pair}
+\eccexample{Examples > General Chemistry > VSEPR}
+
+VSEPR predicts the shape of a molecule by counting the electron domains, bonds and lone pairs, around the central atom and spreading them as far apart as possible. This chapter gives the teacher ten molecules, from \chem{BeCl2} to \chem{SF6}, whose shapes a calculation found without being told any rule, so that a class can check each prediction against a three-dimensional model it can turn in the Viewer. Three points come out of the numbers: lone pairs squeeze the bond angles, lone pairs in five domains go to the equatorial positions, and axial and equatorial bonds are not the same length.
+
+\section*{This requires}
+Nothing beyond ECCE: the calculations are in the General Chemistry example set.
+
+\section{The calculations}
+The topic \menu{VSEPR} holds ten molecules, each optimised in the gas phase: the calculation moves the atoms until the energy is lowest, and the structure it stops at is the shape of the molecule. The optimisation knows nothing about electron domains; it only lowers the energy. When it ends at the VSEPR shape, that shape is the one of lowest energy.
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item In the topic \menu{VSEPR}, open \emph{CH4} in the Viewer and rotate it with the mouse.
+	\item With \menu{Measure} (Chapter~\ref{ch:first-calculation}), measure an H--C--H angle. Repeat for \emph{NH3} and \emph{H2O}.
+	\item Open \emph{PF5}, \emph{SF4} and \emph{ClF3}, and measure the bond lengths and the angles between the axial bonds and between the equatorial bonds.
+	\item Open \emph{SF6} and \emph{BrF5} and measure the F--Br--F angles of \emph{BrF5}.
+	\item Optionally, open \menu{Properties > Geometry > Geometry Trace} to watch the optimisation reach the final shape.
+\end{enumerate}
+\index{Measure}
+
+\begin{table}[htbp]
+	\centering
+	\caption{Electron domains around the central atom (bonds + lone pairs), the VSEPR shape and the calculated bond angles of the ten molecules. Ax and eq: axial and equatorial positions. From the stored ECCE calculations.}
+	\label{tab:sh}
+	\begin{tabular}{llll}
+		\toprule
+		Molecule & domains & shape & angles \\
+		\midrule
+		\chem{BeCl2} & 2 + 0 & linear & \ang{180} \\
+		\chem{BF3}   & 3 + 0 & trigonal planar & \ang{120} \\
+		\chem{CH4}   & 4 + 0 & tetrahedral & \ang{109.5} \\
+		\chem{NH3}   & 3 + 1 & trigonal pyramidal & \ang{105.9} \\
+		\chem{H2O}   & 2 + 2 & bent & \ang{103.8} \\
+		\chem{PF5}   & 5 + 0 & trigonal bipyramidal & ax--ax \ang{180}, eq--eq \ang{120}, ax--eq \ang{90} \\
+		\chem{SF4}   & 4 + 1 & seesaw & ax--ax \ang{171.7}, eq--eq \ang{101.6} \\
+		\chem{ClF3}  & 3 + 2 & T-shaped & ax--ax \ang{174.5}, ax--eq \ang{87.2} \\
+		\chem{SF6}   & 6 + 0 & octahedral & \ang{90}, \ang{180} \\
+		\chem{BrF5}  & 5 + 1 & square pyramidal & apex--base \ang{85.0} \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{Lone pairs squeeze the bond angles}
+\chem{CH4}, \chem{NH3} and \chem{H2O} all have four electron domains around the central atom, and table~\ref{tab:sh} shows that their bond angles fall from \ang{109.5} to \ang{105.9} to \ang{103.8} as bonds are replaced by lone pairs. This happens because a lone pair is held by one nucleus only and spreads out closer to the central atom than a bonding pair, so it pushes the bonds together. Hence a tetrahedral arrangement of domains gives a smaller angle the more lone pairs it holds. The measured angles in the gas phase are \ang{106.7} for \chem{NH3} and \ang{104.5} for \chem{H2O} \cite{cccbdb}, the same order and within a degree of the calculation.
+\index{Bond angle!lone pairs}
+
+\section{Lone pairs go equatorial}
+With five domains the positions are not all alike: an axial position has three neighbours at \ang{90}, an equatorial position only two. \chem{PF5} shows the full set. In \chem{SF4} the one lone pair takes an equatorial position and the molecule is a seesaw, and in \chem{ClF3} the two lone pairs both take equatorial positions and the molecule is T-shaped. This is the arrangement the optimisation ends in because a lone pair, the largest domain, has the fewest close neighbours in the equatorial plane. The lone pairs also push the remaining bonds away from themselves: the axial bonds of \chem{SF4} and \chem{ClF3} bend back from \ang{180} to \ang{171.7} and \ang{174.5}, and the equatorial F--S--F angle of \chem{SF4} closes from \ang{120} to \ang{101.6}. The measured structure of \chem{SF4} has \ang{173.1} and \ang{101.6} \cite{cccbdb}. Hence the seesaw and the T-shape follow from one rule, lone pairs equatorial.
+
+\section{Axial and equatorial bonds differ}
+In \chem{PF5} the axial P--F bonds are \SI{1.598}{\angstrom} and the equatorial ones \SI{1.570}{\angstrom}; in \chem{SF4} the difference is larger, \SI{1.673}{\angstrom} against \SI{1.594}{\angstrom}, and the measured bonds of \chem{SF4} are 1.646 and \SI{1.545}{\angstrom} \cite{cccbdb}. This shows that the axial bonds are longer, because each axial bond has three neighbouring domains at \ang{90} and is pushed out further. Hence the five positions of a trigonal bipyramid are two kinds of position, which a ball-and-stick model with equal sticks hides.
+
+\section{Six domains}
+\chem{SF6} is a regular octahedron with all angles \ang{90} or \ang{180}. In \chem{BrF5} one of the six positions holds a lone pair, and the four F atoms of the base bend away from it toward the apical F, so the apex--base angle is \ang{85.0} rather than \ang{90}. This is the same squeeze as in \chem{NH3}: a lone pair takes more room than a bond.
+
+\section{In class}
+Let the class predict each shape from a Lewis structure, then open the molecule and turn it. \chem{SF4} is the most useful single example: the seesaw is hard to see in a drawing and easy to see in three dimensions.
+
+\section{History}
+Sidgwick and Powell proposed in 1940 that the shape of a molecule follows from the number of electron pairs around its central atom, and Gillespie and Nyholm extended this in 1957 into the rules now taught as VSEPR, including the larger room taken by a lone pair \cite{sidgwick1940,gillespie1957}.
+\index{Gillespie, Ronald}\index{Nyholm, Ronald}\index{Sidgwick, Nevil}
