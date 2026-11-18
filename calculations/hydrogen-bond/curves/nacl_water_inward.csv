@@ -1,0 +1,12 @@
+# ECCE relaxed scan
+# calculation: inward
+# sources: file:///home/andy/ecce-offload/ion-water/data-nacl/users/local/qm/inward
+# coordinate unit: angstrom
+# zero: Lowest point
+point,coordinate_angstrom,energy_hartree,relative_energy_kJ/mol
+1,2.36398017126,-622.528781245,0
+2,2.26398016402,-622.5253739,8.94598051571
+3,2.16398015677,-622.518422912,27.1957987515
+4,2.06398014953,-622.506251432,59.1520126317
+5,1.96398014228,-622.486538762,110.907622195
+

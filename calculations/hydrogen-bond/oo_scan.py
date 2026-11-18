@@ -4,7 +4,7 @@
     ECCE_SRC=<checkout> ECCE_TEST_HOME=<install>/ecce ECCE_TEST_WRAPPERS=<install>/bin \\
         python3 oo_scan.py <out dir> <example> <atom I> <atom J> <name:steps:step> [...]
         [--data DIR] [--calc NAME] [--post-only] [--timeout S]
-        [--plain] [--series NAME:XYZ:CHARGE[:MULT] ...]
+        [--plain] [--series NAME:XYZ:CHARGE[:MULT] ...] [--solvent NAME]
 
 <example> is the folder under data/client/examples, e.g.
 genchem/intermolecular-interactions/ecceqm-h2o_dimer. The stored calculation in its
@@ -23,7 +23,8 @@ started it. --post-only does the same for scans left Waiting, then exports.
 copies each output to <out> instead of exporting a scan. --series makes
 further calculations from the first one with ecce-series (structure from an
 .xyz file, its charge and optionally multiplicity given), run as single points: monomers and atoms with
-the same setup as the scans.
+the same setup as the scans. --solvent sets the ECCE-QM implicit solvent
+(Calculation Editor, Theory: Solvent, e.g. Water) on every calculation.
 """
 import argparse, glob, os, re, shutil, subprocess, sys, time
 REPO = os.environ.get("ECCE_SRC", "ECCE")
@@ -43,6 +44,7 @@ ap.add_argument("--post-only", action="store_true")
 ap.add_argument("--timeout", type=int, default=6 * 3600)
 ap.add_argument("--plain", action="store_true")
 ap.add_argument("--series", action="append", default=[])
+ap.add_argument("--solvent", default=None)
 A = ap.parse_args()
 OUT = os.path.abspath(A.out)
 os.makedirs(OUT, exist_ok=True)
@@ -174,6 +176,8 @@ def main():
             sp = os.path.join(d, "Parameters", "SetupParams")
             if "ES.Theory.ECCEQM.Dispersion|" not in open(sp).read():
                 open(sp, "a").write("ES.Theory.ECCEQM.Dispersion|1||1|1|toggle_input\n")
+            if A.solvent:
+                open(sp, "a").write("ES.Theory.ECCEQM.Solvent|%s||1|1|menu_input\n" % A.solvent)
             g = os.path.join(d, "Parameters", "GeomConstraintModel.gcst")
             if os.path.exists(g):
                 os.remove(g)
@@ -221,7 +225,7 @@ def main():
                         sys.exit("no input generated for " + n)
                     shutil.copy(qmin[0], os.path.join(OUT, n + ".qmin"))
                     print(n, "input:", [l for l in open(qmin[0]).read().splitlines()
-                                        if re.match(r"(runtype|scan|constraint|opt|method|dispersion|basis)", l.strip())])
+                                        if re.match(r"(runtype|scan|constraint|opt|method|dispersion|basis|solvent|charge)", l.strip())])
                     run = os.path.join(DATA, "run-" + n)
                     os.makedirs(run, exist_ok=True)
                     log = app(display, "launcher", "ECCE_LAUNCHER_SCRIPT",

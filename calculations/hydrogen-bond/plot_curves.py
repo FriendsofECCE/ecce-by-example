@@ -3,8 +3,9 @@
 
     python3 plot_curves.py [--cp] [--morse] <out.png> <pair> [<pair> ...]
 
-<pair> is ar_dimer, h2o_dimer, na_h2o or nacl_ion_pair; one panel each, side
-by side. Reads curves/<pair>_{inward,outward}.csv (Relaxed Scan panel exports
+<pair> is ar_dimer, h2o_dimer, na_h2o or nacl_ion_pair, or na_h2o_water or
+nacl_water (the same scans in implicit water, oo_scan.py --solvent Water, against
+the partners in water: na_w, cl_w, h2o_w); one panel each, side by side. Reads curves/<pair>_{inward,outward}.csv (Relaxed Scan panel exports
 made by oo_scan.py), curves/morse.json (ecce-morse's fit of the inward and
 outward points together, made by fit_curves.py) and curves/monomers.csv
 (energies of the separated partners). The water dimer is the relaxed scan of
@@ -17,9 +18,10 @@ energy, and the Morse fit (ecce-morse's analyse, ECCE_MORSE=<install>/bin/ecce-m
 on the corrected points. With --morse the
 Morse line is drawn, for the neutral pairs only, whose curves level off within
 the scan; the NaCl panel also gets the Coulomb energy of two whole charges as
-a reference curve and the separated neutral atoms. Prints the table rows.
+a reference curve (in water divided by its dielectric constant) and, in the gas
+phase, the separated neutral atoms. Prints the table rows.
 """
-import csv, json, math, os, sys
+import collections, csv, json, math, os, sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -31,7 +33,10 @@ COULOMB = 1389.35  # kJ/mol Å, e^2/(4 pi eps0) per mole
 PAIRS = {"ar_dimer": ("Ar$_2$", "Ar–Ar", ("ar", "ar")),
          "h2o_dimer": ("(H$_2$O)$_2$", "H···O", ("h2o", "h2o")),
          "na_h2o": ("Na$^+$···H$_2$O", "Na–O", ("na", "h2o")),
-         "nacl_ion_pair": ("Na$^+$Cl$^-$", "Na–Cl", ("na", "cl"))}
+         "nacl_ion_pair": ("Na$^+$Cl$^-$", "Na–Cl", ("na", "cl")),
+         "na_h2o_water": ("Na$^+$···H$_2$O in water", "Na–O", ("na_w", "h2o_w")),
+         "nacl_water": ("Na$^+$Cl$^-$ in water", "Na–Cl", ("na_w", "cl_w"))}
+IONS = ("nacl_ion_pair", "nacl_water")
 MORSE = ("ar_dimer", "h2o_dimer")
 
 
@@ -41,6 +46,8 @@ def rows(path):
 
 
 def bsse(pair):
+    if not os.path.exists(os.path.join(HERE, "curves", "%s_bsse.csv" % pair)):
+        return collections.defaultdict(float)
     return {(b["scan"], int(b["point"])): float(b["bsse_hartree"])
             for b in rows(os.path.join(HERE, "curves", "%s_bsse.csv" % pair))}
 
@@ -94,7 +101,7 @@ for ax, pair in zip(axes[0], pairs):
               % (f["re_A"], f["De_kJ_per_mol"], f["rms_kJ_per_mol"], f["points_used"], f["points_total"],
                  (f["Einf_hartree"] - sep) * HARTREE))
     ax.axhline(0, color="#D55E00", lw=1.0, ls="--",
-               label="separated ions" if pair == "nacl_ion_pair" else "separated partners")
+               label="separated ions" if pair in IONS else "separated partners")
     ax.plot(r, de, "o", color="#0072B2", ms=3.5, mfc="white", mew=1.0, label="scan points (CP-corrected)" if CP else "scan points")
     lo = min(de)
     if DRAW_MORSE and pair in MORSE:
@@ -103,11 +110,15 @@ for ax, pair in zip(axes[0], pairs):
         xs = [r[0] + (r[-1] - r[0]) * k / 300 for k in range(301)]
         ax.plot(xs, [shift + De * ((1 - math.exp(-a * (x - re_))) ** 2 - 1) for x in xs], "-",
                 color="#0072B2", lw=1.4, label="Morse fit")
-    if pair == "nacl_ion_pair":
+    if pair in IONS:
+        # In water the reference is Coulomb's law divided by water's dielectric constant
+        # (the value ECCE-QM reports in the output, solvent_epsilon).
+        eps = 78.3553 if pair == "nacl_water" else 1.0
         xs = [3.0 + (r[-1] - 3.0) * k / 300 for k in range(301)]
-        ax.plot(xs, [-COULOMB / x for x in xs], ":", color="#555555", lw=1.4,
-                label="reference: charges $\\pm1$, Coulomb only")
-        if "na0" in mono and "cl0" in mono:
+        ax.plot(xs, [-COULOMB / (eps * x) for x in xs], ":", color="#555555", lw=1.4,
+                label="reference: charges $\\pm1$ in water, Coulomb only" if eps > 1
+                else "reference: charges $\\pm1$, Coulomb only")
+        if pair == "nacl_ion_pair" and "na0" in mono and "cl0" in mono:
             atoms = (mono["na0"] + mono["cl0"] - sep) * HARTREE
             print("  separated neutral atoms relative to the separated ions: %.1f kJ/mol" % atoms)
             ax.axhline(atoms, color="#009E73", lw=1.0, ls="-.", label="separated atoms (Na + Cl)")
