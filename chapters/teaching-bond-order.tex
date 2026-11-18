@@ -1,3 +1,57 @@
 \chapter{Bonds, antibonds and bond order}
 \label{ch:t-bond-order}
-\XXX[to be written: H2+, H2, He2+, He2: bond order from occupied bonding and antibonding orbitals]
+\index{Bond order}
+\index{Antibonding orbital}
+\index{Hydrogen molecule}\index{Helium dimer}
+\eccexample{Examples > General Chemistry > Molecular orbitals of diatomics}
+
+Molecular orbital theory explains why two hydrogen atoms form a molecule and two helium atoms do not with one rule: electrons in a bonding orbital hold the atoms together, electrons in an antibonding orbital push them apart, and the bond order is half the difference. This chapter gives the teacher four molecules that make the rule concrete, \chem{H2+}, \chem{H2}, \chem{He2+} and \chem{He2}, with bond orders \textonehalf, 1, \textonehalf{} and 0, and shows a class that the bond order predicts which bonds are shortest and stiffest, and that \chem{He2} has no bond at all.
+
+\section*{This requires}
+Nothing beyond ECCE: the calculations are in the General Chemistry example set.
+
+\section{The calculations}
+The topic \menu{Molecular orbitals of diatomics} holds \emph{H2\_cation}, \emph{H2}, \emph{He2\_cation} and \emph{He2}. The first three are optimised structures with their vibrational frequencies. \emph{He2} cannot be optimised, because the two atoms do not bind; it is a single calculation with the atoms held \SI{3.0}{\angstrom} apart.
+\XXX[The optimised H$_2^+$ (1.115~\AA) and He$_2^+$ (1.221~\AA) bonds of the stored calculations are expected to be too long for these one- and three-electron molecules; rerun both as the \chem{H2} curve of Chapter~\ref{ch:t-h2-bond} was run, and add their measured bond lengths, before quoting the lengths as numbers.]
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item Open \emph{H2} in the Viewer and choose \menu{Properties > Orbitals > MOs}. Note which orbitals are occupied and draw the lowest occupied and the lowest empty orbital with \menu{Compute}.
+	\item With \menu{Measure} (Chapter~\ref{ch:first-calculation}), measure the H--H distance, and open \menu{Properties > Vibrational spectra > Vibrational Frequencies} for the stretching frequency.
+	\item Repeat for \emph{H2\_cation}, \emph{He2\_cation} and \emph{He2} (\emph{He2} has no frequencies).
+\end{enumerate}
+\index{MOs panel}
+
+\section{Bond order}
+Two 1s orbitals combine into two molecular orbitals: $\sigma$, with the electron density gathered between the nuclei, and $\sigma^*$, with a node half way between them. The drawn surfaces show this directly: the $\sigma$ orbital of \chem{H2} is one lobe around both nuclei, the $\sigma^*$ orbital two lobes of opposite colour with an empty plane between the atoms. Filling the orbitals from the bottom gives table~\ref{tab:bo}: \chem{H2+} has one electron in $\sigma$, \chem{H2} two, \chem{He2+} two in $\sigma$ and one in $\sigma^*$, and \chem{He2} two in each. The bond order is (bonding electrons $-$ antibonding electrons)/2.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Electrons in the bonding and antibonding orbitals, bond order, calculated bond length and stretching frequency of the four molecules. The frequency is in wavenumbers (cm$^{-1}$): the higher it is, the stiffer the bond. From the stored ECCE calculations; the measured bond length of \chem{H2} is \SI{0.741}{\angstrom} \cite{nistwebbook}.}
+	\label{tab:bo}
+	\begin{tabular}{lccccr}
+		\toprule
+		Molecule & $\sigma$ & $\sigma^*$ & bond order & bond length (\AA) & frequency (cm$^{-1}$) \\
+		\midrule
+		\chem{H2}  & 2 & 0 & 1 & 0.743 & 4449 \\
+		\chem{H2+} & 1 & 0 & \textonehalf & 1.115 & 1808 \\
+		\chem{He2+} & 2 & 1 & \textonehalf & 1.221 & 1138 \\
+		\chem{He2} & 2 & 2 & 0 & no bond & -- \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The table shows that \chem{H2}, with bond order 1, has by far the shortest and stiffest bond, and that the two molecules with bond order \textonehalf{} have bonds one and a half times as long and less than half as stiff. This is because each electron in $\sigma$ adds to the glue between the nuclei, and \chem{H2+} has only one such electron, while \chem{He2+} has two but loses most of their effect to the third electron in $\sigma^*$. Hence the bond order, a number worked out by counting, predicts the order of bond lengths and bond strengths without any further calculation.
+\index{Bond order!and bond length}
+
+\section{Why \chem{He2} does not exist}
+In \chem{He2} the two bonding and two antibonding electrons cancel, and at \SI{3.0}{\angstrom} the $\sigma$ and $\sigma^*$ orbitals lie at $-17.63$ and $-17.54$~eV, almost the same energy (eV, electronvolt, is the energy unit of the MO panel). This shows that the two atoms do not interact at this distance, because orbitals that do not overlap neither lower nor raise each other's energy. Hence there is nothing to gain by moving the atoms closer: bringing them together would lower $\sigma$ but raise $\sigma^*$ by more, and with both full the pair is pushed apart. Helium is a monatomic gas for this reason, while removing one electron, as in \chem{He2+}, leaves bond order \textonehalf{} and a real bond.
+\index{Helium dimer!no bond}
+
+\section{In class}
+Draw the $\sigma$ and $\sigma^*$ orbitals of \chem{H2} once, then fill in the electrons for the four molecules on the board and let the class predict the order of bond lengths before showing table~\ref{tab:bo}.
+
+\section{History}
+Pauling explained the bond of \chem{He2+} in 1933 as a bond held by three electrons \cite{pauling1933}, the case of bond order \textonehalf{} in table~\ref{tab:bo}.
+\index{Pauling, Linus}
