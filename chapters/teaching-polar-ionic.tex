@@ -1,3 +1,64 @@
 \chapter{Polar covalent and ionic bonds}
 \label{ch:t-polar-ionic}
-\XXX[to be written: charges and dipoles along HF, LiF, NaCl; where a bond stops being covalent]
+\index{Polar bond}
+\index{Ionic bond}
+\index{Dipole moment}
+\index{Localised orbitals}
+\eccexample{Examples > General Chemistry > Polar bonds and dipole moments}
+
+A textbook draws \chem{H2} with a shared electron pair, \chem{NaCl} as two ions and \chem{HF} somewhere in between, and students ask where the line between a covalent and an ionic bond lies. This chapter gives the teacher one number for each of six molecules that answers the question on the board: how much charge has moved from one atom to the other, worked out from the dipole moment and the bond length. The numbers show that the charge separation grows step by step from \chem{HBr} to \chem{NaCl}, with no jump, and the localised orbitals of \chem{HF} and \chem{LiF} show where a chemist stops drawing a bond between the two atoms.
+
+\section*{This requires}
+Nothing beyond ECCE: the calculations are in the General Chemistry example set.
+
+\section{The calculations}
+Six stored calculations of single molecules in the gas phase are used. \emph{HF\_dipole}, \emph{HCl} and \emph{HBr} are in the topic \menu{Polar bonds and dipole moments}, \emph{LiH} and \emph{LiF} in \menu{Molecular orbitals of diatomics}, and \emph{nacl\_ion\_pair} in \menu{Intermolecular interactions}. Each is an optimised structure, so the bond length is the one the calculation finds for the molecule at rest.
+\XXX[LiF: the stored optimisation stopped after 100 steps without meeting its convergence criteria (bond length steady at 1.554~\AA, no frequencies). Rerun before release; the numbers below are from the last step.]
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item Open \emph{HF\_dipole} in the Viewer. With \menu{Measure} (Chapter~\ref{ch:first-calculation}), measure the H--F distance.
+	\item Open \menu{Properties > Electric properties > Dipole Moment} and read the total dipole moment in debye.
+	\item Repeat for \emph{HCl}, \emph{HBr}, \emph{LiH}, \emph{LiF} and \emph{nacl\_ion\_pair}.
+	\item In \emph{HF\_dipole} and \emph{LiF}, open \menu{Properties > Orbitals > MOs}, choose \menu{Localised MO} in the box next to \menu{Compute}, and read the \menu{Bond type} column.
+\end{enumerate}
+\index{Dipole moment!showing}
+
+\section{How much charge has moved}
+A dipole moment $\mu$ is a charge $q$ times the distance $R$ that separates it from an equal and opposite charge, $\mu = qR$. If one whole electron had moved from one atom to the other, the dipole moment would be $eR$; with $R$ in \AA{} and $\mu$ in debye (D, the unit in which dipole moments are tabulated) that is $4.803\,R$~D. Dividing the dipole moment by this value gives the fraction of an electron that has moved, $q/e = \mu/(4.803\,R)$: 0 for a bond shared equally, 1 for two whole ions. This number needs only the dipole moment and the bond length, and both can be measured, so calculation and experiment can be put side by side (table~\ref{tab:pi-q}).
+
+\begin{table}[htbp]
+	\centering
+	\caption{Bond length $R$, dipole moment $\mu$ and the fraction of an electron moved, $q/e=\mu/(4.803\,R)$, for six molecules in the gas phase. Calculated values from the stored ECCE calculations; measured bond lengths from the NIST Chemistry WebBook \cite{nistwebbook}, measured dipole moments from the NIST CCCBDB \cite{cccbdb}.}
+	\label{tab:pi-q}
+	\begin{tabular}{lrrrrrr}
+		\toprule
+		& \multicolumn{3}{c}{calculated} & \multicolumn{3}{c}{measured} \\
+		\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+		Molecule & $R$ (\AA) & $\mu$ (D) & $q/e$ & $R$ (\AA) & $\mu$ (D) & $q/e$ \\
+		\midrule
+		\chem{HBr}  & 1.428 & 1.01 & 0.15 &       & 0.83 & \\
+		\chem{HCl}  & 1.290 & 1.47 & 0.24 &       & 1.09 & \\
+		\chem{HF}   & 0.935 & 1.86 & 0.42 & 0.917 & 1.83 & 0.42 \\
+		\chem{LiH}  & 1.622 & 5.63 & 0.72 &       & 5.88 & \\
+		\chem{LiF}  & 1.554 & 5.58 & 0.75 & 1.564 & 6.28 & 0.84 \\
+		\chem{NaCl} & 2.364 & 8.59 & 0.76 & 2.361 & 8.97 & 0.79 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The table shows that the charge separation rises steadily down the list, from 0.15 of an electron in \chem{HBr} to about 0.8 in \chem{LiF} and \chem{NaCl}, because the difference in electronegativity between the two atoms grows down the list. Hence no molecule marks the point where a bond suddenly turns ionic; polar covalent and ionic are the two ends of one scale. The measured values say the same: \chem{HF} moves 0.42 of an electron in both columns, and \chem{LiF} and \chem{NaCl} come out at 0.84 and 0.79. Even in \chem{NaCl}, the textbook ionic compound, the measured dipole moment is only 79\,\% of what two whole charges would give, because the positive sodium ion pulls the electron cloud of the chloride ion a little back toward itself.
+
+The calculated dipole moments of \chem{HCl} and \chem{HBr} are a quarter to a third larger than the measured ones, and those of \chem{LiH}, \chem{LiF} and \chem{NaCl} a little smaller, so for these molecules the table is best read for its order, which is the same in both columns.
+
+\section{Where a chemist stops drawing a bond}
+The localised orbitals of the procedure divide the electrons of a molecule into cores, bonds and lone pairs, the pieces of a Lewis structure. In \chem{HF} one of the four valence electron pairs is listed as \texttt{sigma H1-F2}, a pair shared between the two atoms, and the other three as lone pairs on fluorine. In \chem{LiF} all four valence pairs are listed as lone pairs on fluorine and none as a bond. This shows that the pair that \chem{HF} shares with hydrogen has become, in \chem{LiF}, a fourth lone pair of a fluoride ion, because lithium holds its valence electron far less tightly than hydrogen does. Hence the orbitals switch from ``bond'' to ``ion pair'' somewhere between 0.42 and 0.75 of an electron moved, while the dipole moment changes smoothly: Li$^+$F$^-$ is the better Lewis structure for \chem{LiF}, and H--F the better one for \chem{HF}.
+\index{Lewis structure}
+
+\section{In class}
+Write the six molecules on the board in the order of the table and ask the class where to draw the line between covalent and ionic. The fraction $q/e$ then shows that any line is a choice, and the localised orbitals show where the usual choice puts it.
+
+\section{History}
+Debye introduced the permanent dipole moment of a molecule in 1912 \cite{debye1912}. Pauling built his electronegativity scale in 1932 from the extra energy of a bond between two unlike atoms over the mean of the two like bonds \cite{pauling1932}; the larger the difference in electronegativity, the more ionic the bond.
+\index{Debye, Peter}\index{Pauling, Linus}
