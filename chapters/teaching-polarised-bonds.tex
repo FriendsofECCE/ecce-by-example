@@ -1,3 +1,70 @@
 \chapter{Polarised bonds and non-bonding orbitals}
 \label{ch:t-polarised-bonds}
-\XXX[to be written: HF, CO and LiH: unequal sharing in the orbitals]
+\index{Polar bond}
+\index{Molecular orbitals!polarised}
+\index{Non-bonding orbital}
+\index{Hydrogen fluoride}\index{Carbon monoxide}\index{Lithium hydride}
+\eccexample{Examples > General Chemistry > Molecular orbitals of diatomics}
+
+In \chem{H2} the bonding orbital is shared equally by the two atoms. Between two different atoms it is not, and the orbital pictures show it directly: the bonding orbital is bigger on one atom than on the other. This chapter gives the teacher three molecules in which to see where the electrons of a bond sit, \chem{HF}, where fluorine takes most of the bond, \chem{LiH}, where hydrogen is the negative end, and \chem{CO}, whose highest occupied orbital is a lone pair on the less electronegative atom. It also shows a class orbitals that belong to one atom only, the non-bonding orbitals, which become the lone pairs of a Lewis structure.
+
+\section*{This requires}
+Nothing beyond ECCE: the calculations are in the General Chemistry example set.
+
+\section{The calculations}
+The topic \menu{Molecular orbitals of diatomics} holds \emph{HF}, \emph{LiH} and \emph{CO}, each one molecule in the gas phase at its optimised structure. For each orbital, table~\ref{tab:pb} gives its energy and how much of it sits on each atom, worked out from the stored orbitals: 100\,\% on one atom means that the orbital belongs to that atom alone, 50\,\% on each means equal sharing. Energies are in electronvolts (eV); the more negative the energy, the more tightly the orbital holds its electrons.
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item Open \emph{HF} in the Viewer and choose \menu{Properties > Orbitals > MOs}.
+	\item Select the occupied orbitals one at a time, from the highest down, and click \menu{Compute} to draw each one; then the lowest empty orbital.
+	\item Repeat for \emph{LiH} and \emph{CO}.
+	\item In each molecule, open \menu{Properties > Electric properties > Dipole Moment}.
+\end{enumerate}
+\index{MOs panel}
+
+\begin{table}[htbp]
+	\centering
+	\caption{The valence orbitals of \chem{HF}, \chem{LiH} and \chem{CO}: energy, the share of the orbital on each atom, and what the orbital is in a Lewis structure. The two $\pi$ orbitals of each molecule have the same energy and are listed once. The lowest empty orbital of each molecule is listed last. From the stored ECCE calculations.}
+	\label{tab:pb}
+	\begin{tabular}{llrrl}
+		\toprule
+		Molecule & orbital & energy (eV) & share & in a Lewis structure \\
+		\midrule
+		\chem{HF}  & $\sigma$ bonding & $-14.0$ & F 85\,\%, H 15\,\% & H--F bond \\
+		           & $\pi$ (two)      & $-10.1$ & F 100\,\% & two lone pairs on F \\
+		           & $\sigma^*$ (empty) & $+1.8$ & H 68\,\%, F 32\,\% & \\
+		\midrule
+		\chem{LiH} & $\sigma$ bonding & $-5.2$ & H 55\,\%, Li 45\,\% & Li--H bond \\
+		           & $\sigma^*$ (empty) & $-1.2$ & Li 95\,\% & \\
+		\midrule
+		\chem{CO}  & $\sigma$ & $-15.4$ & O 78\,\%, C 22\,\% & C--O $\sigma$ bond \\
+		           & $\pi$ (two) & $-12.6$ & O 79\,\%, C 21\,\% & two C--O $\pi$ bonds \\
+		           & $\sigma$, highest occupied & $-10.0$ & C 87\,\%, O 13\,\% & lone pair on C \\
+		           & $\pi^*$ (empty, two) & $-0.5$ & C 65\,\%, O 35\,\% & \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{Hydrogen fluoride}
+In \chem{HF} the bonding orbital sits 85\,\% on fluorine and only 15\,\% on hydrogen, and its surface is a large lobe on F with a small cap over H. This shows that the shared pair of the H--F bond is shared unequally, because the fluorine 2p orbital lies far lower in energy than the hydrogen 1s orbital and the bonding orbital takes most of its character from the lower one. Hence the electrons of the bond spend most of their time near fluorine, which is the negative end of the molecule: the dipole moment is 1.86~D with F negative. The empty $\sigma^*$ orbital is the mirror image, 68\,\% on hydrogen.
+
+The two highest occupied orbitals of \chem{HF} lie entirely on fluorine. They are the 2p orbitals of fluorine that point across the bond, and hydrogen has no orbital of the right shape to combine with them: its 1s orbital overlaps with the positive lobe of such a p orbital as much as with the negative one, and the two cancel. Hence these orbitals neither bond nor antibond; they are non-bonding, and in the Lewis structure they are two of the three lone pairs on fluorine.
+\index{Non-bonding orbital!HF}
+
+\section{Lithium hydride}
+In \chem{LiH} the bonding orbital leans the other way, 55\,\% on hydrogen and 45\,\% on lithium, and the empty orbital above it is almost entirely lithium. This shows that hydrogen is the more electronegative partner here, because the lithium 2s electron is held more loosely than the hydrogen 1s electron. Hence the negative end of \chem{LiH} is the hydrogen atom: the molecule is a hydride, with a dipole moment of 5.63~D pointing from H to Li. The pair \chem{HF} and \chem{LiH} shows a class that the direction of a bond's polarity is not a property of hydrogen but of its partner.
+
+\section{Carbon monoxide}
+In \chem{CO} the $\sigma$ and $\pi$ bonding orbitals sit about 80\,\% on oxygen, as expected for the more electronegative atom. The highest occupied orbital, however, sits 87\,\% on carbon and points away from oxygen along the axis: it is the lone pair on carbon of the Lewis structure :C$\equiv$O:. This shows that the electrons a reaction partner meets first in \chem{CO} are on carbon, because the highest occupied orbital is the one most easily given away. Hence \chem{CO} binds to metals through carbon, as in metal carbonyls and in carboxyhaemoglobin. The empty $\pi^*$ orbitals are also larger on carbon, 65\,\%, so carbon is the end that both gives and accepts electrons.
+\index{Carbon monoxide!lone pair on carbon}
+
+The polar bonds and the lone pair on carbon pull in opposite directions, and the dipole moment of \chem{CO} is small: 0.06~D calculated, 0.11~D measured in the gas phase \cite{cccbdb}, against 1.86~D for \chem{HF}. In the calculation the negative end is carbon.
+
+\section{In class}
+Draw the bonding orbital of \chem{HF} and of \chem{H2} (Chapter~\ref{ch:t-bond-order}) next to each other: the class sees the shared pair shift toward fluorine. Then draw the highest occupied orbital of \chem{CO} and ask which atom a metal ion would bind to.
+
+\section{History}
+Mulliken's electronegativity scale of 1934 measures how strongly an atom holds its electrons by the mean of its ionisation energy and electron affinity \cite{mulliken1934}.
+\index{Mulliken, Robert S.}
