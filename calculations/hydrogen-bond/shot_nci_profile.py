@@ -7,6 +7,8 @@ Density Profile (O1 to O4) of the General Chemistry example ecceqm-h2o_dimer.
 
 NCI: saveimage at 2x on white, one picture per rotation (nci-rotN.png) so that the
 orientation can be chosen. Profile: dp-profile.csv and dp-profile.png.
+Another stored example of the topic with NCI_STUDY (e.g. ecceqm-na_h2o); NCI_ONLY=1
+skips the profile.
 """
 import glob, os, shutil, subprocess, sys, tempfile, time
 REPO = os.environ.get("ECCE_SRC", "ECCE")
@@ -17,7 +19,8 @@ import md_compare_examples_test as mc  # noqa: E402
 PNG = os.path.abspath(sys.argv[1])
 ROTS = [int(x) for x in (sys.argv[2] if len(sys.argv) > 2 else "0,30,30,30,30,30").split(",")]
 os.makedirs(PNG, exist_ok=True)
-STUDY = "ecceqm-h2o_dimer"
+STUDY = os.environ.get("NCI_STUDY", "ecceqm-h2o_dimer")
+NAME = STUDY.split("-", 1)[1]
 
 
 def find(root):
@@ -39,8 +42,8 @@ def main():
             # the whole General Chemistry set takes minutes.
             import ecceqm_builder_test as eb
             src = os.path.join(REPO, "data", "client", "examples", "genchem",
-                               "intermolecular-interactions", "ecceqm-h2o_dimer", "stored", "h2o_dimer")
-            url = eb.installLocal(data, {"h2o_dimer": src})["h2o_dimer"]
+                               "intermolecular-interactions", STUDY, "stored", NAME)
+            url = eb.installLocal(data, {NAME: src})[NAME]
             calc = url[len("file://"):].rstrip("/")
             os.environ["ECCE_VIEWER_SCENE_OUT"] = PNG
             # NCI pictures
@@ -56,14 +59,15 @@ def main():
             log = mc.builder(display, "file://" + calc + "/", ["wait 70000"], settle=100, panel="MOs")
             open(os.path.join(PNG, "nci-builder.log"), "w").write(log)
             print("\n".join(l for l in log.splitlines() if any(k in l for k in ("MOPANEL", "FAIL", "SAVEIMAGE", "saveimage", "unknown")))[-2500:])
-            # Density profile
-            lines = ["hold 10", "dpopen", "dpmode line", "dpatoms 1 4", "dpquantity density", "dpshow total",
-                     "dpyaxis log", "dpcsv dp-profile", "dppng dp-profile 1000 650", "hold 2",
-                     "plotshot dp-docked 0 0 Density Profile:docked", "hold 2"]
-            scene = os.path.join(work, "scene-dp"); open(scene, "w").write("\n".join(lines) + "\n")
-            os.environ["ECCE_VIEWER_SCENE"] = scene
-            log = mc.builder(display, "file://" + calc + "/", ["wait 40000"], settle=60, panel="Density Profile")
-            print("\n".join(l for l in log.splitlines() if any(k in l for k in ("DENSITYPROFILE", "FAIL", "unknown", "PLOTSHOT")))[-2500:])
+            if not os.environ.get("NCI_ONLY"):
+                # Density profile
+                lines = ["hold 10", "dpopen", "dpmode line", "dpatoms 1 4", "dpquantity density", "dpshow total",
+                         "dpyaxis log", "dpcsv dp-profile", "dppng dp-profile 1000 650", "hold 2",
+                         "plotshot dp-docked 0 0 Density Profile:docked", "hold 2"]
+                scene = os.path.join(work, "scene-dp"); open(scene, "w").write("\n".join(lines) + "\n")
+                os.environ["ECCE_VIEWER_SCENE"] = scene
+                log = mc.builder(display, "file://" + calc + "/", ["wait 40000"], settle=60, panel="Density Profile")
+                print("\n".join(l for l in log.splitlines() if any(k in l for k in ("DENSITYPROFILE", "FAIL", "unknown", "PLOTSHOT")))[-2500:])
         finally:
             subprocess.run([os.path.join(apps.INSTALL, "bin", "ecce-gateway-stop")], env=display.env(), timeout=120)
     shutil.rmtree(work, ignore_errors=True)
