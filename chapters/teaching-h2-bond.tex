@@ -1,3 +1,58 @@
 \chapter{The chemical bond in \chem{H2}}
 \label{ch:t-h2-bond}
-\XXX[to be written: the potential curve, bond length and dissociation energy; restricted and unrestricted at long distance]
+\index{Chemical bond}
+\index{Potential energy curve}
+\index{Bond length}\index{Bond energy}
+\index{Hydrogen molecule}
+\eccexample{Examples > General Chemistry > Bond formation}
+
+A chemical bond is usually drawn as a line, but a class can understand it better as a curve: the energy of two atoms against their distance. This chapter gives the teacher that curve for the simplest bond, two hydrogen atoms forming \chem{H2}, and three numbers to read from it: where the atoms start to attract each other, the bond length at the bottom of the curve, and the depth of the curve, which is the energy needed to break the bond.
+
+\section*{This requires}
+Nothing beyond ECCE: the calculation is in the General Chemistry example set.
+
+\section{The calculation}
+The topic \menu{Bond formation} holds \emph{h2\_bond\_curve}, the energy of two hydrogen atoms at 93 distances, from \SI{5.0}{\angstrom} down to \SI{0.4}{\angstrom} in steps of \SI{0.05}{\angstrom}. Beyond about \SI{4.5}{\angstrom} the energy no longer changes; this is the energy of the two atoms apart and is taken as zero below. A negative energy then means that the two atoms are held together by that much.
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item In the topic \menu{Bond formation}, open \emph{h2\_bond\_curve} in the Viewer and choose \menu{Properties > Relaxed Scan}.
+	\item Set \menu{Energy unit:} to kJ/mol. The plot shows the energy against the H--H distance.
+\end{enumerate}
+\index{Relaxed scan!H$_2$}
+
+\section{The curve}
+Table~\ref{tab:h2} lists points along the curve. The energy is in kJ/mol, the energy for one mole of \chem{H2} molecules; for comparison, the energy that molecules exchange in collisions at room temperature, $RT$, is \SI{2.5}{kJ.mol^{-1}}.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Energy of two hydrogen atoms against their distance $R$, relative to the two atoms far apart, from the stored ECCE calculation.}
+	\label{tab:h2}
+	\begin{tabular}{rr@{\qquad}rr}
+		\toprule
+		$R$ (\AA) & energy (kJ/mol) & $R$ (\AA) & energy (kJ/mol) \\
+		\midrule
+		4.0 & $-0.1$   & 1.0  & $-383.7$ \\
+		3.0 & $-2.9$   & 0.80 & $-448.4$ \\
+		2.5 & $-13.3$  & 0.75 & $-453.4$ \\
+		2.0 & $-54.7$  & 0.70 & $-450.0$ \\
+		1.5 & $-174.7$ & 0.50 & $-265.8$ \\
+		1.2 & $-295.2$ & 0.40 & $+59.9$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+The curve has three parts. Far out, beyond \SI{3}{\angstrom}, the energy changes by less than $RT$, so the atoms hardly notice each other, because their electron clouds do not yet overlap. From \SI{3}{\angstrom} inward the energy falls ever more steeply, to \SI{-175}{kJ.mol^{-1}} at \SI{1.5}{\angstrom}, because each electron is now attracted by both nuclei and the electron density builds up between them. Below \SI{0.7}{\angstrom} the energy rises again, and at \SI{0.4}{\angstrom} it is above the energy of the separate atoms, because the two nuclei repel each other more strongly the closer they come. Hence a bond is a balance: attraction of the electrons for both nuclei pulls the atoms together, repulsion of the nuclei stops them, and the bond length is where the two balance.
+\index{Bond length!from the curve}
+
+\section{Bond length and bond energy}
+The lowest point of the curve is at \SI{0.75}{\angstrom}, the bond length of \chem{H2}; the measured bond length is \SI{0.741}{\angstrom} \cite{nistwebbook}, and the calculated one can be no closer than the \SI{0.05}{\angstrom} spacing of the points. The depth of the curve at that point is \SI{453}{kJ.mol^{-1}}: this is the energy that has to be put in to pull one mole of \chem{H2} molecules apart into atoms, starting from the bottom of the curve. It is 180 times $RT$, so collisions at room temperature never break the bond, and \chem{H2} is a stable molecule.
+\index{Bond energy!H$_2$}
+
+\section{In class}
+Show the curve and ask the class to point to the bond length and the bond energy. Then ask what would happen if the atoms were pushed closer than \SI{0.5}{\angstrom}: the steep wall on the left answers it.
+
+\section{History}
+Heitler and London calculated the bond of \chem{H2} in 1927 and showed for the first time that quantum mechanics explains the covalent bond, as the result of two electrons shared between two nuclei \cite{heitler1927}.
+\index{Heitler, Walter}\index{London, Fritz}
