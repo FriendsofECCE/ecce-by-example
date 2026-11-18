@@ -12,7 +12,6 @@ Nothing beyond ECCE: the calculations are in the General Chemistry example set.
 
 \section{The calculations}
 The topic \menu{Molecular orbitals of diatomics} holds \emph{H2\_cation}, \emph{H2}, \emph{He2\_cation} and \emph{He2}. The first three are optimised structures with their vibrational frequencies. \emph{He2} cannot be optimised, because the two atoms do not bind; it is a single calculation with the atoms held \SI{3.0}{\angstrom} apart.
-\XXX[The optimised H$_2^+$ (1.115~\AA) and He$_2^+$ (1.221~\AA) bonds of the stored calculations are expected to be too long for these one- and three-electron molecules; rerun both as the \chem{H2} curve of Chapter~\ref{ch:t-h2-bond} was run, and add their measured bond lengths, before quoting the lengths as numbers.]
 
 \section{Procedure}
 \begin{enumerate}
@@ -24,25 +23,36 @@ The topic \menu{Molecular orbitals of diatomics} holds \emph{H2\_cation}, \emph{
 \index{MOs panel}
 
 \section{Bond order}
-Two 1s orbitals combine into two molecular orbitals: $\sigma$, with the electron density gathered between the nuclei, and $\sigma^*$, with a node half way between them. The drawn surfaces show this directly: the $\sigma$ orbital of \chem{H2} is one lobe around both nuclei, the $\sigma^*$ orbital two lobes of opposite colour with an empty plane between the atoms. Filling the orbitals from the bottom gives table~\ref{tab:bo}: \chem{H2+} has one electron in $\sigma$, \chem{H2} two, \chem{He2+} two in $\sigma$ and one in $\sigma^*$, and \chem{He2} two in each. The bond order is (bonding electrons $-$ antibonding electrons)/2.
+Two 1s orbitals combine into two molecular orbitals: $\sigma$, with the electron density gathered between the nuclei, and $\sigma^*$, with a node half way between them. Filling the orbitals from the bottom gives table~\ref{tab:bo}: \chem{H2+} has one electron in $\sigma$, \chem{H2} two, \chem{He2+} two in $\sigma$ and one in $\sigma^*$, and \chem{He2} two in each. The bond order is (bonding electrons $-$ antibonding electrons)/2.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.3\linewidth]{bond-order/h2-sigma.ecce-9.5.3-dev.png}\hspace{4mm}
+	\includegraphics[width=0.3\linewidth]{bond-order/h2-sigmastar.ecce-9.5.3-dev.png}\\[3mm]
+	\includegraphics[width=0.75\linewidth]{bond-order/h2-diagram.ecce-9.5.3-dev.png}
+	\caption{Top: the bonding $\sigma$ orbital (left) and the empty antibonding $\sigma^*$ orbital (right) of \chem{H2}, drawn in the \menu{MOs} panel; the two colours are the two signs of the orbital. Bottom: the MO diagram of \chem{H2} (\menu{Properties > Orbitals > MO Diagram}): the 1s levels of the two atoms on the left and right, the $\sigma$ and $\sigma^*$ levels between them, and on the far right the levels of the calculation with their energies in eV.}
+	\label{fig:bo-h2}
+\end{figure}
+
+Figure~\ref{fig:bo-h2} shows that the $\sigma$ orbital is one surface around both nuclei, while $\sigma^*$ is cut in two by an empty plane between them, because in $\sigma$ the two 1s orbitals add and in $\sigma^*$ they cancel half way between the atoms. Hence the electrons in $\sigma$ sit between the nuclei and pull them together, and electrons in $\sigma^*$ sit outside and do not; in the diagram this is the $\sigma$ level below the two 1s levels and the $\sigma^*$ level above them. Each pair of electrons in $\sigma$ is one bond, and each electron in $\sigma^*$ undoes the effect of one in $\sigma$, which is what the bond order counts.
 
 \begin{table}[htbp]
 	\centering
-	\caption{Electrons in the bonding and antibonding orbitals, bond order, calculated bond length and stretching frequency of the four molecules. The frequency is in wavenumbers (cm$^{-1}$): the higher it is, the stiffer the bond. From the stored ECCE calculations; the measured bond length of \chem{H2} is \SI{0.741}{\angstrom} \cite{nistwebbook}.}
+	\caption{Electrons in the bonding and antibonding orbitals, bond order, calculated bond length and stretching frequency of the four molecules. The frequency is in wavenumbers (cm$^{-1}$): the higher it is, the stiffer the bond. From the stored ECCE calculations. Measured \cite{nistwebbook}: \chem{H2} \SI{0.741}{\angstrom}; \chem{H2+} \SI{1.052}{\angstrom} and \SI{2322}{cm^{-1}}.}
 	\label{tab:bo}
 	\begin{tabular}{lccccr}
 		\toprule
 		Molecule & $\sigma$ & $\sigma^*$ & bond order & bond length (\AA) & frequency (cm$^{-1}$) \\
 		\midrule
 		\chem{H2}  & 2 & 0 & 1 & 0.743 & 4449 \\
-		\chem{H2+} & 1 & 0 & \textonehalf & 1.115 & 1808 \\
-		\chem{He2+} & 2 & 1 & \textonehalf & 1.221 & 1138 \\
+		\chem{H2+} & 1 & 0 & \textonehalf & 1.057 & 2334 \\
+		\chem{He2+} & 2 & 1 & \textonehalf & 1.075 & 1746 \\
 		\chem{He2} & 2 & 2 & 0 & no bond & -- \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-The table shows that \chem{H2}, with bond order 1, has by far the shortest and stiffest bond, and that the two molecules with bond order \textonehalf{} have bonds one and a half times as long and less than half as stiff. This is because each electron in $\sigma$ adds to the glue between the nuclei, and \chem{H2+} has only one such electron, while \chem{He2+} has two but loses most of their effect to the third electron in $\sigma^*$. Hence the bond order, a number worked out by counting, predicts the order of bond lengths and bond strengths without any further calculation.
+The table shows that \chem{H2}, with bond order 1, has by far the shortest bond, and that the two molecules with bond order \textonehalf{} have bonds about 1.4 times as long, \SI{1.06}{\angstrom} and \SI{1.08}{\angstrom} against \SI{0.74}{\angstrom}. \chem{H2+}, made of the same atoms as \chem{H2}, also vibrates at about half the frequency, so its bond is much softer. This is because each electron in $\sigma$ adds to the glue between the nuclei, and \chem{H2+} has only one such electron, while \chem{He2+} has two but loses most of their effect to the third electron in $\sigma^*$. Hence the bond order, a number worked out by counting, predicts the order of bond lengths and bond strengths without any further calculation.
 \index{Bond order!and bond length}
 
 \section{Why \chem{He2} does not exist}
