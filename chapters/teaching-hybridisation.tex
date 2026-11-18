@@ -1,3 +1,69 @@
 \chapter{Electron domains and hybridisation}
 \label{ch:t-hybridisation}
-\XXX[to be written: what the orbitals of methane, ethene and ethyne look like, and what hybridisation describes]
+\index{Hybridisation}
+\index{Electron domains}
+\index{Localised orbitals}
+\index{Beryllium chloride}\index{Boron trifluoride}\index{Methane}
+\eccexample{Examples > General Chemistry > VSEPR}
+
+Students meet hybridisation right after VSEPR: two electron domains go with sp, three with sp$^2$, four with sp$^3$. The rule is usually given with nothing to look at. This chapter gives the teacher three molecules from the VSEPR topic, \chem{BeCl2}, \chem{BF3} and \chem{CH4}, with one bond orbital of each drawn on the screen and labelled with its hybrid by ECCE, so that the class sees that the bond orbitals point the way the domains do and can read off how much s and p each one holds. How the localised orbitals are made and read is the subject of Chapter~\ref{ch:localised-bonds}, which also shows the $\sigma$ and $\pi$ bonds of ethane, ethene and ethyne; this chapter only uses the result.
+
+\section*{This requires}
+Nothing beyond ECCE: the calculations are in the General Chemistry example set.
+
+\section{The calculations}
+\emph{BeCl2}, \emph{BF3} and \emph{CH4} in the topic \menu{VSEPR} are single molecules in the gas phase at their optimised structures. Their orbitals are also stored as localised orbitals: one orbital for each bond and each lone pair, as in a Lewis structure. For each bond ECCE gives the hybrid on each atom as a label such as \texttt{sp3.4}, meaning 3.4 times as much p as s.
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item In the topic \menu{VSEPR}, open \emph{CH4} in the Viewer and choose \menu{Properties > Orbitals > MOs}.
+	\item In the box next to \menu{Compute}, choose \menu{Localised MO}. Select one of the rows \texttt{sigma C1-H}, read its \menu{Hybrids} column, and click \menu{Compute}.
+	\item Repeat for \emph{BF3} (a row \texttt{sigma B1-F}) and \emph{BeCl2} (a row \texttt{sigma Be1-Cl}).
+\end{enumerate}
+\index{Localised orbitals!showing}
+
+\section{One bond orbital per domain}
+
+\begin{figure}[htbp]
+	\centering
+	\setlength{\tabcolsep}{6pt}
+	\begin{tabular}{ccc}
+		\includegraphics[height=2.4cm]{shapes/becl2.ecce-9.5.3-dev.png} &
+		\includegraphics[height=2.4cm]{shapes/bf3.ecce-9.5.3-dev.png} &
+		\includegraphics[height=2.4cm]{shapes/ch4.ecce-9.5.3-dev.png} \\
+		\includegraphics[height=2.6cm]{hybridisation/becl2-bond.ecce-9.5.3-dev.png} &
+		\includegraphics[height=2.6cm]{hybridisation/bf3-bond.ecce-9.5.3-dev.png} &
+		\includegraphics[height=2.6cm]{hybridisation/ch4-bond.ecce-9.5.3-dev.png} \\
+		\chem{BeCl2}, 2 domains & \chem{BF3}, 3 domains & \chem{CH4}, 4 domains \\
+	\end{tabular}
+	\caption{Top: the structures of \chem{BeCl2}, \chem{BF3} and \chem{CH4}. Bottom: one localised bond orbital of each, drawn in the \menu{MOs} panel with \menu{Localised MO}: Be--Cl (Be yellow in the middle, to the Cl on the left), B--F (B pink, to the F on the right) and C--H (to the H at the upper right). The two colours are the two signs of the orbital.}
+	\label{fig:hy-bonds}
+\end{figure}
+
+Figure~\ref{fig:hy-bonds} shows that each localised orbital belongs to one bond: it lies along the line between the central atom and one partner and leaves the other bonds empty, because the localised orbitals are cut to match the bonds of the Lewis structure. Hence the domains of VSEPR are these orbitals, and the other bonds of each molecule are copies of the one drawn, turned to point at the other partners: two in a line, three in a plane, four to the corners of a tetrahedron. In \chem{BeCl2} and \chem{BF3} the orbital sits mostly on the halogen, because chlorine and fluorine hold the shared pair far more tightly than beryllium and boron (Chapter~\ref{ch:t-polarised-bonds}); the C--H orbital of \chem{CH4} is shared more evenly.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Electron domains, bond angle and the hybrid that ECCE gives the central atom in each of its bonds, with its share of s character, s/(s+p). From the stored ECCE calculations.}
+	\label{tab:hy}
+	\begin{tabular}{lcrlrl}
+		\toprule
+		Molecule & domains & angle & ECCE hybrid & s character & textbook \\
+		\midrule
+		\chem{BeCl2} & 2 & \ang{180} & sp$^{1.2}$ & 45\,\% & sp (50\,\%) \\
+		\chem{BF3}   & 3 & \ang{120} & sp$^{1.7}$ & 37\,\% & sp$^2$ (33\,\%) \\
+		\chem{CH4}   & 4 & \ang{109.5} & sp$^{3.4}$ & 23\,\% & sp$^3$ (25\,\%) \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+Table~\ref{tab:hy} shows that the s character of the central atom's hybrid falls from 45\,\% in \chem{BeCl2} to 37\,\% in \chem{BF3} and 23\,\% in \chem{CH4}, close to the 50, 33 and 25\,\% of sp, sp$^2$ and sp$^3$, because the single s orbital of the central atom is shared out over two, three or four bonds. Hence the textbook labels describe these molecules well. The numbers ECCE finds are not exactly 1, 2 and 3, since nothing forces a real molecule to divide its orbitals in whole numbers, but their order and size match.
+\index{Hybridisation!s character}
+
+\section{In class}
+Draw the three bond orbitals side by side, then turn each molecule in the Viewer so that the class sees the other bonds as copies of the one drawn, turned towards the other domains. Chapter~\ref{ch:localised-bonds} continues with the $\sigma$ and $\pi$ bonds of ethene and ethyne.
+
+\section{History}
+Pauling introduced hybrid orbitals in 1931 to explain why the four bonds of carbon point to the corners of a tetrahedron, by combining the 2s and the three 2p orbitals into four equal sp$^3$ hybrids \cite{pauling1931}. Slater arrived at the same directed bonds independently in the same year \cite{slater1931}.
+\index{Pauling, Linus}\index{Slater, John C.}
