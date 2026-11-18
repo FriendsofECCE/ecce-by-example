@@ -12,16 +12,16 @@ A textbook draws \chem{H2} with a shared electron pair, \chem{NaCl} as two ions 
 Nothing beyond ECCE: the calculations are in the General Chemistry example set.
 
 \section{The calculations}
-Six stored calculations of single molecules in the gas phase are used. \emph{HF\_dipole}, \emph{HCl} and \emph{HBr} are in the topic \menu{Polar bonds and dipole moments}, \emph{LiH} and \emph{LiF} in \menu{Molecular orbitals of diatomics}, and \emph{nacl\_ion\_pair} in \menu{Intermolecular interactions}. Each is an optimised structure, so the bond length is the one the calculation finds for the molecule at rest.
-\XXX[LiF: the stored optimisation stopped after 100 steps without meeting its convergence criteria (bond length steady at 1.554~\AA, no frequencies). Rerun before release; the numbers below are from the last step.]
+Six stored calculations of single molecules in the gas phase are used, all in the topic \menu{Polar bonds and dipole moments} and all made in the same way: \emph{HBr}, \emph{HCl}, \emph{HF\_dipole}, \emph{LiH\_dipole}, \emph{LiF\_dipole} and \emph{NaCl\_dipole}. Each is an optimised structure, so the bond length is the one the calculation finds for the molecule at rest.
+\XXX[LiF\_dipole: ECCE-QM reports the optimisation as not converged (100 steps). The force left is a net push on the whole molecule along its axis, the same on both atoms ($-3.05\times10^{-4}$~hartree/bohr each), which moves nothing; the force along the bond is zero and the bond length is final. ECCE-QM's convergence test should leave out this whole-molecule part; fix the engine and rerun before release.]
 
 \section{Procedure}
 \begin{enumerate}
 	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
 	\item Open \emph{HF\_dipole} in the Viewer. With \menu{Measure} (Chapter~\ref{ch:first-calculation}), measure the H--F distance.
 	\item Open \menu{Properties > Electric properties > Dipole Moment} and read the total dipole moment in debye.
-	\item Repeat for \emph{HCl}, \emph{HBr}, \emph{LiH}, \emph{LiF} and \emph{nacl\_ion\_pair}.
-	\item In \emph{HF\_dipole} and \emph{LiF}, open \menu{Properties > Orbitals > MOs}, choose \menu{Localised MO} in the box next to \menu{Compute}, and read the \menu{Bond type} column.
+	\item Repeat for \emph{HCl}, \emph{HBr}, \emph{LiH\_dipole}, \emph{LiF\_dipole} and \emph{NaCl\_dipole}.
+	\item In \emph{HF\_dipole}, \emph{LiH\_dipole} and \emph{LiF\_dipole}, open \menu{Properties > Orbitals > MOs}, choose \menu{Localised MO} in the box next to \menu{Compute}, and read the \menu{Bond type} column.
 \end{enumerate}
 \index{Dipole moment!showing}
 
@@ -38,22 +38,52 @@ A dipole moment $\mu$ is a charge $q$ times the distance $R$ that separates it f
 		\cmidrule(lr){2-4}\cmidrule(lr){5-7}
 		Molecule & $R$ (\AA) & $\mu$ (D) & $q/e$ & $R$ (\AA) & $\mu$ (D) & $q/e$ \\
 		\midrule
-		\chem{HBr}  & 1.428 & 1.01 & 0.15 &       & 0.83 & \\
-		\chem{HCl}  & 1.290 & 1.47 & 0.24 &       & 1.09 & \\
-		\chem{HF}   & 0.935 & 1.86 & 0.42 & 0.917 & 1.83 & 0.42 \\
-		\chem{LiH}  & 1.622 & 5.63 & 0.72 &       & 5.88 & \\
-		\chem{LiF}  & 1.554 & 5.58 & 0.75 & 1.564 & 6.28 & 0.84 \\
-		\chem{NaCl} & 2.364 & 8.59 & 0.76 & 2.361 & 8.97 & 0.79 \\
+		\chem{HBr}  & 1.432 & 0.87 & 0.13 &       & 0.83 & \\
+		\chem{HCl}  & 1.295 & 1.15 & 0.19 &       & 1.09 & \\
+		\chem{HF}   & 0.926 & 1.80 & 0.41 & 0.917 & 1.83 & 0.42 \\
+		\chem{LiH}  & 1.603 & 5.74 & 0.75 &       & 5.88 & \\
+		\chem{LiF}  & 1.587 & 6.34 & 0.83 & 1.564 & 6.28 & 0.84 \\
+		\chem{NaCl} & 2.386 & 8.93 & 0.78 & 2.361 & 8.97 & 0.79 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
 
-The table shows that the charge separation rises steadily down the list, from 0.15 of an electron in \chem{HBr} to about 0.8 in \chem{LiF} and \chem{NaCl}, because the difference in electronegativity between the two atoms grows down the list. Hence no molecule marks the point where a bond suddenly turns ionic; polar covalent and ionic are the two ends of one scale. The measured values say the same: \chem{HF} moves 0.42 of an electron in both columns, and \chem{LiF} and \chem{NaCl} come out at 0.84 and 0.79. Even in \chem{NaCl}, the textbook ionic compound, the measured dipole moment is only 79\,\% of what two whole charges would give, because the positive sodium ion pulls the electron cloud of the chloride ion a little back toward itself.
+The table shows that the charge separation rises down the list, from 0.13 of an electron in \chem{HBr} through 0.41 in \chem{HF} to between 0.75 and 0.83 in \chem{LiH}, \chem{LiF} and \chem{NaCl}, because the difference in electronegativity between the two atoms grows down the list. Hence no molecule marks the point where a bond suddenly turns ionic; polar covalent and ionic are the two ends of one scale. The measured values say the same: \chem{HF} moves 0.42 of an electron, \chem{LiF} 0.84 and \chem{NaCl} 0.79, within 0.02 of the calculated ones. Even in \chem{NaCl}, the textbook ionic compound, the measured dipole moment is only 79\,\% of what two whole charges would give, because the positive sodium ion pulls the electron cloud of the chloride ion a little back toward itself.
 
-The calculated dipole moments of \chem{HCl} and \chem{HBr} are a quarter to a third larger than the measured ones, and those of \chem{LiH}, \chem{LiF} and \chem{NaCl} a little smaller, so for these molecules the table is best read for its order, which is the same in both columns.
+All six calculated dipole moments are within 6\,\% of the measured ones, so a class can use either column.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\linewidth]{polar-ionic/charge-scale.ecce-9.5.3-dev.png}
+	\caption{The fraction of an electron moved, $q/e$, of table~\ref{tab:pi-q} on one line from 0 (the pair shared equally) to 1 (two whole ions). Filled: calculated; open: measured, where both the bond length and the dipole moment have been measured.}
+	\label{fig:pi-scale}
+\end{figure}
+
+Figure~\ref{fig:pi-scale} shows the six molecules spread along the line with no gap that would separate a covalent group from an ionic one, because the electronegativity difference, which drives the charge across, also changes in small steps. Hence the class can see on one picture that ``ionic'' is the far end of the same scale that ``polar covalent'' starts on: \chem{HF} sits near the middle, and even \chem{NaCl} stops short of 1.
 
 \section{Where a chemist stops drawing a bond}
-The localised orbitals of the procedure divide the electrons of a molecule into cores, bonds and lone pairs, the pieces of a Lewis structure. In \chem{HF} one of the four valence electron pairs is listed as \texttt{sigma H1-F2}, a pair shared between the two atoms, and the other three as lone pairs on fluorine. In \chem{LiF} all four valence pairs are listed as lone pairs on fluorine and none as a bond. This shows that the pair that \chem{HF} shares with hydrogen has become, in \chem{LiF}, a fourth lone pair of a fluoride ion, because lithium holds its valence electron far less tightly than hydrogen does. Hence the orbitals switch from ``bond'' to ``ion pair'' somewhere between 0.42 and 0.75 of an electron moved, while the dipole moment changes smoothly: Li$^+$F$^-$ is the better Lewis structure for \chem{LiF}, and H--F the better one for \chem{HF}.
+The localised orbitals of the procedure divide the electrons of a molecule into cores, bonds and lone pairs, the pieces of a Lewis structure. In \chem{HF} one of the four valence electron pairs is listed as \texttt{sigma H1-F2}, a pair shared between the two atoms, and the other three as lone pairs on fluorine. In \chem{LiF} all four valence pairs are listed as lone pairs on fluorine and none as a bond. This shows that the pair that \chem{HF} shares with hydrogen has become, in \chem{LiF}, a fourth lone pair of a fluoride ion, because lithium holds its valence electron far less tightly than hydrogen does. \chem{LiH}, with 0.75 of an electron moved, still has one pair listed as \texttt{sigma Li1-H2}. Hence the orbitals switch from ``bond'' to ``ion pair'' between 0.75 and 0.83 of an electron moved, while the dipole moment changes smoothly: Li$^+$F$^-$ is the better Lewis structure for \chem{LiF}, and H--F the better one for \chem{HF}.
+
+\section{Contact or shared pair: a picture}
+The procedure can be extended with two pictures per molecule. In \emph{NaCl\_dipole} and \emph{HF\_dipole}, open \menu{Properties > Orbitals > MOs}, choose \menu{NCI} in the box next to \menu{Compute} and click \menu{Compute}; then choose \menu{ESP on Density} and click \menu{Compute} again. The NCI surface marks the places where the electron density is low and yet the two atoms touch, which is what a contact between two separate particles looks like; it is drawn only where the density is below a fixed small value, 0.05~e/bohr$^3$ (electrons per cube of side \SI{0.53}{\angstrom}), so a region full of shared electrons gives no surface. The ESP surface is an outline of the molecule coloured by the electric potential on it: red where a positive test charge would be attracted, blue where it would be pushed away.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tabular}{cc}
+		\includegraphics[width=0.42\linewidth]{polar-ionic/nacl-nci.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.30\linewidth]{polar-ionic/hf-nci.ecce-9.5.3-dev.png} \\
+		\chem{NaCl}, NCI & \chem{HF}, NCI \\[2mm]
+		\includegraphics[width=0.42\linewidth]{polar-ionic/nacl-esp.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.30\linewidth]{polar-ionic/hf-esp.ecce-9.5.3-dev.png} \\
+		\chem{NaCl}, ESP on the density & \chem{HF}, ESP on the density \\
+	\end{tabular}
+	\caption{Top: NCI surfaces (\menu{Properties > Orbitals > MOs}, \menu{NCI}) of \chem{NaCl} (Cl on the left, Na on the right) and \chem{HF} (F on the left, H on the right); blue means attraction. Bottom: the electric potential on a surface of constant electron density (\menu{ESP on Density}), red negative and blue positive; the colours of each picture are scaled to its own range (\menu{ESP range: Auto}). From \emph{NaCl\_dipole} and \emph{HF\_dipole}.}
+	\label{fig:pi-nci}
+\end{figure}
+
+Figure~\ref{fig:pi-nci} shows a blue disc between Na and Cl and no surface at all between H and F. This is because between the two ions the electron density falls to a low value, 0.031~e/bohr$^3$, where the two electron clouds only touch, while along the H--F bond it never falls below 0.36~e/bohr$^3$, far above the cut-off, because the bonding pair fills the space between the atoms. Hence the NCI picture separates the two kinds of bond that the dipole moments only rank: \chem{NaCl} is two particles in contact, \chem{HF} one particle held together by a shared pair. The ESP pictures add the charges: \chem{NaCl} is red over the chlorine and deep blue over the sodium, two ends of opposite charge, while \chem{HF} is red over fluorine and blue only at the hydrogen tip; the colour scale that ECCE chooses for \chem{NaCl} also reaches twice as far as the one for \chem{HF}, because the separated charges are larger.
+\index{NCI!ionic and covalent bond}\index{Electrostatic potential!NaCl and HF}
+
 \index{Lewis structure}
 
 \section{In class}
