@@ -1,3 +1,60 @@
 \chapter{Homonuclear diatomics of the second period}
 \label{ch:t-diatomics}
-\XXX[to be written: Li2 to F2, the s-p mixing switch at N2, paramagnetic O2]
+\index{Diatomic molecules}
+\index{Molecular orbital diagram}
+\index{s--p mixing}
+\index{Oxygen!paramagnetism}
+\eccexample{Examples > General Chemistry > Molecular orbitals of diatomics}
+
+The molecular orbital diagram of the second-period diatomics is where most students first use MO theory for something a Lewis structure cannot do. This chapter gives the teacher stored calculations of \chem{Li2}, \chem{N2}, \chem{O2} and \chem{F2} for three points of that diagram: the bond order from the diagram predicts the bond lengths and stiffnesses, the order of the $\sigma$ and $\pi$ orbitals made from 2p switches between \chem{N2} and \chem{F2}, and \chem{O2} has two unpaired electrons, which is why liquid oxygen is drawn to a magnet.
+
+\section*{This requires}
+Nothing beyond ECCE: the calculations are in the General Chemistry example set.
+
+\section{The calculations}
+The topic \menu{Molecular orbitals of diatomics} holds \emph{Li2}, \emph{N2}, \emph{O2} and \emph{F2}, each optimised in the gas phase, with its vibrational frequency. \emph{O2} was calculated with two unpaired electrons, the ground state of the molecule. Orbital energies are in electronvolts (eV); the more negative the energy, the more tightly the orbital holds its electrons.
+\XXX[\chem{B2} and \chem{C2} are not in the example set; add them (B$_2$ with two unpaired electrons) to show the consequence of the switched orbital order on the left of the period.]
+
+\section{Procedure}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
+	\item Open \emph{N2} in the Viewer and choose \menu{Properties > Orbitals > MOs}. Draw the highest occupied orbital and the two below it with \menu{Compute}: one is a $\sigma$ orbital along the axis, the other two a pair of $\pi$ orbitals with the same energy.
+	\item Repeat for \emph{F2}.
+	\item Open \emph{O2} and look at the occupation of the two highest occupied orbitals, the $\pi^*$ pair.
+	\item In each molecule, measure the bond length with \menu{Measure} (Chapter~\ref{ch:first-calculation}) and open \menu{Properties > Vibrational spectra > Vibrational Frequencies}.
+\end{enumerate}
+\index{MOs panel}
+
+\section{Bond order, length and stiffness}
+Filling the MO diagram gives bond orders of 1 for \chem{Li2}, 3 for \chem{N2}, 2 for \chem{O2} and 1 for \chem{F2}. Table~\ref{tab:da} shows that from \chem{N2} to \chem{F2} the bond gets longer and softer as the bond order falls, because each pair of electrons added to the antibonding $\pi^*$ orbitals cancels the effect of one bonding pair. Hence the MO diagram predicts the order of the bonds in this series, and the measured bond lengths follow the calculated ones to within \SI{0.01}{\angstrom}. \chem{Li2} has bond order 1 like \chem{F2}, but its bond is twice as long and much softer, because it is held by two 2s electrons far from two small, tightly bound cores.
+
+\begin{table}[htbp]
+	\centering
+	\caption{Bond order, calculated and measured bond length and calculated stretching frequency of four second-period diatomics. The frequency is in wavenumbers (cm$^{-1}$): the higher it is, the stiffer the bond. Calculated values from the stored ECCE calculations; measured bond lengths from the NIST Chemistry WebBook \cite{nistwebbook}.}
+	\label{tab:da}
+	\begin{tabular}{lcrrr}
+		\toprule
+		Molecule & bond order & $R$ calc.\ (\AA) & $R$ meas.\ (\AA) & frequency (cm$^{-1}$) \\
+		\midrule
+		\chem{Li2} & 1 & 2.730 &       & 341 \\
+		\chem{N2}  & 3 & 1.105 & 1.098 & 2457 \\
+		\chem{O2}  & 2 & 1.214 & 1.208 & 1656 \\
+		\chem{F2}  & 1 & 1.406 & 1.412 & 1055 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{The switch of $\sigma$ and $\pi$}
+The 2p orbitals of the two atoms make one bonding $\sigma$ orbital along the axis and two bonding $\pi$ orbitals across it. In \chem{F2} the $\sigma$ orbital lies below the $\pi$ pair, at $-15.9$~eV against $-14.1$~eV, the order of the simplest MO diagram. In \chem{N2} the order is reversed: the $\sigma$ orbital is the highest occupied orbital, at $-11.5$~eV, above the $\pi$ pair at $-12.5$~eV. The drawn surfaces show why. The $\sigma$ orbital of \chem{F2} is made almost only of 2p (88\,\% p), but that of \chem{N2} has a third of its character from 2s (32\,\% s), with large lobes pointing outward from each atom. This is because in nitrogen the 2s and 2p orbitals are close enough in energy to mix, which pushes this $\sigma$ orbital up, while in fluorine the 2s orbital lies too far below 2p to mix. Hence the left of the period, up to \chem{N2}, uses the diagram with $\sigma$ above $\pi$, and \chem{F2} the one with $\sigma$ below $\pi$. \chem{O2} lies at the switch: its $\sigma$ and $\pi$ orbitals are within \SI{1.4}{eV} of each other and their order is not a clean example either way.
+\index{s--p mixing!N$_2$ and F$_2$}
+
+\section{Paramagnetic oxygen}
+\chem{O2} has twelve valence electrons, two more than \chem{N2}, and they go into the two $\pi^*$ orbitals, which have the same energy. The MO panel shows each $\pi^*$ orbital holding one electron, and both with the same spin, because two electrons in different orbitals of the same energy repel each other least with parallel spins (Hund's rule). Hence \chem{O2} has two unpaired electrons and is paramagnetic: liquid oxygen poured between the poles of a strong magnet stays there, while liquid nitrogen runs through. The Lewis structure O=O, with all electrons paired, gets the double bond right but cannot explain this; the MO diagram explains both.
+\index{Oxygen!unpaired electrons}
+
+\section{In class}
+Draw the highest occupied orbital of \chem{N2} and the $\sigma$ orbital of \chem{F2} side by side: the extra outward lobes of the \chem{N2} orbital show the 2s mixing that moves it up. Then show the two singly occupied $\pi^*$ orbitals of \chem{O2} together with the liquid-oxygen demonstration, or a video of it.
+
+\section{History}
+Lennard-Jones built the molecular orbitals of the second-period diatomics from combinations of atomic orbitals in 1929 and explained with them the paramagnetism of \chem{O2}, which the electron-pair bond of Lewis could not \cite{lennardjones1929}.
+\index{Lennard-Jones, John}
