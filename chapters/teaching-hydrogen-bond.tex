@@ -9,94 +9,80 @@
 
 \helppage{electron-density-views}
 
-The hydrogen bond is usually drawn as a dotted line between a hydrogen atom and an oxygen or nitrogen atom of another molecule. Two water molecules are the smallest case, and one stored calculation shows every sign of the bond that students meet in a course: the energy that holds the pair together, the short distance between the molecules, the slightly longer O--H bond of the donor, the lower and stronger O--H stretch in the infrared spectrum, and the electron density between the molecules.
+The hydrogen bond is usually drawn as a dotted line between a hydrogen atom and an oxygen or nitrogen atom of another molecule. This chapter gives the teacher pictures and numbers to show a class what that line stands for, all taken from two stored calculations of the General Chemistry example set: the water dimer, the smallest case of the bond, and the single water molecule. Each section takes one sign of the bond that students meet in a course, namely the energy that holds the pair together, the short distance between the molecules and the longer O--H bond of the donor, the lower and stronger O--H stretch in the infrared spectrum, and the electron density between the molecules, and names the ECCE panel that shows it and the chemical point it makes.
 
 \section*{This requires}
 Nothing beyond ECCE: the calculations are in the General Chemistry example set.
 
 \section{Background}
-In O--H$\cdots$O the donor O--H group gives up a little electron density to the region between H and the acceptor oxygen. The attraction is mostly electrostatic: the positive end of one O--H dipole points at the negative region of the other molecule. In the water dimer the donor O--H points almost straight at the acceptor oxygen, and the acceptor's two hydrogens lie out of the plane of the bond.
+This section gives the chemistry that the pictures in the rest of the chapter are read against. In O--H$\cdots$O the donor O--H group gives up a little electron density to the region between H and the acceptor oxygen. The attraction is mostly electrostatic: the positive end of one O--H dipole points at the negative region of the other molecule. In the water dimer the donor O--H points almost straight at the acceptor oxygen, and the acceptor's two hydrogens lie out of the plane of the bond.
 
-A hydrogen bond between neutral molecules is about one tenth as strong as a covalent bond and several times stronger than the attraction between molecules of similar size without one. That is enough to give water its high boiling point and ice its open structure.
+A hydrogen bond between neutral molecules is far weaker than a covalent bond and several times stronger than the attraction between molecules of similar size without one. That is enough to give water its high boiling point and ice its open structure.
 
 \section{The calculation}
-The topic \menu{Intermolecular interactions} has two ECCE-QM calculations made for this comparison: the water dimer \emph{h2o\_dimer} and the single molecule \emph{h2o\_monomer}, both optimised with frequencies at B3LYP \cite{becke1993} with the D3(BJ) dispersion correction \cite{grimme2011} and the def2-TZVP basis \cite{weigend2005}. Both used the same method, so their energies can be compared.
+The topic \menu{Intermolecular interactions} has two calculations made for this chapter, the water dimer \emph{h2o\_dimer} and the single molecule \emph{h2o\_monomer}. Both were optimised and their vibrations calculated with the same method, so their energies, structures and spectra can be compared directly.
 
 \section{Procedure}
+The steps show where in ECCE each number and picture of this chapter comes from; the sections that follow take them in the same order.
 \begin{enumerate}
 	\item In the Organizer, choose \menu{File > Open Example Calculations}, pick \menu{General Chemistry} and click \menu{OK}.
 	\item In \menu{Examples > Intermolecular interactions}, select \emph{h2o\_dimer} and \emph{h2o\_monomer} and compare their total energies in the Organizer's table, or with \menu{Tools > Energy Calculator...}: dimer minus twice the monomer.
 	\item Open \emph{h2o\_dimer} in the Viewer. With \menu{Measure} (Chapter~\ref{ch:first-calculation}), measure the distances O1--O4, H2--O4 and O1--H2, and the angle O1--H2--O4. Measure O--H in \emph{h2o\_monomer} too.
 	\item Open \menu{Properties > Vibrational spectra > Vibrational Frequencies} in both and compare the O--H stretches above 3000~cm$^{-1}$, with their IR intensities.
-	\item In the dimer, click \menu{Density Map}, choose the plane \menu{Through three atoms A, B, C} with O1, H2 and O4, and \menu{Show: Total density}. Then choose \menu{Show: One orbital} and step to orbital 6.
+	\item In the dimer, click \menu{Density Map}, choose the plane \menu{Through three atoms A, B, C} with O1, H2 and O4, and \menu{Show: Total density}. Click \menu{Density Profile} for the same density along the line from O1 to O4.
 	\item Open \menu{Properties > Orbitals > Surfaces} and choose \menu{NCI}.
 \end{enumerate}
 \index{Energy Calculator}\index{Measure}\index{NCI}
 
 \section{Interaction energy}
-The dimer is \SI{26}{kJ.mol^{-1}} below two separate molecules ($-152.862864$ against $2\times-76.426490$~hartree). With the zero-point energies of the two calculations the difference becomes \SI{17}{kJ.mol^{-1}}: the dimer has six new low-frequency motions of the two molecules against each other, which carry zero-point energy that two free molecules do not have. Part of this is the basis-set superposition error (BSSE): in the dimer each molecule also uses the basis functions of the other and comes out lower in energy than it would alone. The counterpoise correction measures it by calculating each molecule once alone and once with the other molecule's basis functions present as ghost functions; at the optimised geometry the BSSE is \SI{2.7}{kJ.mol^{-1}}, so the counterpoise-corrected interaction energy is \SI{23}{kJ.mol^{-1}}, and about \SI{14}{kJ.mol^{-1}} with the zero-point energies.
-\index{Zero-point energy}\index{Basis-set superposition error}\index{Counterpoise correction}
-
-\section{Interaction curve}
-A relaxed scan of the O1$\cdots$O4 distance (Chapter~\ref{ch:scans}), inward from the optimised dimer in steps of \SI{0.1}{\angstrom} and outward to \SI{10.1}{\angstrom} in steps of \SI{0.2}{\angstrom}, gives the curve of figure~\ref{fig:hb-curve}. Each point is drawn against the H2$\cdots$O4 distance measured in its own optimised geometry, the length of the hydrogen bond itself. The zero is two water molecules calculated separately with the same method. Every point is counterpoise-corrected: for each stored geometry of the scan ECCE ran the counterpoise single points (\menu{Relaxed Scan}, counterpoise single points), and the BSSE of that geometry is added to its energy. The lowest point is at H$\cdots$O \SI{1.93}{\angstrom} (O$\cdots$O \SI{2.90}{\angstrom}), \SI{23.3}{kJ.mol^{-1}} below the separate molecules; its BSSE is \SI{2.7}{kJ.mol^{-1}}, and without the correction the point is \SI{25.9}{kJ.mol^{-1}} deep. The BSSE falls to \SI{0.1}{kJ.mol^{-1}} by H$\cdots$O \SI{4.6}{\angstrom}. ECCE's Morse fit (\texttt{ecce-morse}) of the corrected points gives $D_\mathrm{e} = \SI{21.5}{kJ.mol^{-1}}$ at $r_\mathrm{e} = \SI{1.97}{\angstrom}$ (table~\ref{tab:hb-curve}). The tail approaches zero slowly: the pair is still \SI{1.0}{kJ.mol^{-1}} below the separate molecules at H$\cdots$O \SI{7}{\angstrom} and \SI{0.4}{kJ.mol^{-1}} at \SI{9.4}{\angstrom}, while the Morse curve levels off \SI{1.1}{kJ.mol^{-1}} below zero.
-\index{Relaxed scan!interaction curves}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.6\linewidth]{hydrogen-bond/hydrogen-bond-curve.ecce-9.5.3-dev.png}
-	\caption{Relaxed scan of the O1$\cdots$O4 distance of the water dimer (ECCE-QM, B3LYP-D3(BJ)/def2-TZVP, counterpoise-corrected), drawn against the H2$\cdots$O4 distance measured at each point; the two compressed inward points where O1--H2$\cdots$O4 bends below \ang{150} are left out. Line: Morse fit of the corrected points. Zero (dashed): two separate water molecules.}
-	\label{fig:hb-curve}
-\end{figure}
-
-\begin{table}[htbp]
-	\centering
-	\caption{The curve of figure~\ref{fig:hb-curve}, along H$\cdots$O. $\Delta E_\mathrm{min}$ is the lowest scan point, at $R_\mathrm{min}$, and $\Delta E(R_\mathrm{max})$ the point at the largest distance, both relative to two separate water molecules; $r_\mathrm{e}$ and $D_\mathrm{e}$ are from the Morse fit. Energies in kJ/mol, counterpoise-corrected; BSSE is the counterpoise correction at $R_\mathrm{min}$.}
-	\label{tab:hb-curve}
-	\begin{tabular}{rrrrrrr}
-		\toprule
-		$R_\mathrm{min}$ (\AA) & $\Delta E_\mathrm{min}$ & $\Delta E(R_\mathrm{max})$ & $R_\mathrm{max}$ (\AA) & $r_\mathrm{e}$ (\AA) & $D_\mathrm{e}$ & BSSE \\
-		\midrule
-		1.93 & $-23.3$ & $-0.4$ & 9.39 & 1.97 & 21.5 & 2.7 \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+The first question for a class is whether the two molecules hold together at all, and how strongly. The dimer is \SI{26}{kJ.mol^{-1}} lower in energy than two separate molecules ($-152.862864$ against $2\times-76.426490$~hartree, the unit in which ECCE lists these energies; one hartree is \SI{2625.5}{kJ.mol^{-1}}). That is the energy it takes to pull the pair apart, the strength of this one hydrogen bond. It is about ten times $RT$ at room temperature (\SI{2.5}{kJ.mol^{-1}}), the typical energy that molecules exchange in collisions, because the positive end of the donor's O--H dipole sits right against the negative region of the acceptor oxygen. Hence a hydrogen bond survives many collisions before it breaks, which is why the molecules of liquid water stay held by their neighbours, while the bond is still weak enough to break and form again all the time.
 
 \section{Geometry}
-O1--O4 is \SI{2.90}{\angstrom} and H2--O4 \SI{1.93}{\angstrom}, well inside the sum of the van der Waals radii of H and O (about \SI{2.7}{\angstrom}). The angle O1--H2--O4 is \ang{172.6}, nearly linear. The donor's O1--H2 bond is \SI{0.971}{\angstrom}, \SI{0.008}{\angstrom} longer than O--H in the single molecule (\SI{0.963}{\angstrom}).
+The bond also shows in the structure, measured with \menu{Measure}. O1--O4 is \SI{2.90}{\angstrom} and H2--O4 \SI{1.93}{\angstrom}, well inside the sum of the van der Waals radii of H and O (about \SI{2.7}{\angstrom}), the distance at which an H atom and an O atom of two molecules touch without any bond between them. The angle O1--H2--O4 is \ang{172.6}, nearly linear. The donor's O1--H2 bond is \SI{0.971}{\angstrom}, \SI{0.008}{\angstrom} longer than O--H in the single molecule (\SI{0.963}{\angstrom}).
+
+The short H2--O4 distance shows that the molecules are pulled closer together than two molecules merely in contact, because H2 is attracted to O4, and the longer O1--H2 shows that this attraction weakens the donor's own bond, because it draws some of the density of that bond towards O4. Hence the hydrogen bond can be seen in the structure alone, and the weaker donor bond is what the infrared spectrum picks up next.
 
 \section{Infrared spectrum}
-The single molecule has its two O--H stretches at 3782 and 3888~cm$^{-1}$. In the dimer the stretch of the bonded O--H is at 3668~cm$^{-1}$, \SI{114}{cm^{-1}} lower, with an IR intensity of 315~km/mol against 4 and 44~km/mol in the single molecule. A broad, low and strong O--H band is how a hydrogen bond shows in a measured spectrum. The other three stretches of the dimer, at 3780, 3858 and 3880~cm$^{-1}$, stay close to those of the free molecule.
+The infrared spectrum is where a hydrogen bond is most often seen in a laboratory, and the \menu{Vibrational Frequencies} panel shows the calculated spectrum. The single molecule has its two O--H stretches at 3782 and 3888~cm$^{-1}$. In the dimer the stretch of the bonded O--H is at 3668~cm$^{-1}$, \SI{114}{cm^{-1}} lower, with an IR intensity of 315~km/mol against 4 and 44~km/mol in the single molecule. The intensity says how strongly a band absorbs infrared light, so the band of the bonded O--H is seven times as strong as the stronger O--H band of the single molecule. The other three stretches of the dimer, at 3780, 3858 and 3880~cm$^{-1}$, stay close to those of the free molecule.
+
+The lower frequency follows from the structure, since the longer, weaker O1--H2 bond vibrates more slowly, and only the stretch of the bonded O--H shifts, which shows that the effect is confined to the bond that points at the acceptor. A low and strong O--H band, broad in a measured spectrum, is how a hydrogen bond is recognised in the laboratory.
 \index{Infrared spectrum!hydrogen bond}\index{Red shift}
 
 \section{Electron density}
-In the plane of the bond (figure~\ref{fig:hb-density}) the inner contours of the total density close around each molecule separately, and only the outer, low levels enclose both, with a narrow waist between H2 and O4: the dimer is two molecules held close, not one.
-
-The \menu{Density Profile} along the line from O1 to O4, which passes almost through H2, gives the same picture in numbers (figure~\ref{fig:hb-profile}, left). Between H2 and O4 the density falls to a minimum of 0.0255~e/bohr$^3$, 0.66~\AA\ from H2. In the covalent O1--H2 bond it does not fall below 0.34~e/bohr$^3$, about thirteen times as much. The space between the two molecules holds some electron density, but far less than a covalent bond does.
-
-The NaCl ion pair of the same topic, calculated with the same method and basis, gives the right panel, along the line from Na1 to Cl2 at its optimised geometry. Between the ions the density falls to 0.0351~e/bohr$^3$, 0.98~\AA\ from Na1. The two minima are of the same order: in the ion pair, as in the water dimer, the density between the partners is a tenth or less of that in the covalent O--H bond.
-\index{Density Profile!hydrogen bond}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=\linewidth]{hydrogen-bond/density-profiles.ecce-9.5.3-dev.png}
-	\caption{Total electron density along the line from O1 to O4 of the water dimer (left) and from Na1 to Cl2 of the NaCl ion pair (right), from the \menu{Density Profile} panel; both B3LYP-D3(BJ)/def2-TZVP, logarithmic axis. The dots mark the minimum between the partners: 0.0255~e/bohr$^3$ between H2 and O4, 0.0351~e/bohr$^3$ between Na1 and Cl2.}
-	\label{fig:hb-profile}
-\end{figure}
-
-\section{Non-covalent interactions}
-The \menu{NCI} surface (non-covalent interactions) shows a small blue disc between H2 and O4, blue meaning strong attraction; the same view of the NaCl ion pair in the same topic shows a blue disc too, for the ionic contact.
+The \menu{Density Map} and \menu{Density Profile} panels show where the electrons are between the two molecules, which is the way to ask what the dotted line of the textbook stands for. In the plane of the bond (figure~\ref{fig:hb-density}) the inner contours of the total density close around each molecule separately, and only the outer, low levels enclose both, with a narrow waist between H2 and O4, so the dimer remains two molecules held close together.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{hydrogen-bond/total-density.ecce-9.5.3-dev.png}
-	\caption{Total electron density of the water dimer in the plane through O1, H2 and O4 (\menu{Density Map}). The contour levels double from 0.001~e/bohr$^3$.}
+	\caption{Total electron density of the water dimer in the plane through O1, H2 and O4 (\menu{Density Map}). The contour levels double from 0.001~e/bohr$^3$ (0.001, 0.002, 0.004, \ldots), so each ring inward has twice the density of the one outside it. Only the outermost rings enclose both molecules.}
 	\label{fig:hb-density}
 \end{figure}
 
+The \menu{Density Profile} along the line from O1 to O4, which passes almost through H2, puts numbers on the waist of the map (figure~\ref{fig:hb-profile}). The density is in electrons per cubic bohr (one bohr is \SI{0.529}{\angstrom}), on a logarithmic axis where each grid line is ten times the one below. Between H2 and O4 the density falls to a minimum of 0.0255~e/bohr$^3$, 0.66~\AA\ from H2. In the covalent O1--H2 bond it does not fall below 0.34~e/bohr$^3$, about thirteen times as much. The profile shows that the two molecules share very little electron density, because the hydrogen bond is mostly the electrostatic attraction of two separate molecules rather than an electron pair shared between them. Hence it is far weaker than a covalent bond, while the small density between H2 and O4 is still there, and the next view shows what kind of contact it is.
+\index{Density Profile!hydrogen bond}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\linewidth]{hydrogen-bond/density-profiles.ecce-9.5.3-dev.png}
+	\caption{Total electron density along the line from O1 to O4 of the water dimer (\menu{Density Profile}, logarithmic axis). The dot marks the lowest density between H2 and O4, 0.0255~e/bohr$^3$, about a thirteenth of the lowest density in the covalent O1--H2 bond.}
+	\label{fig:hb-profile}
+\end{figure}
+
+\section{Non-covalent interactions}
+The density map shows that there is a little density between H2 and O4, but not whether it pulls the molecules together or pushes them apart. The \menu{NCI} surface (non-covalent interactions) answers that, and it puts the hydrogen bond in one place in the picture (figure~\ref{fig:hb-nci}). ECCE draws the surface only where the electron density is low and changes slowly, which is true between molecules but not inside the covalent bonds or around the nuclei, so the bonds of each water molecule carry no surface and only the contacts between molecules do. It then colours the surface by the density there, with a sign that tells whether the density is gathered between two atoms or pushed apart: blue for attraction such as a hydrogen bond, green for weak contacts with little density, such as two molecules merely touching, and red for repulsion between atoms crowded too close. The colours run on one fixed scale for every calculation, so a blue surface in one molecule means the same as a blue surface in another.
+
+In the water dimer the only surface is a small disc between H2 and O4, across the line between them, and it is blue. This shows that the density between the two molecules marks an attraction, because it is gathered between H2 and O4 rather than pushed apart. Hence the dotted line of the textbook has a place in the molecule, and the disc is where it crosses from one water molecule to the other.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.6\linewidth]{hydrogen-bond/nci.ecce-9.5.3-dev.png}
+	\caption{NCI surface of the water dimer (\menu{Properties > Orbitals > Surfaces}, \menu{NCI}), donor on the left and acceptor on the right. The only surface is the small disc between H2 and O4. Its colour tells the kind of contact on a fixed scale: blue attraction, as in a hydrogen bond; green a weak contact with little density; red repulsion. The disc is blue, an attraction; the surface is drawn partly transparent, which makes the blue look pale on a white background.}
+	\label{fig:hb-nci}
+\end{figure}
 
 \section{In class}
-Show the numbers in the order energy, distance, infrared, density: each is one more piece of evidence for the same bond, and the first three can be measured in a laboratory. The density map is the place to ask what the dotted line in the textbook stands for. It is not a line of electrons; the molecules stay separate, and what the map shows is a small extra amount of density between H and O on top of the overlap of two molecules.
+Show the evidence in the order energy, distance, infrared, density: each is one more piece of evidence for the same bond, and the first three can be measured in a laboratory. The density map is the place to ask what the dotted line in the textbook stands for. It is not a line of electrons; the molecules stay separate, and what the map shows is a small extra amount of density between H and O on top of the overlap of two molecules. The NCI surface then puts the bond in one place, the blue disc between H2 and O4.
 
 \section{History}
-Latimer and Rodebush proposed in 1920 that a hydrogen atom held between two strongly electronegative atoms could bind them, to explain the properties of water and of hydrogen fluoride \cite{latimer1920}. Pauling made the hydrogen bond a part of structural chemistry in the 1930s, and it became central to biochemistry when it was shown to hold the base pairs of DNA and the helices and sheets of proteins together.
+For a class, the origin of the idea shows that the hydrogen bond was proposed to explain the properties of water, the same properties the Background starts from. Latimer and Rodebush proposed in 1920 that a hydrogen atom held between two strongly electronegative atoms could bind them, to explain the properties of water and of hydrogen fluoride \cite{latimer1920}. Pauling made the hydrogen bond a part of structural chemistry in the 1930s, and it became central to biochemistry when it was shown to hold the base pairs of DNA and the helices and sheets of proteins together.
 \index{Latimer, Wendell}\index{Rodebush, Worth}\index{Pauling, Linus}
