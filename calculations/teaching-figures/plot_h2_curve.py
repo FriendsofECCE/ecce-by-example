@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """The H2 bond curve of the General Chemistry example h2_bond_curve, from its
-stored SCANCOORD and SCANENERGY, relative to the point at 5.0 A (the two atoms
+stored SCANCOORD and SCANENERGY, each computed point drawn as a dot, relative to the point at 5.0 A (the two atoms
 apart), with the bond length and bond energy marked.
 
     python3 plot_h2_curve.py <stored calc Props dir> <out.png>
@@ -31,7 +31,9 @@ for want in (4.0, 3.0, 2.5, 2.0, 1.5, 1.2, 1.0, 0.8, 0.75, 0.7, 0.5, 0.4):
 
 fig, ax = plt.subplots(figsize=(6.4, 3.9))
 ax.axhline(0, color="#555555", lw=1.0, ls="--")
-ax.plot(r, de, "-", color="#0072B2", lw=2.0)
+# a dot for every computed point, so the curve is visibly made of them
+ax.plot(r, de, "-o", color="#0072B2", lw=1.4, ms=3.5, label="computed point")
+ax.legend(loc="lower right", fontsize=9, frameon=False)
 ax.plot([r[i]], [de[i]], "o", color="#D55E00", ms=6, zorder=5)
 ax.plot([r[i], 3.3], [de[i], de[i]], ":", color="#D55E00", lw=1.2)
 ax.annotate("", xy=(3.3, de[i]), xytext=(3.3, 0),
