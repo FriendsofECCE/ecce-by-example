@@ -49,14 +49,22 @@ The topic \menu{Molecular orbitals of diatomics} holds \emph{HF}, \emph{LiH} and
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\linewidth]{polarised-bonds/hf-diagram.ecce-9.5.3-dev.png}\\[2mm]
-	\includegraphics[width=0.8\linewidth]{polarised-bonds/lih-diagram.ecce-9.5.3-dev.png}\\[2mm]
-	\includegraphics[width=0.8\linewidth]{polarised-bonds/co-diagram.ecce-9.5.3-dev.png}
-	\caption{MO diagrams of \chem{HF} (top), \chem{LiH} (middle) and \chem{CO} (bottom), as the Viewer draws them in \menu{Properties > Orbitals > MO Diagram}. The atomic levels of the two atoms are on the left and on the right, and the molecular orbitals built from them in the middle, joined by dashed lines to the atomic levels they come from; this middle part is a simple model that ECCE draws to explain the levels. The column on the far right lists the levels of the calculation itself, with their energies in eV. Arrows are electrons.}
+	\includegraphics[width=\linewidth]{polarised-bonds/hf-diagram.ecce-9.5.3-dev.png}\\[2mm]
+	\includegraphics[width=\linewidth]{polarised-bonds/lih-diagram.ecce-9.5.3-dev.png}
+	\caption{MO diagrams of \chem{HF} (top) and \chem{LiH} (bottom), as the Viewer draws them in \menu{Properties > Orbitals > MO Diagram}. The atomic levels of the two atoms are on the left and on the right, and the molecular orbitals built from them in the middle, joined by dashed lines to the atomic levels they come from; this middle part is a simple model that ECCE draws to explain the levels. The column on the far right lists the levels of the calculation itself, with their energies in eV. Arrows are electrons.}
 	\label{fig:pb-diagrams}
 \end{figure}
 
-Figure~\ref{fig:pb-diagrams} shows that in each molecule the occupied bonding levels lie close to the atomic levels of one partner, fluorine 2p in \chem{HF}, hydrogen 1s in \chem{LiH} and oxygen 2p in \chem{CO}, and far from those of the other. This is because a bonding orbital is built mostly from the lower of the two atomic levels it combines, and the lower level belongs to the atom that holds its electrons more tightly, the more electronegative one. Hence the diagram tells the class at a glance which atom gets the larger share of the bonding electrons: the one whose levels the bonding orbitals stay close to. In \chem{HF} the two levels at the energy of fluorine 2p marked \texttt{nb} have no partner on hydrogen at all; they are the non-bonding orbitals of the next section.
+Figure~\ref{fig:pb-diagrams} shows that the occupied bonding level of \chem{HF} lies close to the fluorine 2p level and far below hydrogen 1s, while that of \chem{LiH} lies close to hydrogen 1s and far below lithium 2s. This is because a bonding orbital is built mostly from the lower of the two atomic levels it combines, and the lower level belongs to the atom that holds its electrons more tightly, the more electronegative one: fluorine in \chem{HF}, hydrogen in \chem{LiH}. Hence the diagram tells the class at a glance which atom gets the larger share of the bonding electrons, and that hydrogen is the poorer partner in one molecule and the richer one in the other. In \chem{HF} the two levels at the energy of fluorine 2p marked \texttt{nb} have no partner on hydrogen at all; they are the non-bonding orbitals of the next section.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\linewidth]{polarised-bonds/co-diagram.ecce-9.5.3-dev.png}
+	\caption{MO diagram of \chem{CO}, drawn as in figure~\ref{fig:pb-diagrams}: carbon levels on the left, oxygen levels on the right, ECCE's model in the middle and the calculated levels on the far right.}
+	\label{fig:pb-co-diagram}
+\end{figure}
+
+Figure~\ref{fig:pb-co-diagram} shows the occupied bonding levels of \chem{CO} lying nearer the oxygen 2s and 2p levels than the carbon ones, and the highest occupied level, 5$\sigma$, standing above the $\pi$ pair, close to the carbon 2p level. This is because oxygen holds its electrons more tightly than carbon, so the bonding orbitals take more of their character from oxygen, while the 5$\sigma$ orbital is left with mostly carbon character. Hence the diagram already points to the result of the section on carbon monoxide below: the electrons that \chem{CO} gives away most easily belong to carbon.
 
 \begin{figure}[htbp]
 	\centering
@@ -66,8 +74,8 @@ Figure~\ref{fig:pb-diagrams} shows that in each molecule the occupied bonding le
 		\includegraphics[width=0.28\linewidth]{polarised-bonds/hf-sigmastar.ecce-9.5.3-dev.png} \\
 		\chem{HF} $\sigma$ bonding & \chem{HF} $\pi$, non-bonding & \chem{HF} $\sigma^*$, empty \\[2mm]
 		\includegraphics[width=0.28\linewidth]{polarised-bonds/lih-sigma.ecce-9.5.3-dev.png} &
-		\includegraphics[width=0.28\linewidth]{polarised-bonds/lih-lumo.ecce-9.5.3-dev.png} & \\
-		\chem{LiH} $\sigma$ bonding & \chem{LiH} $\sigma^*$, empty & \\[2mm]
+		& \\
+		\chem{LiH} $\sigma$ bonding & & \\[2mm]
 		\includegraphics[width=0.28\linewidth]{polarised-bonds/co-sigma.ecce-9.5.3-dev.png} &
 		\includegraphics[width=0.28\linewidth]{polarised-bonds/co-pi.ecce-9.5.3-dev.png} &
 		\includegraphics[width=0.28\linewidth]{polarised-bonds/co-homo.ecce-9.5.3-dev.png} \\
@@ -75,7 +83,7 @@ Figure~\ref{fig:pb-diagrams} shows that in each molecule the occupied bonding le
 		\includegraphics[width=0.28\linewidth]{polarised-bonds/co-pistar.ecce-9.5.3-dev.png} & & \\
 		\chem{CO} $\pi^*$, empty & & \\
 	\end{tabular}
-	\caption{Orbitals of \chem{HF}, \chem{LiH} and \chem{CO}, drawn with \menu{Compute} in the \menu{MOs} panel. Each surface encloses the region where the orbital is larger than a fixed value; the two colours are its two signs. \chem{HF}: F (green ball) on the left, H on the right. \chem{LiH}: H on the left, Li (purple) on the right. \chem{CO}: O (red) on the left, C (grey) on the right.}
+	\caption{Orbitals of \chem{HF}, \chem{LiH} and \chem{CO}, drawn with \menu{Compute} in the \menu{MOs} panel, all at the same scale. Each surface encloses the region where the orbital is larger than a fixed value; the two colours are its two signs. \chem{HF}: F (green ball) on the left, H on the right. \chem{LiH}: H on the left, Li (purple) on the right. \chem{CO}: O (red) on the left, C (grey) on the right.}
 	\label{fig:pb-orbitals}
 \end{figure}
 
@@ -86,7 +94,7 @@ The two highest occupied orbitals of \chem{HF} lie entirely on fluorine; the pic
 \index{Non-bonding orbital!HF}
 
 \section{Lithium hydride}
-In \chem{LiH} the bonding orbital leans the other way, 55\,\% on hydrogen and 45\,\% on lithium, and the empty orbital above it is almost entirely lithium; in the pictures the bonding orbital is a cloud around hydrogen and the empty one a large lobe on lithium. This shows that hydrogen is the more electronegative partner here, because the lithium 2s electron is held more loosely than the hydrogen 1s electron. Hence the negative end of \chem{LiH} is the hydrogen atom: the molecule is a hydride, with a dipole moment of 5.63~D pointing from H to Li. The pair \chem{HF} and \chem{LiH} shows a class that the direction of a bond's polarity is not a property of hydrogen but of its partner.
+In \chem{LiH} the bonding orbital leans the other way, 55\,\% on hydrogen and 45\,\% on lithium, and the empty orbital above it is almost entirely lithium; in the picture the bonding orbital is a cloud around hydrogen. This shows that hydrogen is the more electronegative partner here, because the lithium 2s electron is held more loosely than the hydrogen 1s electron. Hence the negative end of \chem{LiH} is the hydrogen atom: the molecule is a hydride, with a dipole moment of 5.63~D pointing from H to Li. The pair \chem{HF} and \chem{LiH} shows a class that the direction of a bond's polarity is not a property of hydrogen but of its partner.
 
 \section{Carbon monoxide}
 In \chem{CO} the $\sigma$ and $\pi$ bonding orbitals sit about 80\,\% on oxygen, as expected for the more electronegative atom. The highest occupied orbital, however, sits 87\,\% on carbon and points away from oxygen along the axis: it is the lone pair on carbon of the Lewis structure :C$\equiv$O:, and in its picture the large lobe sticks out from carbon on the side away from oxygen. This shows that the electrons a reaction partner meets first in \chem{CO} are on carbon, because the highest occupied orbital is the one most easily given away. Hence \chem{CO} binds to metals through carbon, as in metal carbonyls and in carboxyhaemoglobin. The empty $\pi^*$ orbitals are also larger on carbon, 65\,\%, so carbon is the end that both gives and accepts electrons.

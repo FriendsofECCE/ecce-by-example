@@ -51,15 +51,21 @@ def main():
         try:
             for j, (example, panel, lines) in jobs.items():
                 url = urls[key(example)]
-                open(scene, "w").write("\n".join(l.format(png=PNG) for l in lines) + "\nhold 1\n")
-                env = {"ECCE_VIEWER_SCENE": scene, "ECCE_VIEWER_SCENE_OUT": PNG,
-                       "ECCE_TRANSPARENCY_FALLBACK_MS": "0"}
+                if lines and lines[0] == "SCRIPT":
+                    # ECCE_BUILDER_SCRIPT instead of a scene: for hooks only the
+                    # script has (bonddipoles); it ends with quit.
+                    open(scene, "w").write("\n".join(l.format(png=PNG) for l in lines[1:]) + "\nquit\n")
+                    env = {"ECCE_BUILDER_SCRIPT": scene, "ECCE_TRANSPARENCY_FALLBACK_MS": "0"}
+                else:
+                    open(scene, "w").write("\n".join(l.format(png=PNG) for l in lines) + "\nhold 1\n")
+                    env = {"ECCE_VIEWER_SCENE": scene, "ECCE_VIEWER_SCENE_OUT": PNG,
+                           "ECCE_TRANSPARENCY_FALLBACK_MS": "0"}
                 if panel:
                     env.update(ECCE_OPEN_PANEL=panel, ECCE_PANEL_MODE="detail")
                 r = apps.run(display, "builder", args=("-context", url), windowTimeout=120, settle=600, env=env)
                 print("==== job", j)
                 print("\n".join(l for l in (r.log or "").splitlines()
-                                if any(k in l for k in ("SCENE", "FAIL", "MOPANEL", "SAVEIMAGE", "PLOTSHOT",
+                                if any(k in l for k in ("SCENE", "FAIL", "BUILDER:", "MOPANEL", "SAVEIMAGE", "PLOTSHOT",
                                                          "unknown", "Error")))[-3000:], flush=True)
         finally:
             restore()

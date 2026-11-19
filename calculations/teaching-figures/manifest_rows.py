@@ -80,6 +80,41 @@ for f, spec, src, how in (("polar-ionic/nacl-nci", "spec_d.py", "NaCl_dipole", "
                           ("dipoles/h2o-esp", "spec_d.py", "H2O_dipole", E + ", rotate 90, rotatex 90")):
     shot("%s.ecce-%s.png" % (f, V), spec, POL + src + REDO, "ECCE_OPEN_PANEL=MOs, " + how + ", viewall")
 
+# Second round (2026-11-19): one scale per figure, ECCE-drawn pictures only.
+ONE = ("; then calculations/teaching-figures/scale_group.py: each picture shrunk by R/R_max "
+       "(R the padded atom-box radius) and all cut to one box, so the figure has one scale")
+H = "headless Builder (tests/apps harness, isolated HOME, local data, Xvfb) on beryllium, origin/main 59577d64b, "
+over = {}
+for m in ("becl2", "bf3", "ch4", "nh3", "h2o", "pf5", "sf4", "clf3", "sf6", "brf5"):
+    over["shapes/%s.ecce-%s.png" % (m, V)] = ("saveimage factor 2", H + "shots_teaching.py spec_g.py (WITH_SHAPES, "
+        "from spec_f.py) on " + VS + "*: background 1 1 1, view turn, viewall, zoom 1.15, saveimage 2 white" + ONE)
+for m in ("becl2", "bf3", "ch4"):
+    over["hybridisation/%s-bond.ecce-%s.png" % (m, V)] = ("saveimage factor 2", H + "shots_teaching.py spec_h.py "
+        "group hy: view turn, viewall, mofield Localised MO, moselect, mopanel compute, saveimage 2 white" + ONE)
+for m in ("co2", "so2", "h2o", "bf3", "nh3", "ch3f"):
+    over["dipoles/dip-%s.ecce-%s.png" % (m, V)] = ("saveimage factor 2", H + "shots_teaching.py spec_g.py, "
+        "ECCE_OPEN_PANEL=Dipole Moment, ECCE_BUILDER_SCRIPT: background 1 1 1, view turn, viewall, zoom 1.3, "
+        "bonddipoles on ESPFIT, vector DIPOLE, saveimage 2 white; " + POL + "*" + REDO + ONE)
+for f in ("hf-sigma", "hf-pi", "hf-sigmastar", "lih-sigma", "co-sigma", "co-pi", "co-homo", "co-pistar"):
+    over["polarised-bonds/%s.ecce-%s.png" % (f, V)] = ("saveimage factor 2", H + "shots_teaching.py spec_h.py "
+        "group pb: rotate 90, viewall on the atoms, zoom 1/2.4, mofield MO, moselect, mopanel compute, saveimage 2 white" + ONE)
+for f in ("n2-sigma", "n2-pi", "f2-sigma", "f2-pi"):
+    over["diatomics/%s.ecce-%s.png" % (f, V)] = ("saveimage factor 2", H + "shots_teaching.py spec_h.py "
+        "group da: rotate 90, viewall on the atoms, zoom 1/1.5, mofield MO, moselect, mopanel compute, saveimage 2 white" + ONE)
+for f in ("co2-esp", "so2-esp", "h2o-esp"):
+    over["dipoles/%s.ecce-%s.png" % (f, V)] = ("saveimage factor 2", H + "shots_teaching.py spec_h.py group dp: "
+        "view turn, viewall on the atoms, zoom 1/2.2, mofield ESP on Density, mopanel esp (Auto range)" + REDO + ONE)
+for f in ("nacl-nci", "nacl-esp", "hf-nci", "hf-esp"):
+    over["polar-ionic/%s.ecce-%s.png" % (f, V)] = ("saveimage factor 2", H + "shots_teaching.py spec_h.py group pi: "
+        "view turn, viewall on the atoms, zoom 1/2.4, mofield NCI / ESP on Density, mopanel nci / esp" + REDO + ONE)
+over["diatomics/o2-spin.ecce-%s.png" % V] = ("saveimage factor 2", H + "shots_teaching.py spec_e.py, " + DIA +
+    "O2: rotate 90, mofield Spin Density, mopanel compute, viewall, saveimage 2 white; trimmed -border 30")
+over["h2-bond/h2-curve.ecce-%s.png" % V] = ("screenshot", H + "shots_teaching.py spec_g.py, ECCE_OPEN_PANEL=Relaxed "
+    "Scan, plotshot h2-curve 1000 700 Relaxed Scan (kJ/mol, Zero: Lowest point) of genchem/bond-formation/"
+    "orca-h2_bond_curve; plot area cropped (1000x418+0+150)")
+rows = [r for r in rows if r[0] not in over and not r[0].startswith(("dipoles/bond-dipoles", "polarised-bonds/lih-lumo"))]
+rows += [(p, k, how) for p, (k, how) in over.items()]
+
 path = sys.argv[1]
 lines = open(path).read().splitlines()
 mine = {r[0] for r in rows}

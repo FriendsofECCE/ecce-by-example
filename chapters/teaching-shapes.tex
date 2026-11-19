@@ -49,26 +49,37 @@ The topic \menu{VSEPR} holds ten molecules, each optimised in the gas phase: the
 
 \begin{figure}[htbp]
 	\centering
-	\setlength{\tabcolsep}{2pt}
+	\setlength{\tabcolsep}{1pt}
 	\begin{tabular}{ccccc}
-		\includegraphics[height=2.3cm]{shapes/becl2.ecce-9.5.3-dev.png} &
-		\includegraphics[height=2.3cm]{shapes/bf3.ecce-9.5.3-dev.png} &
-		\includegraphics[height=2.3cm]{shapes/ch4.ecce-9.5.3-dev.png} &
-		\includegraphics[height=2.3cm]{shapes/nh3.ecce-9.5.3-dev.png} &
-		\includegraphics[height=2.3cm]{shapes/h2o.ecce-9.5.3-dev.png} \\
-		\chem{BeCl2} 2+0 & \chem{BF3} 3+0 & \chem{CH4} 4+0 & \chem{NH3} 3+1 & \chem{H2O} 2+2 \\[3mm]
-		\includegraphics[height=2.3cm]{shapes/pf5.ecce-9.5.3-dev.png} &
-		\includegraphics[height=2.3cm]{shapes/sf4.ecce-9.5.3-dev.png} &
-		\includegraphics[height=2.3cm]{shapes/clf3.ecce-9.5.3-dev.png} &
-		\includegraphics[height=2.3cm]{shapes/sf6.ecce-9.5.3-dev.png} &
-		\includegraphics[height=2.3cm]{shapes/brf5.ecce-9.5.3-dev.png} \\
-		\chem{PF5} 5+0 & \chem{SF4} 4+1 & \chem{ClF3} 3+2 & \chem{SF6} 6+0 & \chem{BrF5} 5+1 \\
+		\includegraphics[width=0.19\linewidth]{shapes/becl2.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.19\linewidth]{shapes/bf3.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.19\linewidth]{shapes/ch4.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.19\linewidth]{shapes/nh3.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.19\linewidth]{shapes/h2o.ecce-9.5.3-dev.png} \\
+		\chem{BeCl2} 2+0 & \chem{BF3} 3+0 & \chem{CH4} 4+0 & \chem{NH3} 3+1 & \chem{H2O} 2+2 \\
 	\end{tabular}
-	\caption{The ten optimised structures of the topic \menu{VSEPR}, as the Viewer draws them, each turned so that its shape is easy to see. Under each: bonds + lone pairs on the central atom. The lone pairs are not drawn.}
+	\caption{The optimised structures with two to four electron domains, from the topic \menu{VSEPR}, as the Viewer draws them. All pictures in figures~\ref{fig:sh-structures} and~\ref{fig:sh-structures2} are drawn at the same scale, so their bond lengths can be compared. Under each: bonds + lone pairs on the central atom; the lone pairs are not drawn.}
 	\label{fig:sh-structures}
 \end{figure}
 
-Figure~\ref{fig:sh-structures} shows the shapes of table~\ref{tab:sh} as a class sees them in the Viewer: linear, triangle, tetrahedron, pyramid and bent in the first row, then trigonal bipyramid, seesaw, T, octahedron and square pyramid. Every molecule with lone pairs has an open side where no atom sits, because the lone pairs take up room around the central atom without being drawn. Hence a class can find the lone pairs in a structure by looking for the gaps: one in \chem{NH3}, \chem{SF4} and \chem{BrF5}, two in \chem{H2O} and \chem{ClF3}.
+Figure~\ref{fig:sh-structures} shows a line, a triangle, a tetrahedron, a pyramid and a bent molecule. The last three all have four electron domains around the central atom, and the pyramid and the bent shape are the tetrahedron with one or two corners left empty, because a lone pair takes a corner of the tetrahedron without an atom to show it. Hence the class can find the lone pairs in a structure by looking for the open side: one in \chem{NH3}, two in \chem{H2O}.
+
+\begin{figure}[htbp]
+	\centering
+	\setlength{\tabcolsep}{1pt}
+	\begin{tabular}{ccccc}
+		\includegraphics[width=0.19\linewidth]{shapes/pf5.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.19\linewidth]{shapes/sf4.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.19\linewidth]{shapes/clf3.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.19\linewidth]{shapes/sf6.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.19\linewidth]{shapes/brf5.ecce-9.5.3-dev.png} \\
+		\chem{PF5} 5+0 & \chem{SF4} 4+1 & \chem{ClF3} 3+2 & \chem{SF6} 6+0 & \chem{BrF5} 5+1 \\
+	\end{tabular}
+	\caption{The optimised structures with five and six electron domains, drawn as in figure~\ref{fig:sh-structures} and at the same scale.}
+	\label{fig:sh-structures2}
+\end{figure}
+
+Figure~\ref{fig:sh-structures2} shows the trigonal bipyramid of \chem{PF5} and the octahedron of \chem{SF6}, and between them the seesaw of \chem{SF4}, the T of \chem{ClF3} and the square pyramid of \chem{BrF5}, each with an open side where its lone pairs are. This is because the lone pairs take positions of the same five or six domains: in \chem{SF4} and \chem{ClF3} positions in the equatorial triangle, in \chem{BrF5} one corner of the octahedron. Hence these five shapes come from only two arrangements of domains, and the S--F and Br--F bonds next to a lone pair are visibly bent away from it.
 
 \section{Lone pairs squeeze the bond angles}
 \chem{CH4}, \chem{NH3} and \chem{H2O} all have four electron domains around the central atom, and table~\ref{tab:sh} shows that their bond angles fall from \ang{109.5} to \ang{105.9} to \ang{103.8} as bonds are replaced by lone pairs. This happens because a lone pair is held by one nucleus only and spreads out closer to the central atom than a bonding pair, so it pushes the bonds together. Hence a tetrahedral arrangement of domains gives a smaller angle the more lone pairs it holds. The measured angles in the gas phase are \ang{106.7} for \chem{NH3} and \ang{104.5} for \chem{H2O} \cite{cccbdb}, the same order and within a degree of the calculation.

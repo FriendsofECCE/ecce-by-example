@@ -60,7 +60,7 @@ The 2p orbitals of the two atoms make one bonding $\sigma$ orbital along the axi
 		\includegraphics[width=0.36\linewidth]{diatomics/f2-pi.ecce-9.5.3-dev.png} \\
 		\chem{N2} $\pi$ (one of two) & \chem{F2} $\pi$ (one of two) \\
 	\end{tabular}
-	\caption{The $\sigma$ orbital made from 2p and one of the two $\pi$ orbitals of \chem{N2} (left) and \chem{F2} (right), drawn in the \menu{MOs} panel with the bond across the page. The two colours are the two signs of the orbital.}
+	\caption{The $\sigma$ orbital made from 2p and one of the two $\pi$ orbitals of \chem{N2} (left) and \chem{F2} (right), drawn in the \menu{MOs} panel with the bond across the page, all four at the same scale. The two colours are the two signs of the orbital.}
 	\label{fig:da-sigma}
 \end{figure}
 
@@ -68,14 +68,13 @@ Figure~\ref{fig:da-sigma} shows that the two $\pi$ orbitals look alike, a sausag
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.75\linewidth]{diatomics/b2-diagram.ecce-9.5.3-dev.png}\\[2mm]
-	\includegraphics[width=0.75\linewidth]{diatomics/n2-diagram.ecce-9.5.3-dev.png}\\[2mm]
-	\includegraphics[width=0.75\linewidth]{diatomics/f2-diagram.ecce-9.5.3-dev.png}
-	\caption{MO diagrams of \chem{B2} (top), \chem{N2} (middle) and \chem{F2} (bottom) from \menu{Properties > Orbitals > MO Diagram}: the atomic levels of the two atoms on the left and right, the molecular orbitals built from them in the middle (a simple model that ECCE draws), and on the far right the levels of the calculation itself with their energies in eV. Arrows are electrons.}
+	\includegraphics[width=\linewidth]{diatomics/b2-diagram.ecce-9.5.3-dev.png}\\[2mm]
+	\includegraphics[width=\linewidth]{diatomics/n2-diagram.ecce-9.5.3-dev.png}
+	\caption{MO diagrams of \chem{B2} (top) and \chem{N2} (bottom) from \menu{Properties > Orbitals > MO Diagram}: the atomic levels of the two atoms on the left and right, the molecular orbitals built from them in the middle (a simple model that ECCE draws), and on the far right the levels of the calculation itself with their energies in eV. Arrows are electrons.}
 	\label{fig:da-diagrams}
 \end{figure}
 
-Figure~\ref{fig:da-diagrams} shows the same set of levels filled with 6, 10 and 14 valence electrons. In \chem{B2} the last two electrons go one each into the two $\pi$ levels, with parallel spins, and the $\sigma$ level made from 2p stays empty above them; in the calculation it lies \SI{2.3}{eV} above the $\pi$ pair. This is because on the left of the period the $\sigma$ level is pushed up by 2s mixing, as in \chem{N2}, so the $\pi$ pair is filled first. Hence \chem{B2} has two unpaired electrons and is paramagnetic like \chem{O2}, for a different reason: with the order of \chem{F2}, the two electrons would pair in $\sigma$ and \chem{B2} would have none. \chem{C2}, two electrons further, fills the $\pi$ pair and still leaves that $\sigma$ level empty.
+Figure~\ref{fig:da-diagrams} shows that in both molecules the $\sigma$ level made from 2p lies above the $\pi$ pair. In \chem{B2} the last two electrons therefore go one each into the two $\pi$ levels, with parallel arrows, and the $\sigma$ level stays empty, \SI{2.3}{eV} higher in the calculation; in \chem{N2} the $\pi$ pair is full and the $\sigma$ level above it is the highest occupied one. This is because on the left of the period the 2s and 2p levels are close enough to mix, which pushes the $\sigma$ level up past the $\pi$ pair. Hence \chem{B2} has two unpaired electrons and is paramagnetic; with the order of \chem{F2} its two electrons would pair in $\sigma$ and it would have none. \chem{C2}, two electrons further, fills the $\pi$ pair and still leaves that $\sigma$ level empty.
 \index{Boron, diatomic!unpaired electrons}
 
 \section{Paramagnetic oxygen}
@@ -84,12 +83,26 @@ Figure~\ref{fig:da-diagrams} shows the same set of levels filled with 6, 10 and 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.36\linewidth]{diatomics/o2-pistar.ecce-9.5.3-dev.png}
-	\caption{One of the two singly occupied $\pi^*$ orbitals of \chem{O2}, drawn in the \menu{MOs} panel with the bond across the page; the two colours are the two signs of the orbital.}
+	\includegraphics[width=\linewidth]{diatomics/o2-diagram.ecce-9.5.3-dev.png}\\[2mm]
+	\includegraphics[width=\linewidth]{diatomics/f2-diagram.ecce-9.5.3-dev.png}
+	\caption{MO diagrams of \chem{O2} (top) and \chem{F2} (bottom), drawn as in figure~\ref{fig:da-diagrams}. Each arrow is one electron, pointing up or down for its spin.}
+	\label{fig:da-o2f2}
+\end{figure}
+
+Figure~\ref{fig:da-o2f2} shows the two $\pi^*$ levels of \chem{O2} holding one electron each, both arrows pointing up, and those of \chem{F2} holding two each, one up and one down. This is because \chem{O2} has only two electrons for the four places in $\pi^*$, and two electrons in two orbitals of the same energy repel each other least when they sit in different orbitals with parallel spins, while \chem{F2} has four and fills both orbitals. Hence \chem{O2} keeps two unpaired electrons and is drawn into a magnet, and \chem{F2}, with every electron paired, is not.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tabular}{cc}
+		\includegraphics[width=0.4\linewidth]{diatomics/o2-pistar.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.4\linewidth]{diatomics/o2-spin.ecce-9.5.3-dev.png} \\
+		one of the two $\pi^*$ orbitals & spin density \\
+	\end{tabular}
+	\caption{\chem{O2} with the bond across the page. Left: one of the two singly occupied $\pi^*$ orbitals (\menu{MOs} panel, \menu{MO}); the two colours are the two signs of the orbital. Right: the spin density, the density of the electrons of one spin minus that of the other (\menu{MOs} panel, \menu{Spin Density}); the surface encloses the region where the unpaired electrons are.}
 	\label{fig:da-o2}
 \end{figure}
 
-Figure~\ref{fig:da-o2} shows four lobes with alternating signs and a node cutting the bond in the middle, because in $\pi^*$ the p orbitals of the two atoms combine with opposite signs. Hence the electron in it works against the bond, and the two such electrons of \chem{O2} lower the bond order from the 3 of \chem{N2} to 2 while making the molecule magnetic.
+Figure~\ref{fig:da-o2} shows the $\pi^*$ orbital as four lobes with alternating signs and a node cutting the bond in the middle, and the spin density as a ring around each oxygen atom, pinched at the middle of the bond. This is because the two unpaired electrons sit in the two $\pi^*$ orbitals, whose lobes stand off the bond on all sides and vanish half way between the atoms, and together they fill a ring around the axis. Hence the unpaired electrons, and with them the magnetism of \chem{O2}, belong to the whole molecule and are shared equally by the two atoms, not to one atom; and since they are in an antibonding orbital they also lower the bond order from the 3 of \chem{N2} to 2.
 
 \section{In class}
 Draw the highest occupied orbital of \chem{N2} and the $\sigma$ orbital of \chem{F2} side by side: the extra outward lobes of the \chem{N2} orbital show the 2s mixing that moves it up. Then show the two singly occupied $\pi^*$ orbitals of \chem{O2} together with the liquid-oxygen demonstration, or a video of it.

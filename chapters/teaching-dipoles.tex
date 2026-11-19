@@ -51,19 +51,28 @@ Table~\ref{tab:dp} shows that the first four molecules have strongly charged cen
 \chem{SO2} has the same kind of bonds as \chem{CO2}, sulfur positive and oxygen negative, but it is bent at \ang{117.5}, and its dipole moment is 1.92~D (measured 1.63~D). The two bond dipoles now point partly the same way, toward the side of the oxygen atoms, and no longer cancel. Hence the shape, and not the bonds alone, decides whether a molecule is polar; why \chem{SO2} is bent and \chem{CO2} is not is the subject of Chapter~\ref{ch:t-shapes}.
 
 \section{Where the dipole moment comes from}
-The dipole moment that ECCE shows is worked out from the whole charge of the molecule: each nucleus is a positive point charge at its position, and the electrons are a cloud of negative charge spread over the molecule, the electron density of the calculation. Each piece of charge is multiplied by its position and all of them are added up. For a neutral molecule the result does not depend on where the positions are measured from, and it is zero exactly when the centre of the positive charge and the centre of the negative charge fall on the same point. In physics the dipole points from the centre of negative charge to the centre of positive charge; chemists usually draw the arrow the other way, towards the negative end, as in the figures of this chapter.
+The dipole moment that ECCE shows is worked out from the whole charge of the molecule: each nucleus is a positive point charge at its position, and the electrons are a cloud of negative charge spread over the molecule, the electron density of the calculation. Each piece of charge is multiplied by its position and all of them are added up. For a neutral molecule the result does not depend on where the positions are measured from, and it is zero exactly when the centre of the positive charge and the centre of the negative charge fall on the same point. ECCE draws the dipole moment as an arrow from the negative to the positive end, the direction of the IUPAC definition; many chemistry textbooks draw the crossed arrow the other way, towards the negative end, so the class should be told which convention a picture uses.
 \index{Dipole moment!how it is calculated}
 
-Bond dipoles are a way of splitting this one vector into pieces a class can draw. Give each atom its charge from the table and take the outer atom of each bond: its charge times the bond, as an arrow along the bond, is that bond's dipole. Added as arrows, head to tail, the bond dipoles of a neutral molecule give exactly the dipole of the atomic charges, and that is close to the dipole moment worked out from the whole charge cloud: for water 1.90~D against 1.85~D.
+Bond dipoles are a way of splitting this one vector into pieces a class can draw. ECCE gives each atom its charge from the table and writes each charge as charge passed along the bonds; each bond's dipole is that charge times the bond, an arrow along the bond. Added as arrows, head to tail, the bond dipoles of a neutral molecule give exactly the dipole of the atomic charges, and that is close to the dipole moment worked out from the whole charge cloud: for water 1.90~D against 1.85~D.
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.95\linewidth]{dipoles/bond-dipoles.ecce-9.5.3-dev.png}
-	\caption{Bond dipoles (thin blue arrows, one beside each bond) and the dipole moment of the whole molecule (thick orange arrow, drawn beside the molecule) of six of the molecules of table~\ref{tab:dp}, all pointing towards the negative end. Each bond dipole is the charge of its outer atom times the bond, from the stored atomic charges; the molecular dipole is the calculated dipole moment, at the same scale. \chem{NH3} and \chem{CH3F} are seen from a little above, so that all their atoms show. Drawn from the stored ECCE results.}
+	\begin{tabular}{ccc}
+		\includegraphics[width=0.3\linewidth]{dipoles/dip-co2.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.3\linewidth]{dipoles/dip-bf3.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.3\linewidth]{dipoles/dip-so2.ecce-9.5.3-dev.png} \\
+		\chem{CO2} & \chem{BF3} & \chem{SO2} \\\\[2mm]
+		\includegraphics[width=0.3\linewidth]{dipoles/dip-h2o.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.3\linewidth]{dipoles/dip-nh3.ecce-9.5.3-dev.png} &
+		\includegraphics[width=0.3\linewidth]{dipoles/dip-ch3f.ecce-9.5.3-dev.png} \\
+		\chem{H2O} & \chem{NH3} & \chem{CH3F} \\
+	\end{tabular}
+	\caption{Bond dipoles and the dipole moment as ECCE draws them: \menu{Properties > Electric properties > Dipole Moment} with \menu{Bond dipoles} ticked, from the stored CHELPG charges. Each purple arrow is one bond dipole, pointing from the negative to the positive atom; the thin yellow arrow between two small maroon spheres is the dipole moment of the whole molecule, from the negative to the positive pole. All six are drawn at the same scale. \chem{NH3} is seen from above its nitrogen, with the third H behind N, and \chem{CH3F} along one C--H bond.}
 	\label{fig:dp-arrows}
 \end{figure}
 
-Figure~\ref{fig:dp-arrows} shows the bond dipoles of \chem{CO2} pointing away from each other along one line and those of \chem{BF3} pointing to the corners of a triangle, while those of \chem{SO2}, \chem{H2O}, \chem{NH3} and \chem{CH3F} all lean towards one side of the molecule. This is because the arrows add head to tail: two equal arrows in opposite directions, or three at \ang{120}, end where they started, while arrows that share a direction leave a sum. Hence the thick arrow appears only on the bent and pyramidal molecules and on \chem{CH3F}, whose one strong C--F bond dipole is not balanced by the three weak C--H ones.
+Figure~\ref{fig:dp-arrows} shows the bond dipoles of \chem{CO2} pointing at the carbon from both sides along one line and those of \chem{BF3} pointing at the boron from the corners of a triangle, with no molecular arrow, while in \chem{SO2}, \chem{H2O}, \chem{NH3} and \chem{CH3F} the bond arrows lean towards one side and a molecular arrow appears. This is because the arrows add head to tail: two equal arrows in opposite directions, or three at \ang{120}, end where they started, while arrows that share a direction leave a sum. Hence the molecular arrow appears only on the bent and pyramidal molecules and on \chem{CH3F}, whose one strong C--F bond dipole is not balanced by the three weak C--H ones.
 
 \begin{figure}[htbp]
 	\centering
@@ -73,7 +82,7 @@ Figure~\ref{fig:dp-arrows} shows the bond dipoles of \chem{CO2} pointing away fr
 		\includegraphics[height=2.6cm]{dipoles/h2o-esp.ecce-9.5.3-dev.png} \\
 		\chem{CO2} & \chem{SO2} & \chem{H2O} \\
 	\end{tabular}
-	\caption{The electric potential on a surface of constant electron density (\menu{ESP on Density} in the \menu{MOs} panel), red negative and blue positive, each picture on its own colour scale (\menu{ESP range: Auto}). \chem{CO2}: the O atoms at the left and right ends, C in the middle. \chem{SO2}: the two O atoms on the left, S on the right. \chem{H2O}: O at the top, the two H atoms at the lower corners.}
+	\caption{The electric potential on a surface of constant electron density (\menu{ESP on Density} in the \menu{MOs} panel), red negative and blue positive, each picture on its own colour scale (\menu{ESP range: Auto}); the three molecules are drawn at the same size scale. \chem{CO2}: the O atoms at the left and right ends, C in the middle. \chem{SO2}: the two O atoms on the left, S on the right. \chem{H2O}: O at the top, the two H atoms at the lower corners.}
 	\label{fig:dp-esp}
 \end{figure}
 
@@ -86,7 +95,7 @@ For a bent molecule with two equal bonds the addition can be done on the board. 
 The calculated dipole moments of \chem{H2O}, \chem{NH3} and \chem{CH3F} are within 3\,\% of the measured ones; that of \chem{SO2} is 18\,\% too large, so in the calculated column \chem{SO2} comes out as the most polar of the four, while measured it is third. The zeros of the symmetric molecules and the contrast between \chem{CO2} and \chem{SO2} hold exactly in both columns; to rank the four polar molecules, use the measured one.
 
 \section{In class}
-Show \chem{CO2} and \chem{SO2} side by side with their charges switched on or their ESP surfaces drawn, ask whether each molecule is polar, and then show the dipole moments. Draw the two bond dipoles as arrows on each molecule; the class can see that the arrows of \chem{CO2} point away from each other along one line and those of \chem{SO2} add up.
+Show \chem{CO2} and \chem{SO2} side by side with their charges switched on or their ESP surfaces drawn, ask whether each molecule is polar, and then show the dipole moments. Tick \menu{Bond dipoles} in the \menu{Dipole Moment} panel of each; the class can see that the arrows of \chem{CO2} meet head on along one line and those of \chem{SO2} add up.
 
 \section{History}
 Debye introduced the permanent dipole moment of a molecule in 1912 to explain how the dielectric constant of a substance depends on temperature \cite{debye1912}, and collected the theory and the measured values in his book \emph{Polar Molecules} of 1929 \cite{debye1929}.
