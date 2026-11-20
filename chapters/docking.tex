@@ -8,20 +8,53 @@
 \index{Select Protein}
 \index{Select Ligand}
 \eccexample{Examples > Biochemistry}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{vina}
-\XXX[ chapter to be written]
+\helppage{importing-a-structure}
+
+Docking asks where a small molecule binds on a larger one and how well. It places the ligand in a binding site in many positions and orientations, lets its rotatable bonds turn, and ranks the poses it finds with a scoring function. The answer comes in seconds to minutes even for a protein, which is why docking is the usual first step before anything more careful, but it pays for that speed: the score is an empirical estimate, not an energy, and the receptor is held rigid. In this chapter we dock benzene into the cavity of a mutant T4 lysozyme, a protein whose crystal structure has benzene bound, so that we can check whether the best pose is where the crystal says it should be. This is called redocking, and it is the first test any docking set-up should pass before it is trusted with a ligand whose pose is not known.
+
+\section*{This requires}
+\index{Requirements!AutoDock Vina}
+AutoDock Vina 1.2 (on Debian, \texttt{sudo apt install autodock-vina}), registered on the machine that runs the job (Appendix~\ref{ch:running-each-code}), and the crystal structure 181L from the Protein Data Bank (\url{https://www.rcsb.org/structure/181L}, \emph{Download Files > PDB Format}). ECCE cannot yet fetch structures from the PDB itself.
 
 \section{Background}
+\index{Docking!scoring}
+The protein is T4 lysozyme with leucine~99 replaced by alanine. The smaller side chain leaves an empty, hydrophobic cavity of about 150~\AA$^3$ in the C-terminal domain, too small for water to fill usefully but just right for benzene, and the crystal structure 181L shows benzene sitting in it. Because the cavity is buried, closed and nonpolar, this is the textbook case where docking should work, and it has been used to test docking programs for many years.
 
-\section{What ECCE shows}
+Vina describes the receptor and the ligand by atom types (aromatic or aliphatic carbon, hydrogen-bond donor or acceptor, and so on) and scores a pose with a function fitted to measured binding affinities. Its score, reported in kcal/mol, is therefore an estimate of a binding free energy from a fitted function and not the energy of a quantum chemical or force-field calculation. Note that scores can only be compared with other Vina scores against the same receptor, and that differences below about 1~kcal/mol are within the noise of the method. ECCE writes the molecules in Vina's PDBQT format itself: hydrogens on carbon are merged into their carbon, only those on N, O and S are kept, every atom gets its AutoDock type and Gasteiger charge, the receptor is rigid, and the ligand's single bonds outside rings may rotate.
 
-\section{Procedure}
+\section{Preparing the system}
+\index{PDB import}\index{Select Solvent}
+Docking in ECCE starts from one structure that holds both the receptor and the ligand, so that the two are told apart by atom numbers.
+\begin{enumerate}
+	\item In the Organizer, make a project, and in it choose \menu{File > New} and the Vina docking calculation; call it \texttt{t4l-benzene}.
+	\item Open the Builder on it (\menu{Builder} below the calculation's details), choose \menu{File > Import...} and open \texttt{181L.pdb}. If the reader asks which model, alternate location or chain to use, keep the first model and all chains.
+	\item Remove the crystal water: \menu{Edit > Select Solvent}, then \menu{Edit > Delete}. Remove any other heteroatoms that are not the ligand in the same way, selecting them in the 3-D view.
+	\item The crystal structure has no hydrogen atoms, and Vina needs the polar ones. Choose \menu{Build > Add Hydrogen}.
+	\item Find the ligand's atom numbers: click one atom of the benzene and choose \menu{Edit > Select Molecule}; the status line gives the selected atoms' numbers. Write them down, since the next step needs them.
+	\item Save with \menu{File > Save}.
+\end{enumerate}
+\XXX[run: confirm the menu names for Import and Delete on 181L, whether Add Hydrogen gives sensible protein hydrogens, and how the status line reports the benzene's atom numbers; screenshot of the protein with benzene in the cavity]
 
-\section{Results}
+\section{Setting up the search}
+\index{Docking box}\index{Runtype Details!Vina}
+\begin{enumerate}
+	\item Open the Calculation Editor. The run type is \menu{Docking (Vina)}, the only one. Open \menu{Runtype Details...}.
+	\item Under \menu{Receptor and Ligand}, enter the benzene's atom numbers in \menu{Ligand atoms}, for example \texttt{2601-2612}. Every other atom is the receptor. (Left empty, ECCE takes the smallest separate molecule as the ligand, which is right for a host and a guest but risky for a protein that may contain other small fragments.)
+	\item Under \menu{Search Box}, keep \menu{Centre the box on the ligand}. The box is then the ligand's extent plus the \menu{Margin around the atoms} (5~\AA) on every side, and never less than 16~\AA\ in any direction, which comfortably covers this cavity. For a ligand whose site is not known, select the residues that line the pocket in the Builder and choose \menu{Tools > Docking Box Around Selection} instead; the box is drawn as a green wireframe.
+	\item Under \menu{Search}, raise \menu{Exhaustiveness} from 8 to 16, and set \menu{Random seed} to a fixed number such as 42, so that the run can be repeated exactly. Keep 9 poses and an energy range of 3.0~kcal/mol.
+	\item Save, and launch on \texttt{localhost}.
+\end{enumerate}
+
+Since the box is centred on the benzene where the crystal put it, Vina starts with the right answer in reach. That is the point of redocking: if the best pose is \emph{not} in the cavity, or not in the crystal orientation, something in the preparation is wrong (missing hydrogens, the wrong atoms as ligand, a box in the wrong place) and has to be fixed before the set-up is used for a new ligand.
+
+\section{Reading the poses}
+\index{Poses panel}\index{Pocket view}
+When the job has finished, open it in the Viewer and choose \menu{Properties > Poses}. Each row is one pose with a picture of the ligand and its \emph{Vina score (kcal/mol)}, best first, and the line above the table says how many poses fell within the energy range. Clicking a row shows that pose. With \menu{Pocket view} ticked, which it is by default, the viewer shows the ligand as balls and sticks and only the residues within 6~\AA\ of it, so that the pose can be seen in its pocket instead of buried in the protein. Selecting two rows with Ctrl superposes them and reports their RMSD, which tells us whether two poses are really different or the same pose turned slightly.
+\XXX[run: the best score and the poses within 3 kcal/mol; RMSD of the best pose from the crystal position (the starting structure); figures: Poses panel, the best pose in Pocket view]
+
+What we expect for benzene is a best pose in the cavity, flat between the side chains that line it, close to the crystal position, and a few further poses that are the same ring turned in its plane, since benzene's six-fold symmetry makes such poses nearly equivalent. Note that the hydrogens on carbon that Vina merged into their carbons are put back in the stored poses from the ligand's own geometry; they are approximate and took no part in the scoring.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+A pose is a starting point. The ligand's own geometry can be refined with xTB or a density functional calculation with \menu{New from This} (Chapters~\ref{ch:xtb} and \ref{ch:coupling}), and a ligand whose conformers matter is better docked from a CREST ensemble than from one drawn structure (Chapter~\ref{ch:crest}). Rescoring a pose with a quantum chemical method needs the pocket cut out as a cluster, and ECCE's \menu{Build > Cut Cluster...} currently does that only for periodic structures, so for a protein this step is still done outside ECCE. A more reliable affinity than the docking score comes from free-energy methods, of which umbrella sampling (Chapter~\ref{ch:umbrella}) is one.
