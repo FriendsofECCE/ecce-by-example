@@ -6,20 +6,56 @@
 \index{Pseudopotentials}
 \index{vc-relax}
 \eccexample{Examples > General Chemistry > Packing in solids}
+\checkedwith{9.5.3-dev}{4c8b4b851}
+\helppage{qe-first-calculation}
 \helppage{qe-choosing-settings}
-\XXX[ chapter to be written]
 
-\section{Background}
+A crystal repeats in three directions, and the natural way to describe its electrons is with waves that repeat with it. Quantum ESPRESSO does exactly that: it expands the orbitals in plane waves, replaces the core electrons of each atom by a pseudopotential, and samples the electrons across the crystal at a grid of points in its reciprocal cell, the $k$-points. For anyone used to molecular codes, three things are new, namely that the basis set is a single number, the cutoff, that empty space costs as much as space with atoms in it, and that the $k$-point grid is a convergence parameter of its own. This chapter runs the simplest useful calculation, the energy of crystalline silicon, step by step, and then uses it to show how each of these settings is chosen and checked.
 
-\section{What ECCE shows}
+\section*{This requires}
+\index{Requirements!Quantum ESPRESSO}
+Quantum ESPRESSO and a set of pseudopotentials. On Debian, \texttt{sudo apt install quantum-espresso quantum-espresso-data-sssp} installs \texttt{pw.x} and the SSSP set, one pseudopotential for each of 103 elements, in \texttt{/usr/share/espresso/pseudo}. Register \texttt{pw.x} on the machine that runs the job (Appendix~\ref{ch:running-each-code}); there is no Windows version, so on Windows the job runs on a Linux machine reached over ssh.
 
-\section{Procedure}
+\section{Building silicon}
+\index{Periodic Builder}\index{Space group}
+Silicon has the diamond structure, space group $Fd\bar{3}m$ (number 227), with a cubic cell of 5.43~\AA\ and one symmetry-distinct atom at the origin. ECCE's Periodic Builder generates all the atoms of the cell from that one atom and the space group.
+\begin{enumerate}
+	\item In the Organizer, make a project \texttt{qe-tutorial}, select it and choose \menu{File > New > Quantum ESPRESSO Calculation...}; call it \texttt{si-scf}.
+	\item Open the Builder on it. In the \menu{Build} panel, click the element \texttt{Si}, choose the first shape in the shape list at the bottom of the panel, the lone atom, and click once in the empty 3-D view. One silicon atom appears.
+	\item The \menu{Periodic Builder} panel opens with a Quantum ESPRESSO calculation (otherwise \menu{Tools > Periodic Builder}). Click \menu{Create Lattice}. Set the cell \emph{before} generating atoms: enter \texttt{5.43} in \menu{a:}, \menu{b:} and \menu{c:}, pressing Enter after each, and check that the three angles are 90°.
+	\item Type \texttt{Fd-3m} in the box next to \menu{Sym. Group} and click \menu{Generate}. The view shows the cubic cell with eight atoms, and the status line says \emph{8 atoms, Fd-3m}.
+	\item Save with \menu{File > Save} and close the Builder tab.
+\end{enumerate}
+The cubic cell with eight atoms is four times larger than the smallest cell of silicon, which holds two; it describes the same crystal and costs more, but it is the cell the Periodic Builder makes and it is easier to recognise.
 
-\section{Results}
+\section{Setting up and running}
+\index{Wavefunction cutoff}\index{k-points}
+\begin{enumerate}
+	\item Open the Calculation Editor. It shows \emph{Formula} Si$_8$, eight atoms and the symmetry $Fd\bar{3}m$. There is no \menu{Basis Set} box, since plane waves have no basis set, only a cutoff. Check that \menu{Theory} is \menu{PW} and \menu{Runtype} is \menu{Energy}.
+	\item Open \menu{Theory Details...}. The defaults suit silicon: a \menu{Wavefunction Cutoff} of 30~Ry, a $4\times4\times4$ Monkhorst--Pack grid of $k$-points, and \menu{Fixed (insulator)} occupations. ECCE chooses each element's pseudopotential from the directory set there, so no file names need typing. Close the dialog.
+	\item Save. \menu{Final Edit...} shows the input file ECCE has written for \texttt{pw.x}: the cell (\texttt{CELL\_PARAMETERS}), the atoms, the pseudopotential, the $k$-point grid, \texttt{ecutwfc = 30.0} and \texttt{ecutrho = 240}. Close it without saving.
+	\item Launch on \texttt{localhost}. The calculation takes from half a minute to a few minutes.
+	\item Open the finished calculation in the Viewer and choose \menu{Properties > Energies}.
+\end{enumerate}
+\XXX[figures: the Builder with the silicon cell; Theory Details; the Energies panel]
+
+The total energy is $-45.678429$~Hartree. Quantum ESPRESSO itself prints energies in Rydberg, and ECCE converts them: the output's \texttt{! total energy = -91.356858 Ry} is the same number, since one Hartree is two Rydberg. Note that this is the energy of the valence electrons with these pseudopotentials, and so means nothing outside calculations with the same pseudopotentials and comparable settings; what we use are energy differences.
+
+\section{Choosing the settings}
+\index{Convergence}
+Every number in \menu{Theory Details} is a starting value, and the way to check one is always the same: run the calculation again with that one setting increased, and see whether the quantity we care about (an energy difference, a bond length, a lattice constant) changes by more than we need. A common target is 1~meV per atom for energies, 0.07~mRy. Note that it is the energy \emph{differences} that must converge; a total energy can still be moving while the difference we want has long settled.
+
+\paragraph{The cutoff.} The cutoff plays the role of the basis set. Start from the value recommended for the pseudopotentials, which for the SSSP set is 30~Ry for silicon and 60~Ry for hydrogen, and with several elements take the highest. Leave the \menu{Charge Density Cutoff} unticked, so that ECCE writes 8~times the wavefunction cutoff for ultrasoft and PAW pseudopotentials and 4~times for norm-conserving ones, which is the usual choice. A cell optimisation needs about 30\,\% more, because too low a cutoff makes the stress wrong and the cell too small. For silicon, going from 30 to 45~Ry changes the energy by 0.2~mRy for the two-atom cell.
+
+\paragraph{The $k$-points.} A larger cell needs fewer $k$-points along each direction, since the cell itself already covers more of the crystal. As a first guess, make each grid number times the cell length about 25~\AA\ for an insulator or semiconductor and about 50~\AA\ for a metal, which gives 4 or 5 for silicon. Checking this one: with an $8\times8\times8$ grid the silicon energy is $-91.35837$~Ry, 1.5~mRy lower than with $4\times4\times4$, or 0.2~mRy per atom, so the smaller grid is good enough for a first look but not for a result we publish. For a molecule in a box, \menu{Gamma point only} is right and fastest, and for a slab one $k$-point across the vacuum is enough.
+
+\paragraph{Metals and spin.} A metal has partly filled bands, and sharp occupations make the self-consistent field oscillate; choose \menu{Smearing (metal)}, Marzari--Vanderbilt cold smearing with a width of 0.01 to 0.02~Ry, and check by halving the width. \menu{Unrestricted} alone does not make a calculation magnetic: give a \menu{Starting Magnetization} as well, for example 0.5, or a calculation that could be magnetic often ends up non-magnetic.
+
+\paragraph{Molecules in a box.} Leave about 10~\AA\ of vacuum between a molecule and its copy in the next cell, and remember that the vacuum costs time in proportion to its volume. A charged molecule still interacts with its copies, and \texttt{pw.x} adds a uniform background charge to make the cell neutral, so energies of charged species are only comparable in the same box.
+
+\section{The lattice constant}
+\index{Lattice constant}\index{Stress tensor}
+The cell of 5.43~\AA\ is the measured one. With the PBE functional, which the SSSP pseudopotentials are made for, the energy is lowest at about 5.48~\AA, in line with the published PBE value of 5.47 to 5.48~\AA; PBE typically overestimates lattice constants by about one per cent. At 5.43~\AA\ the computed crystal is therefore slightly compressed, and the pressure \texttt{pw.x} prints, with \menu{Stress tensor (tstress)} ticked in \menu{Runtype Details...}, is 20~kbar. There are two ways to find the computed lattice constant ourselves: repeat the energy for a series of cell lengths and find the minimum, or let \texttt{pw.x} relax the cell with \menu{Optimize cell} in \menu{Runtype Details...} at a cutoff raised by about a third. Chapter~\ref{ch:stress} shows how the stress tensor is read and used.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+Plane-wave DFT is the expensive end of periodic modelling. The usual cheaper step before it is a machine-learned potential (Chapter~\ref{ch:mlp}) that ranks candidate structures or sites in seconds, after which only the few that matter are refined here. Going the other way, the relaxed structure is the input for a calculated diffraction pattern (Chapter~\ref{ch:diffraction}), and a cluster cut out of the crystal with \menu{Build > Cut Cluster...} can be passed to a molecular code for a property it computes better.
