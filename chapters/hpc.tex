@@ -22,23 +22,50 @@
 \index{ecce-reconnect}
 \index{Moving a job to another machine}
 
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{register-machines}
 \helppage{allocations}
 \helppage{launch-selected}
 \helppage{reconnect-selected}
-\XXX[ chapter to be written]
+A laptop is fine for a water molecule, but most research calculations need more cores, more memory and more time than a desktop computer offers, and they go to a cluster: a shared machine run by a university or a national centre, where jobs wait in a queue and are charged to a project's allocation. Running a code there by hand means logging in, copying files, writing a batch script in the queue manager's own language, submitting it, watching the queue and copying the results back. ECCE does all of this itself once the cluster has been described to it, and this chapter shows how. The examples use Kebnekaise at HPC2N in Umeå, a Slurm cluster with environment modules, which is typical of the machines most of us will meet.
 
-\section{Background}
+\section*{This requires}
+An account on a cluster that you can reach with ssh, a project to charge jobs to, and the codes you want to run installed there (on most clusters as environment modules). Nothing needs to be installed on the cluster for ECCE itself.
 
-\section{What ECCE shows}
+\section{What ECCE needs to know}
+\index{Machine Registration}
+For a cluster, ECCE needs the same three things as for the computer we sit at (Chapter~\ref{ch:machines}), that the machine exists, where the codes are, and which queues it has, plus two more: how to log in, and what the batch script should contain. All of it is entered once, in \menu{Tools > Register Machines...}, and stored in a few small files in \texttt{\textasciitilde/.ECCE}. Most settings come in two layers. A \emph{site setting} belongs to the installation and is shared by everyone who uses it, so that a teacher or an administrator can describe a cluster once for a whole class. A \emph{user setting} is your own, and it \emph{replaces} the site setting rather than being added to it. The small tag next to each value says which applies (\emph{from site}, \emph{your value} or \emph{not set}).
 
-\section{Procedure}
+\section{Registering the cluster}
+\index{Register Machines!new cluster}
+\begin{enumerate}
+	\item In \menu{Register Machines}, choose \menu{New Machine}. On the \menu{Machine} tab, enter the login host in \menu{Machine} (for Kebnekaise, \texttt{kebnekaise.hpc2n.umu.se}) and a short name for the list in \menu{Name}, set \menu{Nodes} and \menu{Processors}, and enter your user name, your project's account and a run directory on the cluster.
+	\item On the \menu{Queues} tab, choose the \menu{Queue manager} (Slurm here) and tick \menu{Allocation accounts used}, since every job on Kebnekaise is charged to a project. Rather than typing the queues, choose \menu{Discover queues...}: ECCE logs in, runs \texttt{sinfo}, and fills in each partition with its processor, wall-time and memory limits. Tick the ones you want, add them, and enter the defaults yourself, since discovery leaves them empty.
+	\item On the \menu{Codes} tab, select each code you will run. On a cluster with environment modules, enter the modules the code needs in \menu{Modules} (the job script then runs \texttt{module load} with them), and either the program's full path in \menu{Program} or press \menu{Find}, which asks the cluster where the program is. Note that \menu{Find} runs only the login setup of the \menu{Connection} tab before it searches, not the code's \menu{Modules}, so a program that exists only after a \texttt{module load} is found only if that command is in the login setup; otherwise type its path.
+	\item Choose \menu{Save}.
+\end{enumerate}
+\index{Discover queues}\index{Modules (environment modules)}
 
-\section{Results}
+Two buttons check the description before a real job depends on it. \menu{Preview job script...} on the \menu{Job script} tab shows the script ECCE would write for a code and a queue, with each line labelled by the tab that produced it, so that a wrong module or a missing account line is seen at once. \menu{Test submission...} on the \menu{Queues} tab sends a script with this queue's request lines and no calculation to the queue manager, which for Slurm is \texttt{sbatch --test-only}, and reports whether it would be accepted. Note that this is the moment to find out that an account is spelt wrongly or a partition needs a quality-of-service line, rather than after a job has waited an hour in the queue.
+
+The request lines themselves, the \texttt{\#SBATCH} lines at the top of the script, usually come from the site and are right as they are. Where your account needs one more line, \menu{Copy site setting} puts the site's lines in your own box, where you add the line and save; the words that start with \texttt{\$}, such as \texttt{\$wallTime} and \texttt{\$totalprocs}, are placeholders that ECCE fills in for each job.
+
+\section{Logging in}
+\index{ssh}\index{ssh keys}\index{Two-factor authentication}
+ECCE logs in with ssh. If you have an ssh key set up for the cluster, as most of us do, ECCE uses it and asks for nothing; otherwise it asks for the password in its own window, and can remember it in the computer's password store (the Keychain on macOS, the Credential Manager on Windows, a keyring on Linux) if you tick \menu{Remember on this computer}. One login is shared by everything ECCE does on that machine during the session, the launch, the job monitoring, the transfer of results and the Allocations window. A cluster that requires a two-factor login ECCE cannot answer can still be used through the \texttt{dummy} machine, for which ECCE writes the input and the job script and stops, leaving the submission and the import of the results to you (\menu{File > Import Calculation from Output File...}, Chapter~\ref{ch:structures}).
+
+\section{Launching, waiting and coming back}
+\index{Launcher}\index{Reconnect}\index{Launch Selected}
+In the Launcher, choose the cluster in \menu{Machine:}. The Launcher now asks for the queue, the number of nodes and cores, the memory and the wall time, and, if the machine has more than one allocation profile, which allocation to charge. \menu{Launch} copies the input and the job script to the run directory, submits the job and follows it. While the job waits in the queue the calculation is \emph{Submitted}; once it starts it is \emph{Running}, and the Progress box shows its energies and steps as the output grows, just as on \texttt{localhost}. The calculation's summary in the Organizer shows the account the job was charged to and how much of its wall time is left.
+
+Cluster jobs often run for longer than we keep a laptop open. Closing ECCE does not affect the job, but ECCE stops following it, and the calculation is shown as \emph{Waiting for Login}. At the next start ECCE takes it up again, or at once with \menu{Run Mgmt > Reconnect Selected...}, which can reconnect many calculations in one step; when the job has finished in the meantime, its output is fetched and read as usual. \emph{Running?} means that the connection was lost for the moment while the job was running.
+
+Many calculations at once are launched with \menu{Run Mgmt > Launch Selected...}, which uses the settings stored in each calculation and can send them all to another machine, so that a series prepared and tested on \texttt{localhost} can be moved to the cluster unchanged. The same is available from a terminal and to scripts as \texttt{ecce-launch on=MACHINE queue=QUEUE wall=H:MM} followed by the calculations (Chapter~\ref{ch:scripting}).
+\index{ecce-launch}\index{ecce-reconnect}\index{Moving a job to another machine}
+
+\section{Allocations}
+\index{Allocations}
+A cluster charges each job to a project, and running out of hours halfway through a series is avoidable. \menu{Tools > Allocations...} in the Organizer shows, for each machine and account, how much of the allocation has been used, as the cluster itself reports it (on Slurm machines by default with \texttt{sshare}, and at HPC2N and the other NAISS centres with \texttt{projinfo}, entered as the machine's \menu{Allocation command} on the \menu{Connection} tab). If you have more than one allocation on the same cluster, for example a course allocation and a research project, each gets its own \emph{allocation profile} with its account, directories and default queue, and the Launcher lets you choose between them; a calculation remembers which profile it was launched with.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+A cluster is where the expensive end of a coupled chain runs. The usual pattern is to screen and optimise cheaply on \texttt{localhost}, with xTB or ECCE-QM, and to send only the few structures that matter to a density functional or coupled-cluster calculation on the cluster, choosing the cluster in the Launcher of the new calculation made with \menu{New from This} (Chapter~\ref{ch:coupling}). Nothing else in the calculation changes when it moves between machines.
