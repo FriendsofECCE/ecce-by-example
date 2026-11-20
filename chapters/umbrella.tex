@@ -6,22 +6,52 @@
 \index{Pull force}
 \index{ecce-umbrella}
 \eccexample{Examples > Biochemistry}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{umbrella-sampling}
 \helppage{gromacs-prepare}
 \helppage{gromacs-md-settings}
-\XXX[ chapter to be written]
+
+How strongly do two molecules hold on to each other in solution? A single minimisation cannot say, because the answer is a free energy: it includes the water that has to move out of the way, the entropy the two partners lose when they stick, and every arrangement the system can take at room temperature. Umbrella sampling gets it from molecular dynamics. It walks the two partners apart along a distance, holds them at a series of separations long enough to sample each, and combines the results into the free energy as a function of the distance, the \emph{potential of mean force} (PMF). The depth of its minimum below the plateau at large distance is the binding free energy. This chapter does it twice, first for a sodium and a chloride ion in water, which takes minutes and has a well-known answer, and then for one chain of an amyloid fibril pulled off the end of the fibril, the case a protein lab usually asks for.
+
+\section*{This requires}
+\index{Requirements!GROMACS}
+GROMACS (on Debian, \texttt{sudo apt install gromacs}), registered on the machine that runs the jobs. The ion pair runs on a desktop computer; the fibril is best run on a cluster (Chapter~\ref{ch:hpc}).
 
 \section{Background}
+\index{Potential of mean force}\index{WHAM}
+If we simply ran a simulation of the ion pair and counted how often each distance occurs, the free energy would follow from the populations, $G(r) = -RT\ln P(r)$, but the system would spend nearly all its time in the deepest minimum and almost never visit the barrier, so the profile would be unknown exactly where it is most interesting. Umbrella sampling fixes this by adding a harmonic spring, the ``umbrella'', that holds the distance near a chosen value in each of a series of \emph{windows}. Each window then samples a narrow range well, including ranges the free system would avoid, and the weighted histogram analysis method (WHAM) removes the known effect of the springs and joins the windows into one profile. This only works if neighbouring windows overlap, so that the histograms can be matched where they share distances, and the spacing of the windows and the stiffness of the springs are chosen with that in mind.
 
-\section{What ECCE shows}
+In ECCE the procedure has three steps, all in one GROMACS study. A \emph{pull run} drags one group away from the other at a slow, steady rate, and its trajectory passes through every distance we want. \emph{Windows} are cut from the pull trajectory at a chosen spacing, and each is equilibrated and run with its spring centred on its own distance. \emph{WHAM} then combines the windows' histograms into the PMF.
 
-\section{Procedure}
+\section{Sodium chloride in water}
+\index{Ion pair}\index{NaCl in water}
+Our first system is one \chem{Na+} and one \chem{Cl-} in a 3.2~nm box of TIP3P water, which is small enough to run on a laptop. In water the ions do not simply attract each other as in the gas phase: they meet either in contact, or with one layer of water between them, and these two arrangements are separated by a barrier where the water has to leave.
+\begin{enumerate}
+	\item Make a GROMACS MD study with a Prepare, an Optimize, an Equilibrate and a Dynamics task, as in Chapter~\ref{ch:liquids}. In the Prepare, place the two ions in contact in the water box, with the AMBER99SB-ILDN force field and TIP3P water.
+	\item Run the minimisation, then a constant-pressure (NPT) equilibration in which the two ions are held at contact.
+	\item In the Dynamics task's run settings, define the two ions as groups and tick \menu{Pull group 2 away from group 1}, with the coordinate \menu{distance}, a rate of 0.01~nm/ps and a force constant of 1000~kJ/mol/nm$^2$; tick \menu{Write trajectory (.xtc)} with a frequent enough interval to have a frame every few hundredths of a nanometre. Run it until the ions are 1.3~nm apart.
+	\item Open the pull run's \menu{Pull Force} panel in its Properties and check that the distance grows steadily with time. On its \menu{Umbrella sampling} page, set \menu{Spacing} to 0.04~nm (an ion pair needs closer windows than a protein), choose \menu{Find windows}, set the equilibration and production steps (5~ps and 100~ps per window here), and choose \menu{Create window calculations}.
+	\item Select the window tasks in the Organizer and choose \menu{Run Mgmt > Launch Selected}. The windows are independent of each other and can run side by side.
+	\item When they are complete, choose \menu{Run WHAM} on the same page, and tick \menu{Remove the 2RT ln r volume term} (below).
+\end{enumerate}
+\XXX[run: confirm the Prepare steps for two ions in a water box (Prepare source and placement) and the spring constant actually used; figures: Pull Force, histograms, PMF]
 
-\section{Results}
+ECCE's own test of this procedure, with 24 windows from 0.24 to 1.2~nm and a spring of 6000~kJ/mol/nm$^2$, gives the profile we expect: the contact ion pair at 0.27~nm, about $-7$~kJ/mol below the separated ions, a barrier at 0.37~nm, about $+8$~kJ/mol, and the solvent-separated pair at 0.52~nm, close to zero. Windows of 100~ps leave about 1~kJ/mol of noise on the curve, which is why ECCE lists only the minima and maxima that differ from their neighbours by more than $RT$.
+
+Note the volume term. Along a distance between two centres, a shell of radius $r$ has an area proportional to $r^2$, so there is simply more room at larger distances, and \texttt{gmx wham} leaves this entropy in its profile. Ticking \menu{Remove the 2RT ln r volume term} removes it and gives the PMF of the pair itself, which is the curve usually published for an ion pair and is flat at large distance. Note also the histograms under the PMF: neighbouring windows must overlap, and ECCE warns, naming the distance, where two of them share less than 5\,\% of their distances. The remedy is a window at that distance, made by running \menu{Find windows} again with a smaller spacing over that range.
+
+\section{One chain off an amyloid fibril}
+\index{Amyloid}\index{2BEG}
+The second system is the fibril of five A$\beta$(17--42) chains in the PDB entry 2BEG, a widely used test case for umbrella sampling of proteins. We pull chain~A off the end of the fibril while chain~B, its neighbour, is restrained, and ask how much free energy holds the end chain to the fibril.
+\begin{enumerate}
+	\item In a new GROMACS MD study, set the \menu{Prepare} to \menu{Source: Protein} with the first model of 2BEG, the force field \texttt{gromos53a6}, water \texttt{spc}, \menu{Ignore hydrogens} ticked and \menu{Merge chains into one molecule} unticked, so that each chain keeps its own restraints. Give the box a \menu{Box size (x y z)} of \texttt{6.560 4.362 12} and a \menu{Solute centre (x y z)} of \texttt{3.280 2.181 2.4775}: the fibril sits near one end of a box that is long along $z$, the direction of the pull. Tick \menu{Neutralise} and add 0.1~mol/L NaCl. Launch.
+	\item Minimise with steepest descent (at most 50\,000 steps, with \texttt{emtol = 1000} under the extra lines), then equilibrate at constant pressure and 310~K with every chain restrained (\menu{Restrain chain A} to \menu{E}); 100~ps is enough for the box to settle.
+	\item In the Dynamics task, restrain chain~B only, define the groups \texttt{Chain\_A = mol:Protein\_chain\_A} and \texttt{Chain\_B = mol:Protein\_chain\_B}, and pull group~2, \texttt{Chain\_A}, away from group~1, \texttt{Chain\_B}, along \menu{distance} at 0.01~nm/ps with $k = 1000$~kJ/mol/nm$^2$. Add the extra lines \texttt{pull-coord1-dim = N N Y}, to pull along $z$ only, and \texttt{nstxout-compressed = 2500}, a frame every 5~ps. 400~ps take chain~A from 0.45~nm to about 5~nm.
+	\item In the pull run's \menu{Pull Force} panel, check the force and distance plots, and use \menu{RMSD...} and \menu{Radius of gyration...} to see whether the chain stayed folded while it was pulled. Then cut windows every 0.1~nm, create the window calculations, launch them, and run WHAM as before.
+\end{enumerate}
+\XXX[run on Kebnekaise: wall time of the pull and of the windows; PMF with its plateau; binding free energy; figures]
+
+The binding free energy is read as the depth of the deepest minimum below the plateau at large distance, and only if the PMF has levelled off there. If it is still rising where the sampling stops, the chain has not yet been pulled far enough, and the pull has to be repeated in a longer box. Note that the shortest distance GROMACS measures is through the periodic box, so a pull cannot go beyond half the box length, which is why the box is long in the direction of the pull and the fibril sits near one end.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+The free energy from umbrella sampling is what docking (Chapter~\ref{ch:docking}) can only estimate, and the two are often used together: docking proposes a pose, and umbrella sampling measures how strongly it binds. The windows are independent jobs, so they are the natural part of the workflow to send to a cluster, while the preparation and the analysis stay on the desktop.
