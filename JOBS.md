@@ -12,6 +12,15 @@ Versions: every chapter and appendix carries \checkedwith; when ECCE is updated,
 Agents never write the final chapter text (Andy 11-14): an agent job runs the calculations, takes the screenshots and writes facts/notes (calculations/<chapter>/NOTES.txt); the lead writes the chapter. One chapter per agent job; 1-2 chapters after every 2-3 ECCE tickets (Andy 11-14: ECCE still changes a lot; do not over-prioritise the book). Each job: run the chapter's calculation headless (isolated HOME, test machinery, NOT on niobium), take the screenshots, write the chapter to the voice guide, index it, `make` and `make check`, tick it here.
 
 PRIORITY NOW (Andy 11-15): manual work focuses on the material of the TEACHING LABS (5KE176 spring course). The lab content goes into the DISCIPLINE chapters where its calculations belong (the Teaching part is for teachers only; Andy 11-15), done by hand step by step (New from This > Continue from Last Geometry / Continue in Another Code, set up, launch, check, analyse), no workflows in these sections. QM in ORCA, MD in GROMACS; for the book on the offload hosts (NerdEgg/radium; >12 h -> Kebnekaise through Andy's ECCE session only). Every ECCE gap a lab step hits becomes an issue (parity with GaussView/SAMSON, no more).
+
+WAITING FOR ECCE (Andy 11-20): a chapter whose central step ECCE cannot do yet waits for that feature instead of being written around the gap. Check the issue before starting the chapter; when it closes, the chapter can go ahead.
+- protein-md: RMSF (and the RMSD/hydrogen-bond tools of the issue) -- ECCE #822.
+- ligand-field: a proper ligand-field diagram for ML6 (sigma-only, pi-donor, pi-acceptor) -- ECCE #162.
+- pom-solvation: CREST solvation shell (QCG) crashes with Debian's xtb 6.7.1 -- ECCE #758.
+- organometallics (heavier metals): relativistic Hamiltonians (ZORA/DKH/X2C) -- ECCE #820; ECPs in ECCE-QM -- ECCE #1197.
+- coarse-grained chapter (Materials): coarse-grained setup -- ECCE #1201; LAMMPS -- ECCE #1030.
+- mass spectrometry (Spectroscopy part, to be decided): no ECCE route yet.
+
 - [ ] L1a. scans (+ density-views): s-trans butadiene opt+freq, relaxed dihedral scan 36 x 10 deg (ORCA %geom Scan), dE-vs-angle plot/csv, freq at the ~100 deg maximum (one imaginary torsion), s-cis opt+freq; NBO charges (NBO 7) and HOMO/LUMO of s-cis butadiene and ethene -> density-views.
 - [ ] L1b. reaction-rates: Diels-Alder butadiene + ethene: reactant complex with one atom numbering, cyclohexene product, TS (ORCA NEB-TS from reactant+product), one imaginary frequency, IRC both directions; thermochemistry profile dH, dS, dG (students subtract) -> thermochemistry section on reactions.
 - [ ] L1c. density-views (H-bond complex: interaction energy, dipoles, distance/angle, density mapped with ESP) and vibrations (Raman of benzocaine vs cocaine; cost check first).
