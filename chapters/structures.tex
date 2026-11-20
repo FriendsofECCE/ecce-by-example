@@ -10,23 +10,50 @@
 \index{Dummy atoms}
 \index{Importing calculations}
 \eccexample{Examples > Getting Started}
+\checkedwith{9.5.3-dev}{2233fa458}
 \helppage{importing-a-structure}
+\helppage{bonds-and-clean}
 \helppage{importing-a-calculation}
 \helppage{bonds-and-clean}
 \helppage{constraints-and-dummy-atoms}
-\XXX[ chapter to be written]
 
-\section{Background}
+Every calculation starts from a structure, and getting it into ECCE is usually the first thing that goes wrong for a newcomer. There are five ways in: drawing it in the Builder, adding ready-made molecules from the Structure Library, typing a SMILES string, opening a structure file, and importing a whole calculation that ran elsewhere. This chapter goes through each, says when it is the right one, and ends with the few habits that keep a structure sound: hydrogens, a cleaned geometry, the right charge.
 
-\section{What ECCE shows}
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE.
 
-\section{Procedure}
+\section{Drawing in the Builder}
+\index{Builder!drawing}\index{Nubs}\index{Add Hydrogen}\index{Clean}
+The Builder does not ask for bond orders. Each atom has a \emph{geometry}, chosen in the \menu{Build} panel, which sets how many open bonding sites, \emph{nubs}, it has: a tetrahedral carbon has four, a trigonal one three, a linear one two. To build water:
+\begin{enumerate}
+	\item Open the Builder on a calculation, or with \menu{File > New Structure...} on its own.
+	\item Choose the element O with the \menu{Element selector}, the small periodic table in the mode toolbar; its default geometry is bent, with two nubs. Click in the empty 3-D view to place it.
+	\item Choose \menu{Build > Add Hydrogen} (\textsf{Ctrl+F}), which fills every nub with a hydrogen, and then \menu{Build > Clean} (\textsf{Ctrl+K}), which relaxes the geometry with a force field.
+\end{enumerate}
+For ethene, give two carbons the trigonal geometry and join them with the \menu{Bond} tool; for ethyne the linear one. Clean works out the bond orders from the geometries, two trigonal carbons giving a double bond, two linear ones a triple bond, a ring of six trigonal atoms an aromatic ring, so that the geometry chosen for each atom is how a double or triple bond is drawn.
 
-\section{Results}
+\section{The Structure Library}
+\index{Structure Library}
+\menu{Mode > Add Structure} (\textsf{Ctrl+7}) opens the Structure Library: small organic molecules by compound class, natural products and drugs, amino acids and nucleic acids, inorganic ligands and polyoxometalates, and a \menu{Teaching} section with, for example, the diatomics at their measured bond lengths. Click a structure to preview it and click in the 3-D view to add it. To attach a fragment to a molecule that is already there, first select the atom it should replace, since a molecule with no free site can only be joined by replacing a hydrogen.
+
+\section{SMILES}
+\index{SMILES}\index{Add from SMILES}
+\menu{Tools > Add from SMILES...} builds a molecule from a SMILES string with ECCE's own reader, which is usually the fastest route for an organic molecule: \texttt{CCO} for ethanol, \texttt{c1ccccc1} for benzene, \texttt{[Na+].[Cl-]} for an ion pair. Formal charges and stereochemistry in the string are kept, so the zwitterion of cysteine, \texttt{[NH3+][C@@H](C[S-])C(=O)[O-]}, comes with its charges, which add up to $-1$, and its configuration at the $\alpha$ carbon. The structure is cleaned, and \menu{Fully extended start} sets every chain torsion to 180° first, which is a sensible start for a conformer search. For a whole series of molecules, \menu{Tools > Batch Add from SMILES...} reads a table of names and SMILES and makes one calculation per row (Chapter~\ref{ch:qsar}).
+
+To change part of a molecule, select the bond that joins a terminal group and choose \menu{Tools > Replace Group...}, giving the new group as SMILES with \texttt{[*]} where it attaches, for example \texttt{[*]C(=O)O} for a carboxylic acid.
+
+\section{Structure files}
+\index{Structure files}\index{XYZ}\index{PDB}\index{CIF}
+\menu{File > Add Structure from File...} in the Builder reads XYZ, PDB, CAR, CIF and ECCE's own MVM files, and adds the structure to what is already in the Builder. Each format has one thing to watch. An XYZ file does not record its units, so ECCE asks for them. A PDB file can hold several models, alternate locations and chains, and ECCE asks which to read (Chapter~\ref{ch:docking} imports a protein). A CIF file gives a crystal, built as its whole unit cell from the symmetry operations in the file (Chapter~\ref{ch:crystals}). For XYZ, PDB and CAR files the bonds are worked out from the distances.
+
+\section{Importing a calculation}
+\index{Import Calculation from Output File}
+A calculation that ran outside ECCE can be brought in whole: \menu{File > Import Calculation from Output File...} in the Organizer reads the output of NWChem, Gaussian, ORCA, ECCE-QM and the other supported codes, recognises the code from the file, and makes a calculation with its structure and all the properties ECCE can read, as if ECCE had run it. No compute machine and no code are needed. This is also the route back for a job submitted by hand on a cluster ECCE cannot log in to (Chapter~\ref{ch:hpc}).
+
+\section{Before a calculation}
+\index{Charge}\index{Multiplicity}
+Three checks save most failed first runs. Hydrogens: structures from crystal files and the PDB often have none, and a calculation on a molecule without its hydrogens is a calculation on a radical. A clean geometry: atoms placed by hand are far from any minimum, and \menu{Build > Clean} gives the optimiser a reasonable start. Charge and multiplicity: the Calculation Editor shows the formula, the number of electrons, the charge and the multiplicity of the structure, and an odd number of electrons with a singlet multiplicity is the commonest setup error of all.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+A structure is the thing that passes between codes. Once one calculation is finished, its final structure goes on with \menu{New from This} (Chapter~\ref{ch:organizer}), so the structure is built only once, at the start of a chain. To combine parts of two calculations, for example a cluster from one and a counter-ion from another, \menu{Edit > Take Coordinates From...} copies the coordinates of chosen atoms from a calculation with the same atoms in the same order, optionally after aligning the two.
