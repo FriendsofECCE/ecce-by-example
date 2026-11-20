@@ -1,6 +1,10 @@
 % Part overview, set before the part's first chapter.
-\XXX[ part overview (chapter to be written): the kinds of calculations and projects
-Inorganic chemistry research does (one paragraph each, e.g. what is computed and why),
-and for each the ECCE route and the chapter that shows it (chapters \ref{ch:organometallics}, \ref{ch:ligand-field}, \ref{ch:fragment-orbitals}),
-including where ECCE couples codes.]
+\checkedwith{9.5.3-dev}{a9b2d49c8}
 
+Inorganic and coordination chemistry brings in what the organic chapters could leave out: metals with partly filled d shells, several spin states close in energy, ligands that bind through a $\pi$ system rather than a lone pair, and molecules large and charged enough that their surroundings cannot be ignored. The calculations are the same kinds as elsewhere in the book, optimisations, frequencies and single points, but each of these features changes how they have to be set up and how their results are read.
+
+The first task is usually a geometry and a spin state. Building a complex is itself a step that needs care, since a ferrocene or a metal--alkene complex does not fit the one-bond-per-lone-pair picture that most builders assume, and ECCE's Builder handles $\pi$-bonded ligands through the open bonding sites on the metal. Which spin state is lowest then has to be found by computing each of them, with a functional chosen with some thought because the answer depends on it, and with effective core potentials for the heavier metals. Chapter~\ref{ch:organometallics} goes through both.
+
+The d-orbital splitting is the language of coordination chemistry, and a calculation can show where it comes from. Chapter~\ref{ch:ligand-field} takes the orbitals of an octahedral complex, picks out the ones with metal d character and compares their ordering with the ligand-field picture, including the cases where $\pi$-donor and $\pi$-acceptor ligands change it. Where the question is which fragment orbitals mix into which molecular orbital, Chapter~\ref{ch:fragment-orbitals} builds the molecular orbitals of a complex from those of its metal and ligand fragments, and uses the density of states and the overlap population between two groups of atoms (OPDOS) to show which orbitals are bonding and which antibonding between them.
+
+Polyoxometalates and other large ions show why the environment matters. A highly charged anion is stabilised in solution by water and counter ions that a gas-phase calculation leaves out, and an implicit solvent alone does not place a counter ion. Chapter~\ref{ch:pom-solvation} uses ECCE's solvation-shell recipe, in which CREST grows a shell of explicit water molecules around the ion, xTB optimises the cluster and a density functional calculation refines it, so that a chain of three codes is set up as one workflow.

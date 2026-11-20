@@ -1,6 +1,12 @@
 % Part overview, set before the part's first chapter.
-\XXX[ part overview (chapter to be written): the kinds of calculations and projects
-Materials chemistry research does (one paragraph each, e.g. what is computed and why),
-and for each the ECCE route and the chapter that shows it (chapters \ref{ch:crystals}, \ref{ch:liquids}, \ref{ch:diffraction}, \ref{ch:qe-settings}, \ref{ch:cp2k}, \ref{ch:mlp}, \ref{ch:clays}, \ref{ch:stress}),
-including where ECCE couples codes.]
+\checkedwith{9.5.3-dev}{a9b2d49c8}
 
+Materials chemistry works with periodic structures, crystals, surfaces and layered solids, and with liquids and other disordered systems, so that the unit of calculation is a cell rather than a molecule. The questions are about structure, stability and transport: whether a structure is stable and what its lattice parameters are, how it responds to strain, what its diffraction pattern looks like, how atoms and ions move through it, and how it interacts with water or with other species between its layers.
+
+The starting point is a structure, and Chapter~\ref{ch:crystals} shows how one is built from scratch or imported from a CIF file, how a supercell is made, and what ECCE shows of the cell. Periodic electronic structure is done with plane waves in Quantum ESPRESSO or with Gaussian basis sets in CP2K. The settings of a plane-wave calculation (the cutoff, the $k$-points and the pseudopotentials) are unfamiliar to anyone used to molecular codes, and Chapter~\ref{ch:qe-settings} says how to choose them, while Chapter~\ref{ch:cp2k} covers periodic structures in CP2K. When the cell itself should relax, the stress tensor tells us in which direction, and Chapter~\ref{ch:stress} shows how it is read and used.
+
+Periodic DFT is expensive, and the screening pattern of the organic chapters applies here too. Machine-learned potentials such as MACE give energies, forces and stresses for a cell in seconds, so that many candidate structures, sites or substitutions can be ranked before the few that matter are refined with Quantum ESPRESSO or CP2K (Chapter~\ref{ch:mlp}). As elsewhere, only the ranking is carried over, not the energies.
+
+Diffraction connects a model with measurements. From any structure in the Builder, ECCE calculates powder patterns, single-crystal reciprocal-lattice sections and detector frames, fibre patterns, and Debye scattering for molecules and clusters, so that a model can be checked against an X-ray measurement without leaving ECCE (Chapter~\ref{ch:diffraction}).
+
+Liquids and interfaces need molecular dynamics. Chapter~\ref{ch:liquids} runs liquids in GROMACS and analyses their density, structure and diffusion, and Chapter~\ref{ch:clays} builds a layered mineral with the Layer Builder, adds interlayer cations and water, types it with the MINFF force field and runs it in GROMACS, which is also an example of a structure built in one place and simulated in another.

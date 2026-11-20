@@ -1,6 +1,12 @@
 % Part overview, set before the part's first chapter.
-\XXX[ part overview (chapter to be written): the kinds of calculations and projects
-Spectroscopy and spectrometry research does (one paragraph each, e.g. what is computed and why),
-and for each the ECCE route and the chapter that shows it (chapters \ref{ch:vibrations}, \ref{ch:ir-experiment}, \ref{ch:excited-states}, \ref{ch:nmr}, \ref{ch:epr}; mass spectrometry, e.g. isotope patterns and fragment energies, to be decided),
-including where ECCE couples codes.]
+\checkedwith{9.5.3-dev}{a9b2d49c8}
 
+A spectrum is often the only direct evidence we have of a molecule, and calculations are used in spectroscopy for two reasons that pull in slightly different directions: to assign a measured spectrum, which means knowing which band belongs to which motion or transition, and to predict a spectrum that has not been measured, which means knowing how far to trust the calculated positions and intensities. The chapters of this part cover the spectra that ECCE reads from the codes and draws, and in each case they show both how to get the spectrum and what it can be compared with.
+
+Vibrational spectra come from a frequency calculation, the same calculation that supplies the thermochemistry of Chapter~\ref{ch:thermochemistry}. ECCE draws the IR and, where the code computes activities, the Raman spectrum, animates each normal mode, and labels it with its symmetry and with how much of each internal coordinate it contains, so that a band can be called a C=O stretch because the calculation says so rather than because it sits where C=O stretches usually sit (Chapter~\ref{ch:vibrations}). A calculated spectrum is not a measured one, since harmonic frequencies are systematically too high and the intensities belong to an isolated molecule, and Chapter~\ref{ch:ir-experiment} shows how to put a measured spectrum next to the calculated one, scale the frequencies and match the bands.
+
+Electronic spectra need excited states. ECCE reads the TD-DFT and CIS excitation energies, oscillator strengths and symmetries that ORCA and Gaussian~16 print, together with the orbital transitions that make up each state, and draws them as a UV--vis spectrum. Chapter~\ref{ch:excited-states} uses this to connect a colour to the orbitals involved, and is also explicit about where TD-DFT with common functionals goes wrong.
+
+Magnetic resonance is the other main source of structural evidence. For NMR, ECCE reads the shielding tensors from Gaussian~16 and ORCA and turns the isotropic shieldings into a spectrum once a reference shielding is given, which is the step that makes a calculated shielding comparable with a measured chemical shift (Chapter~\ref{ch:nmr}). For open-shell molecules, ORCA's EPR g-tensors and hyperfine couplings are read in the same way (Chapter~\ref{ch:epr}).
+
+The coupling between codes matters here as much as anywhere. A spectrum is only as good as the structure it is computed for, and the usual route is to find the conformers first (Chapter~\ref{ch:crest}), optimise the relevant ones, compute the spectrum of each and weight them by their Boltzmann populations, rather than computing the spectrum of the one structure that happened to be drawn.

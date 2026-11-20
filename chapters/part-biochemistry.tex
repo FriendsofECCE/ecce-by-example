@@ -1,6 +1,10 @@
 % Part overview, set before the part's first chapter.
-\XXX[ part overview (chapter to be written): the kinds of calculations and projects
-Biochemistry research does (one paragraph each, e.g. what is computed and why),
-and for each the ECCE route and the chapter that shows it (chapters \ref{ch:docking}, \ref{ch:umbrella} and \ref{ch:protein-md}; fibre patterns of DNA and proteins are in the Teaching part, Chapter~\ref{ch:t-photograph-51}),
-including where ECCE couples codes.]
+\checkedwith{9.5.3-dev}{a9b2d49c8}
 
+Biomolecules are too large for the quantum chemical methods of the earlier parts to treat whole, so the calculations of biochemistry are mostly about binding and about motion: where a small molecule fits on a protein and how strongly it binds, how much free energy it costs to pull two molecules or two chains apart, and what a protein does over a simulation of many nanoseconds. ECCE sets these calculations up and reads their results, while the work itself is done by AutoDock Vina and GROMACS.
+
+Docking is the quick first step. AutoDock Vina places a ligand in a binding site, tries many positions and orientations and ranks the poses with an empirical score, which is good at finding plausible poses and much less reliable as an absolute binding energy. Chapter~\ref{ch:docking} shows how the receptor and the ligand are chosen in ECCE, how the search box is set, and how the poses are compared, and also how a promising pose is taken on to a more careful calculation, which is where ECCE's ability to move a structure from one code to the next is useful.
+
+Free energies along a coordinate need sampling rather than single structures. Umbrella sampling pulls one group away from another, runs a series of restrained simulations along the way and combines them into a potential of mean force with WHAM, and Chapter~\ref{ch:umbrella} does all three steps in ECCE with GROMACS, from the pull run to the free-energy profile.
+
+A protein simulation produces a trajectory, and most of what we learn from it comes from analysis: how far the structure drifts from its start (RMSD), how compact it stays (radius of gyration) and which hydrogen bonds persist. Chapter~\ref{ch:protein-md} runs these analyses on a GROMACS run from ECCE's MD Analysis panel. Fibre diffraction of DNA and of protein fibres, the route by which their structures were first worked out, is treated in the Teaching part (Chapter~\ref{ch:t-photograph-51}).
