@@ -5,24 +5,68 @@
 \index{Launcher}
 \index{Run states}
 \index{Codes!installing}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \eccexample{Examples > Getting Started}
 \helppage{machines}
 \helppage{running-codes-on-linux}
 \helppage{running-codes-on-macos}
 \helppage{running-codes-on-windows}
-\XXX[ chapter to be written]
 
-\section{Background}
+ECCE sets up calculations, starts them and reads their results, but apart from its own small quantum chemistry program, ECCE-QM, it does not do the calculations itself. These are done by the codes, ORCA, Gaussian, xTB, GROMACS and the others, which have to be installed separately and which ECCE then has to be told about. This chapter shows how that is done on the computer we are sitting at, which is where most of us start and where a surprising amount of real work can be done; running on a cluster builds on it and is the subject of Chapter~\ref{ch:hpc}.
 
-\section{What ECCE shows}
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE for the ECCE-QM part. For the other codes, whichever of them you want to run, installed as described below.
 
-\section{Procedure}
+\section{Machines, and the one you are sitting at}
+\index{Machines}
+In ECCE every calculation runs on a \emph{machine}: the computer we are sitting at, a workstation down the corridor, or a cluster that ECCE reaches over ssh. For each machine ECCE needs to know three things, namely that it exists, where the codes are installed on it, and, for a cluster, which batch queues it has. The machine called \texttt{localhost} is registered from the start and means the computer ECCE runs on. Jobs on \texttt{localhost} are started directly, without a batch system and without ssh, so it is the simplest place to run anything.
 
-\section{Results}
+ECCE keeps what it knows about \texttt{localhost} in a small text file in your home folder, \texttt{.ECCE/CONFIG.localhost}, with one line per code giving the program to run. At the first start the lines hold the plain command names (\texttt{orca}, \texttt{nwchem}, \texttt{pw.x} and so on), so a code that is on the search path of the shell, as anything installed from a Linux distribution's package archive is, is found without further work. A code installed in a folder of its own needs its full path instead, and the place to give it is the Machine Registration window rather than the file itself.
+
+\section{ECCE-QM needs nothing}
+\index{ECCE-QM!on this computer}
+ECCE-QM is always offered on \texttt{localhost}, has no line in the file and needs nothing installed. It is a Hartree--Fock and density functional program for molecules of the size met in a first chemistry course, and it is the one code that works in exactly the same way on Linux, macOS and Windows. Chapter~\ref{ch:first-calculation} runs its first calculation, and Chapter~\ref{ch:ecce-qm} describes what it can and cannot do.
+
+\section{Installing the other codes}
+\index{Codes!installing}
+Which codes can be installed, and how, depends on the operating system, and this is where most of the difficulties of a first start are found.
+
+\paragraph{Linux.} Most of the codes ECCE works with are in the package archive of Debian and Ubuntu, so that one command installs them and the system's updates keep them current: \texttt{nwchem}, \texttt{mopac}, \texttt{xtb}, \texttt{gromacs}, \texttt{quantum-espresso} and \texttt{cp2k} (Debian~13 has NWChem~7.2.3, MOPAC~23.1.2, xTB~6.7.1, GROMACS~2025.2, Quantum ESPRESSO~6.7 and CP2K~2025.1). For example,
+\begin{verbatim}
+sudo apt install xtb gromacs
+\end{verbatim}
+installs xTB and GROMACS into \texttt{/usr/bin}. Note that the Debian package called \texttt{orca} is not the quantum chemistry program but the GNOME screen reader, which is often installed with the desktop anyway. ORCA comes from its makers instead (below), and it should always be given to ECCE by its full path so that the screen reader is never started by mistake. CREST has no Debian package either; its makers publish a ready-built Linux program on GitHub, which runs \texttt{xtb} itself and so needs xTB installed as well.
+
+\paragraph{ORCA.} ORCA is free for academic use and is downloaded from FACCTS after registering for an academic account. The archive for Linux, macOS or Windows is unpacked into a folder, in your home folder or, for every user of the computer, under \texttt{/opt}; the program is the file \texttt{orca} (\texttt{orca.exe} on Windows) in that folder, and ECCE needs its full path because ORCA finds its helper programs next to itself. ORCA runs on one core without anything else. For more than one core it needs MPI, Open~MPI in the version named in the archive's file name on Linux and macOS, and Microsoft~MPI on Windows, and the Launcher warns, with \menu{Launch anyway} as the default, when a job is set to more than one core and no MPI can be found.
+
+\paragraph{macOS and Windows.} On a Mac, MOPAC and ORCA install into the home folder without administrator rights, and NWChem comes from conda-forge through Miniforge. On Windows, MOPAC and ORCA have Windows versions, but NWChem, Quantum ESPRESSO, GROMACS and most of the other codes do not; these run on a Linux machine that ECCE reaches over ssh, which is the subject of Chapter~\ref{ch:hpc}. This is one reason why a teaching course with students on their own laptops often uses ECCE-QM locally and a shared Linux machine for everything else.
+
+\paragraph{Gaussian.} Gaussian is commercial and is installed by a site with a licence. ECCE needs the full path of \texttt{g16}, and Gaussian also needs the variable \texttt{g16root}, which is set as shown in the next section.
+
+\section{Telling ECCE where a code is}
+\index{Machine Registration!Codes tab}\index{Find (Machine Registration)}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{Tools > Register Machines...} and select \texttt{localhost}.
+	\item On the \menu{Codes} tab, select a code. For a code from the package archive, press \menu{Find}, which looks in \texttt{/usr/bin}; \menu{Find} also looks for ORCA in folders called \texttt{orca...} in your home folder, \texttt{/opt} and \texttt{/usr/local}. For anything else, type the full path of the program into \menu{Program}.
+	\item If the code needs environment variables, add them under \menu{Environment variables} on the same tab, one variable and its value per line. For Gaussian~16, ECCE already sets \texttt{GAUSS\_EXEDIR} and \texttt{LD\_LIBRARY\_PATH} from the program's path, and \texttt{g16root} is the line to add.
+	\item Choose \menu{Save}. ECCE writes the result to \texttt{.ECCE/CONFIG.localhost}, and the next job you launch uses it.
+\end{enumerate}
+The Launcher offers \texttt{localhost} for a code only once the machine names that code, so a code that does not appear in the Launcher's machine list has not been registered yet. A job that cannot find its program fails with the message \emph{Path for <code> not found} in its output.
+
+\section{Launching, and what happens next}
+\index{Launcher}\index{Run states}
+A calculation that has been set up in the Calculation Editor is started from the Launcher (\menu{Launch...} in the editor, or \menu{Tools > Launcher...} in the Organizer, \texttt{Ctrl+L}). For \texttt{localhost} the Launcher asks only for the number of processors, the priority and the run directory, and \menu{Launch} starts the job. From then on ECCE follows it, and the calculation's \emph{run state} in the Organizer tells us where it is:
+\begin{description}
+	\item[Created] the calculation exists but has no input file yet;
+	\item[Ready] the input has been made and the calculation can be launched;
+	\item[Submitted] the job waits to start (on a cluster, in the queue);
+	\item[Running] the job runs, and ECCE reads its output as it grows, so that energies, geometry steps and convergence appear in the Progress box while it runs;
+	\item[Completed] the code finished normally, and its results have been read into ECCE;
+	\item[Incomplete] the job ended without a complete result, and ECCE kept what it had;
+	\item[Killed] the job was cancelled, with \menu{Run Mgmt > Terminate}.
+\end{description}
+A few further states (\emph{Running?}, \emph{Waiting for Login}, \emph{Monitor Error}, \emph{System Error}) say that ECCE lost track of a job and why; they matter mostly on clusters and are explained in Chapter~\ref{ch:hpc}. Note that closing ECCE does not stop a job: the job runs on, its calculation shows \emph{Waiting for Login}, and ECCE takes it up again the next time it starts, or at once with \menu{Run Mgmt > Reconnect Selected...}.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+Everything else in this book uses the machine set up here. Once two or three codes are registered on \texttt{localhost}, the coupling of Chapter~\ref{ch:coupling} works without further setup, for example an xTB optimisation handed to ORCA with \menu{New from This}, and the same calculations can later be moved to a cluster simply by choosing another machine in the Launcher.
