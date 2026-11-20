@@ -6,21 +6,62 @@
 \index{RDF}
 \index{Density}
 \eccexample{Examples > General Chemistry > Gases, liquids and solids}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{gromacs-first-calculation}
+\helppage{gromacs-calculation-from-files}
+\helppage{md-analysis}
 \helppage{md-speeds-and-diffusion}
-\XXX[ chapter to be written]
 
-\section{Background}
+A liquid has no structure that one geometry could describe: its molecules move, collide and exchange neighbours all the time, and what we can say about it is statistical, how dense it is, how far a molecule travels in a given time, and how its neighbours are arranged on average. Molecular dynamics gives all three. It follows every atom of a box of molecules for some nanoseconds under a force field, and the properties are averages over the trajectory. This chapter reads them from the molecular dynamics runs that ship with ECCE, gases, liquid argon, water and decane, and then shows how to run such a simulation yourself.
 
-\section{What ECCE shows}
+\section*{This requires}
+\index{Requirements!GROMACS}
+Nothing for reading the shipped runs. For the structure analysis of the last section and for running your own simulation, GROMACS (on Debian, \texttt{sudo apt install gromacs}), registered on the machine that runs the job and installed on the computer that runs ECCE, since the MD Analysis panel calls \texttt{gmx} there.
 
-\section{Procedure}
+\section{The runs}
+\index{Example calculations!Gases, liquids and solids}
+In the Organizer, choose \menu{File > Open Example Calculations...}, tick \menu{General Chemistry} and choose \menu{OK}, and open the topic \menu{Gases, liquids and solids}. It holds GROMACS runs of argon gas at temperatures from 40 to 300~K, helium gas, liquid argon at 85~K, SPC/E water at 298~K, OPLS-AA decane, a NaCl crystal dissolving in water, and ice melting and evaporating as it is heated. Each holds its final structure, a few dozen frames of its trajectory and the energy plots of its log, and the analyses below have already been made, so nothing needs to run.
 
-\section{Results}
+\section{How fast the atoms move}
+\index{Speed Distribution}\index{Maxwell--Boltzmann distribution}
+\begin{enumerate}
+	\item Open \texttt{gromacs-ar-gas-300K} in the Viewer and choose \menu{Properties > Speed Distribution}. The histogram is the distribution of the atoms' speeds over the whole run, and the dashed curve the Maxwell--Boltzmann distribution for the run's temperature and argon's mass. Three vertical lines mark its most probable, mean and root-mean-square speeds, and the text above the plot gives the measured mean and rms speeds beside them.
+	\item Choose \menu{Compare...} and tick \texttt{gromacs-he-gas}. Helium's distribution is lower and much wider, since at the same temperature the lighter atoms are faster by $\sqrt{m_\mathrm{Ar}/m_\mathrm{He}} \approx 3.2$.
+	\item Compare the argon runs at different temperatures in the same way; the distribution shifts to higher speeds and spreads out as the temperature rises.
+\end{enumerate}
+Note that the speed distribution needs the velocities of the run, which GROMACS saves only when asked to (\menu{Save velocities every ... steps} on the run page), so a run without them has no speed distribution.
+
+\section{How far the molecules travel}
+\index{Mean-square displacement}\index{Diffusion coefficient}\index{Einstein relation}
+A molecule in a liquid moves in a random walk, and its mean-square displacement (MSD) from where it started grows in proportion to time. The slope gives the self-diffusion coefficient through the Einstein relation, $D = \text{slope}/6$ in three dimensions.
+\begin{enumerate}
+	\item Open \texttt{gromacs-water-spce} and choose \menu{Properties > Displacement (MSD)}. The plot shows the MSD of the water molecules' centres of mass against the lag time, with a straight line fitted between the two vertical lines and the diffusion coefficient written above the plot.
+	\item Tick \menu{Log-log}. At very short times a molecule moves freely and the MSD grows as $t^2$, a slope of 2 on the log--log plot; once collisions have randomised its direction the slope is 1, which is the diffusive part the fit must lie in. In a dense liquid the free flight is very short, while in a dilute gas it lasts long, so the fit range matters most for gases.
+	\item With \menu{Compare...}, draw liquid argon and decane over water. Each curve is fitted on its own.
+\end{enumerate}
+\XXX[figures: the water MSD with its fit; log-log; the three liquids compared]
+
+The fits over the last three quarters of the lag times give $D = 2.5 \times 10^{-5}$~cm$^2$/s for SPC/E water at 298~K, $1.8 \times 10^{-5}$~cm$^2$/s for liquid argon at 85~K, and $0.8 \times 10^{-5}$~cm$^2$/s for decane at 298~K. The measured self-diffusion coefficient of water at 25~°C is $2.30 \times 10^{-5}$~cm$^2$/s, and SPC/E is known to give a value close to it, slightly too high. Decane's long chains, which have to slide past each other, make it the slowest of the three, even though its molecules are no heavier per atom than water's.
+
+\section{Density and structure}
+\index{Density}\index{Radial distribution function}\index{MD Analysis}
+Density and structure are read with the \menu{MD Analysis} panel, which runs GROMACS's own analysis tools on the run's trajectory and energy file.
+\begin{enumerate}
+	\item With \texttt{gromacs-water-spce} open, choose \menu{Properties > MD Analysis}. \menu{Energy} plots the temperature, pressure and density of a constant-pressure run against time; the density of a good water model settles near 1~g/cm$^3$, and drift in it means the run is not yet equilibrated.
+	\item The radial distribution function $g(r)$ of the water oxygens shows the liquid's structure: $g(r)$ is the density of oxygens at distance $r$ from a given oxygen, relative to the average density. Its first peak, near 0.28~nm, is the hydrogen-bonded first shell, its minimum after the peak separates the first shell from the second, and at large distance it levels off at one, where the liquid has no order left.
+\end{enumerate}
+\XXX[run: the MD Analysis steps for density and the O--O RDF in this version (the panel's menu items), first-peak position and height; figures. Note \#483 (RDF and coordination numbers as their own analysis) is open]
+
+\section{Running your own}
+\index{GROMACS Calculation from Files}
+A GROMACS study (Chapter~\ref{ch:protein-md} and the help's GROMACS tutorial) builds a system around a protein or a mineral. For a box of molecules, the simplest route at present is a GROMACS calculation from files you have set up, and the water run that ships with ECCE makes a good first one, since its files are in the example folder.
+\begin{enumerate}
+	\item In a terminal, copy \texttt{prod.mdp}, \texttt{start.gro}, \texttt{topol.top} and \texttt{spce.itp} from \texttt{/opt/ecce/data/client/examples/genchem/gases-liquids-solids/gromacs-water-spce/1-dynamics/} to a folder of your own, and reduce \texttt{nsteps} in \texttt{prod.mdp} to 50\,000 (100~ps) for a first try.
+	\item In the Organizer, select a project and choose \menu{File > New > GROMACS Calculation from Files...}. Choose the \texttt{.mdp}, then \texttt{start.gro} as the structure and \texttt{topol.top} as the topology; ECCE stores them with the calculation, including the \texttt{spce.itp} the topology includes.
+	\item Launch it like any calculation. The job runs \texttt{gmx grompp} and \texttt{gmx mdrun}, and the energies, the trajectory and, if the \texttt{.mdp} writes a compressed trajectory, the MSD analysis are stored as for the shipped run.
+\end{enumerate}
+Note that 100~ps is far too short for a converged diffusion coefficient: the shipped run is 5~ns long, and a diffusion coefficient needs a fit over a range of lag times many times longer than the free flight, with many time origins along the trajectory.
+\XXX[run: confirm the example path in an installed ECCE and that the stored files run as described]
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+A snapshot of a liquid is a starting point for quantum chemical calculations of a molecule in its solvent shell: the box is periodic, so \menu{Build > Cut Cluster...} can cut the molecule out with its neighbours, and the cluster goes to a molecular code with \menu{New from This}. The reverse direction, charges and parameters from quantum chemistry for a molecule that the force field does not cover, is not yet done in ECCE (ECCE \#730). Coarse-grained models extend the same analyses to much longer times and larger systems.
