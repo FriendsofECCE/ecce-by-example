@@ -9,20 +9,63 @@
 \index{Rate constant}
 \index{Imaginary frequency}
 \eccexample{Examples > Workflows > SN2 Cl- and CH3Br}
+\checkedwith{9.5.3-dev}{4c8b4b851}
+\helppage{energy-calculator}
 
-\XXX[ chapter to be written]
+
+How fast does a reaction go, and why that fast? Transition-state theory answers both with one quantity, the Gibbs energy of the transition state above the reactants, and a calculation can provide it: find the transition state, confirm that it is the right one, compute the thermochemistry of it and of the reactants, and put the activation Gibbs energy into the Eyring equation. This chapter does it for the simplest Diels--Alder reaction, butadiene and ethene giving cyclohexene,
+\begin{equation*}
+	\ce{CH2=CH-CH=CH2 + CH2=CH2 -> C6H10},
+\end{equation*}
+the reaction of the spring teaching lab, with ORCA. Its transition state is found from the reactant and the product alone, without a guess, and an IRC shows that it connects the two.
+
+\section*{This requires}
+\index{Requirements!ORCA}
+ORCA (6.1.1 was used here), registered on the machine that runs the jobs (Appendix~\ref{ch:running-each-code}). The transition-state search and the IRC took about 50 and 45 minutes on six cores.
 
 \section{Background}
+\index{Transition-state theory}\index{Eyring equation}\index{Activation entropy}
+A transition state is a saddle point on the potential energy surface: a maximum along the reaction coordinate and a minimum in every other direction. Its frequency calculation proves it, since a saddle point has exactly one imaginary frequency, and the motion of that mode is the reaction. Transition-state theory then gives the rate constant
+\begin{equation*}
+	k = \frac{k_\mathrm{B}T}{h}\,\exp\!\left(-\frac{\Delta G^\ddagger}{RT}\right),
+\end{equation*}
+where $\Delta G^\ddagger = \Delta H^\ddagger - T\Delta S^\ddagger$ is the Gibbs energy of the transition state above the reactants. For a bimolecular reaction the result refers to the standard state of the thermochemistry, here 1~atm of gas, and has to be multiplied by $RT/p^\circ$ to come out in the familiar units of L\,mol$^{-1}$\,s$^{-1}$.
 
-\section{What ECCE shows}
+The Diels--Alder reaction is a concerted cycloaddition: both new C--C bonds form in one step, through a six-membered, boat-like transition state, from the s-\emph{cis} (gauche) form of butadiene. Two molecules become one, so the reaction loses translational and rotational freedom, and the activation entropy is large and negative; at room temperature it contributes as much to the barrier as the activation enthalpy does.
 
-\section{Procedure}
+\section{The calculations}
+All calculations use B3LYP with D3(BJ) dispersion and the def2-TZVP basis set, and all of them are in one project, since the transition-state search only offers calculations of its own project as reactant and product.
+\begin{enumerate}
+	\item Optimise the gauche (s-\emph{cis}) butadiene and ethene separately, with the run type \menu{GeoVib}, so that each is a minimum with its thermochemistry; Chapter~\ref{ch:scans} finds the gauche conformer of butadiene.
+	\item Build cyclohexene and optimise it with \menu{GeoVib}. Number the atoms of the reactant and the product in the same way (butadiene's terminal carbons and ethene's carbons are the ones that bond), since the search maps one structure onto the other.
+	\item Build the reactant complex, ethene about 3.6~\AA\ above the middle of butadiene, and optimise it with \menu{Geometry}.
+	\item Make a new, empty ORCA calculation for the transition state. In the Calculation Editor, choose \menu{TS Search}, pick the reactant complex as the reactant, choose the run type \menu{Transition State (NEB-TS) + Frequencies}, and pick cyclohexene as the product. On \menu{Save}, ECCE writes the product's structure, renumbered onto the reactant's atom order, as an input file, and the input asks ORCA for a nudged-elastic-band search with 8 images followed by a transition-state optimisation and frequencies. Launch.
+	\item When the search has finished, check that it has exactly one imaginary frequency, select it and choose \menu{New from This > Continue from Last Geometry} with the run type \menu{IRC}, both directions, an analytic initial Hessian and up to 60 steps per direction. Launch.
+	\item Select the separated reactants, the transition state and cyclohexene, and choose \menu{Tools > Energy Calculator} for the activation and reaction quantities at 298.15~K.
+\end{enumerate}
+\XXX[figures: the TS with its imaginary mode; the IRC Path; the Energy Calculator table for activation and reaction]
 
 \section{Results}
+\index{Diels--Alder reaction}
+The transition state has one imaginary frequency, 532\,$i$~cm$^{-1}$, whose motion brings the two ends of butadiene and the two carbons of ethene together. The two forming C--C bonds are 2.236 and 2.239~\AA\ long, practically equal, so both bonds form together, a synchronous concerted reaction, as the symmetry of the reactants leads us to expect. The IRC runs from the transition state downhill in both directions: forward to the product, where the new bonds are 1.545~\AA, the C--C single bond of cyclohexene, and backward to a reactant complex with the carbons 3.04~\AA\ apart, which is as far as the 60 steps went before the path reached the flat region of the loosely bound complex.
+
+Relative to the separated reactants at 298.15~K and 1~atm, the thermochemistry is:
+\begin{center}
+\begin{tabular}{lrrrr}
+	\toprule
+	 & $\Delta E$ & $\Delta H$ & $\Delta S$ & $\Delta G$ \\
+	 & (kJ/mol) & (kJ/mol) & (J\,mol$^{-1}$\,K$^{-1}$) & (kJ/mol) \\
+	\midrule
+	Activation (transition state) & 67.2 & 71.8 & $-173.5$ & 123.5 \\
+	Reaction (cyclohexene) & $-158.1$ & $-139.7$ & $-177.3$ & $-86.9$ \\
+	\bottomrule
+\end{tabular}
+\end{center}
+The reaction is strongly exothermic, since two $\pi$ bonds become two $\sigma$ bonds, and strongly exergonic even after the large entropy loss. The activation entropy is almost as negative as the reaction entropy: the transition state already has nearly all of the order of the product, which is the signature of a concerted, product-like cycloaddition. At 298~K the entropy term, $-T\Delta S^\ddagger = 51.7$~kJ/mol, adds about two thirds of the activation enthalpy again to the barrier.
+
+With $\Delta G^\ddagger = 123.5$~kJ/mol, the Eyring equation gives $k = 1.4 \times 10^{-9}$ in its 1~atm form, or about $3.5 \times 10^{-8}$~L\,mol$^{-1}$\,s$^{-1}$, at 298~K: the reaction does not go at room temperature at all. Taking $\Delta H^\ddagger$ and $\Delta S^\ddagger$ as constant, the same expression gives about $10^{-2}$~L\,mol$^{-1}$\,s$^{-1}$ at 500~K and 3~L\,mol$^{-1}$\,s$^{-1}$ at 700~K, which is why the gas-phase reaction is studied at several hundred degrees. Note that the calculated barrier is measured from gauche butadiene, the reactive conformer, which lies above the more stable s-\emph{trans} conformer; a comparison with a measured activation energy has to add that conformational energy, and it also tests the functional, which is the subject of Chapter~\ref{ch:methods-choice}.
+
+The reactant complex itself did not finish its optimisation in this run, which is common for a loosely bound complex whose energy hardly changes as its parts slide over each other. It is needed only as the starting structure for the search, and the thermochemistry is referred to the separated reactants, which is the standard state of the rate constant in any case.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+A transition-state search with a hybrid functional and a triple-zeta basis set is the expensive part of this chain. For a larger system it pays to find the transition state at a lower level, with xTB or a smaller basis set, and to refine only the final structure, followed by a single point at a higher level for the barrier. The reaction-mechanism examples of Chapter~\ref{ch:mechanisms} do the same kind of analysis with ECCE-QM for a pair of competing reactions.

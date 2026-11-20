@@ -75,3 +75,19 @@ REMAINING (exact commands, from niobium):
               copy to figures/reaction-rates/<name>.ecce-9.5.3-dev.png, MANIFEST rows, look at each.
 5. keep calculations/reaction-rates/orca-<name>/ (Inputs, Outputs < 5 MB,
    Parameters) as in scans/, fill numbers here and the CATALOG rows.
+
+RESULTS (run on beryllium 2026-11-20, main 4c8b4b851; reactant complex optimisation unsuccessful after 445 s, not needed for the thermochemistry):
+da-butadiene-gauche-optfreq: E -155.953790684739 Eh, H -155.86328569 Eh, T*S 0.03162923 Eh, G -155.89491492 Eh, imaginary none
+da-ethene-optfreq: E -78.569663860476 Eh, H -78.51476543 Eh, T*S 0.02484828 Eh, G -78.53961371 Eh, imaginary none
+da-reactant-complex: E -234.526358552136 Eh, H None Eh, T*S None Eh, G None Eh, imaginary none
+   final geometry: C1-C11 3.788 A, C4-C12 3.733 A
+da-cyclohexene-optfreq: E -234.583672383246 Eh, H -234.4312751 Eh, T*S 0.03634336 Eh, G -234.46761846 Eh, imaginary none
+   final geometry: C1-C11 1.542 A, C4-C12 1.544 A
+da-ts-nebts: E -234.497851772766 Eh, H -234.35071445 Eh, T*S 0.03677546 Eh, G -234.38748991 Eh, imaginary ['-531.58']
+   final geometry: C1-C11 2.236 A, C4-C12 2.239 A
+da-ts-irc: E -234.497854186156 Eh, H -234.35071507 Eh, T*S 0.03677562 Eh, G -234.38749069 Eh, imaginary none
+   final geometry: C1-C11 2.236 A, C4-C12 2.239 A
+Against separated reactants, kJ/mol (298.15 K, 1 atm, ORCA RRHO):
+  activation (TS)      dE 67.2  dH 71.8  dS -173.5 J/(mol K)  dG 123.5
+  reaction (product)   dE -158.1  dH -139.7  dS -177.3 J/(mol K)  dG -86.9
+  complex (E only)     dE -7.6  dH -  dS - J/(mol K)  dG -
