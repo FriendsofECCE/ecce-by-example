@@ -10,21 +10,53 @@
 \index{Input generators}
 \index{Adding a new code}
 \index{Pseudopotential paths}
+\checkedwith{9.5.3-dev}{4c8b4b851}
+\helppage{register-machines}
 
+Chapters~\ref{ch:machines} and \ref{ch:hpc} registered codes in the simplest way, by giving the path of the program. That is enough for a code installed from a package or unpacked into a folder, but real installations are rarely that tidy: a code on a cluster needs a module loaded first, Gaussian needs its own environment variables, ORCA needs MPI on the path for a parallel run, and Quantum ESPRESSO needs to know where its pseudopotentials are. This chapter goes through the settings that handle these cases, all of them on the \menu{Codes} tab of \menu{Register Machines}, and then explains what it takes to add a code that ECCE does not yet support.
 
-\XXX[ chapter to be written]
+\section*{This requires}
+Nothing beyond ECCE and the codes you want to register.
 
-\section{Background}
+\section{One code, one entry}
+\index{Code registration}\index{Codes!job script}
+Each machine has one entry per code, and the job script ECCE writes for a calculation is built from it. The fields are:
+\begin{description}
+	\item[Modules] environment modules to load before the code runs, separated by spaces; the job script runs \texttt{module load} with them. Since job scripts run under \texttt{sh}, where the module system is not set up on its own, ECCE sets it up (Lmod or Environment Modules) before the first \texttt{module} command.
+	\item[Program] the full path of the program file, not of the folder that holds it. \menu{Find} asks the machine where the program is, and \menu{Check} looks inside the file for a sign that it really belongs to the code, which catches the GNOME screen reader that Debian also calls \texttt{orca}.
+	\item[Environment variables] one variable and its value per line. ECCE exports them before the code starts, and adds to rather than replaces a variable whose name contains \texttt{PATH}.
+	\item[Command line] the command that runs the program, if ECCE's own is not right for this installation; left empty, ECCE uses its built-in command.
+	\item[Advanced] commands to run before and after this code, and files to remove after the job.
+\end{description}
+\index{Modules (environment modules)}\index{Codes!environment variables}
 
-\section{What ECCE shows}
+Two rules decide where a setting belongs. A command that every code on the machine needs, such as \texttt{module load openmpi}, goes on the \menu{Job script} tab, while one that only a single code needs goes on that code's entry; and a code's own commands before and after the program \emph{replace} the machine-wide ones for that code rather than being added to them. As elsewhere in \menu{Register Machines}, a setting can come from the site or be your own, and your own replaces the site's.
 
-\section{Procedure}
+\section{Three common cases}
+\index{Gaussian 16!environment}\index{ORCA!MPI}\index{Pseudopotential paths}
+\paragraph{Gaussian 16.} Give the full path of \texttt{g16} in \menu{Program}. ECCE sets \texttt{GAUSS\_EXEDIR} and \texttt{LD\_LIBRARY\_PATH} from it, so the only line needed under \menu{Environment variables} is \texttt{g16root} with the folder above \texttt{g16}, and perhaps \texttt{GAUSS\_SCRDIR} for the scratch folder.
 
-\section{Results}
+\paragraph{ORCA in parallel.} ORCA starts its parallel parts with \texttt{mpirun} (\texttt{mpiexec} on Windows), which it looks for on the path. On a cluster this is usually a module, entered in \menu{Modules} together with ORCA's own; on a desktop it is the Open~MPI version named in ORCA's archive, whose folder goes on the \texttt{PATH} under \menu{Environment variables}. ORCA also needs its full path in \menu{Program} to run in parallel.
+
+\paragraph{Quantum ESPRESSO.} \menu{Pseudopotential directory} names the folder on this machine that holds the UPF files. At launch it replaces \texttt{pseudo\_dir} in the input, and ECCE warns before submitting if a file the input names is missing there.
+
+\section{Checking a registration}
+\index{Preview job script}\index{Test submission}
+A registration is only proved by a job that runs, but two buttons catch most mistakes before that. \menu{Preview job script...} shows the script ECCE would write for a code and a queue, with every line labelled by the field that produced it, so that a missing module or a wrong path is seen without launching anything. \menu{Test submission...} on the \menu{Queues} tab asks the queue manager whether it would accept the script. After that, the quickest real check is a tiny calculation, a water molecule at a modest level of theory, launched on the machine; Chapter~\ref{ch:first-calculation} has one.
+
+Note also which codes ECCE offers at all. Codes not ticked in \menu{Preferences > Codes} are hidden when a new calculation is made, and the lists end with an entry such as \emph{9 more codes (hidden)...} that opens the tab. Hiding a code changes only what is offered for new calculations; old calculations in it still open and can be rerun.
+
+\section{Adding a code that ECCE does not support}
+\index{Adding a new code}\index{EDML}\index{Parsers}\index{Input generators}
+Registering a code tells ECCE where an already supported code is. Adding a new code is a different kind of task, a piece of development rather than a setting, and it is worth knowing what it involves before asking for one. Each supported code consists of a handful of parts that live in ECCE's source:
+\begin{enumerate}
+	\item a description of the code (an EDML file): its name, the run types and theories it offers, the files it reads and writes, and which properties ECCE can expect from it;
+	\item the \emph{Theory} and \emph{Runtype Details} dialogs, where its settings are chosen;
+	\item an \emph{input generator}, which turns the structure and the chosen settings into the code's own input file;
+	\item an \emph{output parser}, which reads energies, geometries, orbitals, frequencies and the other properties from the output, and a description of what to read while the job runs, for the Progress box;
+	\item the job script's part for the code, how it is started and with which files.
+\end{enumerate}
+ORCA, MOPAC and the newer codes were added this way, and the problems met on the way are kept in ECCE's developer notes as a checklist for the next one. In practice the parser is most of the work, because a code's output changes between versions, and the parser has to be tested against real outputs of the versions people use. New codes are added when a course or a research project needs them, and the place to ask for one is ECCE's issue tracker.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+The coupling of Chapter~\ref{ch:coupling} depends on every code in the chain being registered on the machine where it runs, which need not be the same for all of them: xTB on \texttt{localhost} and ORCA on a cluster is a common pair. A calculation made with \menu{New from This} in another code is launched on whatever machine that code is registered on, so a chain can cross machines without any extra setup.
