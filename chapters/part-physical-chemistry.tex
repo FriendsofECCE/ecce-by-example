@@ -1,6 +1,14 @@
 % Part overview, set before the part's first chapter.
-\XXX[ part overview (chapter to be written): the kinds of calculations and projects
-Physical chemistry research does (one paragraph each, e.g. what is computed and why),
-and for each the ECCE route and the chapter that shows it (chapters \ref{ch:thermochemistry}, \ref{ch:reaction-rates}, \ref{ch:scans}, \ref{ch:bond-dissociation}, \ref{ch:basis-sets}, \ref{ch:density-views}, \ref{ch:mo-analysis}),
-including where ECCE couples codes.]
+\checkedwith{9.5.3-dev}{a9b2d49c8}
 
+Physical chemistry asks the questions that every other field relies on: how much energy a reaction releases, how high the barrier is that it has to cross and therefore how fast it goes, how the energy of a molecule changes as its shape changes, what happens to a bond as it is pulled apart, and where the electrons actually are. The chapters of this part answer them one at a time, and because the methods are general, the other parts of the book refer back to them.
+
+A calculation gives an electronic energy for molecules at rest, while what we measure is an enthalpy or a Gibbs energy at room temperature. The step between the two is a frequency calculation, which supplies the zero-point energy and the thermal contributions of translation, rotation and vibration, and ECCE's Energy Calculator then combines the results of several calculations into reaction enthalpies and Gibbs energies at the temperature we choose. Chapter~\ref{ch:thermochemistry} works through a gas-phase reaction this way, with the common refinement of a higher-level single point on the optimised geometries.
+
+Barriers need a transition state, which is a different kind of target from a minimum because the optimiser has to go uphill along one coordinate and downhill along all others. ECCE sets up the searches the codes offer (an eigenvector-following search from a guess, QST2 and QST3 from reactant and product structures in Gaussian~16, and NEB-TS in ORCA), and a transition state is only accepted once its frequencies show exactly one imaginary mode. An IRC then follows that mode down in both directions and shows which reactant and product the barrier actually connects, which is the check that a transition state belongs to the reaction we had in mind. The Eyring equation turns the activation Gibbs energy into a rate constant. All of this is in Chapter~\ref{ch:reaction-rates}.
+
+Where there is no single transition state to find, or where we want the whole energy profile along one coordinate, a relaxed scan is the tool: one bond length, angle or dihedral is stepped while everything else is optimised at each point. Chapter~\ref{ch:scans} uses it for the rotation of butadiene about its central bond and for locating the barrier between its conformers.
+
+Pulling a bond apart is where the simplest methods break down, and that makes it instructive. Restricted Hartree--Fock forces both electrons of the bond to stay paired and so dissociates \chem{H2} into a mixture of atoms and ions, unrestricted Hartree--Fock gets the limit right at the cost of a spin-contaminated wavefunction in between, and a correlated method such as CCSD shows what the curve should look like. Chapter~\ref{ch:bond-dissociation} compares the three, and Chapter~\ref{ch:basis-sets} shows how a result converges as the basis set grows.
+
+Finally, much of chemical reasoning is about where the electrons are, and ECCE draws it directly: frontier orbitals and partial charges in Chapter~\ref{ch:density-views}, and molecular orbital diagrams built from a calculation, with the symmetry of each orbital and the atomic orbitals it comes from, in Chapter~\ref{ch:mo-analysis}.
