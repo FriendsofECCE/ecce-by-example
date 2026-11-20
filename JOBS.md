@@ -19,7 +19,7 @@ WAITING FOR ECCE (Andy 11-20): a chapter whose central step ECCE cannot do yet w
 - pom-solvation: CREST solvation shell (QCG) crashes with Debian's xtb 6.7.1 -- ECCE #758.
 - organometallics (heavier metals): relativistic Hamiltonians (ZORA/DKH/X2C) -- ECCE #820; ECPs in ECCE-QM -- ECCE #1197.
 - coarse-grained chapter (Materials): coarse-grained setup -- ECCE #1201; LAMMPS -- ECCE #1030.
-- mass spectrometry (Spectroscopy part, to be decided): no ECCE route yet.
+- mass spectrometry (Spectroscopy part): fragment thermochemistry, proton affinities and a McLafferty TS/IRC are possible now; calculated EI spectra wait for QCxMS -- ECCE #1224.
 
 - [ ] L1a. scans (+ density-views): s-trans butadiene opt+freq, relaxed dihedral scan 36 x 10 deg (ORCA %geom Scan), dE-vs-angle plot/csv, freq at the ~100 deg maximum (one imaginary torsion), s-cis opt+freq; NBO charges (NBO 7) and HOMO/LUMO of s-cis butadiene and ethene -> density-views.
 - [ ] L1b. reaction-rates: Diels-Alder butadiene + ethene: reactant complex with one atom numbering, cyclohexene product, TS (ORCA NEB-TS from reactant+product), one imaginary frequency, IRC both directions; thermochemistry profile dH, dS, dG (students subtract) -> thermochemistry section on reactions.
