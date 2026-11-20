@@ -9,24 +9,53 @@
 \index{Re-Parse Outputs}
 \index{Excluded calculations}
 \eccexample{Examples > Getting Started}
+\checkedwith{9.5.3-dev}{2233fa458}
 \helppage{organizer-menus}
+\helppage{organizer-menubar}
 \helppage{rename-and-move}
 \helppage{checks-table}
 \helppage{reparse-outputs}
 \helppage{excluded}
-\XXX[ chapter to be written]
 
-\section{Background}
+A research project produces hundreds of calculations: conformers, levels of theory, failed attempts, reruns, series over a set of molecules. The Organizer is where they live, and it is worth learning its habits early, since a project whose calculations can be found, compared and explained a year later is half of what reproducible computational chemistry means. This chapter goes through how calculations are arranged, made from each other, moved, annotated and checked, using the Getting Started examples.
 
-\section{What ECCE shows}
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE.
 
-\section{Procedure}
+\section{The window}
+\index{Organizer!tree}\index{Organizer!project table}\index{Progress box}
+The Organizer has three parts. The \emph{tree} on the left holds your home folder, the projects and folders in it, and any servers and SSH folders you are connected to. The \emph{project table} on the right lists the calculations of the selected project, one row each, with their type, name, run state, progress, total energy, dates, formula, theory, run type and machine; clicking a column header sorts by it. Below the table, the selected calculation's \emph{details} give its summary, the buttons that open the Builder, the Calculation Editor and the Viewer on it, and the Progress box, which shows a running job's energies and steps as they happen. Tools opened on a calculation appear as tabs in the same window, next to the Organizer's own tab.
 
-\section{Results}
+\section{Projects and calculations}
+\index{Projects}\index{New from This}
+Every calculation belongs to a project, a folder that holds calculations and may hold further folders. \menu{File > New} offers what can be made where the selection is: a project, a calculation in each registered code, an MD study, a workflow. A good habit is one project per question (``butadiene torsion'', ``Cr(CO)6 bonding''), with the calculations named for what they are (\texttt{butadiene-gauche-optfreq}) rather than numbered.
+
+Most new calculations are made from an existing one. The right-click menu \menu{New from This} offers:
+\begin{description}
+	\item[Duplicate] a copy with the same structure and settings, reset and ready to launch, for a rerun or a variation of one setting;
+	\item[Continue from Last Geometry] a copy that starts from the geometry the calculation ended on, for example frequencies after an optimisation;
+	\item[Continue from Final Orbitals] the same, starting also from the final orbitals, for a difficult SCF or a different property at the same level (ORCA, Gaussian~16, NWChem, ECCE-QM, MOPAC, CP2K and Quantum ESPRESSO);
+	\item[Continue in Another Code...] one new calculation in another code from each selected calculation, for the hand-off from a cheap method to an expensive one (Chapter~\ref{ch:coupling}).
+\end{description}
+Each of these keeps a link to the calculation it came from, so the history of a result can be followed back.
+
+\section{Moving, renaming and annotating}
+\index{Rename}\index{Move to}\index{Annotation}
+\menu{Edit > Rename} gives a calculation, folder or project a new name (letters, digits, \texttt{.}, \texttt{\_} and \texttt{-}). Dragging a calculation onto a folder in the tree moves it, and \menu{Move to...} and \menu{Copy to...} in the right-click menu do the same through a list of folders; the calculation keeps its inputs, outputs, results and run log. \menu{Annotation...} attaches a free-text note to a calculation, which is the place for what the name cannot say: why it was run, what went wrong, which one is the reference.
+
+\section{Finding your way}
+\index{Bookmarks}
+\menu{Go} moves through the tree like a file browser (\menu{Home}, \menu{Up}, \menu{Back}, \menu{Forward}, and the last fifteen places), and \menu{Bookmarks} keeps the projects you return to; \texttt{Ctrl+D} bookmarks the selected item. Folders on other machines appear in the tree too: an SSH folder on a cluster, or an ECCE server shared by a class, each with its own root, which a right-click connects or disconnects.
+
+\section{Checking results before using them}
+\index{Re-Parse Outputs}\index{Excluded calculations}\index{Checks table}
+A calculation that finished is not necessarily a calculation that worked. Three tools help to keep the bad ones out of the numbers.
+\begin{description}
+	\item[Re-Parse Outputs] (\menu{Run Mgmt}) reads the stored output files again with the current parsers, without contacting the compute machine. Use it when a calculation shows fewer properties than its output contains, or after an ECCE update has improved a parser.
+	\item[Excluding a calculation] marks it as not to be used, with a reason (``SCF converged to the wrong state''), while keeping it and its results. An excluded calculation is left out of the Supporting Information export and is not launched by a workflow. The mark is set from the command line, \texttt{ecce-annotate --exclude}.
+	\item[The checks table] lists every calculation under a folder in one sortable grid, with normal termination, optimisation and SCF convergence, the number of imaginary modes, $\langle S^2\rangle$, charge, multiplicity, method, basis set, solvent and energies, so that a failed or doubtful run is seen before its numbers are used. It is written by \texttt{ecce-si-export --checks csv} (Chapter~\ref{ch:results}).
+\end{description}
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+The Organizer is where coupling happens in practice: \menu{New from This} is the hand-off between codes, the project table compares calculations from different codes side by side, and the links between calculations record which result came from which. Chapter~\ref{ch:coupling} builds on this, and Chapter~\ref{ch:workflows} shows when to let a workflow make these steps for you.
