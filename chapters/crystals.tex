@@ -7,20 +7,45 @@
 \index{Supercell}
 \index{Periodic models}
 \eccexample{Examples > General Chemistry > Packing in solids}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{qe-first-calculation}
-\XXX[ chapter to be written]
+\helppage{importing-a-structure}
+\helppage{layer-builder}
 
-\section{Background}
+Every periodic calculation starts from a cell and the atoms in it, and getting these right is half the work: a wrong space group, a missing hydrogen or a partly occupied site taken literally gives a model that no amount of computing will repair. There are three ways to a crystal structure in ECCE. A simple crystal can be built from its space group and the few atoms of its asymmetric unit, a known structure is imported from a CIF file, and a larger model, a supercell, a slab or a stack of layers, is made from a unit cell. This chapter goes through all three, using the solids that ship with ECCE, and ends with the step back from a periodic model to a molecule, a cluster cut out of the crystal.
 
-\section{What ECCE shows}
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE for building and inspecting. A CIF file of the crystal you want, for example from the Crystallography Open Database (\url{https://www.crystallography.net}), which is free; ECCE cannot yet search databases itself.
 
-\section{Procedure}
+\section{Looking at packed solids}
+\index{Packing in solids}\index{Close packing}
+In the Organizer, choose \menu{File > Open Example Calculations...}, tick \menu{General Chemistry} and open the topic \menu{Packing in solids}. It holds five metals, each stored as its conventional cell: simple cubic polonium, body-centred cubic sodium, face-centred cubic aluminium and copper, and hexagonal close-packed magnesium. Open one in the Builder and choose \menu{Render > CPK}, which draws the atoms as touching spheres. The Builder draws the atoms on the corners, edges and faces of the cell again at every equivalent position, for display only, so that the packing can be seen as a textbook shows it; each example's note gives the number of atoms in the cell, the nearest neighbours and the fraction of space filled, 52, 68 and 74\,\% for the simple, body-centred and close-packed arrangements. The topic \menu{Molecular and covalent solids} adds crystals held together by hydrogen bonds (ice, urea, sucrose), by dispersion (dry ice, benzene), by a covalent network (diamond) and by covalent layers held together by dispersion (graphite).
 
-\section{Results}
+\section{Building from a space group}
+\index{Periodic Builder}\index{Space group}\index{Asymmetric unit}
+A crystal with few atoms in its asymmetric unit is quickest to build directly. Chapter~\ref{ch:qe-settings} builds silicon this way: one silicon atom placed in the Builder, \menu{Tools > Periodic Builder}, \menu{Create Lattice}, the cell lengths and angles typed in \emph{before} any atoms are generated, then the space group typed next to \menu{Sym. Group} and \menu{Generate}, which makes all eight atoms of the cubic cell from the one. Two things decide whether this works. The cell has to be set first, since the atom positions are fractions of it, and the atoms placed have to be exactly the symmetry-distinct ones, since \menu{Generate} adds every image the space group produces and an atom placed twice ends up doubled.
+
+\section{Importing a CIF}
+\index{CIF import}
+\begin{enumerate}
+	\item Download the CIF of the crystal, for example $\alpha$-quartz from the Crystallography Open Database.
+	\item Make a calculation for the code you intend to use (Quantum ESPRESSO, CP2K, MACE), open the Builder on it, choose \menu{File > Add Structure from File...}, select \menu{Local Filesystem}, and open the file.
+	\item ECCE builds the whole unit cell from the atoms and symmetry operations in the file, or from the space-group name if the file lists no operations, and draws the cell.
+	\item Read the Builder's message area. It warns about partly occupied sites (of a site shared by several species, the one with the highest occupancy is kept), about a structure without hydrogen atoms, and about a file with more than one data block, of which only the first is read.
+	\item Save.
+\end{enumerate}
+\XXX[run: quartz from COD as the worked example; atom count and cell after import; figure]
+
+The warnings matter. X-ray structures often lack hydrogens, which then have to be added before any calculation, and a disordered site in the file describes an average over many unit cells that no single periodic model can reproduce, so the highest-occupancy choice is a starting point to be thought about, not a result. \menu{File > Save As...} with the type \emph{CIF, P1} writes the cell and every atom without symmetry, which reads back as the same structure and is the form most other programs accept.
+
+\section{Larger cells}
+\index{Supercell}\index{Replicate}\index{Layer Builder}
+A defect, a substitution or a dilute dopant needs a cell larger than the unit cell, so that the defect is far enough from its own periodic images. In the Periodic Builder, \menu{Replicate} repeats the cell along $a$, $b$ and $c$ the given number of times, and \menu{Unit Cell} goes back. For layered materials, the Layer Builder (\menu{Tools > Layer Builder}) stacks a layer with chosen spacings and shifts and fills the gaps with ions and water; Chapter~\ref{ch:clays} uses it for a clay. Note that every atom of a supercell is computed, so the cost of a DFT calculation grows quickly with its size, which is one reason to screen large cells with a machine-learned potential first (Chapter~\ref{ch:mlp}).
+
+\section{From a crystal to a cluster}
+\index{Cut Cluster}
+Some properties are better computed with a molecular code, which needs a finite cluster. \menu{Build > Cut Cluster...} cuts one out of a periodic structure: select the atom or atoms to centre on, enter a radius, and choose whether to cut through bonds, keep whole molecules, or, for an ionic crystal, keep whole formula units so that the cluster stays neutral. \menu{Capping} closes the bonds the cut severed with hydrogen atoms or hydroxyl groups, along the direction of each bond. The result replaces the periodic structure, and \menu{Edit > Undo} brings it back.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+A structure built or imported here is the input for the periodic codes, Quantum ESPRESSO, CP2K and MACE (Chapters~\ref{ch:qe-settings}, \ref{ch:cp2k} and \ref{ch:mlp}), and for its calculated diffraction pattern (Chapter~\ref{ch:diffraction}), which is the quickest check that an imported structure is the one in the paper. A cluster cut from it goes to a molecular code.
