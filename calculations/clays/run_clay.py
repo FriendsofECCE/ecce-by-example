@@ -117,7 +117,7 @@ try:
                   "set mions HFE"):
             say("  %s -> %s" % (c, ed.cmd(c)))
         say("  build -> %s" % ed.cmd("set mbuild go", timeout=900))
-        for c in ("set pname " + ION, "set dist " + WATER_NM, "set conc 0", "set rmin 0.45"):
+        for c in ("set pname " + ION, "set dist " + WATER_NM, "set conc 0", "set rmin 0.3"):
             say("  %s -> %s" % (c, ed.cmd(c)))
         say("  fields: %s" % ed.cmd("fields"))
         say("  cellwarning: %s" % ed.cmd("cellwarning"))
