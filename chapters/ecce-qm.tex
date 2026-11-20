@@ -4,21 +4,45 @@
 \index{Analytic Hessian}
 \index{D3 dispersion}
 \eccexample{Examples > Getting Started > ecceqm-water}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{ecce-qm}
 \helppage{ecce-qm-files}
-\XXX[ chapter to be written]
 
-\section{Background}
+ECCE-QM is the quantum chemistry program that comes with ECCE. It does Hartree--Fock and density functional calculations on molecules of up to a few tens of atoms, on Linux, macOS and Windows alike, with nothing to install, and it was written so that a course, or anyone starting out, can do real calculations before any other code is set up. This chapter says what it offers, how large a molecule it can handle, how its results were checked, and where another code is the better choice.
 
-\section{What ECCE shows}
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE. ECCE-QM is always offered on \texttt{localhost}.
 
-\section{Procedure}
+\section{What it offers}
+\index{ECCE-QM!methods}\index{ECCE-QM!basis sets}\index{ECCE-QM!run types}
+\paragraph{Methods.} Hartree--Fock, restricted (RHF), unrestricted (UHF) and restricted open shell (ROHF), and four density functionals, SVWN (the local density approximation), PBE, B3LYP and PBE0, each restricted, unrestricted or restricted open shell. In the Calculation Editor, \menu{Theory} chooses HF or DFT and \menu{Theory Details} the functional, and for a molecule that is not a closed shell whether the orbitals are restricted open shell, the default, or unrestricted. The functionals come from the Libxc library, and B3LYP uses the VWN5 form of its local correlation, as ORCA does. \menu{Theory Details} also offers Grimme's D3(BJ) dispersion correction and an implicit solvent (CPCM) for a list of common solvents or a dielectric constant of your choice.
 
-\section{Results}
+\paragraph{Basis sets.} STO-3G; the Pople sets 3-21G, 6-31G, 6-31G*, 6-31+G* and 6-311G*; the Dunning sets cc-pVDZ, aug-cc-pVDZ and cc-pVTZ; and the Karlsruhe sets def2-SVP and def2-TZVP, with spherical d and f functions throughout. There are no effective core potentials, so def2 basis sets for elements beyond krypton, which need one, are refused before launch.
+
+\paragraph{Run types.} Energy and Gradient; Geometry, an optimisation; Vibration, harmonic frequencies with IR intensities, thermochemistry and, on request, Raman activities; GeoVib, an optimisation followed by frequencies; relaxed scans; transition-state searches from one structure or from a reactant and a product; and IRCs, with the orbitals stored at every point so that an orbital can be followed along a reaction path. Localised orbitals with their hybrid labels (Chapter~\ref{ch:localised-bonds}), Löwdin and CHELPG charges, the dipole moment and, with Raman, the static polarizability come with every calculation that needs them.
+
+\section{How large a molecule}
+\index{ECCE-QM!size limits}
+ECCE-QM keeps all two-electron integrals in memory, which makes each SCF cycle fast and sets its size limit: the memory needed grows as the fourth power of the number of basis functions, about 170~MB for 114 basis functions and about 4~GB for 250. The program refuses a calculation whose integrals would need more than 12~GB, and ECCE warns, without refusing, before launching one with more than 25 atoms or 150 basis functions. The basis set matters more than the molecule here: water has 13 basis functions in 6-31G but 41 in aug-cc-pVDZ and 58 in cc-pVTZ.
+
+A frequency calculation needs six energy and force calculations per atom, so its time grows roughly as the square of the number of atoms times the number of basis functions. As a guide, B3LYP/6-31G* frequencies of ethanol take about two minutes on a four-core desktop, about ten with Raman activities, and benzene takes 10~minutes with Hartree--Fock and 23 with B3LYP on an eight-core desktop; a four-core laptop takes about twice as long. On Linux the integrals and the integration grid use all cores; the macOS version currently runs on one core and is correspondingly slower.
+
+\section{How it was checked}
+\index{ECCE-QM!validation}
+A program written for a course still has to be right. ECCE-QM's results were compared with ORCA~6.1.1, and for a subset with NWChem~7.2.3, for water, ammonia, methane, carbon monoxide, nitrogen, hydrogen fluoride, benzene and triplet oxygen in several basis sets. Hartree--Fock energies agree to about $10^{-8}$~Hartree and the density functional energies to about $10^{-5}$~Hartree, the remaining difference being the integration grid, which each program chooses for itself. Optimised bond lengths agree to $1.4 \times 10^{-4}$~\AA, harmonic frequencies to 0.8~cm$^{-1}$ and IR intensities to 0.07~km/mol, the zero-point and Gibbs energies to a few microhartree, Raman activities to 0.1\,\%, and the D3(BJ) dispersion energy to $2 \times 10^{-9}$~Hartree. The orbitals were also checked independently with Multiwfn.
+
+\section{A first calculation and an open shell}
+\index{Oxygen, triplet}\index{ROKS}
+Chapter~\ref{ch:first-calculation} optimises water with ECCE-QM and looks at its frequencies; that is the place to start. A good second calculation shows what ECCE-QM does with an open shell. Oxygen, \chem{O2}, has two unpaired electrons in its ground state, a triplet, which is why liquid oxygen is attracted by a magnet.
+\begin{enumerate}
+	\item Make an ECCE-QM calculation \texttt{o2-triplet}. In the Builder, open the Structure Library's \menu{Teaching > Diatomics} and add O$_2$, which comes at its measured bond length.
+	\item In the Calculation Editor, set \menu{Spin Mult.} to Triplet, \menu{Theory} to DFT with B3LYP, the basis set def2-SVP and the run type \menu{Energy}. Keep the restricted open-shell orbitals of the default.
+	\item Launch, and when the job has finished open \menu{Properties > Orbitals > MOs} in the Viewer.
+\end{enumerate}
+\XXX[run: confirm the Teaching > Diatomics O2 entry and the editor wording for the multiplicity; the two singly occupied pi* orbitals with their energies; figure]
+
+The orbital list shows two singly occupied orbitals of the same energy, the two $\pi^*$ orbitals, each holding one electron, which is the molecular-orbital explanation of oxygen's paramagnetism and one of the classic successes of the theory over the Lewis picture, which pairs every electron. With restricted open-shell orbitals each spatial orbital has one energy, which makes the diagram easy to read; an unrestricted calculation, chosen in \menu{Theory Details}, gives separate $\alpha$ and $\beta$ orbitals with slightly different energies.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+ECCE-QM is the code to start with and the one a course can rely on, and when a molecule outgrows it, or a method it does not offer is needed (heavier elements with effective core potentials, correlated wave-function methods, excited states), the same calculation moves to ORCA, Gaussian or NWChem with \menu{New from This > Continue in Another Code...}, which keeps the structure, charge and multiplicity. Its input and output files are plain text, documented in the help, so its results can also be read outside ECCE.
