@@ -23,7 +23,7 @@ PRIORITY NOW (Andy 11-15): manual work focuses on the material of the TEACHING L
 - [x] 1b. appendix menus-organizer (12 \XXX gaps to fill from a running ECCE)
 - [ ] 1c. appendix menus-builder
 - [ ] 1d. appendix settings: preference files, per-user state, environment variables (from docs/AGENTS.md)
-- [ ] 1e. part overviews (chapters/part-*.tex), one job for all six fields
+- [x] 1e. part overviews (chapters/part-*.tex), one job for all six fields
 - [x] 1f. coupling (core chapter: coupling computations, mostly by hand)
 - [ ] 1f2. ai-project: one small research project from beginning to end, done by talking to an AI assistant (Claude Code with ECCE's AGENTS.md/ECCE skill), in this order: (1) deciding on the method (benchmark/literature reasoning, a small test of method and basis, the assistant's proposal and the scientist's decision); (2) setting up the structures (build/import, conformers with CREST where it fits); (3) the calculations (series, launch on a machine, monitoring, failures and reruns); (4) tabulating the results (energies/properties table in ECCE, export); (5) the Supporting Information (SI export: coordinates, energies, methods text, citations). Show the prompts, what the assistant did in ECCE, what the scientist checked in the GUI, and where the assistant needed correcting. Real calculations (offload hosts), real transcript excerpts, results visible in the Organizer.
 - [x] 1g. crest (organic lead chapter)
