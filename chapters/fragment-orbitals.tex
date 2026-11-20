@@ -6,20 +6,53 @@
 \index{ecce-fragorb}
 \index{Interaction diagram}
 \eccexample{Examples > Inorganic Chemistry}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{density-of-states-opdos}
-\XXX[ chapter to be written]
+\helppage{recipes}
+
+The bonding in a transition-metal complex is usually explained by fragments: the metal's d orbitals on one side, the ligands' donor and acceptor orbitals on the other, and the molecular orbitals of the complex as their combinations. Chromium hexacarbonyl, \chem{Cr(CO)6}, is the textbook example. Each CO donates through its carbon lone pair into empty metal orbitals of $\sigma$ symmetry, and the filled metal d orbitals of $\pi$ symmetry ($t_{2g}$ in an octahedron) give electron density back into the empty $\pi^*$ orbitals of CO. A calculation of the complex alone gives its orbitals but not this story. This chapter shows two ways ECCE recovers it: the \emph{fragment orbital} analysis, which writes each orbital of the complex in terms of the orbitals of the metal and of the ligand cage, and the \emph{overlap population density of states} (OPDOS), which shows at which energies the electrons are bonding and at which antibonding between the metal and the ligands.
+
+\section*{This requires}
+\index{Requirements!ORCA}
+ORCA, registered on the machine that runs the jobs (Appendix~\ref{ch:running-each-code}). The fragment analysis recipe is for ORCA only at present; the OPDOS panel works for the quantum chemistry codes whose orbitals ECCE reads.
 
 \section{Background}
+\index{Fragment orbitals}\index{OPDOS}\index{Mulliken population}
+A molecular orbital $c$ of the complex is a combination of basis functions. If we also compute each fragment on its own, at exactly the geometry it has in the complex and in the same basis set, the fragment orbitals (FOs) span nearly the same space, and $c$ can be rewritten as a combination of FOs. The weight of each FO, its \emph{Mulliken share}, then says that, for example, the HOMO of \chem{Cr(CO)6} is mostly Cr d with a smaller share of the CO $\pi^*$ orbitals, which is back-donation stated as a number. The shares of one orbital add up to one, apart from a small part outside the span of the fragment orbitals; when fragment orbitals overlap strongly a share can come out slightly above 100\,\% or below zero, and only the sum is meaningful then.
 
-\section{What ECCE shows}
+OPDOS looks at the same complex from another side. For two groups of atoms A and B, the overlap population of orbital $i$, $\mathrm{OP}(A,B) = 2\sum c_{\mu i} c_{\nu i} S_{\mu\nu}$ summed over the basis functions $\mu$ on A and $\nu$ on B, is positive when the orbital is bonding between A and B and negative when it is antibonding. Drawing it against orbital energy, with each orbital broadened into a peak, gives a curve that is positive in the energy ranges where the electrons hold A and B together and negative where they push them apart; its running integral up to the HOMO is the total overlap population between A and B. Note that Mulliken populations depend on the basis set, so OPDOS curves are only compared between calculations with the same basis.
 
-\section{Procedure}
+\section{The calculation of the complex}
+\begin{enumerate}
+	\item Make a project and an ORCA calculation \texttt{crco6}. In the Builder, choose \menu{Tools > Add from SMILES...} and enter \texttt{O=C=[Cr](=C=O)(=C=O)(=C=O)(=C=O)=C=O}, then \menu{Build > Clean}. Check that the result is octahedral, with straight Cr--C--O units.
+	\item In the Calculation Editor choose \menu{RDFT}, the functional BP86 with D3BJ dispersion under \menu{Theory Details...}, the basis set def2-SVP and the run type \menu{GeoVib}. Launch, and when the job has finished, check that there is no imaginary frequency.
+\end{enumerate}
+\XXX[run: confirm that the SMILES gives an octahedral Cr(CO)6 after Clean (otherwise describe building it with the Builder's octahedral shape, chapter organometallics); final Cr--C and C--O distances]
 
-\section{Results}
+\section{Fragment orbitals}
+\index{Fragment analysis (recipe)}\index{Recipes!Fragment analysis}
+The fragment analysis is a recipe: three single points at the complex's geometry, one of the complex and one of each fragment, followed by a box that combines them.
+\begin{enumerate}
+	\item Right-click the finished \texttt{crco6} calculation in the Organizer and choose \menu{Make Workflow...}. In the workflow view, right-click its box and choose \menu{Apply Recipe from here...}, then \menu{Fragment analysis}.
+	\item Under \menu{Fragments}, the panel proposes the metal and the rest. Check the rows: fragment~1 is atom \texttt{1}, Cr, charge 0, \menu{State} \menu{In the complex}, which makes it a singlet, the d$^6$ configuration chromium has in the complex; fragment~2 is \texttt{rest}, the six CO ligands, neutral and a singlet. Keep the method and basis set of the level-of-theory row equal to those of the complex.
+	\item Choose \menu{Create boxes}. For the chromium atom the recipe makes two boxes, one in which the atom sits among weak point charges at the six donor carbons, which only decides \emph{which} of its degenerate d orbitals are filled, in the complex's own frame, and the atom itself, started from that box's orbitals. Choose \menu{Launch Ready Steps}.
+	\item When every box is complete, the \menu{Fragment orbitals} box fills in. Its first line names the fragments, Cr $|$ (CO)$_6$, and each following line is one level of the complex near the frontier, with its energy and the fragment orbitals it is made of. \menu{Details...} opens the full list.
+\end{enumerate}
+
+What we expect is that the HOMO, a triply degenerate level, is mostly the three occupied Cr d orbitals of $t_{2g}$ symmetry with a share of the (CO)$_6$ $\pi^*$ orbitals, the back-donation, and that the empty levels just above the LUMO contain the Cr d orbitals of $e_g$ symmetry mixed with the CO $\sigma$ lone pairs, antibonding between metal and ligands. The box also checks that the chromium fragment's occupied d orbitals are the ones the complex uses, and says so under the box if the field-split guess failed, in which case the d shares are not to be trusted.
+\XXX[run: the box's lines for HOMO-2..LUMO+2 with energies and shares; figure: the Fragment orbitals box and the Details window]
+
+\section{OPDOS between the metal and the ligands}
+\index{Density of States (OPDOS) panel}
+\begin{enumerate}
+	\item Open the \texttt{crco6} calculation in the Viewer and choose \menu{Properties > Density of States (OPDOS)}. Group \menu{A} starts as the first transition-metal atom, here the chromium, and \menu{B} as all other atoms.
+	\item Set \menu{B} to the six carbon atoms only, or keep all ligand atoms; the first shows the Cr--C bond itself, the second the metal--ligand interaction as a whole.
+	\item Under \menu{Options}, tick \menu{Integrated OPDOS} and \menu{Occupied only}, and narrow the \menu{Width} to 0.2~eV to separate the levels near the HOMO.
+	\item Click on a peak of the OPDOS curve: the list under the plots shows the orbitals at that energy with their overlap populations, and \menu{Draw orbital} draws one in the 3-D view.
+\end{enumerate}
+\XXX[run: OPDOS(Cr,C) figure; sign of OPDOS at the t2g HOMO and at the sigma-bonding levels; integrated OPDOS at the HOMO]
+
+The occupied $\sigma$-bonding levels, well below the HOMO, should give a large positive OPDOS, and the $t_{2g}$ HOMO a smaller positive one, since back-donation into $\pi^*$ also strengthens the Cr--C bond. The same plot for Cr against the oxygen atoms, and for C against O within the ligands, shows the other side of back-donation: density in the CO $\pi^*$ orbitals is antibonding between C and O, which is why the C--O stretch of a metal carbonyl is lower than that of free CO, a shift Chapter~\ref{ch:vibrations} shows how to calculate. Note that \menu{Occupied only} matters with diffuse basis sets, where the overlap populations of empty orbitals are large and of both signs.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+The analysis needs the complex and its fragments at one geometry and in one basis set, which is why it is a recipe of single points that follows a finished optimisation. The molecular orbital diagrams of Chapter~\ref{ch:mo-analysis} look at the same orbitals from the side of their symmetry, and the d-orbital splitting the analysis shows is the subject of Chapter~\ref{ch:ligand-field}. The OPDOS panel also gives the same numbers from the command line, \texttt{ecce-fragorb dos}, for a series of complexes.
