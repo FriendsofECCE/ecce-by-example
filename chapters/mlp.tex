@@ -5,20 +5,50 @@
 \index{ML potential}
 \index{Site screening}
 \eccexample{Examples > Materials Chemistry}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{mlp}
-\XXX[ chapter to be written]
+
+Periodic DFT gives energies, forces and stresses of a crystal that we can trust, but at a cost of minutes to hours per structure, and a question such as where an ion sits best in a large oxide cell, or which of thirty substitution patterns is most stable, needs hundreds of structures. Machine-learned interatomic potentials fill this gap. A neural network trained on a very large set of DFT calculations predicts the energy, the forces and the stress of a new structure in seconds, close to what DFT would have given for structures like those it was trained on. ECCE runs the MACE potentials, trained on the crystals of the Materials Project and similar databases, as an ordinary code. This chapter relaxes the silicon cell of Chapter~\ref{ch:qe-settings} with MACE and hands the result to Quantum ESPRESSO, the screening pattern the rest of the materials chapters use.
+
+\section*{This requires}
+\index{Requirements!MACE}
+A Python environment with PyTorch and MACE on the machine that runs the job, which ECCE builds for you (below). About 1.5~GB of disk for the CPU version, and a C++ compiler for ECCE's own optimiser and dynamics program (on Debian, \texttt{sudo apt install python3-venv g++}).
 
 \section{Background}
+\index{Machine-learned potentials}\index{MACE}
+MACE describes each atom by its neighbourhood within a cutoff radius and passes messages between neighbouring atoms, so that the energy is a sum of atomic contributions that depend on the arrangement of atoms around each one. The forces and the stress are exact derivatives of that energy, which is what makes geometry optimisation, cell relaxation, vibrations and molecular dynamics possible with it. The \emph{foundation} models ECCE uses, \texttt{medium-mpa-0} by default, were trained on hundreds of thousands of DFT calculations of inorganic crystals across most of the periodic table, so they work out of the box for a wide range of solids without being fitted to the system at hand.
 
-\section{What ECCE shows}
+Two limits follow from how they were made. First, the energies are approximations of DFT energies of one particular kind (PBE and PBE+$U$ for the default model), good enough to \emph{rank} structures that are alike, but not results to report or to compare with energies from any other method. Second, the MACE-MP models know nothing of charge or spin: a charged or open-shell structure is treated as neutral and closed-shell, and ECCE says so in the editor. They are therefore for screening, and the few structures that matter go on to DFT.
 
-\section{Procedure}
+\section{Setting it up}
+\index{MLP!Set up}
+\begin{enumerate}
+	\item In \menu{Register Machines}, select the machine that will run the jobs (\texttt{localhost} to begin with), open the \menu{Codes} tab and select \menu{MLP (MACE)}.
+	\item Press \menu{Set up...} next to \menu{Program}. Keep the folder \texttt{\textasciitilde/ecce-mlp} and the \menu{CPU} build unless the machine has an NVIDIA GPU.
+	\item ECCE creates a Python environment there, installs PyTorch, MACE and ASE, downloads the default model into the environment, so that compute nodes need no internet access later, builds its own optimiser and dynamics program, and sets \menu{Program} to the environment's Python. The window shows the step and the last line of the log; most of the several minutes is the PyTorch download.
+	\item Choose \menu{Save}.
+\end{enumerate}
+On a cluster the set-up runs on the login node over the machine's connection; choose a folder the compute nodes can read.
 
-\section{Results}
+\section{Relaxing silicon}
+\index{Cell relaxation}
+\begin{enumerate}
+	\item Make an MLP calculation \texttt{si-mace} in the same project as the silicon of Chapter~\ref{ch:qe-settings}, and build the same cell in the Builder (Periodic Builder, $a = 5.43$~\AA, \texttt{Fd-3m}, \menu{Generate}); or select \texttt{si-scf} and use \menu{New from This > Continue in Another Code...} with MLP (MACE), which brings the structure and its cell along.
+	\item In the Calculation Editor, keep the theory \menu{MACE} with the model \texttt{medium-mpa-0}, and choose the run type \menu{Geometry}. Under \menu{Runtype Details...}, tick \menu{Relax the cell as well as the atoms}, and keep the force limit of 0.05~eV/\AA.
+	\item Launch. The relaxation of eight atoms takes seconds.
+	\item In the Viewer, the Geometry Trace shows the steps, and the final cell length is in the structure's lattice parameters.
+\end{enumerate}
+\XXX[run: confirm that Continue in Another Code offers MLP (MACE) and Quantum ESPRESSO here and carries the cell; the MACE lattice constant of silicon with medium-mpa-0, number of steps and time; figure: the trace]
+
+What we expect is a lattice constant close to the PBE value of about 5.47 to 5.48~\AA, since the model was trained on PBE data, and therefore slightly larger than the measured 5.43~\AA. That is the point of the comparison: MACE reproduces what the DFT method it learned from would give, including that method's own errors, and not the experiment.
+
+\section{Handing over to DFT}
+\index{Screening}
+With the relaxed cell, select \texttt{si-mace} and choose \menu{New from This > Continue in Another Code...} with Quantum ESPRESSO. The new calculation starts from the MACE structure and cell, and a short DFT relaxation from there takes fewer steps than one from the experimental cell. For one silicon crystal the saving is small, but the same hand-off over a hundred candidate structures, ranked by MACE and with only the best few refined by DFT, is where a machine-learned potential earns its place. Note that only the structures are carried over; the MACE and DFT energies are never compared with each other.
+
+\section{Vibrations and dynamics}
+\index{Molecular dynamics!MACE}
+The same calculation with the run type \menu{Vibration} gives harmonic frequencies by finite differences, and \menu{Molecular Dynamics} runs NVT dynamics with a Bussi thermostat, or NVE, with ECCE's own integrator, for times far beyond what DFT dynamics can reach. Both inherit the model's accuracy: they are good for structures close to its training data, and a sign of trouble is a structure that drifts into arrangements no crystal database contains.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+MACE is a step in a chain rather than an end point: it screens or pre-relaxes for Quantum ESPRESSO and CP2K (Chapters~\ref{ch:qe-settings} and \ref{ch:cp2k}), and its relaxed cells give quick diffraction patterns (Chapter~\ref{ch:diffraction}). In a workflow, an MLP step passes its final structure and cell to the next step like any other code.
