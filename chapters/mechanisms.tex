@@ -1,0 +1,85 @@
+\chapter{Reaction mechanisms: substitution against elimination}
+\chaptermark{Reaction mechanisms}
+\label{ch:mechanisms}
+\index{Reaction mechanisms}
+\index{SN2@S\textsubscript{N}2}
+\index{E2}
+\index{Transition state}
+\index{IRC}
+\index{Energy Calculator}
+\index{Imaginary frequency}
+\eccexample{Examples > Organic Chemistry > Substitution vs elimination}
+\checkedwith{9.5.3-dev}{4c8b4b851}
+\helppage{ecce-qm}
+\helppage{energy-calculator}
+
+When a base meets an alkyl halide, it has two things it can do. It can attack the carbon that carries the halogen from the back and push the halide out, a bimolecular nucleophilic substitution (S\textsubscript{N}2), or it can take a proton from the neighbouring carbon while the halide leaves, so that a double bond forms, a bimolecular elimination (E2). Which of the two wins decides what ends up in the flask, and the textbook rules (strong, small bases favour substitution at primary carbons; strong, hindered bases favour elimination) are rules of thumb about two competing transition states. In this chapter we compute both transition states for fluoride and chloroethane,
+\begin{equation*}
+	\ce{F- + CH3CH2Cl -> CH3CH2F + Cl-} \quad\text{or}\quad \ce{F- + CH3CH2Cl -> CH2=CH2 + HF + Cl-},
+\end{equation*}
+starting from one reactant complex, and see which barrier is lower, which product is more stable, and how each mechanism looks when the reaction path is played as a movie.
+
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE: all calculations use ECCE-QM, and they ship with ECCE in the example set \menu{Organic Chemistry > Substitution vs elimination}, so the analysis can be done without running anything.
+
+\section{Background}
+\index{Ion--molecule complex}\index{Gas phase}
+In the gas phase an anion and a polar molecule do not meet with zero energy. They first fall into an ion--molecule complex, held together by the attraction between the charge and the molecule's dipole, and both reactions start from that complex. Each then climbs to its own transition state: for S\textsubscript{N}2, the carbon with five partners in a trigonal bipyramid, fluoride and chloride on opposite sides; for E2, the anti-periplanar arrangement in which the fluoride pulls a hydrogen on the methyl carbon while the C--Cl bond on the other carbon breaks, the two bonds lying in one plane on opposite sides. A transition state is a first-order saddle point, a maximum along the reaction coordinate and a minimum in every other direction, and the frequency calculation proves it: it has exactly one imaginary frequency, and that mode is the reaction moving. An IRC then follows that mode downhill in both directions, which shows which reactant and which product the transition state connects.
+
+Note that this is a gas-phase calculation of an isolated anion. In solution the solvent stabilises the small, charge-concentrated fluoride much more than the transition states, the barriers become much higher, and the balance between the two paths can shift, so the numbers here describe the intrinsic preference of the reactants, not the outcome in a particular solvent.
+
+\section{The calculations}
+All calculations use B3LYP with D3(BJ) dispersion and the def2-SVPD basis set, whose diffuse functions are needed for an anion. The example set holds:
+\begin{description}
+	\item[\texttt{f\_etcl\_complex}] the reactant complex \ce{F-}$\cdots$\ce{CH3CH2Cl}, optimised;
+	\item[\texttt{f\_etcl\_sn2\_ts}, \texttt{f\_etcl\_e2\_ts}] the two transition states, each from a transition-state search followed by frequencies;
+	\item[\texttt{f\_etcl\_sn2\_irc}, \texttt{f\_etcl\_e2\_irc}] the IRC from each transition state, in both directions;
+	\item[\texttt{f\_etcl\_sn2\_product}, \texttt{f\_etcl\_e2\_product}] the product complexes, \ce{CH3CH2F}$\cdots$\ce{Cl-} and \ce{CH2=CH2}$\cdot$\ce{HF}$\cdots$\ce{Cl-}, optimised.
+\end{description}
+\XXX[the example names will follow the naming rule mechanism first (SN2\_F\_EtCl\_ts, E2\_F\_EtCl\_irc, ...; ECCE \#1098); update this list when the examples are renamed]
+
+\section{Procedure}
+\index{Energy Calculator}\index{Vibrational Frequencies panel}\index{IRC Path panel}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations...}, tick \menu{Organic Chemistry} and choose \menu{OK}. Open the topic \menu{Substitution vs elimination}.
+	\item Open \texttt{f\_etcl\_sn2\_ts} in the Viewer and choose \menu{Properties > Vibrational Frequencies}. The first mode has an imaginary frequency, shown as a negative number. Select it and play it: the fluoride approaches the carbon while the chloride leaves on the opposite side, and the three hydrogens flip through a plane like an umbrella in the wind. Do the same for \texttt{f\_etcl\_e2\_ts}, where the mode moves a hydrogen from carbon to fluoride while the C--Cl bond stretches.
+	\item Open \texttt{f\_etcl\_sn2\_irc} in the Viewer and choose \menu{Properties > IRC Path}. The plot shows the energy against the reaction coordinate, and the playback buttons under it play the structures along the path, with 50~ms between points by default. Play it, and then the E2 path.
+	\item Select the complex, the two transition states and the two products in the Organizer and choose \menu{Tools > Energy Calculator}. Choose the complex as the reference and read the energy of each structure relative to it, in kJ/mol.
+\end{enumerate}
+\XXX[figures: the SN2 and E2 transition states with their imaginary modes; the two IRC paths; the Energy Calculator table]
+
+\section{Results}
+\index{Activation energy}\index{Reaction energy}
+Relative to the reactant complex, the electronic energies are:
+\begin{center}
+\begin{tabular}{lrr}
+	\toprule
+	 & S\textsubscript{N}2 & E2 \\
+	\midrule
+	Transition state (kJ/mol) & $+12.5$ & $+8.1$ \\
+	Product complex (kJ/mol) & $-114.9$ & $-54.6$ \\
+	Imaginary frequency (cm$^{-1}$) & 357\,$i$ & 587\,$i$ \\
+	\bottomrule
+\end{tabular}
+\end{center}
+Both barriers are small, which is typical of an anion reacting in the gas phase, where the energy of the ion--molecule complex is already well below that of the separated reactants. The E2 transition state lies about 4~kJ/mol below the S\textsubscript{N}2 one, so elimination is somewhat faster, while the substitution product is about 60~kJ/mol more stable than the elimination products. Fluoride and chloroethane are therefore a case where the faster reaction is not the one that gives the more stable product, which is the distinction between kinetic and thermodynamic control. Since neither reaction is reversible under these conditions, the outcome is decided by the barriers, and the calculation predicts more elimination than the stable substitution product would suggest. Note that these are electronic energies; a comparison of Gibbs energies needs frequencies for the complex and the products as well, and with barriers this close it could change the ranking.
+
+The imaginary frequencies differ in a way that follows from what moves. The S\textsubscript{N}2 mode moves heavy atoms, carbon between fluorine and chlorine, and has a low imaginary frequency; the E2 mode is dominated by a hydrogen moving between carbon and fluorine, and its curvature is larger.
+
+The IRCs in the example set show each transition state's path towards the reactant complex and the products, but each of them stops on one side at the point limit of the run, before reaching the minimum; the run was made to keep the stored output small. Playing them shows the mechanism, and a complete path from minimum to minimum needs the IRC rerun with more points.
+\XXX[when the IRCs are rerun to reach both minima (ECCE \#1098), replace this paragraph and add the joined playback]
+
+\section{Doing it yourself}
+\index{TS Search}\index{Transition State (Opt-TS)}
+To compute a reaction of your own the same way:
+\begin{enumerate}
+	\item Optimise the reactant complex and the product complex with the same method and basis set, with the run type \menu{GeoVib}, so that each is shown to be a minimum.
+	\item Make a new ECCE-QM calculation for the transition state. In the Calculation Editor, \menu{TS Search} takes the reactant and the product calculations and builds a starting structure between them; choose the run type \menu{Transition State (Opt-TS)}, which searches for the saddle point and computes the frequencies there. Check that there is exactly one imaginary frequency and that its mode is the reaction.
+	\item From the finished transition state, make an IRC with \menu{New from This > Continue from Last Geometry} and the run type \menu{IRC}, and check that the two ends are the reactant and the product you started from.
+	\item Compare the energies in the Energy Calculator, and for Gibbs energies at a chosen temperature make sure every structure has frequencies.
+\end{enumerate}
+If the search does not find the right saddle point, the \menu{Runtype Details} of the transition-state search can start it along a chosen mode, or along the mode that moves a given bond, angle or torsion.
+
+\section{Coupling with other codes}
+ECCE-QM is limited to molecules of a few tens of atoms. For a larger system, the same chain is run with ORCA or Gaussian, and a common shortcut is to locate the transition state with a cheaper method, such as xTB, and refine it with density functional theory. For reactions in solution, an implicit solvent changes the barriers substantially, and Chapter~\ref{ch:reaction-rates} turns activation Gibbs energies into rate constants.

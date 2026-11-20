@@ -82,6 +82,8 @@ PLAN = [
 ("Organic chemistry", [
  ("localised-bonds", "Localised bonds: ethane, ethene and ethyne", "Organic Chemistry > Bonding in hydrocarbons",
   "localised-orbitals", "Localised orbitals|Hybridisation|Bond order|s character|Pipek-Mezey localisation"),
+ ("mechanisms", "Reaction mechanisms: substitution against elimination", "Organic Chemistry > Substitution vs elimination",
+  "ecce-qm energy-calculator", "Reaction mechanisms|SN2|E2|Transition state|IRC|Energy Calculator|Imaginary frequency"),
  ("crest", "Conformer searches with CREST: from one structure to a refined ensemble", "Workflows > Aminopyridine protonation",
   "crest", "CREST|Conformer search|Boltzmann weights|Coupled codes"),
  ("xtb", "Fast calculations with xTB", "Getting Started",

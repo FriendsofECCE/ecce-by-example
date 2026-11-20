@@ -34,7 +34,7 @@ Our first system is one \chem{Na+} and one \chem{Cl-} in a 3.2~nm box of TIP3P w
 	\item Select the window tasks in the Organizer and choose \menu{Run Mgmt > Launch Selected}. The windows are independent of each other and can run side by side.
 	\item When they are complete, choose \menu{Run WHAM} on the same page, and tick \menu{Remove the 2RT ln r volume term} (below).
 \end{enumerate}
-\XXX[run: confirm how the two ions in a water box are prepared in ECCE (a "box of molecules" Prepare source is still open, ECCE #543; otherwise the system comes in through GROMACS Calculation from Files); figures: Pull Force, histograms, PMF]
+\XXX[run: confirm how the two ions in a water box are prepared in ECCE (a "box of molecules" Prepare source is still open, ECCE \#543; otherwise the system comes in through GROMACS Calculation from Files); figures: Pull Force, histograms, PMF]
 
 ECCE's own test of this procedure, with 24 windows from 0.24 to 1.2~nm and a spring of 6000~kJ/mol/nm$^2$, gives the profile we expect: the contact ion pair at 0.27~nm, about $-7$~kJ/mol below the separated ions, a barrier at 0.37~nm, about $+8$~kJ/mol, and the solvent-separated pair at 0.52~nm, close to zero. Windows of 100~ps leave about 1~kJ/mol of noise on the curve, which is why ECCE lists only the minima and maxima that differ from their neighbours by more than $RT$.
 
