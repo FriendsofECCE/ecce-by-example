@@ -8,20 +8,47 @@
 \index{Fibre diffraction}
 \index{Debye scattering}
 \eccexample{Examples > General Chemistry > Diffraction}
+\checkedwith{9.5.3-dev}{4c8b4b851}
 \helppage{fibre-diffraction}
-\XXX[ chapter to be written]
+
+A diffraction pattern is the most direct link between a structural model and a measurement. Every crystal structure we build or optimise implies a powder pattern, a set of single-crystal reflections and, for a fibre, a pattern of layer lines, and comparing these with what a diffractometer records is the quickest way to tell whether a model is right. ECCE calculates all of them from whatever structure is in the Builder, without any external program. This chapter goes through the views with the diffraction examples that ship with ECCE, and uses sodium and potassium chloride to show why intensities, and not only positions, carry information about a structure.
+
+\section*{This requires}
+\index{Requirements!nothing beyond ECCE}
+Nothing beyond ECCE. The structures are in the example set \menu{General Chemistry > Diffraction}, which holds NaCl, KCl and quartz crystals and two fibre models, an $\alpha$-helix and B-DNA.
 
 \section{Background}
+\index{Bragg's law}\index{Structure factor}
+A crystal scatters X-rays only in the directions where waves from successive planes of atoms arrive in phase, which is Bragg's law, $n\lambda = 2d\sin\theta$. The positions of the reflections therefore follow from the cell alone. Their intensities follow from what is in the cell: each reflection's structure factor adds up the waves scattered by all atoms of the cell, each weighted by its form factor, which grows with the atom's number of electrons, and with a phase set by its position. When the atoms of a cell scatter in step, the reflection is strong; when they cancel, it is weak or absent. Systematic absences of whole classes of reflections reveal the lattice type and the symmetry, and the relative intensities reveal where the atoms sit.
 
-\section{What ECCE shows}
+\section{A powder pattern}
+\index{Powder pattern}\index{K-alpha doublet}
+\begin{enumerate}
+	\item In the Organizer, choose \menu{File > Open Example Calculations...}, tick \menu{General Chemistry} and open the topic \menu{Diffraction}. Open \texttt{qe-nacl\_powder} in the Builder.
+	\item Choose \menu{Properties > Diffraction and scattering > Diffraction}. The pane opens with the \menu{Powder} view and calculates the pattern at once: intensity against $2\theta$ for Cu radiation, with each peak labelled by its $hkl$ and a peak list below.
+	\item Move the pointer over a peak to read its $2\theta$, $d$ and $hkl$. Note that for a Cu, Mo or Co source every reflection is drawn twice, at the K$\alpha_1$ and K$\alpha_2$ wavelengths with K$\alpha_2$ at half the intensity; the two are hardly separated at low angle and resolved at high angle, as in a real diffractometer. Untick \menu{K-alpha1/K-alpha2 doublet} under \menu{Options...} for single lines.
+	\item To compare with a measurement, choose \menu{Experimental...} and open a measured pattern (two columns of $2\theta$ and intensity, or a PANalytical \texttt{.xrdml} or Bruker \texttt{.brml} file). It is drawn under the calculated one, scaled to the same height. Choose the \menu{Source} the measurement was made with, or the peaks will not line up.
+\end{enumerate}
+\XXX[figures: NaCl powder pattern with labels; the doublet at high angle]
 
-\section{Procedure}
+For NaCl, a face-centred cubic lattice, only reflections with $h$, $k$ and $l$ all even or all odd appear, which is the systematic absence of the lattice type; among those, the all-even ones are strong, since sodium and chloride scatter in phase for them, and the all-odd ones weak, since the two ions scatter in antiphase and their contributions partly cancel.
 
-\section{Results}
+\section{NaCl against KCl: what intensities say}
+\index{Single crystal}\index{Precession photograph}
+\begin{enumerate}
+	\item Open \texttt{qe-nacl\_bragg} and \texttt{qe-kcl} in turn, and in the Diffraction pane choose the view \menu{Single crystal}. It draws a reciprocal-lattice layer as a precession photograph, each reflection a spot whose darkness grows with its intensity.
+	\item Under \menu{Options...}, choose the layer $hk1$ for both crystals.
+\end{enumerate}
+The $hk1$ layer of a rock-salt crystal holds only all-odd reflections, the ones where cation and anion scatter in antiphase. In NaCl the two ions have different numbers of electrons (10 for \ce{Na+}, 18 for \ce{Cl-}), the cancellation is incomplete, and the spots are weak but visible, with relative intensities near 4.5 on a scale where the strongest reflection of the crystal is 100. In KCl the two ions have the same number of electrons, 18 each, their form factors are nearly equal, and the cancellation is almost complete: the relative intensities fall to about 0.3 and the photograph is nearly blank. To an X-ray pattern KCl therefore looks like a simple cubic lattice of half the cell length. W.~L.~Bragg used exactly this comparison in 1913: KCl's pattern read as a simple cubic arrangement of equal scatterers, NaCl's showed the extra, weaker reflections, and together they fixed the rock-salt structure. Because the darkness of every photograph is scaled to the strongest reflection of its own crystal, layers of different crystals can be compared directly in this way.
+\XXX[figures: hk1 of NaCl and of KCl side by side]
+
+\section{A rotation photograph}
+\index{Detector frame}\index{Rotation method}
+The \menu{Detector frame} view shows what a rotation camera records: the crystal turns about the vertical axis through the \menu{Oscillation} range, starting at \menu{Start angle phi}, and a reflection is recorded when its reciprocal-lattice point crosses the Ewald sphere during the turn. Only the reflections that cross in that range appear, so a small oscillation of a small cell can hold very few spots; set the oscillation to 180° for a full picture, tick \menu{Label spots (hkl)} to name them, and untick \menu{Noise} for a clean frame without the simulated film grain. The pointer reports the $hkl$, $d$ and $2\theta$ of the nearest spot.
+
+\section{Fibres and molecules}
+\index{Fibre diffraction}\index{Debye scattering}
+The \menu{Fibre} view is the pattern of molecules aligned along one axis and rotated at random about it, as in a drawn fibre. Open \texttt{xtb-b\_dna} and choose \menu{Fibre}: the pattern shows the layer lines of the helix and the cross that a helix makes, which is the pattern of Photograph~51 and the subject of Chapter~\ref{ch:t-photograph-51}; \texttt{xtb-alpha\_helix} gives the corresponding pattern of a protein helix. The \menu{Molecule (Debye scattering)} view, finally, averages over all orientations of a molecule or a cluster, which is what a gas or a disordered sample gives, and works for any structure, periodic or not.
 
 \section{Coupling with other codes}
-% What feeds this calculation (a cheaper screen, a structure from another code)
-% and what it feeds (refinement, a property from the code best at it); which
-% hand-off is made (usually by hand: a new calculation from this one's
-% structure or orbitals in another code); a workflow only where it pays.
-
+A calculated pattern is only as good as the structure it comes from, so the usual chain is an optimisation first, with a machine-learned potential (Chapter~\ref{ch:mlp}) or periodic DFT in Quantum ESPRESSO or CP2K (Chapters~\ref{ch:qe-settings} and \ref{ch:cp2k}), and the pattern of the relaxed cell after it. For a layered material simulated by molecular dynamics, the basal reflection of the equilibrated cell gives the interlayer spacing as an X-ray measurement would (Chapter~\ref{ch:clays}). The same calculations run from the command line as \texttt{ecce-xrd}, for a series of structures.
