@@ -1,0 +1,72 @@
+\chapter{Running each code: install, register, a first calculation}
+\chaptermark{Running each code}
+\label{ch:running-each-code}
+\index{Codes!installing}
+\index{Codes!first calculation}
+\index{ORCA}
+\index{Gaussian 16}
+\index{NWChem}
+\index{MOPAC}
+\index{xTB}
+\index{CREST}
+\index{Quantum ESPRESSO}
+\index{CP2K}
+\index{GROMACS}
+\index{AutoDock Vina}
+\index{MLP (MACE)}
+\index{ECCE-QM}
+\eccexample{Examples > Getting Started}
+\helppage{running-codes-on-linux}
+\helppage{running-codes-on-macos}
+\helppage{running-codes-on-windows}
+\eccesource{help/src/running-codes-on-linux.md help/src/running-codes-on-macos.md help/src/running-codes-on-windows.md}
+\checkedwith{9.5.3-dev}{4c8b4b851}
+
+This appendix is the page to open when you want to run a code you have not yet used in ECCE. For each code it says what the code is for, how to install it, how to register it, which calculation makes a good first test, and where the results appear. The general steps are in Chapters~\ref{ch:machines} (this computer), \ref{ch:hpc} (clusters) and \ref{ch:code-registration} (the \menu{Codes} tab); here they are only repeated where a code needs something particular. A good first test for any quantum chemistry code is the same small calculation, an optimisation and frequencies of a water molecule, because its results are easy to check and it takes seconds.\section{ECCE-QM}
+\label{sec:run-ecceqm}
+ECCE's own Hartree--Fock and DFT program, for molecules of up to some 25 atoms. \textbf{Install and register:} nothing; it is always offered on \texttt{localhost}, on Linux, macOS and Windows alike. \textbf{First calculation:} Chapter~\ref{ch:first-calculation}. \textbf{Results:} energies, orbitals with their pictures and an MO diagram, charges, IR and Raman spectra, transition states and IRCs (Chapter~\ref{ch:ecce-qm}).
+
+\section{xTB}
+\label{sec:run-xtb}
+Semi-empirical tight-binding (GFN2-xTB), for geometries and screening in seconds. \textbf{Install:} \texttt{sudo apt install xtb} on Debian and Ubuntu. \textbf{Register:} select xTB on the \menu{Codes} tab and press \menu{Find}. \textbf{First calculation:} a geometry optimisation of any molecule from \menu{Add from SMILES...}; it finishes almost at once. \textbf{Results:} energy, optimisation steps and charges, and the optimised structure to pass on with \menu{New from This} (Chapter~\ref{ch:xtb}).
+
+\section{CREST}
+\label{sec:run-crest}
+Conformer, protonation-site and tautomer searches built on xTB. \textbf{Install:} the ready-built Linux program from the CREST releases on GitHub, copied to \texttt{/usr/local/bin}; it runs \texttt{xtb} itself, so install xTB too. \textbf{Register:} as xTB. \textbf{First calculation:} optimise a small flexible molecule with xTB, then make a CREST conformer search from it (Chapter~\ref{ch:crest}). \textbf{Results:} the ensemble with energies and Boltzmann weights, and each conformer's structure.
+
+\section{MOPAC}
+\label{sec:run-mopac}
+Semi-empirical methods (PM7, PM6 and others), with COSMO solvent. \textbf{Install:} \texttt{sudo apt install mopac} on Debian, or the installer from the MOPAC web site on macOS and Windows, which needs no administrator rights when installed into the home folder. \textbf{Register:} \menu{Find} on Linux; otherwise the path of \texttt{mopac} (\texttt{mopac.exe}). \textbf{First calculation:} water, geometry and frequencies. \textbf{Results:} heat of formation, geometry steps, charges and vibrations.
+
+\section{ORCA}
+\label{sec:run-orca}
+DFT, coupled-cluster and spectroscopy for molecules; free for academic use. \textbf{Install:} download from FACCTS after registering an academic account, and unpack the archive for your system into a folder. \textbf{Register:} the full path of the file \texttt{orca} (\texttt{orca.exe}) in \menu{Program}, never the bare name, since Debian's \texttt{orca} is a screen reader; for more than one core, Open~MPI in the version named in the archive (Microsoft~MPI on Windows) on the path. \textbf{First calculation:} water, B3LYP-D3 with def2-SVP, geometry and frequencies. \textbf{Results:} everything the quantum chemistry chapters use, energies, orbitals, charges, spectra, transition states and IRCs, NMR shieldings and EPR parameters.
+
+\section{Gaussian 16}
+\label{sec:run-g16}
+Commercial quantum chemistry program, installed by a site with a licence. \textbf{Register:} the full path of \texttt{g16}, and \texttt{g16root} under \menu{Environment variables} (Chapter~\ref{ch:code-registration}). \textbf{First calculation:} water, geometry and frequencies. \textbf{Results:} as for ORCA, plus QST2 and QST3 transition-state searches.
+
+\section{NWChem}
+\label{sec:run-nwchem}
+Open-source quantum chemistry with molecular and plane-wave parts. \textbf{Install:} \texttt{sudo apt install nwchem} on Debian; from conda-forge through Miniforge on macOS; no Windows version, so it runs on a Linux machine reached over ssh. \textbf{Register:} \menu{Find}. \textbf{First calculation:} the Hartree--Fock optimisation of water in the help's \emph{Your first calculation}. \textbf{Results:} energies, geometry steps, orbitals and frequencies.
+
+\section{Quantum ESPRESSO}
+\label{sec:run-qe}
+Periodic DFT with plane waves and pseudopotentials. \textbf{Install:} \texttt{sudo apt install quantum-espresso} on Debian; no Windows version. \textbf{Register:} \menu{Find} for \texttt{pw.x}, and the folder of your UPF files in \menu{Pseudopotential directory}. \textbf{First calculation:} bulk silicon built from its space group, which takes about half a minute. \textbf{Results:} total energy, forces and stress, and the cell and geometry steps (Chapter~\ref{ch:qe-settings}).
+
+\section{CP2K}
+\label{sec:run-cp2k}
+Periodic and molecular DFT with Gaussian basis sets and pseudopotentials, strong for large cells and molecular dynamics. \textbf{Install:} \texttt{sudo apt install cp2k} on Debian. \textbf{Register:} \menu{Find}. \textbf{First calculation:} a small periodic structure as in Chapter~\ref{ch:cp2k}. \textbf{Results:} energies, forces, cell and geometry steps, charges.
+
+\section{GROMACS}
+\label{sec:run-gromacs}
+Classical molecular dynamics of liquids, biomolecules and minerals. \textbf{Install:} \texttt{sudo apt install gromacs} on Debian; no Windows version. \textbf{Register:} \menu{Find} for \texttt{gmx}. \textbf{First calculation:} the help's GROMACS tutorial takes a small protein through the four tasks of a study, Prepare, Optimize, Equilibrate and Dynamics, in a few minutes; a run prepared outside ECCE is started with \menu{File > New > GROMACS Calculation from Files...}. \textbf{Results:} energy and temperature plots, the trajectory, and the MD analyses of Chapter~\ref{ch:liquids}.
+
+\section{AutoDock Vina}
+\label{sec:run-vina}
+Docking of a small molecule into a protein or a host. \textbf{Install:} \texttt{sudo apt install autodock-vina} on Debian. \textbf{Register:} \menu{Find} for \texttt{vina}. \textbf{First calculation:} as in Chapter~\ref{ch:docking}. \textbf{Results:} the ranked poses with their scores, each pose's structure in the receptor.
+
+\section{MLP (MACE)}
+\label{sec:run-mlp}
+A machine-learned interatomic potential, for energies, forces and stresses in seconds. \textbf{Install:} needs a Python environment with PyTorch and MACE, which \menu{Set up...} next to \menu{Program} on the \menu{Codes} tab builds (or \texttt{ecce-mlp-setup} from a terminal); the download is large. \textbf{Register:} the Python program of that environment, written out in full. \textbf{First calculation:} the optimisation of a small crystal. \textbf{Results:} energy, forces, stress, cell relaxation, vibrations and short MD runs (Chapter~\ref{ch:mlp}).
+
